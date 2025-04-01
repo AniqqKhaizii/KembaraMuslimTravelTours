@@ -68,15 +68,12 @@ const PakejUmrah = () => {
 	useEffect(() => {
 		const fetchPackages = async () => {
 			try {
-				const response = await Axios.get(
-					"http://localhost:3000/api/Tetapan/ManagePackage",
-					{
-						params: {
-							Operation: "SEARCH",
-							TripUnique: "Y",
-						},
-					}
-				);
+				const response = await Axios.get("/api/Tetapan/ManagePackage", {
+					params: {
+						Operation: "SEARCH",
+						TripUnique: "Y",
+					},
+				});
 				const packagesData = response.data;
 				setPackages(packagesData);
 			} catch (error) {

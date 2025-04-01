@@ -43,12 +43,9 @@ const ManageTripDetails = () => {
 					UserRole: userData.AdmRole,
 				};
 				try {
-					const response = await Axios.get(
-						`http://localhost:3000/api/Admin/AdminCarian`,
-						{
-							params: params,
-						}
-					);
+					const response = await Axios.get(`/api/Admin/AdminCarian`, {
+						params: params,
+					});
 					if (response.data.message) {
 						alert(response.data.message);
 					} else {
@@ -66,19 +63,16 @@ const ManageTripDetails = () => {
 		const fetchTrips = async () => {
 			setLoading(true);
 			try {
-				const response = await Axios.get(
-					"http://localhost:3000/api/Tetapan/ManageTrip",
-					{
-						params: {
-							Operation: "SEARCH",
-							TripID: null,
-							TripName: null,
-							StartDate: null,
-							EndDate: null,
-							Duration: null,
-						},
-					}
-				);
+				const response = await Axios.get("/api/Tetapan/ManageTrip", {
+					params: {
+						Operation: "SEARCH",
+						TripID: null,
+						TripName: null,
+						StartDate: null,
+						EndDate: null,
+						Duration: null,
+					},
+				});
 				setTrips(response.data);
 			} catch (error) {
 				console.error("Error fetching trips:", error);
@@ -120,19 +114,16 @@ const ManageTripDetails = () => {
 
 		try {
 			if (currentTrip) {
-				const response = await Axios.get(
-					"http://localhost:3000/api/Tetapan/ManageTrip",
-					{
-						params: {
-							Operation: "UPDATE",
-							TripID: currentTrip.TripID,
-							TripName: formattedValues.TripName,
-							StartTravelDate: formattedValues.StartTravelDate,
-							EndTravelDate: formattedValues.EndTravelDate,
-							Duration: formattedValues.Duration,
-						},
-					}
-				);
+				const response = await Axios.get("/api/Tetapan/ManageTrip", {
+					params: {
+						Operation: "UPDATE",
+						TripID: currentTrip.TripID,
+						TripName: formattedValues.TripName,
+						StartTravelDate: formattedValues.StartTravelDate,
+						EndTravelDate: formattedValues.EndTravelDate,
+						Duration: formattedValues.Duration,
+					},
+				});
 				if (response.data.message) {
 					message.error(response.data.message);
 				} else {
@@ -146,19 +137,16 @@ const ManageTripDetails = () => {
 					message.success("Trip updated successfully");
 				}
 			} else {
-				const response = await Axios.get(
-					"http://localhost:3000/api/Tetapan/ManageTrip",
-					{
-						params: {
-							Operation: "ADD_NEW",
-							TripID: null,
-							TripName: formattedValues.TripName,
-							StartTravelDate: formattedValues.StartTravelDate,
-							EndTravelDate: formattedValues.EndTravelDate,
-							Duration: formattedValues.Duration,
-						},
-					}
-				);
+				const response = await Axios.get("/api/Tetapan/ManageTrip", {
+					params: {
+						Operation: "ADD_NEW",
+						TripID: null,
+						TripName: formattedValues.TripName,
+						StartTravelDate: formattedValues.StartTravelDate,
+						EndTravelDate: formattedValues.EndTravelDate,
+						Duration: formattedValues.Duration,
+					},
+				});
 				if (response.data.message) {
 					message.error(response.data.message);
 				} else {
@@ -181,15 +169,12 @@ const ManageTripDetails = () => {
 
 	const handleDelete = async (id) => {
 		try {
-			const response = await Axios.get(
-				"http://localhost:3000/api/Tetapan/ManageTrip",
-				{
-					params: {
-						Operation: "DELETE",
-						TripID: id,
-					},
-				}
-			);
+			const response = await Axios.get("/api/Tetapan/ManageTrip", {
+				params: {
+					Operation: "DELETE",
+					TripID: id,
+				},
+			});
 			if (response.data.message) {
 				message.error(response.data.message);
 				return;

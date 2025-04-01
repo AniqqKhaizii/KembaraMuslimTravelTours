@@ -186,16 +186,13 @@ const MainPage = () => {
 		const fetchPackages = async () => {
 			setLoadingPackages(true);
 			try {
-				const response = await Axios.get(
-					"http://localhost:3000/api/Tetapan/ManagePackage",
-					{
-						params: {
-							Operation: "SEARCH",
-							PakejName: kategori,
-							TripUnique: "",
-						},
-					}
-				);
+				const response = await Axios.get("/api/Tetapan/ManagePackage", {
+					params: {
+						Operation: "SEARCH",
+						PakejName: kategori,
+						TripUnique: "",
+					},
+				});
 				const packagesData = response.data;
 				setLoadingPackages(false);
 				setPackages(packagesData);

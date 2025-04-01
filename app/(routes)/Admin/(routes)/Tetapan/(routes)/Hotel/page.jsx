@@ -21,17 +21,14 @@ const ManageHotel = () => {
 		const fetchHotels = async () => {
 			setLoading(true);
 			try {
-				const response = await Axios.get(
-					"http://localhost:3000/api/Tetapan/ManageHotel",
-					{
-						params: {
-							Operation: "SEARCH",
-							HotelID: null,
-							HotelName: null,
-							Location: null,
-						},
-					}
-				);
+				const response = await Axios.get("/api/Tetapan/ManageHotel", {
+					params: {
+						Operation: "SEARCH",
+						HotelID: null,
+						HotelName: null,
+						Location: null,
+					},
+				});
 				setHotels(response.data);
 			} catch (error) {
 				console.error("Error fetching hotels:", error);
@@ -66,16 +63,13 @@ const ManageHotel = () => {
 	const handleFormSubmit = async (values) => {
 		try {
 			if (currentHotel) {
-				const response = await Axios.get(
-					"http://localhost:3000/api/Tetapan/ManageHotel",
-					{
-						params: {
-							Operation: "UPDATE",
-							HotelID: currentHotel.HotelID,
-							...values,
-						},
-					}
-				);
+				const response = await Axios.get("/api/Tetapan/ManageHotel", {
+					params: {
+						Operation: "UPDATE",
+						HotelID: currentHotel.HotelID,
+						...values,
+					},
+				});
 				if (response.data.message) {
 					message.error(response.data.message);
 				} else {
@@ -89,15 +83,12 @@ const ManageHotel = () => {
 					message.success("Hotel updated successfully");
 				}
 			} else {
-				const response = await Axios.get(
-					"http://localhost:3000/api/Tetapan/ManageHotel",
-					{
-						params: {
-							Operation: "ADD_NEW",
-							...values,
-						},
-					}
-				);
+				const response = await Axios.get("/api/Tetapan/ManageHotel", {
+					params: {
+						Operation: "ADD_NEW",
+						...values,
+					},
+				});
 				if (response.data.message) {
 					message.error(response.data.message);
 				} else {
@@ -119,15 +110,12 @@ const ManageHotel = () => {
 
 	const handleDelete = async (id) => {
 		try {
-			const response = await Axios.get(
-				"http://localhost:3000/api/Tetapan/ManageHotel",
-				{
-					params: {
-						Operation: "DELETE",
-						HotelID: id,
-					},
-				}
-			);
+			const response = await Axios.get("/api/Tetapan/ManageHotel", {
+				params: {
+					Operation: "DELETE",
+					HotelID: id,
+				},
+			});
 			if (response.data.message) {
 				message.error(response.data.message);
 				return;

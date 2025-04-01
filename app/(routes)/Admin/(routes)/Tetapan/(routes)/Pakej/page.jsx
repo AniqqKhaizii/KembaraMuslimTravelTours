@@ -24,13 +24,13 @@ const TetapanPakej = () => {
 		const fetchHotelsAndTrips = async () => {
 			try {
 				const [makkahRes, madinahRes, tripsRes] = await Promise.all([
-					Axios.get("http://localhost:3000/api/Tetapan/ManageHotel", {
+					Axios.get("/api/Tetapan/ManageHotel", {
 						params: { Operation: "SEARCH", Location: "Makkah" },
 					}),
-					Axios.get("http://localhost:3000/api/Tetapan/ManageHotel", {
+					Axios.get("/api/Tetapan/ManageHotel", {
 						params: { Operation: "SEARCH", Location: "Madinah" },
 					}),
-					Axios.get("http://localhost:3000/api/Tetapan/ManageTrip", {
+					Axios.get("/api/Tetapan/ManageTrip", {
 						params: {
 							Operation: "SEARCH",
 							TripID: null,
@@ -58,15 +58,12 @@ const TetapanPakej = () => {
 		const fetchPackages = async () => {
 			setLoading(true);
 			try {
-				const response = await Axios.get(
-					"http://localhost:3000/api/Tetapan/ManagePackage",
-					{
-						params: {
-							Operation: "SEARCH",
-							TripUnique: "Y",
-						},
-					}
-				);
+				const response = await Axios.get("/api/Tetapan/ManagePackage", {
+					params: {
+						Operation: "SEARCH",
+						TripUnique: "Y",
+					},
+				});
 				const packagesData = response.data;
 
 				// Fetch trip details for each package
@@ -81,7 +78,7 @@ const TetapanPakej = () => {
 							tripIds.map(async (id) => {
 								try {
 									const tripResponse = await Axios.get(
-										"http://localhost:3000/api/Tetapan/ManageTrip",
+										"/api/Tetapan/ManageTrip",
 										{
 											params: { Operation: "SEARCH", TripID: id },
 										}
@@ -126,31 +123,28 @@ const TetapanPakej = () => {
 			TripIDs: values.TripIDs.join(", "),
 		};
 		if (editingPackage) {
-			const response = await Axios.get(
-				"http://localhost:3000/api/Tetapan/ManagePackage",
-				{
-					params: {
-						Operation: "UPDATE",
-						PakejID: editingPackage.PakejID,
-						PakejName: formattedValues.PakejName,
-						Adult_Double: formattedValues.Adult_Double,
-						Adult_Triple: formattedValues.Adult_Triple,
-						Adult_Quad: formattedValues.Adult_Quad,
-						ChildWBed_Double: formattedValues.ChildWBed_Double,
-						ChildWBed_Triple: formattedValues.ChildWBed_Triple,
-						ChildWBed_Quad: formattedValues.ChildWBed_Quad,
-						ChildNoBed_Double: formattedValues.ChildNoBed_Double,
-						ChildNoBed_Triple: formattedValues.ChildNoBed_Triple,
-						ChildNoBed_Quad: formattedValues.ChildNoBed_Quad,
-						Infant_Double: formattedValues.Infant_Double,
-						Infant_Triple: formattedValues.Infant_Triple,
-						Infant_Quad: formattedValues.Infant_Quad,
-						HotelMakkahID: formattedValues.HotelMakkahID,
-						HotelMadinahID: formattedValues.HotelMadinahID,
-						TripIDs: formattedValues.TripIDs,
-					},
-				}
-			);
+			const response = await Axios.get("/api/Tetapan/ManagePackage", {
+				params: {
+					Operation: "UPDATE",
+					PakejID: editingPackage.PakejID,
+					PakejName: formattedValues.PakejName,
+					Adult_Double: formattedValues.Adult_Double,
+					Adult_Triple: formattedValues.Adult_Triple,
+					Adult_Quad: formattedValues.Adult_Quad,
+					ChildWBed_Double: formattedValues.ChildWBed_Double,
+					ChildWBed_Triple: formattedValues.ChildWBed_Triple,
+					ChildWBed_Quad: formattedValues.ChildWBed_Quad,
+					ChildNoBed_Double: formattedValues.ChildNoBed_Double,
+					ChildNoBed_Triple: formattedValues.ChildNoBed_Triple,
+					ChildNoBed_Quad: formattedValues.ChildNoBed_Quad,
+					Infant_Double: formattedValues.Infant_Double,
+					Infant_Triple: formattedValues.Infant_Triple,
+					Infant_Quad: formattedValues.Infant_Quad,
+					HotelMakkahID: formattedValues.HotelMakkahID,
+					HotelMadinahID: formattedValues.HotelMadinahID,
+					TripIDs: formattedValues.TripIDs,
+				},
+			});
 			if (response.data.message) {
 				message.error(response.data.message);
 			} else {
@@ -166,43 +160,37 @@ const TetapanPakej = () => {
 			}
 			setEditingPackage(null);
 		} else {
-			const response = await Axios.get(
-				"http://localhost:3000/api/Tetapan/ManagePackage",
-				{
-					params: {
-						Operation: "ADD_NEW",
-						PakejID: null,
-						PakejName: formattedValues.PakejName,
-						Adult_Double: formattedValues.Adult_Double,
-						Adult_Triple: formattedValues.Adult_Triple,
-						Adult_Quad: formattedValues.Adult_Quad,
-						ChildWBed_Double: formattedValues.ChildWBed_Double,
-						ChildWBed_Triple: formattedValues.ChildWBed_Triple,
-						ChildWBed_Quad: formattedValues.ChildWBed_Quad,
-						ChildNoBed_Double: formattedValues.ChildNoBed_Double,
-						ChildNoBed_Triple: formattedValues.ChildNoBed_Triple,
-						ChildNoBed_Quad: formattedValues.ChildNoBed_Quad,
-						Infant_Double: formattedValues.Infant_Double,
-						Infant_Triple: formattedValues.Infant_Triple,
-						Infant_Quad: formattedValues.Infant_Quad,
-						HotelMakkahID: formattedValues.HotelMakkahID,
-						HotelMadinahID: formattedValues.HotelMadinahID,
-						TripIDs: formattedValues.TripIDs,
-					},
-				}
-			);
+			const response = await Axios.get("/api/Tetapan/ManagePackage", {
+				params: {
+					Operation: "ADD_NEW",
+					PakejID: null,
+					PakejName: formattedValues.PakejName,
+					Adult_Double: formattedValues.Adult_Double,
+					Adult_Triple: formattedValues.Adult_Triple,
+					Adult_Quad: formattedValues.Adult_Quad,
+					ChildWBed_Double: formattedValues.ChildWBed_Double,
+					ChildWBed_Triple: formattedValues.ChildWBed_Triple,
+					ChildWBed_Quad: formattedValues.ChildWBed_Quad,
+					ChildNoBed_Double: formattedValues.ChildNoBed_Double,
+					ChildNoBed_Triple: formattedValues.ChildNoBed_Triple,
+					ChildNoBed_Quad: formattedValues.ChildNoBed_Quad,
+					Infant_Double: formattedValues.Infant_Double,
+					Infant_Triple: formattedValues.Infant_Triple,
+					Infant_Quad: formattedValues.Infant_Quad,
+					HotelMakkahID: formattedValues.HotelMakkahID,
+					HotelMadinahID: formattedValues.HotelMadinahID,
+					TripIDs: formattedValues.TripIDs,
+				},
+			});
 			if (response.data.message) {
 				message.error(response.data.message);
 			} else {
-				const response = await Axios.get(
-					"http://localhost:3000/api/Tetapan/ManagePackage",
-					{
-						params: {
-							Operation: "SEARCH",
-							PakejName: formattedValues.PakejName,
-						},
-					}
-				);
+				const response = await Axios.get("/api/Tetapan/ManagePackage", {
+					params: {
+						Operation: "SEARCH",
+						PakejName: formattedValues.PakejName,
+					},
+				});
 				if (response.data.message) {
 					message.error(response.data.message);
 				} else {
@@ -246,12 +234,9 @@ const TetapanPakej = () => {
 
 	const handleDelete = async (id) => {
 		try {
-			const response = await Axios.get(
-				"http://localhost:3000/api/Tetapan/ManagePackage",
-				{
-					params: { Operation: "DELETE", PakejID: id },
-				}
-			);
+			const response = await Axios.get("/api/Tetapan/ManagePackage", {
+				params: { Operation: "DELETE", PakejID: id },
+			});
 
 			if (response.data.message) {
 				message.error(response.data.message);

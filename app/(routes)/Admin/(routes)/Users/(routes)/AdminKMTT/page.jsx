@@ -48,12 +48,9 @@ const AdminPage = () => {
 				};
 				setLoading(true);
 				try {
-					const response = await Axios.get(
-						`http://localhost:3000/api/Admin/AdminCarian`,
-						{
-							params: params,
-						}
-					);
+					const response = await Axios.get(`/api/Admin/AdminCarian`, {
+						params: params,
+					});
 					if (response.data.message) {
 						alert(response.data.message);
 					} else {
@@ -158,19 +155,16 @@ const AdminPage = () => {
 			};
 
 			// Make the API call using Axios
-			const response = await Axios.get(
-				`http://localhost:3000/api/Admin/AdminSimpan`,
-				{
-					params: formDataToSend, // Send data as URL params
-				}
-			);
+			const response = await Axios.get(`/api/Admin/AdminSimpan`, {
+				params: formDataToSend, // Send data as URL params
+			});
 
 			// Check if the response is successful
 			if (response.status === 200) {
 				console.log("User added successfully:", response.data);
 				setUsers([...users, formData]);
 				setIsModalAddOpen(false);
-				Axios.get(`http://localhost:3000/api/Admin/AdminCarian`).then((res) => {
+				Axios.get(`/api/Admin/AdminCarian`).then((res) => {
 					setUsers(res.data);
 				});
 				setFormData({
@@ -223,12 +217,9 @@ const AdminPage = () => {
 			};
 
 			// Make the API call using Axios
-			const response = await Axios.get(
-				`http://localhost:3000/api/Admin/AdminSimpan`,
-				{
-					params: formDataToSend, // Send data as URL params
-				}
-			);
+			const response = await Axios.get(`/api/Admin/AdminSimpan`, {
+				params: formDataToSend, // Send data as URL params
+			});
 
 			// Check if the response is successful
 			if (response.status === 200) {
@@ -253,7 +244,7 @@ const AdminPage = () => {
 				});
 
 				// Optionally, fetch updated user list again
-				Axios.get(`http://localhost:3000/api/Admin/AdminCarian`).then((res) => {
+				Axios.get(`/api/Admin/AdminCarian`).then((res) => {
 					setUsers(res.data);
 				});
 			} else {
@@ -267,14 +258,11 @@ const AdminPage = () => {
 	const handleDeleteUser = async () => {
 		try {
 			// Make the API call using Axios to call the SP_Admin_Hapus stored procedure
-			const response = await Axios.get(
-				`http://localhost:3000/api/Admin/AdminHapus`,
-				{
-					params: {
-						AdmUname: editingUser.AdmUname,
-					},
-				}
-			);
+			const response = await Axios.get(`/api/Admin/AdminHapus`, {
+				params: {
+					AdmUname: editingUser.AdmUname,
+				},
+			});
 
 			// Check if the response is successful
 			if (response.status === 200) {
@@ -290,7 +278,7 @@ const AdminPage = () => {
 				setIsModalDeleteOpen(false);
 				setEditingUser(null);
 				// Optionally, fetch updated user list again
-				Axios.get(`http://localhost:3000/api/Admin/AdminCarian`).then((res) => {
+				Axios.get(`/api/Admin/AdminCarian`).then((res) => {
 					setUsers(res.data);
 				});
 			} else {

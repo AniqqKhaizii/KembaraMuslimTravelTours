@@ -53,15 +53,12 @@ const Main = () => {
 		const fetchTrip = async () => {
 			setLoadingTrips(true);
 			try {
-				const response = await Axios.get(
-					"http://localhost:3000/api/Tetapan/ManageTrip",
-					{
-						params: {
-							Operation: "SEARCH",
-							TripID: tripId,
-						},
-					}
-				);
+				const response = await Axios.get("/api/Tetapan/ManageTrip", {
+					params: {
+						Operation: "SEARCH",
+						TripID: tripId,
+					},
+				});
 				const tripData = response.data;
 				setLoadingTrips(false);
 				setTripDetails(tripData);
@@ -91,17 +88,14 @@ const Main = () => {
 
 		const fetchPackages = async () => {
 			try {
-				const response = await Axios.get(
-					"http://localhost:3000/api/Tetapan/ManagePackage",
-					{
-						params: {
-							Operation: "SEARCH",
-							PakejName: kategoriFromUrl,
-							TripUnique: "Y",
-							TripID: tripId,
-						},
-					}
-				);
+				const response = await Axios.get("/api/Tetapan/ManagePackage", {
+					params: {
+						Operation: "SEARCH",
+						PakejName: kategoriFromUrl,
+						TripUnique: "Y",
+						TripID: tripId,
+					},
+				});
 				const packagesData = response.data;
 				setPackages(packagesData);
 				console.log("packagesData", packagesData);
