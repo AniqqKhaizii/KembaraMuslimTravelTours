@@ -1,4 +1,7 @@
 import { sql, poolPromise } from "@/lib/db";
+import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic"; // 🔥 Ensure this runs as a dynamic API
 
 export async function POST(req) {
 	try {
@@ -24,13 +27,16 @@ export async function POST(req) {
 			.input("AdmPassword", sql.VarChar(100), AdmPassword)
 			.input("AdmRole", sql.VarChar(50), AdmRole)
 			.input("AdmLevel", sql.Int, AdmLevel)
-			.input("AdmImage", sql.Image, AdmImage)
+			.input("AdmImage", sql.VarBinary, AdmImage) // ✅ Corrected SQL type
 			.input("CreateBy", sql.VarChar(100), CreateBy)
 			.execute("SP_Admin_Simpan");
 
-		return Response.json(result.recordset);
+		return NextResponse.json(result.recordset); // ✅ Corrected response handling
 	} catch (err) {
 		console.error("ERROR:", err);
-		return Response.json({ error: { message: err.message } }, { status: 500 });
+		return NextResponse.json(
+			{ error: { message: err.message } },
+			{ status: 500 }
+		);
 	}
 }

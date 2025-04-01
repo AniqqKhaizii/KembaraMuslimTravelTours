@@ -1,9 +1,15 @@
 import { sql, poolPromise } from "@/lib/db";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic"; // 🔥 Ensure Vercel treats this as a dynamic route
+
 export async function POST(req) {
 	try {
 		const { Username, Password } = await req.json();
+
+		// ❌ SECURITY WARNING: Never store raw passwords.
+		// Consider hashing passwords before checking.
+
 		const pool = await poolPromise;
 		const result = await pool
 			.request()

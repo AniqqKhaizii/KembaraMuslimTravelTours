@@ -1,32 +1,47 @@
 import { sql, poolPromise } from "@/lib/db";
+import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic"; // ✅ Ensure dynamic execution on Vercel
 
 export async function GET(req) {
 	try {
-		const { searchParams } = new URL(req.url);
+		const { searchParams } = req.nextUrl; // ✅ Correct way to get query params
 		const Operation = searchParams.get("Operation");
-		const PakejID = searchParams.get("PakejID");
+		const PakejID = searchParams.get("PakejID")
+			? parseInt(searchParams.get("PakejID"), 10)
+			: null;
 		const PakejName = searchParams.get("PakejName");
-		const HotelMakkahID = searchParams.get("HotelMakkahID");
-		const HotelMadinahID = searchParams.get("HotelMadinahID");
+		const HotelMakkahID = searchParams.get("HotelMakkahID")
+			? parseInt(searchParams.get("HotelMakkahID"), 10)
+			: null;
+		const HotelMadinahID = searchParams.get("HotelMadinahID")
+			? parseInt(searchParams.get("HotelMadinahID"), 10)
+			: null;
 		const TripIDs = searchParams.get("TripIDs");
 		const TripUnique = searchParams.get("TripUnique");
 
-		// New parameters
-		const Adult_Double = searchParams.get("Adult_Double");
-		const Adult_Triple = searchParams.get("Adult_Triple");
-		const Adult_Quad = searchParams.get("Adult_Quad");
+		// New parameters (convert prices to float)
+		const parseDecimal = (value) => (value ? parseFloat(value) : null);
 
-		const ChildWBed_Double = searchParams.get("ChildWBed_Double");
-		const ChildWBed_Triple = searchParams.get("ChildWBed_Triple");
-		const ChildWBed_Quad = searchParams.get("ChildWBed_Quad");
+		const Adult_Double = parseDecimal(searchParams.get("Adult_Double"));
+		const Adult_Triple = parseDecimal(searchParams.get("Adult_Triple"));
+		const Adult_Quad = parseDecimal(searchParams.get("Adult_Quad"));
 
-		const ChildNoBed_Double = searchParams.get("ChildNoBed_Double");
-		const ChildNoBed_Triple = searchParams.get("ChildNoBed_Triple");
-		const ChildNoBed_Quad = searchParams.get("ChildNoBed_Quad");
+		const ChildWBed_Double = parseDecimal(searchParams.get("ChildWBed_Double"));
+		const ChildWBed_Triple = parseDecimal(searchParams.get("ChildWBed_Triple"));
+		const ChildWBed_Quad = parseDecimal(searchParams.get("ChildWBed_Quad"));
 
-		const Infant_Double = searchParams.get("Infant_Double");
-		const Infant_Triple = searchParams.get("Infant_Triple");
-		const Infant_Quad = searchParams.get("Infant_Quad");
+		const ChildNoBed_Double = parseDecimal(
+			searchParams.get("ChildNoBed_Double")
+		);
+		const ChildNoBed_Triple = parseDecimal(
+			searchParams.get("ChildNoBed_Triple")
+		);
+		const ChildNoBed_Quad = parseDecimal(searchParams.get("ChildNoBed_Quad"));
+
+		const Infant_Double = parseDecimal(searchParams.get("Infant_Double"));
+		const Infant_Triple = parseDecimal(searchParams.get("Infant_Triple"));
+		const Infant_Quad = parseDecimal(searchParams.get("Infant_Quad"));
 
 		const pool = await poolPromise;
 		const result = await pool
@@ -52,9 +67,12 @@ export async function GET(req) {
 			.input("Infant_Quad", sql.Decimal(10, 2), Infant_Quad)
 			.execute("SP_Manage_Package");
 
-		return Response.json(result.recordset);
+		return NextResponse.json(result.recordset);
 	} catch (err) {
-		console.error("ERROR:", err);
-		return Response.json({ error: { message: err.message } }, { status: 500 });
+		console.error("❌ ERROR:", err);
+		return NextResponse.json(
+			{ error: { message: err.message } },
+			{ status: 500 }
+		);
 	}
 }

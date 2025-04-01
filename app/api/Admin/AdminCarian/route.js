@@ -1,9 +1,12 @@
 import { sql, poolPromise } from "@/lib/db";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic"; // 🔥 Force dynamic behavior
+
 export async function GET(req) {
 	try {
-		const { searchParams } = new URL(req.url);
+		const { searchParams } = new URL(req.nextUrl);
+
 		const Username = searchParams.get("Username");
 		const UserLevel = parseInt(searchParams.get("UserLevel"), 10);
 		const UserRole = searchParams.get("UserRole");
@@ -11,9 +14,9 @@ export async function GET(req) {
 		const pool = await poolPromise;
 		const result = await pool
 			.request()
-			.input("AdmUname", sql.NVarChar(100), Username) // Use `sql.NVarChar`
-			.input("AdmLevel", sql.Int, UserLevel) // Ensure integer conversion
-			.input("AdmRole", sql.NVarChar(50), UserRole) // Use `sql.NVarChar`
+			.input("AdmUname", sql.NVarChar(100), Username)
+			.input("AdmLevel", sql.Int, UserLevel)
+			.input("AdmRole", sql.NVarChar(50), UserRole)
 			.execute("SP_Admin_Carian");
 
 		return NextResponse.json(result.recordset);

@@ -1,16 +1,26 @@
+import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic"; // 🔥 Ensure this runs as a dynamic API
+
 export async function POST(req) {
 	try {
-		const session = req.cookies.get("sessionId");
+		// ✅ Correct way to get cookies in Next.js API routes
+		const session = req.cookies.get("sessionId")?.value;
+
 		if (!session) {
-			return Response.json({ message: "Already logged out." });
+			return NextResponse.json({ message: "Already logged out." });
 		}
 
-		// Clear session (assuming session is stored in cookies)
-		req.cookies.delete("sessionId");
+		// ✅ Correct way to delete cookies
+		const response = NextResponse.json({ message: "Logout successful" });
+		response.cookies.set("sessionId", "", { maxAge: 0 });
 
-		return Response.json({ message: "Logout successful" });
+		return response;
 	} catch (err) {
 		console.error("ERROR:", err);
-		return Response.json({ error: { message: err.message } }, { status: 500 });
+		return NextResponse.json(
+			{ error: { message: err.message } },
+			{ status: 500 }
+		);
 	}
 }
