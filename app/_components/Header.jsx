@@ -146,17 +146,15 @@ function Header() {
 											</Link>
 											{item.submenu && (
 												<div className="relative">
-													{/* This invisible area extends the hoverable space */}
-													<div className="absolute top-8 left-0 w-full h-[12px] bg-transparent"></div>
 													<ul
-														className={`absolute -left-10 border-t-4 border-zinc-800 top-0 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 bg-white shadow-lg mt-5`}
+														className={`absolute -left-10 border-t-4 w-[32vw] border-zinc-800 top-0 opacity-0 scale-95 bg-orange-500 p-2 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-lg mt-5 grid grid-cols-1 lg:grid-cols-2`}
 														onMouseEnter={() => setShowSubMenu(true)}
 														onMouseLeave={() => setShowSubMenu(false)}
 													>
 														{item.submenu.map((subItem) => (
 															<li
 																key={subItem.id}
-																className="flex justify-start items-center w-[12vw] text-left text-sm bg-orange-500 text-white hover:bg-orange-600 transition-all ease-in-out px-2 py-2 shadow-2xl"
+																className="flex justify-start items-center w-full text-left text-sm text-white hover:bg-orange-600 transition-all ease-in-out px-2 py-2 shadow-2xl"
 															>
 																<Link href={subItem.path} className="flex">
 																	<FaPaperPlane className="mr-2" />

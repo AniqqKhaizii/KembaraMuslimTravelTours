@@ -234,14 +234,20 @@ const Main = () => {
 	const handleNextStep = (e) => {
 		if (currentStep === 1) {
 			e.preventDefault();
-			const pilihanBilik = document.getElementById("roomType").value;
-			console.log("pilihanBilik", pilihanBilik);
+			const validRooms = rooms.every(
+				(room) =>
+					room.roomType.trim() !== "" &&
+					(room.adult > 0 || room.childWithBed > 0) // At least one adult or child with bed
+			);
 
-			if (!pilihanBilik) {
+			if (!validRooms) {
 				setShowAlert(true);
-				alert("Sila isi semua maklumat yang diperlukan.");
+				alert(
+					"Sila pilih jenis bilik dan pastikan sekurang-kurangnya seorang dewasa atau kanak-kanak dengan katil."
+				);
 				return;
 			}
+
 			setCurrentStep((prevStep) => prevStep + 1);
 		} else if (currentStep === 2) {
 			e.preventDefault();
@@ -301,6 +307,75 @@ const Main = () => {
 		}, 0);
 
 		setTotalPrice(newTotalPrice);
+	};
+
+	const formatICNumber = (value) => {
+		// Remove any non-numeric characters
+		const digits = value.replace(/\D/g, "");
+
+		// Auto-insert dashes at correct positions
+		if (digits.length <= 6) {
+			return digits;
+		} else if (digits.length <= 8) {
+			return `${digits.slice(0, 6)}-${digits.slice(6)}`;
+		} else {
+			return `${digits.slice(0, 6)}-${digits.slice(6, 8)}-${digits.slice(
+				8,
+				12
+			)}`;
+		}
+	};
+	const isValidMalaysianIC = (icNumber) => {
+		const icRegex = /^\d{6}-\d{2}-\d{4}$/; // Basic format check
+		if (!icRegex.test(icNumber)) return false;
+
+		const [dob, stateCode, serial] = icNumber.split("-");
+
+		// Extract Year, Month, and Day
+		const year = parseInt(dob.substring(0, 2), 10);
+		const month = parseInt(dob.substring(2, 4), 10);
+		const day = parseInt(dob.substring(4, 6), 10);
+
+		// Determine full birth year (Assuming range 1900-2099)
+		const fullYear = year >= 50 ? 1900 + year : 2000 + year;
+
+		// Validate Date
+		const isValidDate = !isNaN(
+			new Date(`${fullYear}-${month}-${day}`).getTime()
+		);
+		if (!isValidDate) return false;
+
+		// Validate Malaysian State Code
+		const validStateCodes = [
+			"01",
+			"02",
+			"03",
+			"04",
+			"05",
+			"06",
+			"07",
+			"08",
+			"09",
+			"10", // Peninsular Malaysia
+			"11",
+			"12",
+			"13",
+			"14",
+			"15",
+			"16", // Sabah & Sarawak
+			"21",
+			"22",
+			"23",
+			"24",
+			"25",
+			"26",
+			"27",
+			"28",
+			"29", // Foreigners
+		];
+		if (!validStateCodes.includes(stateCode)) return false;
+
+		return true;
 	};
 
 	//PAYMENT
@@ -497,10 +572,13 @@ const Main = () => {
 					))}
 				</ol>
 
-				<div className="border-t border-gray-300 p-6">
+				<div className="bg-white border-t border-gray-300 lg:p-6 p-2">
 					{currentStep === 1 && (
 						<>
-							<div id="tour-overview" className="grid grid-cols-2 gap-4 ">
+							<div
+								id="tour-overview"
+								className="grid lg:grid-cols-2 grid-cols-1 gap-4 "
+							>
 								{rooms.map((room, index) => (
 									<div key={index} className="border rounded-lg p-4">
 										<div className="flex justify-between items-center mb-3">
@@ -573,7 +651,7 @@ const Main = () => {
 									</div>
 								))}
 
-								<div className="col-span-2 mt-4 bg-green-100 p-3 rounded-sm">
+								<div className="lg:col-span-2 col-span-1 mt-4 bg-green-100 p-3 rounded-sm">
 									<strong className="text-green-700">Guests Summary:</strong>
 									<p className="text-green-600">
 										{rooms.reduce(
@@ -692,13 +770,18 @@ const Main = () => {
 											>
 												<input
 													type="text"
-													name={`NamaTetamu${i + 1}`}
+													name={`NamaTetamu${i + 1} - Bilik ${index + 1}`}
 													placeholder={`Nama Tetamu ${i + 1}`}
-													value={maklumatJemaah?.[`NamaTetamu${i + 1}`] || ""}
+													value={
+														maklumatJemaah?.[
+															`NamaTetamu${i + 1} - Bilik ${index + 1}`
+														] || ""
+													}
 													onChange={(e) =>
 														setMaklumatJemaah((prev) => ({
 															...prev,
-															[`NamaTetamu${i + 1}`]: e.target.value,
+															[`NamaTetamu${i + 1} - Bilik ${index + 1}`]:
+																e.target.value,
 														}))
 													}
 													className="border px-3 py-2"
@@ -706,15 +789,33 @@ const Main = () => {
 												/>
 												<input
 													type="text"
-													name={`ICTetamu${i + 1}`}
+													name={`ICTetamu${i + 1} - Bilik ${index + 1}`}
 													placeholder={`No IC Tetamu ${i + 1}`}
-													value={maklumatJemaah?.[`ICTetamu${i + 1}`] || ""}
-													onChange={(e) =>
+													value={
+														maklumatJemaah?.[
+															`ICTetamu${i + 1} - Bilik ${index + 1}`
+														] || ""
+													}
+													onChange={(e) => {
+														const formattedValue = formatICNumber(
+															e.target.value
+														);
 														setMaklumatJemaah((prev) => ({
 															...prev,
-															[`ICTetamu${i + 1}`]: e.target.value,
-														}))
-													}
+															[`ICTetamu${i + 1} - Bilik ${index + 1}`]:
+																formattedValue,
+														}));
+													}}
+													onBlur={(e) => {
+														const value = e.target.value;
+														if (value && !isValidMalaysianIC(value)) {
+															alert("Invalid Malaysian IC format or details!");
+															setMaklumatJemaah((prev) => ({
+																...prev,
+																[`ICTetamu${i + 1} - Bilik ${index + 1}`]: "", // Reset invalid value
+															}));
+														}
+													}}
 													className="border px-3 py-2"
 													required
 												/>
@@ -887,9 +988,9 @@ const Main = () => {
 			</div>
 
 			{/* Right Side - Booking Summary */}
-			<div className=" border border-gray-200 p-10 rounded-lg shadow-lg max-h-[55vh] sticky top-20 overflow-y-clip">
+			<div className="bg-white p-10 rounded-lg shadow max-h-[55vh] sticky top-20 overflow-y-clip">
 				{/* Background Image Overlay */}
-				<div className="absolute inset-0 bg-[url(/Bg-card.png)] bg-cover bg-center opacity-20"></div>
+				{/* <div className="absolute inset-0 bg-[url(/Bg-card.png)] bg-cover bg-center opacity-20"></div> */}
 				<div className="absolute inset-0 p-8">
 					<h3 className="text-lg font-bold mb-4">Booking Summary</h3>
 					<div className="mb-4">

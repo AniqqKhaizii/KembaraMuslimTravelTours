@@ -9,7 +9,7 @@ const HeroSection = () => {
 	//clipPath:"polygon(0 0, 100% 0, 100% 100%, 90% 100%, 85% 95%, 15% 95%, 10% 100%, 0 100%)",
 	return (
 		<section
-			className="lg:h-screen h-auto lg:py-32 py-12 lg:mt-0 relative bg-cover bg-center overflow-hidden"
+			className="lg:h-screen h-auto lg:py-32 py-24 lg:mt-0 relative bg-cover bg-center overflow-hidden"
 			style={{
 				backgroundImage: "url('/Hero/1.jpg')",
 				backgroundAttachment: "fixed",
