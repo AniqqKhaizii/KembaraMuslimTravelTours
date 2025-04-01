@@ -226,7 +226,7 @@ const MainPage = () => {
 			<div
 				className="relative h-[95vh] bg-cover bg-top bg-no-repeat overflow-hidden z-0"
 				style={{
-					backgroundImage: "url('/Pakej/1.jpg')",
+					backgroundImage: "url('/Pakej/1.JPG')",
 				}}
 			>
 				{/* Gradient Overlay */}
