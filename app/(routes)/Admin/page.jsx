@@ -11,7 +11,7 @@ const Index = () => {
 	const [statusHolder, setStatusHolder] = useState("message");
 
 	const checkUser = () => {
-		Axios.post("http://localhost:3000/api/Login", {
+		Axios.post("/api/Login", {
 			Username: Username,
 			Password: Password,
 		}).then((response) => {
