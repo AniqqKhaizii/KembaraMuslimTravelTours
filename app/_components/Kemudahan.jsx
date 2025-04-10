@@ -48,13 +48,7 @@ function Tentang() {
 					</motion.div>
 
 					<div className="grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3">
-						<motion.div
-							initial={{ x: 100, opacity: 0 }}
-							whileInView={{ x: 0, opacity: 1 }}
-							viewport={{ once: true, amount: 0.2 }}
-							transition={{ ease: "easeInOut", duration: 1 }}
-							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
-						>
+						<div className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center">
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
 									width="64"
@@ -67,14 +61,8 @@ function Tentang() {
 							<h2 className="mt-2 text-lg text-center font-regular text-white">
 								Kursus Umrah Percuma
 							</h2>
-						</motion.div>
-						<motion.div
-							initial={{ x: 150, opacity: 0 }}
-							whileInView={{ x: 0, opacity: 1 }}
-							transition={{ ease: "easeInOut", duration: 1, delay: 0.2 }}
-							viewport={{ once: true, amount: 0.2 }}
-							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
-						>
+						</div>
+						<div className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center">
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
 									width="64"
@@ -87,14 +75,8 @@ function Tentang() {
 							<h2 className="mt-2 text-lg text-center font-regular text-white">
 								Tiket Penerbangan
 							</h2>
-						</motion.div>
-						<motion.div
-							initial={{ x: 200, opacity: 0 }}
-							whileInView={{ x: 0, opacity: 1 }}
-							transition={{ ease: "easeInOut", duration: 1, delay: 0.2 }}
-							viewport={{ once: true, amount: 0.2 }}
-							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
-						>
+						</div>
+						<div className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center">
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
 									width="64"
@@ -107,14 +89,8 @@ function Tentang() {
 							<h2 className="mt-2 text-lg text-center font-regular text-white">
 								Kit Umrah Ekslusif
 							</h2>
-						</motion.div>
-						<motion.div
-							initial={{ x: 100, opacity: 0 }}
-							whileInView={{ x: 0, opacity: 1 }}
-							transition={{ ease: "easeInOut", duration: 1, delay: 0.2 }}
-							viewport={{ once: true, amount: 0.2 }}
-							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
-						>
+						</div>
+						<div className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center">
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
 									width="64"
@@ -127,14 +103,8 @@ function Tentang() {
 							<h2 className="mt-2 text-lg text-center font-regular text-white">
 								Hotel Dekat & Selesa
 							</h2>
-						</motion.div>
-						<motion.div
-							initial={{ x: 150, opacity: 0 }}
-							whileInView={{ x: 0, opacity: 1 }}
-							transition={{ ease: "easeInOut", duration: 1, delay: 0.2 }}
-							viewport={{ once: true, amount: 0.2 }}
-							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
-						>
+						</div>
+						<div className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center">
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
 									width="64"
@@ -147,14 +117,8 @@ function Tentang() {
 							<h2 className="mt-2 text-lg text-center font-regular text-white">
 								Pengangkutan Selesa
 							</h2>
-						</motion.div>
-						<motion.div
-							initial={{ x: 200, opacity: 0 }}
-							whileInView={{ x: 0, opacity: 1 }}
-							transition={{ ease: "easeInOut", duration: 1, delay: 0.2 }}
-							viewport={{ once: true, amount: 0.2 }}
-							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
-						>
+						</div>
+						<div className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center">
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
 									width="64"
@@ -167,7 +131,7 @@ function Tentang() {
 							<h2 className="mt-2 text-lg text-center font-regular text-white">
 								Mutawwif Berpengalaman
 							</h2>
-						</motion.div>
+						</div>
 					</div>
 				</div>
 			</div>

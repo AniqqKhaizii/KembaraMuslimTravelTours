@@ -26,10 +26,10 @@ const ContactPage = () => {
 			</div>
 
 			{/* Main Content Section */}
-			<div className="max-w-7xl mx-auto shadow-lg bg-gradient-to-br from-white to-gray-100 my-12 rounded-xl overflow-hidden">
+			<div className="shadow-lg bg-gradient-to-br from-white to-gray-100 mx-2 my-12 rounded-xl overflow-hidden">
 				<div className="grid lg:grid-cols-2 gap-6">
 					{/* Contact Information */}
-					<div className="bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 px-6 pt-12 text-white">
+					<div className="bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 px-4 py-12 text-white">
 						<h2 className="text-4xl font-extrabold mb-4">Maklumat Kami</h2>
 						<p className="text-lg font-light mb-8">
 							Kami di <strong>Kembara Muslim Travel & Tours</strong> sentiasa

@@ -5,12 +5,18 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Whatsapp from "./Whatsapp";
 import { ConfigProvider } from "antd";
-import "antd/dist/reset.css";
-
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 export default function ClientWrapper({ children }) {
 	const pathname = usePathname();
 	const isAdminPage = pathname.includes("/Admin"); // Check if the path includes /Admin
-
+	useEffect(() => {
+		AOS.init({
+			duration: 1000,
+			once: true,
+		});
+	}, []);
 	return (
 		<ConfigProvider
 			theme={{

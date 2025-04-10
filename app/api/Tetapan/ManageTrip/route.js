@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic"; // ✅ Ensure API runs dynamically in Ve
 
 export async function GET(req) {
 	try {
-		const { searchParams } = req.nextUrl; // ✅ Correct way to get query params
+		const { searchParams } = req.nextUrl; // ✅
 		const Operation = searchParams.get("Operation");
 		const TripID = searchParams.get("TripID")
 			? parseInt(searchParams.get("TripID"), 10)
@@ -25,8 +25,8 @@ export async function GET(req) {
 			.input("Operation", sql.VarChar(10), Operation)
 			.input("TripID", sql.Int, TripID)
 			.input("TripName", sql.VarChar(100), TripName)
-			.input("StartTravelDate", sql.Date, StartTravelDate) // ✅ Use Date type
-			.input("EndTravelDate", sql.Date, EndTravelDate) // ✅ Use Date type
+			.input("StartTravelDate", sql.VarChar(8), StartTravelDate) // ✅ Use Date type
+			.input("EndTravelDate", sql.VarChar(8), EndTravelDate) // ✅ Use Date type
 			.input("Duration", sql.Int, Duration)
 			.execute("SP_Manage_Trip");
 

@@ -72,6 +72,11 @@ const Main = () => {
 			title: "Common Mistakes During Umrah",
 			description: "Learn how to avoid common mistakes while performing Umrah.",
 		},
+		{
+			src: "/Videos/Tips3.mp4",
+			title: "Common Mistakes During Umrah",
+			description: "Learn how to avoid common mistakes while performing Umrah.",
+		},
 	];
 
 	return (
@@ -79,19 +84,16 @@ const Main = () => {
 			<div className="grid grid-cols-1 gap-12 max-w-screen-xl mx-auto py-12 px-6">
 				{/* Gallery Section */}
 				<section className="mb-16">
-					<h2 className="text-5xl text-orange-600 font-extrabold mb-8 text-center">
-						Galeri Kembara Muslim
-					</h2>
 					{categories.map((category, index) => (
 						<div key={index} className="mb-10">
 							<h3 className="text-2xl font-bold text-gray-800 mb-5 uppercase">
 								{category.name}
 							</h3>
-							<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+							<div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-2">
 								{category.images.map((image, idx) => (
 									<div
 										key={idx}
-										className="relative group cursor-pointer rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-transform transform"
+										className="relative group cursor-pointer rounded-sm overflow-hidden shadow-md hover:shadow-lg transition-transform transform"
 										onClick={() => {
 											setLightboxIndex(
 												imagesArray.findIndex((img) => img.src === image.src)
@@ -102,10 +104,10 @@ const Main = () => {
 										<img
 											src={image.src}
 											alt={image.alt || `Gallery Image ${idx + 1}`}
-											className="rounded-md w-full h-48 object-cover"
+											className="rounded-sm w-full h-48 object-cover"
 										/>
 										<div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex justify-center items-center text-white text-lg font-bold">
-											{image.alt}
+											Lihat
 										</div>
 									</div>
 								))}
@@ -127,7 +129,7 @@ const Main = () => {
 				/>
 
 				{/* Umrah Tips Section */}
-				<section className=" p-2">
+				<section>
 					<h2 className="text-4xl text-orange-600 font-extrabold mb-8 text-center">
 						Tips Mengerjakan Umrah
 					</h2>
@@ -140,7 +142,7 @@ const Main = () => {
 							draggable: true,
 						}}
 					>
-						<CarouselContent className="flex gap-6">
+						<CarouselContent className="flex sm:flex-row flex-col gap-2">
 							{videos.map((video, index) => (
 								<CarouselItem key={index} className="flex-[1_0_30%]">
 									<article className="rounded-lg transform transition-transform">
@@ -162,8 +164,6 @@ const Main = () => {
 								</CarouselItem>
 							))}
 						</CarouselContent>
-						<CarouselPrevious />
-						<CarouselNext />
 					</Carousel>
 				</section>
 			</div>

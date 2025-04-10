@@ -566,7 +566,7 @@ const Main = () => {
 					))}
 				</ol>
 
-				<div className="bg-white border-t border-gray-300 lg:p-6 p-2">
+				<div className="bg-gray-50 border-t border-gray-300 lg:p-6 p-2">
 					{currentStep === 1 && (
 						<>
 							<div
@@ -982,10 +982,8 @@ const Main = () => {
 			</div>
 
 			{/* Right Side - Booking Summary */}
-			<div className="bg-white p-10 rounded-lg shadow max-h-[55vh] sticky top-20 overflow-y-clip">
-				{/* Background Image Overlay */}
-				{/* <div className="absolute inset-0 bg-[url(/Bg-card.png)] bg-cover bg-center opacity-20"></div> */}
-				<div className="absolute inset-0 p-8">
+			<div className="bg-gray-50 rounded-lg shadow h-[55vh] lg:sticky top-0 overflow-y-clip lg:order-last order-first">
+				<div className="p-8">
 					<h3 className="text-lg font-bold mb-4">Booking Summary</h3>
 					<div className="mb-4">
 						<p className="text-gray-600">Umrah {kategori}</p>

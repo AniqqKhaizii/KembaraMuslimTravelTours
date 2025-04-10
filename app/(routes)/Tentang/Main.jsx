@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 const AboutUs = () => {
 	return (
-		<div className="bg-orange-50 text-gray-800">
+		<div className="bg-gray-100 text-gray-800">
 			{/* Header Section */}
 			<header className="bg-[url('/Hero/KembaraDuaTanahSuci.jpg')] bg-center bg-cover relative text-white h-[45vh]">
 				<div className="w-full h-[45vh] text-center backdrop-blur-md py-40 bg-black/50">
@@ -72,7 +72,7 @@ const AboutUs = () => {
 			</section>
 
 			{/* Licenses */}
-			<section className="bg-orange-100 py-16">
+			<section className="py-16">
 				<div className="container mx-auto px-6">
 					<h2 className="text-3xl font-bold text-orange-600 mb-6">
 						Lesen-Lesen

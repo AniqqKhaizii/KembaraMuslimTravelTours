@@ -1,6 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Axios from "axios";
 import Image from "next/image";
 const Footer = () => {
+	const [packages, setPackages] = useState([]);
+
+	useEffect(() => {
+		const fetchPackages = async () => {
+			try {
+				const response = await Axios.get("/api/Tetapan/ManagePackage", {
+					params: {
+						Operation: "SEARCH",
+						TripUnique: "Y",
+					},
+				});
+				setPackages(response.data);
+			} catch (error) {
+				console.error("Error fetching packages:", error);
+			}
+		};
+		fetchPackages();
+	}, []);
 	return (
 		<footer className="bg-gradient-to-br from-[#090909] via-[#181818] to-[#090909]">
 			<div className="mx-auto max-w-screen-2xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-24">
@@ -87,7 +106,7 @@ const Footer = () => {
 						<div className="text-center sm:text-left">
 							<p className="text-lg font-medium text-gray-200">Syarikat</p>
 
-							<ul className="mt-8 space-y-4 text-sm">
+							<ul className="mt-4 space-y-4 text-sm">
 								<li>
 									<a
 										className="text-gray-400 transition hover:text-orange-500"
@@ -100,7 +119,7 @@ const Footer = () => {
 								<li>
 									<a
 										className="text-gray-400 transition hover:text-orange-500"
-										href="#"
+										href="/TermaNSyarat"
 									>
 										Terma & Syarat
 									</a>
@@ -112,48 +131,23 @@ const Footer = () => {
 							<p className="text-lg font-medium text-gray-200">Pakej Umrah</p>
 
 							<ul className="mt-8 space-y-4 text-sm">
-								<li>
-									<a
-										className="text-gray-400 transition hover:text-orange-500"
-										href="#"
-									>
-										Pakej Umrah Ekonomi +
-									</a>
-								</li>
-
-								<li>
-									<a
-										className="text-gray-400 transition hover:text-orange-500"
-										href="#"
-									>
-										Pakej Umrah Makkah Tower
-									</a>
-								</li>
-
-								<li>
-									<a
-										className="text-gray-400 transition hover:text-orange-500"
-										href="#"
-									>
-										Pakej Umrah Speed Train
-									</a>
-								</li>
-
-								<li>
-									<a
-										className="text-gray-400 transition hover:text-orange-500"
-										href="#"
-									>
-										Pakej Umrah Maulidur Rasul
-									</a>
-								</li>
+								{packages.map((item, index) => (
+									<li key={index}>
+										<a
+											className="text-gray-400 transition hover:text-orange-500"
+											href={`/Pakej/Pakej-Umrah?kategori=${item.PakejName}`}
+										>
+											Pakej Umrah {item.PakejName}
+										</a>
+									</li>
+								))}
 							</ul>
 						</div>
 
 						<div className="text-center sm:text-left">
 							<p className="text-lg font-medium text-gray-200">Hubungi Kami</p>
 
-							<ul className="mt-8 space-y-4 text-sm">
+							<ul className="mt-4 space-y-4 text-sm">
 								<li>
 									<a
 										className="text-gray-400 transition hover:text-orange-500"
@@ -194,7 +188,7 @@ const Footer = () => {
 						<div className="text-center sm:text-left">
 							<p className="text-lg font-medium text-gray-200">Lokasi Kami</p>
 
-							<ul className="mt-8 space-y-4 text-sm">
+							<ul className="mt-4 space-y-4 text-sm">
 								<li>
 									<a
 										className="flex items-center justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end"

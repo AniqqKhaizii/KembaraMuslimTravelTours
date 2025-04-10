@@ -137,7 +137,6 @@ const MainPage = () => {
 		const dateRange = event.target.value;
 		const [startTravelDateRaw, endTravelDateRaw] = dateRange.split(" - ");
 
-		// Convert to YYYYMMDD
 		const startTravelDate = formatDateToYYYYMMDD(startTravelDateRaw);
 		const endTravelDate = formatDateToYYYYMMDD(endTravelDateRaw);
 		setSelectedDate(dateRange);
@@ -222,7 +221,7 @@ const MainPage = () => {
 	};
 
 	return (
-		<div className="flex flex-col min-h-screen pb-12 bg-gradient-to-b from-white via-gray-50 to-gray-100">
+		<div className="flex flex-col min-h-screen pb-12 bg-gray-200">
 			<div
 				className="relative h-[95vh] bg-cover bg-top bg-no-repeat overflow-hidden z-0"
 				style={{
@@ -230,10 +229,10 @@ const MainPage = () => {
 				}}
 			>
 				{/* Gradient Overlay */}
-				<div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-white"></div>
+				<div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-gray-200"></div>
 
 				{/* Content */}
-				<div className="relative z-10 flex flex-col items-start justify-start w-full h-full bg-gradient-to-b from-black/70 via-transparent to-white py-14 px-12">
+				<div className="relative z-10 flex flex-col items-start justify-start w-full h-full bg-gradient-to-b from-black/70 via-transparent to-gray-200 py-14 px-12">
 					<h1 className="text-7xl font-semibold text-white text-center uppercase text-shadow-2xl">
 						Pakej Umrah {kategori}
 					</h1>
@@ -249,10 +248,10 @@ const MainPage = () => {
 					show={showAlert}
 				/>
 			)}
-			<div className="flex flex-col gap-10">
-				<div className="mx-auto grid sm:grid-cols-1 lg:grid-cols-3 grid-rows-[auto,auto,1fr] max-w-screen-2xl gap-8">
-					<div className="lg:col-span-2 sm:col-span-1 overflow-hidden mx-2 sm:order-second lg:order-first border-r border-gray-200">
-						<div className="p-6">
+			<div className="flex flex-col">
+				<div className="mx-auto grid sm:grid-cols-1 lg:grid-cols-3 grid-rows-[auto,auto,1fr] max-w-screen-2xl gap-2">
+					<div className="lg:col-span-2 sm:col-span-1 overflow-hidden sm:order-second lg:order-first border-r border-gray-200">
+						<div className="p-2">
 							{/* Tabs Navigation */}
 							<div className="border-b border-gray-300 flex overflow-x-auto">
 								{tabs.map((tab, index) => (
@@ -274,7 +273,7 @@ const MainPage = () => {
 							<div className="mt-4">
 								{/* Pricing & Date */}
 								<section ref={tabs[0].ref} className="py-6">
-									<h2 className="text-2xl font-medium p-4 bg-orange-500 text-white text-left rounded-t-xl">
+									<h2 className="text-2xl font-medium p-4 bg-orange-500 text-white text-left">
 										Room Pricing
 									</h2>
 
@@ -306,8 +305,8 @@ const MainPage = () => {
 										},
 									].map((category, catIdx) => (
 										<div key={catIdx}>
-											<div className="grid sm:grid-cols-1 lg:grid-cols-4 text-center border border-gray-300 shadow-md lg:divide-y-0 sm:divide-x-0 sm:divide-y divide-gray-300">
-												<h3 className="flex items-center text-xl font-semibold text-gray-500 px-4">
+											<div className="grid sm:grid-cols-1 lg:grid-cols-4 text-center border border-gray-300 lg:divide-y-0 sm:divide-x-0 sm:divide-y divide-gray-300 bg-gray-50 py-6">
+												<h3 className="flex items-center text-xl font-semibold text-gray-500 px-4 sm:py-4 py-0">
 													{category.title}
 												</h3>
 
@@ -323,7 +322,7 @@ const MainPage = () => {
 													return (
 														<div
 															key={idx}
-															className="flex flex-col items-end p-6 shadow-sm"
+															className="flex flex-col items-end p-6 "
 														>
 															{loadingPackages ? (
 																<Skeleton height={50} />
@@ -363,12 +362,12 @@ const MainPage = () => {
 								</section>
 
 								{/* Travel Dates */}
-								<section ref={tabs[1].ref} className="py-6">
-									<h2 className="text-2xl font-medium p-5 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-left rounded-t-xl shadow-md">
+								<section ref={tabs[1].ref} className="py-2">
+									<h2 className="text-2xl font-medium p-5 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-left">
 										Select Your Travel Dates
 									</h2>
 
-									<form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 border border-gray-300 p-4 shadow-md bg-white">
+									<form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 border border-gray-300 p-4 bg-gray-50">
 										{packages.map((pkg, index) => {
 											const formattedStartDate = new Intl.DateTimeFormat(
 												"en-GB",
@@ -448,12 +447,12 @@ const MainPage = () => {
 								</section>
 
 								{/* Hotels */}
-								<section ref={tabs[2].ref} className="py-6">
-									<h2 className="text-2xl font-medium p-4 bg-orange-500 text-white text-left rounded-t-xl">
+								<section ref={tabs[2].ref} className="py-2">
+									<h2 className="text-2xl font-medium p-4 bg-orange-500 text-white text-left">
 										Hotels
 									</h2>
 
-									<div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-4 border-l border-b border-r border-gray-200 p-4 shadow-md">
+									<div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-4 border border-gray-300 p-4 bg-gray-50">
 										{/* Makkah Hotel */}
 										<div className="grid grid-cols-1 gap-6 items-center bg-gray-50 shadow-inner p-6 rounded-lg">
 											{/* Hotel Image */}
@@ -520,11 +519,11 @@ const MainPage = () => {
 					</div>
 
 					{/* Sticky Product Information Section */}
-					<div className="relative xs:-mt-[50vh] sm:-mt-[60vh] xs:mx-6 sm:mx-12 mt-0 lg:sticky lg:top-40 xs:order-first sm:order-first lg:order-second drop-shadow-lg p-6 rounded-md text-center bg-white min-h-80 max-h-96 border border-gray-200 shadow-lg overflow-hidden">
+					<div className="relative xs:-mt-[50vh] sm:-mt-[60vh] xs:mx-6 sm:mx-12 mt-0 lg:sticky lg:top-40 xs:order-first sm:order-first lg:order-second p-6 rounded-sm text-center bg-white min-h-80 max-h-96 border border-gray-300 shadow-sm overflow-hidden">
 						{/* Background Image Overlay */}
-						<div className="absolute inset-0 bg-[url(/Bg-card.png)] bg-cover bg-center opacity-20"></div>
+						<div className="absolute inset-0 bg-[url(/Bg-card.png)] bg-cover bg-center opacity-20 brightness-90"></div>
 
-						<div className="absolute inset-0 flex flex-col justify-center p-4">
+						<div className="absolute inset-0 flex flex-col justify-center p-4 bg-gray-50/20">
 							{/* Package Title */}
 							<h2 className="text-xl font-semibold text-green-700 tracking-wide">
 								Pakej Umrah {kategori}
@@ -588,25 +587,29 @@ const MainPage = () => {
 						</div>
 					</div>
 
-					<div className="lg:col-span-2 sm:col-span-1 px-4 pb-12">
-						<h1 className="text-center text-3xl font-semibold mb-8">
-							Tempat - tempat Ziarah
+					<div className="lg:col-span-2 sm:col-span-1 px-4 py-12">
+						<h1 className="text-center text-3xl font-semibold mb-8 border-b-2 border-gray-300 py-4">
+							Tempat - Tempat Ziarah
 						</h1>
 
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 px-8">
 							{places.map((place, index) => (
-								<div key={index} className="rounded-lg">
-									<img
-										src={place.imgSrc}
-										alt={place.title}
-										className="w-full h-48 object-cover rounded-md bg-custom-gradient shadow-custom-shadow"
-									/>
-									<h2 className="text-xl font-semibold mt-4 text-center">
-										{place.title}
-									</h2>
-									<p className="text-gray-600 mt-2 text-center">
-										{place.description}
-									</p>
+								<div key={index}>
+									<div className="px-4 border-b-8 border-gray-600">
+										<img
+											src={place.imgSrc}
+											alt={place.title}
+											className="w-full h-48 object-cover rounded-t-md bg-custom-gradient shadow-custom-shadow"
+										/>
+									</div>
+									<div className="p-4">
+										<h2 className="text-lg font-bold text-gray-800 text-center">
+											{place.title}
+										</h2>
+										<p className="text-sm text-gray-600 mt-2 text-center">
+											{place.description}
+										</p>
+									</div>
 								</div>
 							))}
 						</div>
