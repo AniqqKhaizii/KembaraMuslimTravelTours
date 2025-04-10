@@ -116,7 +116,7 @@ function Header() {
 				} top-0 z-[9999] transition-all duration-900 shadow-xl text-[13px] ${
 					sticky || isMultiDirectory || !isLargeScreen
 						? "bg-gradient-to-br from-[#b7c21c] to-[#e76f21] w-full text-white lg:px-12 px-4"
-						: "bg-[linear-gradient(120deg,_#fdfbfb_0%,_#ebedee_50%,_#fdfbfb_100%)] lg:w-1/2 w-4/5 mx-auto rounded-2xl mt-4 px-4 "
+						: "bg-[linear-gradient(120deg,_#fdfbfb_0%,_#ebedee_50%,_#fdfbfb_100%)] lg:w-3/5 w-4/5 mx-auto rounded-2xl mt-4 px-4 "
 				}`}
 			>
 				<div className="flex items-center justify-between w-full max-w-screen-2xl mx-auto">
