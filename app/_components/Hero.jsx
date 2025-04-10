@@ -6,13 +6,7 @@ import Threads from "@/components/ui/threads";
 import SlideArrowButton from "@/components/animata/button/slide-arrow-button";
 const HeroSection = () => {
 	return (
-		<section
-			className="lg:h-screen h-auto lg:py-32 py-24 lg:mt-0 relative bg-cover bg-center overflow-hidden"
-			style={{
-				backgroundImage: "url('/Hero/1.jpg')",
-				backgroundAttachment: "fixed",
-			}}
-		>
+		<section className="lg:h-screen h-auto lg:py-32 py-24 lg:mt-0 relative bg-cover bg-center overflow-hidden">
 			<video
 				className="absolute top-0 left-0 w-full h-full object-cover"
 				autoPlay
