@@ -50,7 +50,7 @@ const Galeri = () => {
 
 	return (
 		<>
-			<section className="bg-slate-50 bg-cover bg-no-repeat bg-blend-lighten px-6 py-16 sm:py-24 text-slate-900">
+			<section className="bg-white bg-cover bg-no-repeat bg-blend-lighten px-6 py-16 sm:py-24 text-slate-900">
 				<div className="mx-auto max-w-screen-xl px-6 sm:px-2 ">
 					<div className="flex flex-row justify-between items-center">
 						<div className="flex flex-col">

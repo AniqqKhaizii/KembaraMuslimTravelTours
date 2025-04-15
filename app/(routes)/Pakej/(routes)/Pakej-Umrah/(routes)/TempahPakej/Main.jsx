@@ -98,7 +98,6 @@ const Main = () => {
 				});
 				const packagesData = response.data;
 				setPackages(packagesData);
-				console.log("packagesData", packagesData);
 				setRoomPrices({
 					Berdua: {
 						adult: packagesData[0].Adult_Double,
@@ -255,7 +254,6 @@ const Main = () => {
 			);
 
 			if (!allFieldsFilled) {
-				setShowAlert(true);
 				alert("Sila isi semua maklumat yang diperlukan.");
 				return;
 			}
@@ -409,7 +407,8 @@ const Main = () => {
 			billPriceSetting: 0,
 			billPayorInfo: 1,
 			billAmount: hargaBayaran,
-			billReturnUrl: "",
+			billReturnUrl:
+				"http://localhost:3000/Pakej/Pakej-Umrah/TempahPakej/PaymentReturn",
 			billCallbackUrl: "",
 			billExternalReferenceNo: RefNo,
 			billTo: maklumatJemaah?.NamaPengguna,
@@ -419,7 +418,7 @@ const Main = () => {
 			billSplitPaymentArgs: "",
 			billPaymentChannel: "2",
 			billContentEmail: "Terima kasih kerana sudah tempah pakej umrah!",
-			billChargeToCustomer: 1,
+			billChargeToCustomer: "",
 			billExpiryDate: formattedExpiryDate,
 			billExpiryDays: 1,
 		};
@@ -442,85 +441,725 @@ const Main = () => {
 		}
 	};
 
+	console.log("maklumatJemaah", maklumatJemaah);
 	return (
-		<div className="lg:max-w-screen-xl sm:max-w-screen-lg xs:max-w-screen-xl mx-auto sm:px-4 xs:px-4 py-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
-			{/* Left Side */}
-			{showAlert && (
-				<CustomAlert
-					message="Sila pilih jenis bilik terlebih dahulu."
-					onClose={() => setShowAlert(false)}
-					show={showAlert}
-				/>
-			)}
-			<div className="flex flex-col lg:col-span-2 gap-6">
-				<nav aria-label="Breadcrumb">
-					<ol
-						role="list"
-						className="mx-auto flex max-w-5xl items-center lg:justify-start justify-center py-4 lg:max-w-7xl"
-					>
-						<li>
-							<div className="flex items-center">
-								<a
-									href="/"
-									className="lg:text-sm sm:text-xs xs:text-xs font-medium text-gray-900"
-								>
-									Utama
-								</a>
-								<svg
-									width="16"
-									height="20"
-									viewBox="0 0 16 20"
-									fill="currentColor"
-									aria-hidden="true"
-									className="h-5 w-4 text-gray-300"
-								>
-									<path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-								</svg>
-							</div>
-						</li>
-						<li>
-							<div className="flex items-center">
-								<a
-									href="/Pakej"
-									className="lg:text-sm sm:text-xs xs:text-xs font-medium text-gray-900"
-								>
-									Pakej Umrah
-								</a>
-								<svg
-									width="16"
-									height="20"
-									viewBox="0 0 16 20"
-									fill="currentColor"
-									aria-hidden="true"
-									className="h-5 w-4 text-gray-300"
-								>
-									<path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-								</svg>
-							</div>
-						</li>
-						<li>
-							<div className="flex items-center">
-								<a
-									href={`/Pakej/Pakej-Umrah?kategori=${kategori}`}
-									className="lg:text-sm sm:text-xs xs:text-xs font-medium text-gray-900"
-								>
-									Pakej {kategori}
-								</a>
-								<svg
-									width="16"
-									height="20"
-									viewBox="0 0 16 20"
-									fill="currentColor"
-									aria-hidden="true"
-									className="h-5 w-4 text-gray-300"
-								>
-									<path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-								</svg>
-							</div>
-						</li>
+		<div className="bg-gray-50">
+			<div className="lg:max-w-screen-xl sm:max-w-screen-lg xs:max-w-screen-xl mx-auto sm:px-4 xs:px-4 py-10 grid grid-cols-1 lg:grid-cols-3 gap-6 ">
+				{/* Left Side */}
+				{showAlert && (
+					<CustomAlert
+						message="Sila pilih jenis bilik terlebih dahulu."
+						onClose={() => setShowAlert(false)}
+						show={showAlert}
+					/>
+				)}
+				<div className="flex flex-col lg:col-span-2 gap-6">
+					<nav aria-label="Breadcrumb">
+						<ol
+							role="list"
+							className="mx-auto flex max-w-5xl items-center lg:justify-start justify-center py-4 lg:max-w-7xl"
+						>
+							<li>
+								<div className="flex items-center">
+									<a
+										href="/"
+										className="lg:text-sm sm:text-xs xs:text-xs font-medium text-gray-900"
+									>
+										Utama
+									</a>
+									<svg
+										width="16"
+										height="20"
+										viewBox="0 0 16 20"
+										fill="currentColor"
+										aria-hidden="true"
+										className="h-5 w-4 text-gray-300"
+									>
+										<path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+									</svg>
+								</div>
+							</li>
+							<li>
+								<div className="flex items-center">
+									<a
+										href="/Pakej"
+										className="lg:text-sm sm:text-xs xs:text-xs font-medium text-gray-900"
+									>
+										Pakej Umrah
+									</a>
+									<svg
+										width="16"
+										height="20"
+										viewBox="0 0 16 20"
+										fill="currentColor"
+										aria-hidden="true"
+										className="h-5 w-4 text-gray-300"
+									>
+										<path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+									</svg>
+								</div>
+							</li>
+							<li>
+								<div className="flex items-center">
+									<a
+										href={`/Pakej/Pakej-Umrah?kategori=${kategori}`}
+										className="lg:text-sm sm:text-xs xs:text-xs font-medium text-gray-900"
+									>
+										Pakej {kategori}
+									</a>
+									<svg
+										width="16"
+										height="20"
+										viewBox="0 0 16 20"
+										fill="currentColor"
+										aria-hidden="true"
+										className="h-5 w-4 text-gray-300"
+									>
+										<path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+									</svg>
+								</div>
+							</li>
 
-						<li className="lg:text-sm sm:text-xs xs:text-xs">
-							<span className="font-medium text-gray-500">
+							<li className="lg:text-sm sm:text-xs xs:text-xs">
+								<span className="font-medium text-gray-500">
+									{tarikh
+										? `${tarikh[0].toLocaleDateString("en-GB", {
+												day: "2-digit",
+												month: "short",
+												year: "numeric",
+										  })} - ${tarikh[1].toLocaleDateString("en-GB", {
+												day: "2-digit",
+												month: "short",
+												year: "numeric",
+										  })}`
+										: "Pilih Tarikh"}
+								</span>
+							</li>
+						</ol>
+					</nav>
+					{/* Stepper */}
+					<ol className="flex lg:mx-32 mx-auto lg:px-auto pl-12 justify-center items-center w-full text-xs text-gray-900 font-medium sm:text-base">
+						{[1, 2, 3].map((step, index) => (
+							<li
+								key={step}
+								className={`flex w-full relative  ${
+									currentStep >= step ? "text-orange-600" : "text-gray-900"
+								}`}
+							>
+								{index < 2 && (
+									<div
+										className={`absolute lg:top-5 top-3 lg:left-1 left-2 w-full h-0.5 ${
+											currentStep > step ? "bg-orange-600" : "bg-gray-400"
+										} `}
+									></div>
+								)}
+								<div className="block whitespace-nowrap z-10">
+									<span
+										className={`w-6 h-6 ${
+											currentStep >= step ? "bg-orange-600" : "bg-gray-400"
+										} border-2 border-transparent rounded-full flex justify-center items-center mx-auto mb-3 text-sm text-white lg:w-10 lg:h-10  shadow-xl`}
+									>
+										{step}
+									</span>{" "}
+									Step {step}
+								</div>
+							</li>
+						))}
+					</ol>
+
+					<div className="bg-white border-t border-gray-300 lg:p-6 p-2">
+						{currentStep === 1 && (
+							<>
+								<div
+									id="tour-overview"
+									className="grid lg:grid-cols-2 grid-cols-1 gap-4 "
+								>
+									{rooms.map((room, index) => (
+										<div key={index} className="border rounded-lg p-4">
+											<div className="flex justify-between items-center mb-3">
+												<h3 className="text-lg">Room {index + 1}</h3>
+												{index > 0 && (
+													<button
+														className="flex items-center text-red-500 hover:underline hover:underline-offset-2 gap-2"
+														onClick={() => handleRemoveRoomOption(index)}
+													>
+														<CiCircleMinus className="text-red-700" />
+														Remove room option
+													</button>
+												)}
+											</div>
+											<div className="flex flex-col justify-between items-center mb-3">
+												<Select
+													name="roomType"
+													id="roomType"
+													className="w-full font-primary"
+													value={room.roomType || ""} // Ensure selected value is displayed
+													onChange={(value) =>
+														handleRoomTypeChange(index, value)
+													} // Directly use `value`
+												>
+													<Select.Option value="">
+														Select room type
+													</Select.Option>
+													<Select.Option value="Berdua">
+														Bilik Berdua
+													</Select.Option>
+													<Select.Option value="Bertiga">
+														Bilik Bertiga
+													</Select.Option>
+													<Select.Option value="Berempat">
+														Bilik Berempat
+													</Select.Option>
+												</Select>
+											</div>
+
+											<div className="grid grid-cols-1 gap-3 py-4 border-t border-gray-300">
+												{[
+													{ type: "Adult", key: "adult" },
+													{ type: "Child w/ Bed", key: "childWithBed" },
+													{ type: "Child w/o Bed", key: "childWithoutBed" },
+													{ type: "Infant", key: "infant" },
+												].map(({ type, key }, idx) => (
+													<div
+														key={idx}
+														className="flex items-center justify-between w-full"
+													>
+														<span className="font-medium text-gray-600">
+															{type}
+														</span>
+														<div className="flex items-center gap-6">
+															<button
+																className="px-3 py-1 border border-orange-600 text-orange-600"
+																onClick={() => handleDecrement(index, key)}
+															>
+																-
+															</button>
+															<span className="text-md font-semibold text-gray-800 w-2">
+																{room[key]}
+															</span>
+															<button
+																className="px-3 py-1 border border-orange-600 text-orange-600"
+																onClick={() => handleIncrement(index, key)}
+															>
+																+
+															</button>
+														</div>
+													</div>
+												))}
+											</div>
+										</div>
+									))}
+
+									<div className="lg:col-span-2 col-span-1 mt-4 bg-gray-100 p-4 rounded-sm">
+										<strong className="text-gray-700 text-lg block mb-2">
+											Guests Summary:
+										</strong>
+										<div className="overflow-x-auto">
+											<table className="w-full text-sm text-left text-gray-700">
+												<thead className="bg-gray-200 text-gray-900">
+													<tr>
+														<th className="px-4 py-2">Room</th>
+														<th className="px-4 py-2 text-center">Adults</th>
+														<th className="px-4 py-2 text-center">
+															Child w/ Bed
+														</th>
+														<th className="px-4 py-2 text-center">
+															Child w/o Bed
+														</th>
+														<th className="px-4 py-2 text-center">Infants</th>
+														<th className="px-4 py-2 text-center">Total</th>
+													</tr>
+												</thead>
+												<tbody>
+													{rooms.map((room, index) => {
+														const total =
+															room.adult +
+															room.childWithBed +
+															room.childWithoutBed +
+															room.infant;
+														return (
+															<tr
+																key={index}
+																className="border-t border-gray-300"
+															>
+																<td className="px-4 py-2">
+																	Room {index + 1} - {room.roomType}
+																</td>
+																<td className="px-4 py-2 text-center">
+																	{room.adult}
+																</td>
+																<td className="px-4 py-2 text-center">
+																	{room.childWithBed}
+																</td>
+																<td className="px-4 py-2 text-center">
+																	{room.childWithoutBed}
+																</td>
+																<td className="px-4 py-2 text-center">
+																	{room.infant}
+																</td>
+																<td className="px-4 py-2 font-semibold text-center">
+																	{total}
+																</td>
+															</tr>
+														);
+													})}
+												</tbody>
+												<tfoot>
+													<tr className="bg-gray-200 font-semibold">
+														<td className="px-4 py-2">Total</td>
+														<td className="px-4 py-2 text-center">
+															{rooms.reduce((sum, r) => sum + r.adult, 0)}
+														</td>
+														<td className="px-4 py-2 text-center">
+															{rooms.reduce(
+																(sum, r) => sum + r.childWithBed,
+																0
+															)}
+														</td>
+														<td className="px-4 py-2 text-center">
+															{rooms.reduce(
+																(sum, r) => sum + r.childWithoutBed,
+																0
+															)}
+														</td>
+														<td className="px-4 py-2 text-center">
+															{rooms.reduce((sum, r) => sum + r.infant, 0)}
+														</td>
+														<td className="px-4 py-2 text-center">
+															{rooms.reduce(
+																(sum, r) =>
+																	sum +
+																	r.adult +
+																	r.childWithBed +
+																	r.childWithoutBed +
+																	r.infant,
+																0
+															)}
+														</td>
+													</tr>
+												</tfoot>
+											</table>
+										</div>
+									</div>
+
+									<div className="my-4">
+										<button
+											className="px-4 py-2 border border-blue-500 text-blue-500 rounded-sm hover:bg-blue-500 hover:text-white"
+											onClick={handleAddRoomOption}
+										>
+											Add Room Option +
+										</button>
+									</div>
+								</div>
+							</>
+						)}
+
+						{currentStep === 2 && (
+							<div>
+								{/* User Details Form */}
+								<h3 className="text-xl mb-4 text-gray-800">
+									Maklumat Pengguna
+								</h3>
+								<form id="user-details" className="space-y-8 bg-white p-6">
+									<h2 className="text-xl font-semibold text-gray-800 border-b pb-4">
+										Maklumat Pengguna
+									</h2>
+
+									<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+										<div>
+											<label className="block text-sm font-medium text-gray-700 mb-1 px-4">
+												Nama Penuh
+											</label>
+											<input
+												type="text"
+												name="NamaPengguna"
+												placeholder="Contoh: Ali Bin Abu"
+												value={maklumatJemaah?.NamaPengguna || ""}
+												onChange={(e) =>
+													setMaklumatJemaah((prev) => ({
+														...prev,
+														NamaPengguna: e.target.value,
+													}))
+												}
+												className="w-full border-gray-300 rounded-md shadow-sm px-4 py-2"
+												required
+											/>
+										</div>
+
+										<div>
+											<label className="block text-sm font-medium text-gray-700 mb-1 px-4">
+												No Kad Pengenalan
+											</label>
+											<input
+												type="text"
+												name="ICPengguna"
+												placeholder="Contoh: 910101-01-1234"
+												value={maklumatJemaah?.ICPengguna || ""}
+												onChange={(e) =>
+													setMaklumatJemaah((prev) => ({
+														...prev,
+														ICPengguna: e.target.value,
+													}))
+												}
+												className="w-full border-gray-300 rounded-md shadow-sm px-4 py-2"
+												required
+											/>
+										</div>
+
+										<div>
+											<label className="block text-sm font-medium text-gray-700 mb-1 px-4">
+												Emel
+											</label>
+											<input
+												type="email"
+												name="EmelPengguna"
+												placeholder="Contoh: ali@email.com"
+												value={maklumatJemaah?.EmelPengguna || ""}
+												onChange={(e) =>
+													setMaklumatJemaah((prev) => ({
+														...prev,
+														EmelPengguna: e.target.value,
+													}))
+												}
+												className="w-full border-gray-300 rounded-md shadow-sm px-4 py-2"
+												required
+											/>
+										</div>
+
+										<div>
+											<label className="block text-sm font-medium text-gray-700 mb-1 px-4">
+												No Telefon
+											</label>
+											<input
+												type="tel"
+												name="TelNoPengguna"
+												placeholder="Contoh: 012-3456789"
+												value={maklumatJemaah?.TelNoPengguna || ""}
+												onChange={(e) =>
+													setMaklumatJemaah((prev) => ({
+														...prev,
+														TelNoPengguna: e.target.value,
+													}))
+												}
+												className="w-full border-gray-300 rounded-md shadow-sm px-4 py-2"
+												required
+											/>
+										</div>
+
+										{/* New Alamat field */}
+										<div className="lg:col-span-2">
+											<label className="block text-sm font-medium text-gray-700 mb-1 px-4">
+												Alamat
+											</label>
+											<textarea
+												name="AlamatPengguna"
+												placeholder="Contoh: No. 1, Jalan Mawar, Taman Melati, 53100 Kuala Lumpur"
+												value={maklumatJemaah?.AlamatPengguna || ""}
+												onChange={(e) =>
+													setMaklumatJemaah((prev) => ({
+														...prev,
+														AlamatPengguna: e.target.value,
+													}))
+												}
+												rows={3}
+												className="w-full border-gray-300 rounded-md shadow-sm px-4 py-2"
+												required
+											></textarea>
+										</div>
+									</div>
+
+									{/* Guests Info per Room */}
+									{rooms.map((room, index) => {
+										const totalGuests =
+											room.adult +
+											room.childWithBed +
+											room.childWithoutBed +
+											room.infant;
+
+										return (
+											<div key={index} className="border-t pt-6">
+												<h3 className="text-lg font-semibold text-green-700 mb-4">
+													Bilik {index + 1} - {room.roomType}
+												</h3>
+
+												<div className="space-y-4">
+													{[...Array(totalGuests)].map((_, i) => (
+														<div
+															key={`guest-${index}-${i}`}
+															className="grid grid-cols-1 md:grid-cols-2 gap-4"
+														>
+															<div>
+																<label className="block text-sm font-medium text-gray-700 mb-1 px-4">
+																	Nama Jemaah {i + 1}
+																</label>
+																<input
+																	type="text"
+																	name={`NamaJemaah${i + 1} - Bilik ${
+																		index + 1
+																	}`}
+																	placeholder="Contoh: Ali Bin Abu"
+																	value={
+																		maklumatJemaah?.[
+																			`NamaJemaah${i + 1} - Bilik ${index + 1}`
+																		] || ""
+																	}
+																	onChange={(e) =>
+																		setMaklumatJemaah((prev) => ({
+																			...prev,
+																			[`NamaJemaah${i + 1} - Bilik ${
+																				index + 1
+																			}`]: e.target.value,
+																		}))
+																	}
+																	className="w-full border-gray-300 rounded-md shadow-sm  px-4 py-2"
+																	required
+																/>
+															</div>
+
+															<div>
+																<label className="block text-sm font-medium text-gray-700 mb-1 px-4">
+																	No Kad Pengenalan Jemaah {i + 1}
+																</label>
+																<input
+																	type="text"
+																	name={`ICTetamu${i + 1} - Bilik ${index + 1}`}
+																	placeholder="Contoh: 910101-01-1234"
+																	value={
+																		maklumatJemaah?.[
+																			`ICJemaah${i + 1} - Bilik ${index + 1}`
+																		] || ""
+																	}
+																	onChange={(e) => {
+																		const formattedValue = formatICNumber(
+																			e.target.value
+																		);
+																		setMaklumatJemaah((prev) => ({
+																			...prev,
+																			[`ICJemaah${i + 1} - Bilik ${index + 1}`]:
+																				formattedValue,
+																		}));
+																	}}
+																	onBlur={(e) => {
+																		const value = e.target.value;
+																		if (value && !isValidMalaysianIC(value)) {
+																			alert(
+																				"Invalid Malaysian IC format or details!"
+																			);
+																			setMaklumatJemaah((prev) => ({
+																				...prev,
+																				[`ICJemaah${i + 1} - Bilik ${
+																					index + 1
+																				}`]: "",
+																			}));
+																		}
+																	}}
+																	className="w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 px-4 py-2"
+																	required
+																/>
+															</div>
+														</div>
+													))}
+												</div>
+											</div>
+										);
+									})}
+								</form>
+							</div>
+						)}
+
+						{currentStep === 3 && (
+							<div id="summary-overview" className="p-2">
+								<h3 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
+									Trip Summary
+								</h3>
+
+								{/* Pax and Room Type Summary */}
+								<div className="mb-4">
+									<div className="flex justify-between items-center border-b pb-4 mb-4">
+										<div className="text-gray-600 font-medium">
+											<span className="block mb-2">Number of Pax:</span>
+											<span className="block mb-2">Room Type:</span>
+											<span className="block mb-2">Trip Date:</span>
+										</div>
+										<div className="text-gray-800 font-semibold text-right">
+											<span className="block mb-2">
+												{rooms.reduce(
+													(acc, room) =>
+														acc +
+														room.adult +
+														room.childWithBed +
+														room.childWithoutBed,
+													0
+												)}{" "}
+												Pax
+											</span>
+											<span className="block mb-2">{selectedOption}</span>
+											<span className="block mb-2">
+												{tarikh
+													? `${tarikh[0].toLocaleDateString("en-GB", {
+															day: "2-digit",
+															month: "short",
+															year: "numeric",
+													  })} - ${tarikh[1].toLocaleDateString("en-GB", {
+															day: "2-digit",
+															month: "short",
+															year: "numeric",
+													  })}`
+													: ""}
+											</span>
+										</div>
+									</div>
+								</div>
+
+								{/* User Details Summary */}
+								<div className="mb-8">
+									<h3 className="text-lg font-semibold text-gray-800 border-b pb-4 mb-4">
+										📋 Maklumat Pengguna
+									</h3>
+									<div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
+										<p>
+											<span className="font-semibold">Nama:</span>{" "}
+											{maklumatJemaah?.NamaPengguna}
+										</p>
+										<p>
+											<span className="font-semibold">No Kad Pengenalan:</span>{" "}
+											{maklumatJemaah?.ICPengguna}
+										</p>
+										<p>
+											<span className="font-semibold">Emel:</span>{" "}
+											{maklumatJemaah?.EmelPengguna}
+										</p>
+										<p>
+											<span className="font-semibold">No Telefon:</span>{" "}
+											{maklumatJemaah?.TelNoPengguna}
+										</p>
+										<p className="md:col-span-2">
+											<span className="font-semibold">Alamat:</span>{" "}
+											{maklumatJemaah?.AlamatPengguna}
+										</p>
+									</div>
+								</div>
+
+								{/* Room & Guests Summary */}
+								<div>
+									<h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">
+										🛏️ Maklumat Bilik & Jemaah
+									</h3>
+
+									{rooms.map((room, index) => {
+										const totalGuests =
+											room.adult +
+											room.childWithBed +
+											room.childWithoutBed +
+											room.infant;
+
+										return (
+											<div key={index} className="mb-8">
+												<h4 className="text-md font-semibold text-gray-700 mb-2">
+													Bilik {index + 1} - {room.roomType}
+												</h4>
+
+												<div className="overflow-x-auto">
+													<table className="min-w-full border border-gray-300 bg-white shadow-sm">
+														<thead className="bg-gray-100 text-gray-700 text-sm">
+															<tr>
+																<th className="border px-4 py-2 text-left"></th>
+																<th className="border px-4 py-2 text-left">
+																	Nama Jemaah
+																</th>
+																<th className="border px-4 py-2 text-left">
+																	No Kad Pengenalan
+																</th>
+															</tr>
+														</thead>
+														<tbody className="text-sm text-gray-800">
+															{[...Array(totalGuests)].map((_, i) => (
+																<tr
+																	key={`summary-guest-${index}-${i}`}
+																	className="hover:bg-gray-50"
+																>
+																	<td className="border px-4 py-2">
+																		Jemaah {i + 1}
+																	</td>
+																	<td className="border px-4 py-2">
+																		{maklumatJemaah?.[
+																			`NamaJemaah${i + 1} - Bilik ${index + 1}`
+																		] || "N/A"}
+																	</td>
+																	<td className="border px-4 py-2">
+																		{maklumatJemaah?.[
+																			`ICJemaah${i + 1} - Bilik ${index + 1}`
+																		] || "N/A"}
+																	</td>
+																</tr>
+															))}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										);
+									})}
+								</div>
+
+								{/* Payment Choice */}
+								<div className="mb-6">
+									<h4 className="text-lg font-semibold text-gray-800 mb-2">
+										Payment Options
+									</h4>
+									<div className="flex justify-center gap-4">
+										<button
+											onClick={() => setPaymentOption("full")}
+											className={`py-3 px-6 w-1/2 rounded-lg shadow-md text-center transition duration-200 ${
+												paymentOption === "full"
+													? "bg-orange-500 text-white"
+													: "bg-gray-200 text-gray-600 hover:bg-gray-300"
+											}`}
+										>
+											Full Payment
+										</button>
+										<button
+											onClick={() => setPaymentOption("deposit")}
+											className={`py-3 px-6 w-1/2 rounded-lg shadow-md text-center transition duration-200 ${
+												paymentOption === "deposit"
+													? "bg-orange-500 text-white"
+													: "bg-gray-200 text-gray-600 hover:bg-gray-300"
+											}`}
+										>
+											Deposit
+										</button>
+									</div>
+								</div>
+							</div>
+						)}
+
+						<div className="flex justify-end items-center gap-4">
+							{currentStep > 1 && (
+								<button
+									onClick={handlePrevStep} // Go to the previous step
+									className="py-2 px-4 bg-gray-400 text-white rounded-sm hover:bg-gray-300 active:bg-gray-500 transition duration-200"
+								>
+									&lt; Sebelum
+								</button>
+							)}
+							{currentStep < 3 && (
+								<button
+									onClick={handleNextStep} // Move to the next step
+									className="py-2 px-4 bg-gray-400 text-white rounded-sm hover:bg-gray-300 active:bg-gray-500 transition duration-200"
+								>
+									Seterusnya &gt;
+								</button>
+							)}
+						</div>
+					</div>
+				</div>
+
+				{/* Right Side - Booking Summary */}
+				<div className="bg-white shadow-sm h-[55vh] lg:sticky top-0 overflow-y-clip lg:order-last order-first border-t-8 border-orange-500">
+					<div className="p-8">
+						<h3 className="text-lg font-bold mb-4">Booking Summary</h3>
+						<div className="mb-4">
+							<p className="text-gray-600">Umrah {kategori}</p>
+							<p className="text-gray-600">
 								{tarikh
 									? `${tarikh[0].toLocaleDateString("en-GB", {
 											day: "2-digit",
@@ -531,615 +1170,153 @@ const Main = () => {
 											month: "short",
 											year: "numeric",
 									  })}`
-									: "Pilih Tarikh"}
-							</span>
-						</li>
-					</ol>
-				</nav>
-				{/* Stepper */}
-				<ol className="flex lg:mx-32 mx-auto lg:px-auto pl-12 justify-center items-center w-full text-xs text-gray-900 font-medium sm:text-base">
-					{[1, 2, 3].map((step, index) => (
-						<li
-							key={step}
-							className={`flex w-full relative  ${
-								currentStep >= step ? "text-orange-600" : "text-gray-900"
-							}`}
-						>
-							{index < 2 && (
-								<div
-									className={`absolute lg:top-5 top-3 lg:left-1 left-2 w-full h-0.5 ${
-										currentStep > step ? "bg-orange-600" : "bg-gray-400"
-									} `}
-								></div>
-							)}
-							<div className="block whitespace-nowrap z-10">
-								<span
-									className={`w-6 h-6 ${
-										currentStep >= step ? "bg-orange-600" : "bg-gray-400"
-									} border-2 border-transparent rounded-full flex justify-center items-center mx-auto mb-3 text-sm text-white lg:w-10 lg:h-10  shadow-xl`}
-								>
-									{step}
-								</span>{" "}
-								Step {step}
-							</div>
-						</li>
-					))}
-				</ol>
-
-				<div className="bg-gray-50 border-t border-gray-300 lg:p-6 p-2">
-					{currentStep === 1 && (
-						<>
-							<div
-								id="tour-overview"
-								className="grid lg:grid-cols-2 grid-cols-1 gap-4 "
-							>
-								{rooms.map((room, index) => (
-									<div key={index} className="border rounded-lg p-4">
-										<div className="flex justify-between items-center mb-3">
-											<h3 className="text-lg">Room {index + 1}</h3>
-											{index > 0 && (
-												<button
-													className="flex items-center text-red-500 hover:underline hover:underline-offset-2 gap-2"
-													onClick={() => handleRemoveRoomOption(index)}
-												>
-													<CiCircleMinus className="text-red-700" />
-													Remove room option
-												</button>
-											)}
-										</div>
-										<div className="flex flex-col justify-between items-center mb-3">
-											<Select
-												name="roomType"
-												id="roomType"
-												className="w-full font-primary"
-												value={room.roomType || ""} // Ensure selected value is displayed
-												onChange={(value) => handleRoomTypeChange(index, value)} // Directly use `value`
-											>
-												<Select.Option value="">Select room type</Select.Option>
-												<Select.Option value="Berdua">
-													Bilik Berdua
-												</Select.Option>
-												<Select.Option value="Bertiga">
-													Bilik Bertiga
-												</Select.Option>
-												<Select.Option value="Berempat">
-													Bilik Berempat
-												</Select.Option>
-											</Select>
-										</div>
-
-										<div className="grid grid-cols-1 gap-3 py-4 border-t border-gray-300">
-											{[
-												{ type: "Adult", key: "adult" },
-												{ type: "Child w/ Bed", key: "childWithBed" },
-												{ type: "Child w/o Bed", key: "childWithoutBed" },
-												{ type: "Infant", key: "infant" },
-											].map(({ type, key }, idx) => (
-												<div
-													key={idx}
-													className="flex items-center justify-between w-full"
-												>
-													<span className="font-medium text-gray-600">
-														{type}
-													</span>
-													<div className="flex items-center gap-6">
-														<button
-															className="px-3 py-1 border border-orange-600 text-orange-600"
-															onClick={() => handleDecrement(index, key)}
-														>
-															-
-														</button>
-														<span className="text-md font-semibold text-gray-800 w-2">
-															{room[key]}
-														</span>
-														<button
-															className="px-3 py-1 border border-orange-600 text-orange-600"
-															onClick={() => handleIncrement(index, key)}
-														>
-															+
-														</button>
-													</div>
-												</div>
-											))}
-										</div>
-									</div>
-								))}
-
-								<div className="lg:col-span-2 col-span-1 mt-4 bg-green-100 p-3 rounded-sm">
-									<strong className="text-green-700">Guests Summary:</strong>
-									<p className="text-green-600">
-										{rooms.reduce(
-											(acc, room) =>
-												acc +
-												room.adult +
-												room.childWithBed +
-												room.childWithoutBed +
-												room.infant,
-											0
-										)}{" "}
-										Guests with bed:{" "}
-										{rooms
-											.flatMap((room) => room.adult + room.childWithBed)
-											.join(", ")}
-									</p>
-								</div>
-
-								<div className="my-4">
-									<button
-										className="px-4 py-2 border border-blue-500 text-blue-500 rounded-sm hover:bg-blue-500 hover:text-white"
-										onClick={handleAddRoomOption}
-									>
-										Add Room Option +
-									</button>
-								</div>
-							</div>
-						</>
-					)}
-
-					{currentStep === 2 && (
-						<div>
-							{/* User Details Form */}
-							<h3 className="text-xl mb-4 text-gray-800">Maklumat Pengguna</h3>
-							<form
-								id="user-details"
-								className="mb-6 grid lg:grid-cols-2 grid-cols-1 gap-4"
-							>
-								<input
-									type="text"
-									name="NamaPengguna"
-									placeholder="Nama"
-									value={maklumatJemaah?.NamaPengguna || ""}
-									onChange={(e) =>
-										setMaklumatJemaah((prev) => ({
-											...prev,
-											NamaPengguna: e.target.value,
-										}))
-									}
-									className="border px-3 py-2"
-									required
-								/>
-								<input
-									type="text"
-									name="ICPengguna"
-									placeholder="No IC"
-									value={maklumatJemaah?.ICPengguna || ""}
-									onChange={(e) =>
-										setMaklumatJemaah((prev) => ({
-											...prev,
-											ICPengguna: e.target.value,
-										}))
-									}
-									className="border px-3 py-2"
-									required
-								/>
-								<input
-									type="email"
-									name="EmelPengguna"
-									placeholder="Emel"
-									value={maklumatJemaah?.EmelPengguna || ""}
-									onChange={(e) =>
-										setMaklumatJemaah((prev) => ({
-											...prev,
-											EmelPengguna: e.target.value,
-										}))
-									}
-									className="border px-3 py-2"
-									required
-								/>
-								<input
-									type="tel"
-									name="TelNoPengguna"
-									placeholder="No Telefon"
-									value={maklumatJemaah?.TelNoPengguna || ""}
-									onChange={(e) =>
-										setMaklumatJemaah((prev) => ({
-											...prev,
-											TelNoPengguna: e.target.value,
-										}))
-									}
-									className="border px-3 py-2"
-									required
-								/>
-
-								{/* Guest Details Form (Based on Room Selection) */}
-								{rooms.map((room, index) => (
-									<div key={index} className="mb-6 border rounded-lg p-4">
-										<h4 className="font-bold text-lg mb-3">
-											Bilik {index + 1} - {room.roomType}
-										</h4>
-
-										{/* Name & IC Inputs for Main Guests */}
-										{[
-											...Array(
-												room.roomType === "Berdua"
-													? 2
-													: room.roomType === "Bertiga"
-													? 3
-													: 4
-											),
-										].map((_, i) => (
-											<div
-												key={`guest-${index}-${i}`}
-												className="grid grid-cols-2 gap-3 mb-2"
-											>
-												<input
-													type="text"
-													name={`NamaTetamu${i + 1} - Bilik ${index + 1}`}
-													placeholder={`Nama Tetamu ${i + 1}`}
-													value={
-														maklumatJemaah?.[
-															`NamaTetamu${i + 1} - Bilik ${index + 1}`
-														] || ""
-													}
-													onChange={(e) =>
-														setMaklumatJemaah((prev) => ({
-															...prev,
-															[`NamaTetamu${i + 1} - Bilik ${index + 1}`]:
-																e.target.value,
-														}))
-													}
-													className="border px-3 py-2"
-													required
-												/>
-												<input
-													type="text"
-													name={`ICTetamu${i + 1} - Bilik ${index + 1}`}
-													placeholder={`No IC Tetamu ${i + 1}`}
-													value={
-														maklumatJemaah?.[
-															`ICTetamu${i + 1} - Bilik ${index + 1}`
-														] || ""
-													}
-													onChange={(e) => {
-														const formattedValue = formatICNumber(
-															e.target.value
-														);
-														setMaklumatJemaah((prev) => ({
-															...prev,
-															[`ICTetamu${i + 1} - Bilik ${index + 1}`]:
-																formattedValue,
-														}));
-													}}
-													onBlur={(e) => {
-														const value = e.target.value;
-														if (value && !isValidMalaysianIC(value)) {
-															alert("Invalid Malaysian IC format or details!");
-															setMaklumatJemaah((prev) => ({
-																...prev,
-																[`ICTetamu${i + 1} - Bilik ${index + 1}`]: "", // Reset invalid value
-															}));
-														}
-													}}
-													className="border px-3 py-2"
-													required
-												/>
-											</div>
-										))}
-
-										{/* Additional Guests (Child w/o Bed + Infant) */}
-										{[...Array(room.childWithoutBed + room.infant)].map(
-											(_, i) => (
-												<div
-													key={`extra-guest-${index}-${i}`}
-													className="grid grid-cols-2 gap-3 mb-2"
-												>
-													<input
-														type="text"
-														placeholder={`Nama Tambahan ${i + 1}`}
-														className="border px-3 py-2"
-														required
-													/>
-													<input
-														type="text"
-														placeholder={`No IC Tambahan ${i + 1}`}
-														className="border px-3 py-2"
-														required
-													/>
-												</div>
-											)
-										)}
-									</div>
-								))}
-							</form>
+									: ""}
+							</p>
 						</div>
-					)}
-
-					{currentStep === 3 && (
-						<div id="summary-overview" className="p-6">
-							<h3 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
-								Trip Summary
-							</h3>
-
-							{/* Pax and Room Type Summary */}
-							<div className="mb-6">
-								<div className="flex justify-between items-center border-b pb-4 mb-4">
-									<div className="text-gray-600 font-medium">
-										<span className="block mb-2">Number of Pax:</span>
-										<span className="block mb-2">Room Type:</span>
-										<span className="block mb-2">Trip Date:</span>
-									</div>
-									<div className="text-gray-800 font-semibold text-right">
-										<span className="block mb-2">
-											{rooms.reduce(
+						{/* Calculate total counts */}
+						{rooms.length > 0 && (
+							<>
+								{/* Adult Summary */}
+								<div className="flex justify-between mb-2">
+									<span>
+										Adult x {rooms.reduce((acc, room) => acc + room.adult, 0)}
+									</span>
+									<span>
+										RM{" "}
+										{rooms
+											.reduce(
 												(acc, room) =>
 													acc +
-													room.adult +
-													room.childWithBed +
-													room.childWithoutBed,
+														room.adult * roomPrices[selectedOption]?.adult || 0,
 												0
-											)}{" "}
-											Pax
-										</span>
-										<span className="block mb-2">{selectedOption}</span>
-										<span className="block mb-2">
-											{/* {tarikh} - {tarikhAkhir}{" "} */}
-										</span>
-									</div>
+											)
+											.toFixed(2)}
+									</span>
 								</div>
-							</div>
 
-							{/* Payment Choice */}
-							<div className="mb-6">
-								<h4 className="text-lg font-semibold text-gray-800 mb-2">
-									Payment Options
-								</h4>
-								<div className="flex justify-center gap-4">
-									<button
-										onClick={() => setPaymentOption("full")}
-										className={`py-3 px-6 w-1/2 rounded-lg shadow-md text-center transition duration-200 ${
-											paymentOption === "full"
-												? "bg-orange-500 text-white"
-												: "bg-gray-200 text-gray-600 hover:bg-gray-300"
-										}`}
-									>
-										Full Payment
-									</button>
-									<button
-										onClick={() => setPaymentOption("deposit")}
-										className={`py-3 px-6 w-1/2 rounded-lg shadow-md text-center transition duration-200 ${
-											paymentOption === "deposit"
-												? "bg-orange-500 text-white"
-												: "bg-gray-200 text-gray-600 hover:bg-gray-300"
-										}`}
-									>
-										Deposit
-									</button>
+								{/* Child With Bed Summary */}
+								<div className="flex justify-between mb-2">
+									<span>
+										Child With Bed x{" "}
+										{rooms.reduce((acc, room) => acc + room.childWithBed, 0)}
+									</span>
+									<span>
+										RM{" "}
+										{rooms
+											.reduce(
+												(acc, room) =>
+													acc +
+														room.childWithBed *
+															roomPrices[selectedOption]?.childWithBed || 0,
+												0
+											)
+											.toFixed(2)}
+									</span>
 								</div>
-							</div>
 
-							<div className="mb-6">
-								<button
-									onClick={handlePayment}
-									className="bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg shadow-md w-full transition duration-200"
-								>
-									Continue to Payment
-								</button>
-							</div>
-
-							{/* Payment Channel Selection */}
-							{/* <div className="mb-6">
-								<h4 className="text-lg font-semibold text-gray-800 mb-2">
-									Payment Channel
-								</h4>
-								<div className="flex flex-col gap-3">
-									{[
-										{ name: "Credit Card", logo: "/PaymentChannel/Card.png" },
-										{ name: "FPX", logo: "/PaymentChannel/FPX.png" },
-										{ name: "E-Wallet", logo: "/PaymentChannel/EWallet.png" },
-									].map((channel, index) => (
-										<button
-											key={index}
-											onClick={() => setPaymentChannel(channel.name)}
-											aria-pressed={paymentChannel === channel.name}
-											className={`flex items-center justify-between py-3 px-4 rounded-lg shadow-md transition duration-200
-          ${
-						paymentChannel === channel.name
-							? "border-2 border-orange-500 bg-orange-50"
-							: "border border-gray-300 hover:border-orange-300 hover:bg-orange-100"
-					}`}
-										>
-											<div className="flex items-center gap-3">
-												<img
-													src={channel.logo}
-													alt={`${channel.name} Logo`}
-													className="w-6 h-6 object-contain"
-												/>
-												<span className="text-gray-800 font-medium">
-													{channel.name}
-												</span>
-											</div>
-											{paymentChannel === channel.name && (
-												<span className="text-orange-500 font-semibold">
-													&#10003;
-												</span>
-											)}
-										</button>
-									))}
+								{/* Child With Bed Summary */}
+								<div className="flex justify-between mb-2">
+									<span>
+										Child Without Bed x{" "}
+										{rooms.reduce((acc, room) => acc + room.childWithoutBed, 0)}
+									</span>
+									<span>
+										RM{" "}
+										{rooms
+											.reduce(
+												(acc, room) =>
+													acc +
+														room.childWithoutBed *
+															roomPrices[selectedOption]?.childWithoutBed || 0,
+												0
+											)
+											.toFixed(2)}
+									</span>
 								</div>
-							</div> */}
+
+								{/* Child Without Bed Summary */}
+								<div className="flex justify-between mb-2">
+									<span>
+										Infant x {rooms.reduce((acc, room) => acc + room.infant, 0)}
+									</span>
+									<span>
+										RM{" "}
+										{rooms
+											.reduce(
+												(acc, room) =>
+													acc +
+														room.infant * roomPrices[selectedOption]?.infant ||
+													0,
+												0
+											)
+											.toFixed(2)}
+									</span>
+								</div>
+							</>
+						)}
+
+						{/* Discount */}
+						<div className="flex justify-between mb-2">
+							<span>Discount</span>
+							<span>RM 0</span>
 						</div>
-					)}
+						<hr className="my-4" />
 
-					<div className="flex justify-end items-center gap-4">
-						{currentStep > 1 && (
-							<button
-								onClick={handlePrevStep} // Go to the previous step
-								className="mt-6 py-2 px-4 bg-gray-400 text-white rounded-sm hover:bg-gray-300 active:bg-gray-500 transition duration-200"
-							>
-								&lt; Sebelum
-							</button>
-						)}
-						{currentStep < 3 && (
-							<button
-								onClick={handleNextStep} // Move to the next step
-								className="mt-6 py-2 px-4 bg-gray-400 text-white rounded-sm hover:bg-gray-300 active:bg-gray-500 transition duration-200"
-							>
-								Seterusnya &gt;
-							</button>
-						)}
+						{/* Booking Deposit */}
+						<div className="flex justify-between mb-2 font-semibold">
+							<span>Booking Deposit</span>
+							<span>RM {totalCost.toFixed(2)}</span>
+						</div>
+
+						{/* Calculate Gross Total */}
+						<div className="flex justify-between mb-2 text-red-500 font-bold">
+							<span>GROSS TOTAL</span>
+							<span>
+								RM{" "}
+								{rooms
+									.reduce(
+										(acc, room) =>
+											acc +
+											(room.adult * roomPrices[selectedOption]?.adult || 0) +
+											(room.childWithBed *
+												roomPrices[selectedOption]?.childWithBed || 0) +
+											(room.childWithoutBed *
+												roomPrices[selectedOption]?.childWithoutBed || 0) +
+											(room.infant * roomPrices[selectedOption]?.infant || 0),
+										0
+									)
+									.toFixed(2)}
+							</span>
+						</div>
+
+						{/* Calculate After Discount */}
+						<div className="flex justify-between mb-2 text-red-500 font-bold">
+							<span>AFTER DISCOUNT</span>
+							<span>
+								RM{" "}
+								{rooms
+									.reduce(
+										(acc, room) =>
+											acc +
+											(room.adult * roomPrices[selectedOption]?.adult || 0) +
+											(room.childWithBed *
+												roomPrices[selectedOption]?.childWithBed || 0) +
+											(room.childWithoutBed *
+												roomPrices[selectedOption]?.childWithoutBed || 0) +
+											(room.infant * roomPrices[selectedOption]?.infant || 0),
+										0
+									)
+									.toFixed(2)}
+							</span>
+						</div>
+
+						<button
+							onClick={handlePayment}
+							className="w-full bg-orange-500 text-white py-2 rounded mt-4 hover:bg-red-700"
+						>
+							Proceed to Payment
+						</button>
 					</div>
-				</div>
-			</div>
-
-			{/* Right Side - Booking Summary */}
-			<div className="bg-gray-50 rounded-lg shadow h-[55vh] lg:sticky top-0 overflow-y-clip lg:order-last order-first">
-				<div className="p-8">
-					<h3 className="text-lg font-bold mb-4">Booking Summary</h3>
-					<div className="mb-4">
-						<p className="text-gray-600">Umrah {kategori}</p>
-						<p className="text-gray-600">
-							{tarikh
-								? `${tarikh[0].toLocaleDateString("en-GB", {
-										day: "2-digit",
-										month: "short",
-										year: "numeric",
-								  })} - ${tarikh[1].toLocaleDateString("en-GB", {
-										day: "2-digit",
-										month: "short",
-										year: "numeric",
-								  })}`
-								: "Pilih Tarikh"}
-						</p>
-					</div>
-					{/* Calculate total counts */}
-					{rooms.length > 0 && (
-						<>
-							{/* Adult Summary */}
-							<div className="flex justify-between mb-2">
-								<span>
-									Adult x {rooms.reduce((acc, room) => acc + room.adult, 0)}
-								</span>
-								<span>
-									RM{" "}
-									{rooms
-										.reduce(
-											(acc, room) =>
-												acc + room.adult * roomPrices[selectedOption]?.adult ||
-												0,
-											0
-										)
-										.toFixed(2)}
-								</span>
-							</div>
-
-							{/* Child With Bed Summary */}
-							<div className="flex justify-between mb-2">
-								<span>
-									Child With Bed x{" "}
-									{rooms.reduce((acc, room) => acc + room.childWithBed, 0)}
-								</span>
-								<span>
-									RM{" "}
-									{rooms
-										.reduce(
-											(acc, room) =>
-												acc +
-													room.childWithBed *
-														roomPrices[selectedOption]?.childWithBed || 0,
-											0
-										)
-										.toFixed(2)}
-								</span>
-							</div>
-
-							{/* Child With Bed Summary */}
-							<div className="flex justify-between mb-2">
-								<span>
-									Child Without Bed x{" "}
-									{rooms.reduce((acc, room) => acc + room.childWithoutBed, 0)}
-								</span>
-								<span>
-									RM{" "}
-									{rooms
-										.reduce(
-											(acc, room) =>
-												acc +
-													room.childWithoutBed *
-														roomPrices[selectedOption]?.childWithoutBed || 0,
-											0
-										)
-										.toFixed(2)}
-								</span>
-							</div>
-
-							{/* Child Without Bed Summary */}
-							<div className="flex justify-between mb-2">
-								<span>
-									Infant x {rooms.reduce((acc, room) => acc + room.infant, 0)}
-								</span>
-								<span>
-									RM{" "}
-									{rooms
-										.reduce(
-											(acc, room) =>
-												acc +
-													room.infant * roomPrices[selectedOption]?.infant || 0,
-											0
-										)
-										.toFixed(2)}
-								</span>
-							</div>
-						</>
-					)}
-
-					{/* Discount */}
-					<div className="flex justify-between mb-2">
-						<span>Discount</span>
-						<span>RM 0</span>
-					</div>
-					<hr className="my-4" />
-
-					{/* Booking Deposit */}
-					<div className="flex justify-between mb-2 font-semibold">
-						<span>Booking Deposit</span>
-						<span>RM {totalCost.toFixed(2)}</span>
-					</div>
-
-					{/* Calculate Gross Total */}
-					<div className="flex justify-between mb-2 text-red-500 font-bold">
-						<span>GROSS TOTAL</span>
-						<span>
-							RM{" "}
-							{rooms
-								.reduce(
-									(acc, room) =>
-										acc +
-										(room.adult * roomPrices[selectedOption]?.adult || 0) +
-										(room.childWithBed *
-											roomPrices[selectedOption]?.childWithBed || 0) +
-										(room.childWithoutBed *
-											roomPrices[selectedOption]?.childWithoutBed || 0) +
-										(room.infant * roomPrices[selectedOption]?.infant || 0),
-									0
-								)
-								.toFixed(2)}
-						</span>
-					</div>
-
-					{/* Calculate After Discount */}
-					<div className="flex justify-between mb-2 text-red-500 font-bold">
-						<span>AFTER DISCOUNT</span>
-						<span>
-							RM{" "}
-							{rooms
-								.reduce(
-									(acc, room) =>
-										acc +
-										(room.adult * roomPrices[selectedOption]?.adult || 0) +
-										(room.childWithBed *
-											roomPrices[selectedOption]?.childWithBed || 0) +
-										(room.childWithoutBed *
-											roomPrices[selectedOption]?.childWithoutBed || 0) +
-										(room.infant * roomPrices[selectedOption]?.infant || 0),
-									0
-								)
-								.toFixed(2)}
-						</span>
-					</div>
-
-					<button className="w-full bg-red-500 text-white py-2 rounded mt-4 hover:bg-red-700">
-						Proceed to Payment
-					</button>
 				</div>
 			</div>
 		</div>

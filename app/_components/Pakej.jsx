@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import * as motion from "framer-motion/client";
 import Axios from "axios";
+import { Skeleton } from "@/components/ui/skeleton";
 const PackageCard = ({ href, imageSrc, title, price, items }) => (
 	<div className="max-w-screen-xl rounded-2xl overflow-hidden shadow-md bg-gradient-to-br from-white to-gray-50">
 		<div className="relative group">
@@ -68,8 +69,10 @@ const PackageCard = ({ href, imageSrc, title, price, items }) => (
 
 const Pakej = () => {
 	const [packages, setPackages] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 	useEffect(() => {
 		const fetchPackages = async () => {
+			setIsLoading(true);
 			try {
 				const response = await Axios.get("/api/Tetapan/ManagePackage", {
 					params: {
@@ -81,6 +84,8 @@ const Pakej = () => {
 				setPackages(packagesData);
 			} catch (error) {
 				console.error("Error fetching packages:", error);
+			} finally {
+				setIsLoading(false);
 			}
 		};
 		fetchPackages();
@@ -111,29 +116,33 @@ const Pakej = () => {
 				</motion.header>
 				<div className="mx-auto max-w-screen-xl sm:px-2 py-6">
 					<ul className="grid gap-2 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3">
-						{packages.map((pkg, index) => (
-							<motion.li
-								key={pkg.PakejID} // Ensure each list item has a unique key
-								initial={{ opacity: 0, y: 100 }}
-								whileInView={{ opacity: 1, y: 0 }}
-								transition={{ duration: 1, delay: index * 0.2 }}
-								viewport={{ once: true }}
-							>
-								<PackageCard
-									href={`/Pakej/Pakej-Umrah?kategori=${
-										pkg.PakejName || "Unknown"
-									}`}
-									imageSrc={
-										pkg.PakejName
-											? `/Pakej/${pkg.PakejName}.jpg`
-											: "/default-image.jpg"
-									}
-									title={`Pakej Umrah ${pkg.PakejName}` || ""}
-									price={`RM ${pkg.Adult_Quad || "N/A"}`}
-									items={["Visa", "Makan", "Penerbangan", "Hotel"]}
-								/>
-							</motion.li>
-						))}
+						{isLoading
+							? [...Array(3)].map((_, index) => (
+									<Skeleton key={index} className="min-h-[50vh]" />
+							  ))
+							: packages.map((pkg, index) => (
+									<li
+										key={pkg.PakejID} // Ensure each list item has a unique key
+										// initial={{ opacity: 0, y: 100 }}
+										// whileInView={{ opacity: 1, y: 0 }}
+										// transition={{ duration: 1, delay: index * 0.2 }}
+										// viewport={{ once: true }}
+									>
+										<PackageCard
+											href={`/Pakej/Pakej-Umrah?kategori=${
+												pkg.PakejName || "Unknown"
+											}`}
+											imageSrc={
+												pkg.PakejName
+													? `/Pakej/${pkg.PakejName}.jpg`
+													: "/default-image.jpg"
+											}
+											title={`Pakej Umrah ${pkg.PakejName}` || ""}
+											price={`RM ${pkg.Adult_Quad || "N/A"}`}
+											items={["Visa", "Makan", "Penerbangan", "Hotel"]}
+										/>
+									</li>
+							  ))}
 					</ul>
 				</div>
 			</div>

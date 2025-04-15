@@ -159,6 +159,11 @@ const MainPage = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (selectedDate.length === 0) {
+			setActiveTab(1);
+			tabs[1].ref.current?.scrollIntoView({
+				behavior: "smooth",
+				block: "start",
+			});
 			setShowAlert(true);
 		} else {
 			const query = `kategori=${encodeURIComponent(
@@ -221,19 +226,19 @@ const MainPage = () => {
 	};
 
 	return (
-		<div className="flex flex-col min-h-screen pb-12 bg-gray-200">
+		<div className="flex flex-col min-h-screen pb-12 bg-gray-100">
 			<div
-				className="relative h-[95vh] bg-cover bg-top bg-no-repeat overflow-hidden z-0"
+				className="relative lg:h-[55vh] h-[90vh] bg-cover bg-center bg-no-repeat overflow-hidden z-0"
 				style={{
 					backgroundImage: "url('/Pakej/1.JPG')",
 				}}
 			>
 				{/* Gradient Overlay */}
-				<div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-gray-200"></div>
+				<div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-gray-100"></div>
 
 				{/* Content */}
-				<div className="relative z-10 flex flex-col items-start justify-start w-full h-full bg-gradient-to-b from-black/70 via-transparent to-gray-200 py-14 px-12">
-					<h1 className="text-7xl font-semibold text-white text-center uppercase text-shadow-2xl">
+				<div className="relative z-10 flex flex-col items-start justify-start w-full h-full bg-gradient-to-b from-black/70 via-transparent to-gray-100 py-14 px-12">
+					<h1 className="lg:text-7xl text-5xl font-semibold text-white text-center uppercase text-shadow-2xl">
 						Pakej Umrah {kategori}
 					</h1>
 					<p className="text-center text-orange-600 font-reenie text-3xl my-2 font-semibold drop-shadow-white">
@@ -250,7 +255,7 @@ const MainPage = () => {
 			)}
 			<div className="flex flex-col">
 				<div className="mx-auto grid sm:grid-cols-1 lg:grid-cols-3 grid-rows-[auto,auto,1fr] max-w-screen-2xl gap-2">
-					<div className="lg:col-span-2 sm:col-span-1 overflow-hidden sm:order-second lg:order-first border-r border-gray-200">
+					<div className="lg:col-span-2 sm:col-span-1 overflow-hidden sm:order-second lg:order-first border-r border-gray-200 px-4">
 						<div className="p-2">
 							{/* Tabs Navigation */}
 							<div className="border-b border-gray-300 flex overflow-x-auto">
@@ -304,8 +309,8 @@ const MainPage = () => {
 											keys: ["Infant_Quad", "Infant_Triple", "Infant_Double"],
 										},
 									].map((category, catIdx) => (
-										<div key={catIdx}>
-											<div className="grid sm:grid-cols-1 lg:grid-cols-4 text-center border border-gray-300 lg:divide-y-0 sm:divide-x-0 sm:divide-y divide-gray-300 bg-gray-50 py-6">
+										<div key={catIdx} className="border-b-2 border-gray-500">
+											<div className="grid sm:grid-cols-1 lg:grid-cols-4 text-center lg:divide-y-0 sm:divide-x-0 sm:divide-y divide-gray-300 bg-gray-50 p-2 gap-2">
 												<h3 className="flex items-center text-xl font-semibold text-gray-500 px-4 sm:py-4 py-0">
 													{category.title}
 												</h3>
@@ -320,14 +325,11 @@ const MainPage = () => {
 														: 1;
 
 													return (
-														<div
-															key={idx}
-															className="flex flex-col items-end p-6 "
-														>
+														<div key={idx}>
 															{loadingPackages ? (
 																<Skeleton height={50} />
 															) : (
-																<>
+																<div className="flex flex-col items-end p-4 rounded-md border border-gray-300">
 																	<div className="flex items-center justify-between gap-2 text-gray-600">
 																		<div className="flex items-center gap-1">
 																			<GiBed className="text-xl" />
@@ -351,7 +353,7 @@ const MainPage = () => {
 																		{packages[0]?.[type]?.toLocaleString() ||
 																			"N/A"}
 																	</div>
-																</>
+																</div>
 															)}
 														</div>
 													);
@@ -519,9 +521,8 @@ const MainPage = () => {
 					</div>
 
 					{/* Sticky Product Information Section */}
-					<div className="relative xs:-mt-[50vh] sm:-mt-[60vh] xs:mx-6 sm:mx-12 mt-0 lg:sticky lg:top-40 xs:order-first sm:order-first lg:order-second p-6 rounded-sm text-center bg-white min-h-80 max-h-96 border border-gray-300 shadow-sm overflow-hidden">
+					<div className="relative xs:-mt-[50vh] sm:-mt-[60vh] xs:mx-6 sm:mx-12 mt-0 lg:sticky lg:top-40 xs:order-first sm:order-first lg:order-second p-6 rounded-sm text-center bg-gray-50 min-h-80 max-h-96 border border-gray-200 shadow-lg overflow-hidden">
 						{/* Background Image Overlay */}
-						<div className="absolute inset-0 bg-[url(/Bg-card.png)] bg-cover bg-center opacity-20 brightness-90"></div>
 
 						<div className="absolute inset-0 flex flex-col justify-center p-4 bg-gray-50/20">
 							{/* Package Title */}
@@ -595,11 +596,11 @@ const MainPage = () => {
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 px-8">
 							{places.map((place, index) => (
 								<div key={index}>
-									<div className="px-4 border-b-8 border-gray-600">
+									<div className="px-4 border-b-8 border-orange-400">
 										<img
 											src={place.imgSrc}
 											alt={place.title}
-											className="w-full h-48 object-cover rounded-t-md bg-custom-gradient shadow-custom-shadow"
+											className="w-full h-48 object-cover rounded-t-md bg-custom-gradient shadow-2xl"
 										/>
 									</div>
 									<div className="p-4">

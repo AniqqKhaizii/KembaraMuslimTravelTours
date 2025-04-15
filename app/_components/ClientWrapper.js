@@ -7,16 +7,24 @@ import Whatsapp from "./Whatsapp";
 import { ConfigProvider } from "antd";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
 export default function ClientWrapper({ children }) {
 	const pathname = usePathname();
-	const isAdminPage = pathname.includes("/Admin"); // Check if the path includes /Admin
+	const isAdminPage = pathname.includes("/Admin");
+
+	const [isMounted, setIsMounted] = useState(false);
+
 	useEffect(() => {
 		AOS.init({
 			duration: 1000,
 			once: true,
 		});
+		setIsMounted(true);
 	}, []);
+
+	if (!isMounted) return null; // Prevent hydration issues
+
 	return (
 		<ConfigProvider
 			theme={{

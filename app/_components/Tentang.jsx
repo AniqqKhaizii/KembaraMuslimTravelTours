@@ -6,14 +6,14 @@ export default function HeroSection() {
 	return (
 		<section className="lg:px-48 px-12 flex flex-col lg:flex-row lg:items-center justify-center lg:justify-around lg:py-24 py-12">
 			{/* Image Grid */}
-			<div className="grid lg:grid-cols-2 grid-cols-1 items-start gap-4 w-1/2 lg:w-1/3">
-				<motion.div
-					initial={{ y: 100 }}
-					whileInView={{ y: 0 }}
-					transition={{ ease: "easeInOut", duration: 1 }}
-					viewport={{ once: true, amount: 0.2 }}
-					className="flex lg:flex-col flex-row gap-4"
-				>
+			<motion.div
+				className="grid lg:grid-cols-2 grid-cols-1 items-start gap-4 w-1/2 lg:w-1/3"
+				initial={{ x: -100 }}
+				whileInView={{ x: 0 }}
+				transition={{ ease: "easeInOut", duration: 1 }}
+				viewport={{ once: true, amount: 0.2 }}
+			>
+				<div className="flex lg:flex-col flex-row gap-4">
 					<Image
 						src="/Tentang/1.jpg"
 						alt="Train in Switzerland"
@@ -26,22 +26,16 @@ export default function HeroSection() {
 						alt="Street View"
 						width={300}
 						height={200}
-						className=""
+						className="lg:rounded-es-lg rounded-se-lg"
 					/>
-				</motion.div>
-				<motion.div
-					initial={{ y: -50 }}
-					whileInView={{ y: 0 }}
-					transition={{ ease: "easeInOut", duration: 1 }}
-					viewport={{ once: true, amount: 0.2 }}
-					className="flex lg:flex-col flex-row gap-4"
-				>
+				</div>
+				<div className="flex lg:flex-col flex-row gap-4">
 					<Image
 						src="/Tentang/3.jpg"
 						alt="Hot Air Balloons"
 						width={300}
 						height={200}
-						className="h-[35vh]"
+						className="h-[35vh] lg:rounded-se-lg rounded-es-lg"
 					/>
 					<Image
 						src="/Tentang/4.jpg"
@@ -50,8 +44,8 @@ export default function HeroSection() {
 						height={200}
 						className="rounded-ee-full"
 					/>
-				</motion.div>
-			</div>
+				</div>
+			</motion.div>
 
 			{/* Text Content */}
 			<motion.div
