@@ -84,19 +84,19 @@ const PakejUmrah = () => {
 	}, []);
 
 	return (
-		<div className="mx-auto max-w-screen-4xl px-14 py-12 z-10 bg-gray-100">
-			<div className="flex items-center justify-between max-w-screen-lg text-left mx-auto  sm:px-2 py-6 z-0">
+		<div className="mx-auto max-w-screen-4xl px-6 py-12 z-10 bg-gray-100">
+			<div className="flex items-end justify-between max-w-screen-lg lg:text-left text-center mx-auto  sm:px-2 py-6 z-0">
 				<div>
-					<h1 className="text-4xl font-bold text-left text-orange-600">
+					<h1 className="text-4xl font-bold font-header lg:text-left text-center text-orange-600">
 						Senarai Pakej Umrah
 					</h1>
-					<h2 className="max-w-screen-md text-md font-regular text-left text-gray-800">
+					<h2 className="mt-2 max-w-screen-md text-md font-regular  text-gray-800">
 						Pelbagai pakej umrah yang berpatutan dan menarik disediakan mengikut
 						citarasa anda. Anda hanya perlu membuat tempahan dan kami akan
 						selesaikan selebihnya untuk anda!
 					</h2>
 				</div>
-				<div className="flex items-end justify-end">
+				<div className="lg:flex hidden items-end justify-end">
 					<span className="text-left mx-auto max-w-screen-lg sm:px-2 py-6 z-0">
 						Showing all {packages.length} results
 					</span>

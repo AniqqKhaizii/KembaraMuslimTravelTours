@@ -16,7 +16,7 @@ const Hero = () => {
 				<p className="text-center text-orange-600 font-reenie text-2xl my-2 font-semibold">
 					"See the World, Stay True to Your Faith"
 				</p>
-				<h1 className="text-center text-5xl font-bold text-white">
+				<h1 className="text-center text-5xl font-bold font-header text-white">
 					Galeri Kembara Muslim
 				</h1>
 			</div>

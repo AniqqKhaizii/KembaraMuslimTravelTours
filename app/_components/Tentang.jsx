@@ -4,7 +4,7 @@ import CountUp from "react-countup";
 import * as motion from "framer-motion/client";
 export default function HeroSection() {
 	return (
-		<section className="lg:px-48 px-12 flex flex-col lg:flex-row lg:items-center justify-center lg:justify-around lg:py-24 py-12">
+		<section className="lg:px-48 px-12 flex flex-col lg:flex-row lg:items-center justify-center lg:justify-around lg:py-32 py-24">
 			{/* Image Grid */}
 			<motion.div
 				className="grid lg:grid-cols-2 grid-cols-1 items-start gap-4 w-1/2 lg:w-1/3"
@@ -58,22 +58,19 @@ export default function HeroSection() {
 				<span className="bg-red-100 text-red-600 px-4 py-1 text-sm rounded-full">
 					Rakan Umrah Terbaik Anda
 				</span>
-				<h1 className="text-4xl font-bold mt-4">
+				<h1 className="text-4xl font-bold mt-2 font-header">
 					Kembara Muslim <span className="text-orange-600">Travel & Tours</span>
 				</h1>
 				<p className="mt-2 text-gray-600 flex items-center justify-center lg:justify-start">
 					Google Rating: <span className="text-yellow-500 ml-2">★★★★★ 4.9</span>
 				</p>
-				<p className="mt-4 text-gray-700">
+				<p className="mt-2 text-gray-700">
 					Kepakaran kami adalah menguruskan dan memastikan umrah anda selesa dan
 					sempurna.
 				</p>
-				{/* <button className="mt-6 bg-orange-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-orange-600 transition">
-					Semua Pakej
-				</button> */}
 
 				{/* Stats with CountUp Animation */}
-				<div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+				<div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
 					<div>
 						<h3 className="text-2xl font-bold text-red-600 lg:text-left text-center">
 							<CountUp start={0} end={10000} duration={2.5} separator="," />+
@@ -106,6 +103,20 @@ export default function HeroSection() {
 							Jenis pakej yang berbeza
 						</p>
 					</div>
+				</div>
+
+				<div className="mt-4 text-left">
+					<p className="text-gray-600 text-justify text-sm">
+						Kembara Muslim Travel & Tours Sdn Bhd ialah sebuah agensi
+						pelancongan berlesen yang berpusat di Ayer Hitam, Kedah dan
+						berdaftar di bawah Kementerian Pelancongan, Seni dan Budaya Malaysia
+						(MOTAC). Syarikat ini terkenal dalam menguruskan pakej Umrah, serta
+						menawarkan pelbagai pakej pelancongan domestik dan antarabangsa.
+						Mereka dikenali dengan perkhidmatan yang berkualiti dan harga yang
+						mampu milik, sesuai untuk pelbagai golongan. Antara tawaran mereka
+						termasuklah pakej Umrah berkumpulan, percutian keluarga, serta
+						program ziarah yang lengkap dan mesra Muslim.
+					</p>
 				</div>
 			</motion.div>
 		</section>

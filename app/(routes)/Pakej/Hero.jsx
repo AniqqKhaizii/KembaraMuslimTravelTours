@@ -16,7 +16,9 @@ const Hero = () => {
 				<p className="text-center text-orange-600 font-reenie text-2xl my-2 font-semibold">
 					"Discover Cultures, Embrace Your Beliefs"
 				</p>
-				<h1 className="text-5xl font-bold text-white">Pakej Umrah</h1>
+				<h1 className="text-5xl font-bold font-header text-white">
+					Pakej Umrah Kami
+				</h1>
 			</div>
 		</div>
 	);

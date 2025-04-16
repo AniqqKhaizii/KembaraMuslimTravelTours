@@ -103,7 +103,7 @@ function Header() {
 			path: "/Admin",
 		},
 	];
-
+	// bg-[linear-gradient(120deg,_#fdfbfb_0%,_#ebedee_50%,_#fdfbfb_100%)] lg:w-3/5 w-4/5 mx-auto rounded-2xl mt-4 px-4
 	return (
 		<div className="flex justify-center">
 			<motion.header
@@ -113,10 +113,12 @@ function Header() {
 				viewport={{ once: true }}
 				className={`${
 					isPakejPage ? "relative" : "fixed"
-				} top-0 z-[9999] transition-all duration-900 shadow-xl text-[13px] ${
+				} top-0 z-[9999] transition-all duration-900 text-[14px] ${
 					sticky || isMultiDirectory || !isLargeScreen
-						? "bg-gradient-to-br from-[#b7c21c] to-[#e76f21] w-full text-white lg:px-12 px-4"
-						: "bg-[linear-gradient(120deg,_#fdfbfb_0%,_#ebedee_50%,_#fdfbfb_100%)] lg:w-3/5 w-4/5 mx-auto rounded-2xl mt-4 px-4 "
+						? "bg-gradient-to-br from-[#b7c21c] to-[#e76f21] shadow-xl w-full text-white lg:px-12 px-4 py-0"
+						: isHomePage
+						? "lg:w-3/5 w-4/5 mx-auto rounded-2xl py-4 px-4"
+						: "lg:w-3/5 w-4/5 mx-auto rounded-2xl mt-4 px-4 text-white"
 				}`}
 			>
 				<div className="flex items-center justify-between w-full max-w-screen-2xl mx-auto">
@@ -126,15 +128,21 @@ function Header() {
 								<img
 									src="/LOGOKMTT.png"
 									alt="KMTT Logo"
-									width={65}
-									height={65}
-									className="object-contain object-center mt-2"
+									className={`object-contain object-center ${
+										sticky || isMultiDirectory || !isLargeScreen
+											? "w-24 h-16"
+											: "w-32 h-20"
+									} mt-2`}
 								/>
 							</a>
 						</div>
 
 						{/* Desktop Menu */}
-						<div className="hidden lg:block">
+						<div
+							className={`hidden lg:block ${
+								sticky || isMultiDirectory || !isLargeScreen ? "mt-0" : "-mt-4"
+							}`}
+						>
 							<nav aria-label="Global">
 								<ul className="md:flex gap-2 hidden">
 									{Menu.map((item, index) => (
@@ -157,7 +165,7 @@ function Header() {
 												)}
 											</Link>
 											{item.submenu && (
-												<ul className="absolute -left-10 border-t-4 w-[24vw] border-zinc-800 top-6 opacity-0 scale-95 bg-orange-500 p-2 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-lg mt-5 grid grid-cols-1 lg:grid-cols-2">
+												<ul className="absolute -left-10 border-t-4 w-[24vw] border-zinc-800 top-6 opacity-0 scale-95 bg-orange-500 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-lg mt-5 grid grid-cols-1 lg:grid-cols-2">
 													{item.submenu.map((subItem) => (
 														<li
 															key={subItem.id}

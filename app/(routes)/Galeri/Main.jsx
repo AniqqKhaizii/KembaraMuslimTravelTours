@@ -130,7 +130,7 @@ const Main = () => {
 
 				{/* Umrah Tips Section */}
 				<section>
-					<h2 className="text-4xl text-orange-600 font-extrabold mb-8 text-center">
+					<h2 className="text-4xl text-orange-600 font-bold font-header mb-8 text-center">
 						Tips Mengerjakan Umrah
 					</h2>
 					<Carousel

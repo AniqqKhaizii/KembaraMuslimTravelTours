@@ -40,7 +40,7 @@ const Testimonial = () => {
 				<p className="text-center text-gray-700 font-reenie text-2xl font-semibold">
 					Truly enriching journey!
 				</p>
-				<h2 className="text-center text-5xl font-regular tracking-tight text-orange-600 sm:text-5xl">
+				<h2 className="text-center text-5xl font-bold font-header tracking-tight text-orange-600 sm:text-5xl">
 					Testimoni Jemaah Kami
 				</h2>
 				{/* <p className="mt-4 text-center text-gray-500">

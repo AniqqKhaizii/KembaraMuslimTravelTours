@@ -15,10 +15,10 @@ function Tentang() {
 	};
 
 	return (
-		<section className="relative bg-[url('https://images.unsplash.com/photo-1639574326077-6cc1d8749395?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-no-repeat bg-fixed bg-top sm:h-[60vh] h-[110vh] px-6 sm:py-24 py-16 text-slate-100">
+		<section className="relative bg-[url('https://images.unsplash.com/photo-1639574326077-6cc1d8749395?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-no-repeat bg-fixed bg-top sm:h-[60vh] h-[110vh] px-6 flex items-center text-slate-100">
 			<div className="h-full absolute inset-0 bg-gradient-to-b from-gray-950/70 to-gray-950/80 "></div>
 
-			<div className="relative mx-auto max-w-screen-2xl">
+			<div className="relative mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
 				<div className="grid grid-cols-1 gap-y-8 lg:grid-cols-2 lg:items-center lg:gap-x-0">
 					<motion.div
 						initial={{ x: -100 }}
@@ -30,7 +30,7 @@ function Tentang() {
 						<p className="text-gray-300 font-reenie text-2xl my-2 font-semiregular">
 							Journeys of Faith and Discovery
 						</p>
-						<h2 className="text-3xl font-regular sm:text-5xl">
+						<h2 className="text-3xl font-bold font-header sm:text-5xl">
 							Kemudahan Yang Kami Sediakan
 						</h2>
 
@@ -134,6 +134,16 @@ function Tentang() {
 						</div>
 					</div>
 				</div>
+			</div>
+			<div
+				// data-aos="fade-right"
+				className="absolute bottom-5 left-0 lg:h-[25vh] h-[35vh] flex items-end justify-end"
+			>
+				<img
+					src="/2.png"
+					alt="Logo"
+					className="w-full h-full object-contain drop-shadow-2xl"
+				/>
 			</div>
 		</section>
 	);

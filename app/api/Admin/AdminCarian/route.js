@@ -1,4 +1,4 @@
-import { sql, poolPromise } from "@/lib/db";
+import { poolPromise } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic"; // 🔥 Force dynamic behavior
@@ -12,14 +12,14 @@ export async function GET(req) {
 		const UserRole = searchParams.get("UserRole");
 
 		const pool = await poolPromise;
-		const result = await pool
-			.request()
-			.input("AdmUname", sql.NVarChar(100), Username)
-			.input("AdmLevel", sql.Int, UserLevel)
-			.input("AdmRole", sql.NVarChar(50), UserRole)
-			.execute("SP_Admin_Carian");
 
-		return NextResponse.json(result.recordset);
+		const [rows] = await pool.query(`CALL SP_Admin_Carian(?, ?, ?)`, [
+			Username,
+			UserLevel,
+			UserRole,
+		]);
+
+		return NextResponse.json(rows[0]); // rows[0] contains the actual result set
 	} catch (err) {
 		console.error("❌ ERROR:", err);
 		return NextResponse.json(

@@ -1,11 +1,12 @@
-import { sql, poolPromise } from "@/lib/db";
+import { poolPromise } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic"; // 🔥 Ensure this runs dynamically on Vercel
 
 export async function GET(req) {
 	try {
-		const { searchParams } = req.nextUrl; // ✅ Correct way to get query params
+		const { searchParams } = req.nextUrl;
+
 		const Operation = searchParams.get("Operation");
 		const HotelID = searchParams.get("HotelID")
 			? parseInt(searchParams.get("HotelID"), 10)
@@ -20,17 +21,17 @@ export async function GET(req) {
 			: null;
 
 		const pool = await poolPromise;
-		const result = await pool
-			.request()
-			.input("Operation", sql.VarChar(10), Operation)
-			.input("HotelID", sql.Int, HotelID)
-			.input("HotelName", sql.VarChar(100), HotelName)
-			.input("Location", sql.VarChar(255), Location)
-			.input("Stars", sql.Int, Stars)
-			.input("Distance", sql.Float, Distance)
-			.execute("SP_Manage_Hotel");
 
-		return NextResponse.json(result.recordset);
+		const [rows] = await pool.query(`CALL SP_Manage_Hotel(?, ?, ?, ?, ?, ?)`, [
+			Operation,
+			HotelID,
+			HotelName,
+			Location,
+			Stars,
+			Distance,
+		]);
+
+		return NextResponse.json(rows[0]); // First result set
 	} catch (err) {
 		console.error("❌ ERROR:", err);
 		return NextResponse.json(

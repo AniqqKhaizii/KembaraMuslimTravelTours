@@ -238,10 +238,13 @@ const MainPage = () => {
 
 				{/* Content */}
 				<div className="relative z-10 flex flex-col items-start justify-start w-full h-full bg-gradient-to-b from-black/70 via-transparent to-gray-100 py-14 px-12">
-					<h1 className="lg:text-7xl text-5xl font-semibold text-white text-center uppercase text-shadow-2xl">
-						Pakej Umrah {kategori}
+					<h1 className="lg:text-5xl text-4xl font-semibold text-white text-left uppercase text-shadow-2xl">
+						<span className="text-2xl">
+							Pakej<br></br>
+						</span>{" "}
+						Umrah {kategori}
 					</h1>
-					<p className="text-center text-orange-600 font-reenie text-3xl my-2 font-semibold drop-shadow-white">
+					<p className="text-center bg-orange-600/80 text-white rounded-full px-4 font-reenie text-2xl my-2 font-semibold drop-shadow-white">
 						"Discover Cultures, Embrace Your Beliefs"
 					</p>
 				</div>
@@ -346,7 +349,7 @@ const MainPage = () => {
 																			{type.split("_").pop().toUpperCase()}
 																		</span>
 																	</div>
-																	<div className="flex items-end justify-center gap-2 text-4xl font-bold text-gray-800 mt-2">
+																	<div className="flex items-end justify-center gap-2 text-2xl font-bold text-gray-800 mt-2">
 																		<span className="text-lg text-gray-500">
 																			RM
 																		</span>

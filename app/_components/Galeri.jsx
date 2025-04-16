@@ -50,26 +50,26 @@ const Galeri = () => {
 
 	return (
 		<>
-			<section className="bg-white bg-cover bg-no-repeat bg-blend-lighten px-6 py-16 sm:py-24 text-slate-900">
-				<div className="mx-auto max-w-screen-xl px-6 sm:px-2 ">
-					<div className="flex flex-row justify-between items-center">
-						<div className="flex flex-col">
-							<p className="text-gray-700 font-reenie text-2xl my-2 font-semibold">
+			<section className="bg-white bg-cover bg-no-repeat bg-blend-lighten px-2 py-16 sm:py-24 text-slate-900">
+				<div className="mx-auto max-w-screen-xl px-2">
+					<div className="flex flex-row justify-between items-end py-2 w-full">
+						<div className="flex flex-col justify-between">
+							<p className="text-gray-700 font-reenie text-2xl font-semibold">
 								Where Adventure Meets Faith
 							</p>
-							<h2 className="text-3xl max-w-7xl font-regular sm:text-5xl text-orange-600 mb-2">
+							<h2 className="text-3xl max-w-7xl font-bold font-header sm:text-5xl text-orange-600">
 								Galeri Kembara Muslim
 							</h2>
 						</div>
 
-						<button className="border border-gray-700 rounded-full px-3 py-1.5 text-gray-700 group hover:bg-orange-600 hover:border-none">
+						<button className="border border-gray-700 rounded-full px-4 text-gray-700 group hover:bg-orange-600 hover:border-none">
 							<a
 								href="/Galeri"
 								className="flex items-center  group-hover:text-white"
 							>
-								Lihat semua
+								<span className="shrink-0">Lihat semua</span>
 								<svg
-									className="w-6 h-6 text-gray-700 group-hover:text-white"
+									className="w-12 h-8 text-gray-700 group-hover:text-white"
 									aria-hidden="true"
 									xmlns="http://www.w3.org/2000/svg"
 									width="24"

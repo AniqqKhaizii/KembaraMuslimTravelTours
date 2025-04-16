@@ -104,7 +104,7 @@ const Pakej = () => {
 					<p className="text-gray-700 font-reenie text-2xl font-semibold">
 						- Experience the World, Embrace Your Faith -
 					</p>
-					<h2 className="mx-auto text-3xl max-w-4xl font-regular sm:text-5xl text-orange-600">
+					<h2 className="mx-auto text-3xl max-w-4xl font-bold sm:text-5xl text-orange-600 font-header">
 						Pakej Umrah 2025
 					</h2>
 
@@ -114,7 +114,7 @@ const Pakej = () => {
 						rancang perjalanan anda sekarang!
 					</p> */}
 				</motion.header>
-				<div className="mx-auto max-w-screen-xl sm:px-2 py-6">
+				<div className="mx-auto max-w-screen-xl sm:px-2 py-12">
 					<ul className="grid gap-2 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3">
 						{isLoading
 							? [...Array(3)].map((_, index) => (

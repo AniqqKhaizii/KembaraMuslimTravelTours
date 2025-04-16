@@ -1,4 +1,4 @@
-import { sql, poolPromise } from "@/lib/db";
+import { poolPromise } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic"; // 🔥 Ensure Vercel treats this as a dynamic route
@@ -7,18 +7,18 @@ export async function POST(req) {
 	try {
 		const { Username, Password } = await req.json();
 
-		// ❌ SECURITY WARNING: Never store raw passwords.
-		// Consider hashing passwords before checking.
+		// ⚠️ SECURITY WARNING: Raw password comparison is risky!
+		// Consider hashing and secure comparison methods.
 
 		const pool = await poolPromise;
-		const result = await pool
-			.request()
-			.input("Username", sql.VarChar(100), Username)
-			.input("Password", sql.VarChar(100), Password)
-			.execute("SP_Sistem_Akses_Login");
 
-		if (result.recordset.length > 0) {
-			return NextResponse.json(result.recordset);
+		const [rows] = await pool.query(`CALL SP_Sistem_Akses_Login(?, ?)`, [
+			Username,
+			Password,
+		]);
+
+		if (rows[0]?.length > 0) {
+			return NextResponse.json(rows[0]);
 		} else {
 			return NextResponse.json(
 				{ message: "Pengguna tidak ditemui." },
@@ -26,7 +26,7 @@ export async function POST(req) {
 			);
 		}
 	} catch (err) {
-		console.error("ERROR:", err);
+		console.error("❌ ERROR:", err);
 		return NextResponse.json(
 			{ error: { message: err.message } },
 			{ status: 500 }

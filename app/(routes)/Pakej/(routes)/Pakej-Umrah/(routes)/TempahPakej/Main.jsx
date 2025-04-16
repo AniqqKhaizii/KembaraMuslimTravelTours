@@ -650,13 +650,13 @@ const Main = () => {
 										</div>
 									))}
 
-									<div className="lg:col-span-2 col-span-1 mt-4 bg-gray-100 p-4 rounded-sm">
+									<div className="lg:col-span-2 col-span-1 mt-4  p-4 rounded-sm">
 										<strong className="text-gray-700 text-lg block mb-2">
 											Guests Summary:
 										</strong>
 										<div className="overflow-x-auto">
 											<table className="w-full text-sm text-left text-gray-700">
-												<thead className="bg-gray-200 text-gray-900">
+												<thead className="bg-gray-100 text-gray-800">
 													<tr>
 														<th className="px-4 py-2">Room</th>
 														<th className="px-4 py-2 text-center">Adults</th>
@@ -705,7 +705,7 @@ const Main = () => {
 													})}
 												</tbody>
 												<tfoot>
-													<tr className="bg-gray-200 font-semibold">
+													<tr className="border-t border-gray-300 font-semibold">
 														<td className="px-4 py-2">Total</td>
 														<td className="px-4 py-2 text-center">
 															{rooms.reduce((sum, r) => sum + r.adult, 0)}

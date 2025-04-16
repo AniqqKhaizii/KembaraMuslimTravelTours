@@ -79,8 +79,8 @@ module.exports = {
 				price: ["AirbnbCerealBold", "sans-serif"],
 				khat: ["Khat", "sans-serif"],
 				gotham: ["Gotham", "sans-serif"],
+				header: ["PlayfairDisplay", "serif"],
 				reenie: ["ReenieBeanie", "cursive"],
-				protest: ["ProtestRiot", "sans-serif"],
 				impact: ["ImpactFont", "sans-serif"],
 			},
 			backgroundImage: {
