@@ -3,11 +3,11 @@ import React from "react";
 const Main = () => {
 	return (
 		<div className="max-w-screen-lg mx-auto min-h-screen py-24 px-4 text-sm space-y-6">
-			<h2 className="text-xl font-semibold px-4 py-2 bg-orange-500 text-white rounded-full">
+			<h2 className="text-xl font-medium px-4 py-2 bg-orange-500 text-white rounded-full">
 				DOKUMEN YANG PERLU DI SERAHKAN:
 			</h2>
 			<div className="px-8">
-				<ol className="list-decimal pl-6 space-y-1">
+				<ol className="list-decimal pl-6 space-y-1 font-primary">
 					<li>
 						Pasport Antarabangsa yang masih belum &amp; boleh di guna dari
 						tarikh berangkat sehingga 6 bulan/sekatan kosong
@@ -52,10 +52,10 @@ const Main = () => {
 				</ol>
 			</div>
 
-			<h2 className="text-xl font-semibold px-4 py-2 bg-orange-500 text-white rounded-full">
+			<h2 className="text-xl font-medium px-4 py-2 bg-orange-500 text-white rounded-full">
 				MAKLUMAT PAKEJ
 			</h2>
-			<div className="px-8 flex flex-col gap-4">
+			<div className="px-8 flex flex-col gap-4 font-primary">
 				<p>Pakej Umrah yang di tawarkan adalah termasuk:</p>
 				<ol className="list-decimal pl-6 space-y-1">
 					<li>
@@ -89,11 +89,11 @@ const Main = () => {
 				</ol>
 			</div>
 
-			<h2 className="text-xl font-semibold px-4 py-2 bg-orange-500 text-white rounded-full">
+			<h2 className="text-xl font-medium px-4 py-2 bg-orange-500 text-white rounded-full">
 				SYARAT-SYARAT BAYARAN
 			</h2>
-			<div className="px-8 flex flex-col gap-4">
-				<h3 className="font-semibold">1) BAYARAN DEPOSIT</h3>
+			<div className="px-8 flex flex-col gap-4 font-primary">
+				<h3 className="font-medium">1) BAYARAN DEPOSIT</h3>
 				<p>Jumlah Bayaran Deposit adalah RM 1,000.00 seorang</p>
 				<p>
 					Bayaran Deposit boleh di buat dengan Bank in ke dalam Bank seperti di
@@ -109,7 +109,7 @@ const Main = () => {
 					<strong>MAYBANK:</strong> 552065106169
 				</p>
 
-				<h3 className="font-semibold">2) BAYARAN PENUH</h3>
+				<h3 className="font-medium">2) BAYARAN PENUH</h3>
 				<p>
 					Bukti Bayaran hendaklah di serahkan kepada pihak KMTT melalui email :
 					m196296@gmail.com / whatsapp talian pejabat: 03-79674236 atau ke
@@ -121,7 +121,7 @@ const Main = () => {
 					kelewatan oleh pihak Kembara Muslim Travel &amp; Tours (KMTT)
 				</p>
 
-				<h3 className="font-semibold">3) BAYARAN TAMBAHAN LEWAT DAFTAR</h3>
+				<h3 className="font-medium">3) BAYARAN TAMBAHAN LEWAT DAFTAR</h3>
 				<table className="table-auto border mt-2">
 					<thead>
 						<tr>
@@ -159,10 +159,10 @@ const Main = () => {
 					</tbody>
 				</table>
 			</div>
-			<h2 className="text-xl font-semibold px-4 py-2 bg-orange-500 text-white rounded-full">
+			<h2 className="text-xl font-medium px-4 py-2 bg-orange-500 text-white rounded-full">
 				PEMBATALAN PAKEJ
 			</h2>
-			<div className="px-8 flex flex-col gap-4">
+			<div className="px-8 flex flex-col gap-4 font-primary">
 				<ol className="list-decimal pl-6 space-y-1">
 					<li>
 						Jemaah boleh membatalkan Pakej setelah di buat tempahan. Caj

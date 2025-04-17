@@ -1,9 +1,59 @@
 "use client";
-import React, { useEffect } from "react";
-import * as motion from "framer-motion/client";
+import React, { useState, useEffect } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
-import Threads from "@/components/ui/threads";
 import SlideArrowButton from "@/components/animata/button/slide-arrow-button";
+
+const HeroCarousel = () => {
+  const slides = [
+    {
+      title: "Bersama Anda",
+      subtitle: " Umrah",
+      paragraph:
+        "Kami komited untuk menyediakan pengalaman Umrah yang lancar, selesa, dan penuh makna — dengan sokongan menyeluruh di setiap langkah perjalanan anda ke Tanah Suci.",
+    },
+    {
+      title: "Perjalanan Suci",
+      subtitle: " Sini",
+      paragraph:
+        "Mulakan perjalanan suci anda bersama kami, dengan perkhidmatan profesional yang mengutamakan keselesaan dan ketenangan jiwa sepanjang Umrah anda.",
+    },
+    {
+      title: "Pengalaman Terbaik",
+      subtitle: " Makna",
+      paragraph:
+        "Nikmati pengalaman Umrah yang dirancang rapi, penuh keberkatan, dan memberi makna mendalam dalam setiap detik perjalanan ibadah anda.",
+    },
+  ];
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 20000);
+
+    return () => clearInterval(interval);
+  }, [slides.length]);
+
+  return (
+    <>
+	  	<h1 key={currentSlide} className="flex flex-col items-start gap-0 w-full font-bold drop-shadow-lg drop-shadow-black tracking-wide text-gray-900 text-4xl lg:text-7xl font-header animate-slideInLeft">
+			{slides[currentSlide].title}
+			<div className="flex lg:flex-row flex-col items-center gap-2">
+				<span>{currentSlide === 0 ? "Menyempurnakan" : currentSlide === 1 ? "Bermula Di" : "Umrah Penuh"}</span>
+				<span className="text-transparent bg-clip-text bg-gradient-to-tr from-orange-500 via-[#ec7222] to-orange-500">
+					{slides[currentSlide].subtitle}
+				</span>
+			</div>
+		</h1>
+
+		<p key={"p-" + currentSlide} className="max-w-3xl text-gray-900 sm:text-sm md:text-md lg:text-lg text-left leading-relaxed font-light font-primary drop-shadow-2xl animate-fadeUp">
+			{slides[currentSlide].paragraph}
+		</p>
+    </>
+  );
+};
+
 const HeroSection = () => {
 	return (
 		<section className="h-screen lg:py-32 py-12 lg:mt-0 relative bg-cover bg-center overflow-hidden">
@@ -16,8 +66,8 @@ const HeroSection = () => {
 				<source src="/Videos/HeroUtama1.mp4" type="video/mp4" />
 				Your browser does not support the video tag.
 			</video>
-			<div className="absolute inset-0 h-full bg-gradient-to-b from-white via-white to-transparent from-0% via-5% to-%"></div>
-			<div className="absolute inset-0 h-full bg-gradient-to-r from-white/90 via-white/90 to-transparent from-0% via-5% to-75%"></div>
+			<div className="absolute inset-0 h-full bg-gradient-to-bl from-white via-white to-transparent from-0% via-15% to-70%"></div>
+			<div className="absolute inset-0 h-full bg-gradient-to-br from-white via-white to-transparent from-0% via-15% to-70%"></div>
 
 			<div
 				data-aos="fade-up"
@@ -25,21 +75,7 @@ const HeroSection = () => {
 			>
 				{/* Hero Content */}
 				<div className="flex flex-col gap-6 items-start justify-center text-center mx-auto max-w-screen-xl w-full">
-					<h1 className="flex flex-col items-start gap-0 w-full font-bold drop-shadow-lg drop-shadow-black tracking-wide text-gray-900 text-4xl lg:text-7xl font-header">
-						Bersama Anda
-						<div className="flex lg:flex-row flex-col items-center gap-2">
-							<span>Menyempurnakan</span>
-							<span className="text-transparent bg-clip-text bg-gradient-to-tr from-orange-500 via-[#ec7222] to-orange-500">
-								Umrah
-							</span>
-						</div>
-					</h1>
-
-					<p className="max-w-4xl text-gray-900 text-lg lg:text-xl text-left leading-relaxed font-light font-primary drop-shadow-2xl">
-						Kami komited untuk menyediakan pengalaman Umrah yang lancar, selesa,
-						dan penuh makna — dengan sokongan menyeluruh di setiap langkah
-						perjalanan anda ke Tanah Suci.
-					</p>
+					<HeroCarousel />
 
 					<div className="flex flex-col sm:flex-row items-start justify-start gap-4 w-full">
 						<a href="/Pakej" className="lg:w-auto w-full text-center">

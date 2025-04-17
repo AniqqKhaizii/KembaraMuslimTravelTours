@@ -130,7 +130,7 @@ const Footer = () => {
 						<div className="text-center sm:text-left">
 							<p className="text-lg font-medium text-gray-200">Pakej Umrah</p>
 
-							<ul className="mt-8 space-y-4 text-sm">
+							<ul className="mt-4 space-y-4 text-sm">
 								{packages.map((item, index) => (
 									<li key={index}>
 										<a

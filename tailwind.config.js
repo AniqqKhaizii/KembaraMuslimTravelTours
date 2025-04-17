@@ -109,9 +109,19 @@ module.exports = {
 					"0%": { "background-position": "100%" },
 					"100%": { "background-position": "-100%" },
 				},
+				slideInLeft: {
+					'0%': { transform: 'translateX(-100%)', opacity: 0 },
+					'100%': { transform: 'translateX(0)', opacity: 1 },
+				},
+				fadeUp: {
+					'0%': { opacity: '0', transform: 'translateY(30px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' },
+				},
 			},
 			animation: {
 				shine: "shine 5s linear infinite",
+				slideInLeft: 'slideInLeft 1s ease-in-out',
+				fadeUp: 'fadeUp 1s ease-in-out',
 			},
 		},
 	},
