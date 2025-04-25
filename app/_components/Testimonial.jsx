@@ -5,7 +5,16 @@ const Testimonial = () => {
 	const [reviews, setReviews] = useState([]);
 	const [expandedReviews, setExpandedReviews] = useState(new Set());
 	const placeId = "ChIJQ8MnC_FgSzAR0DHPST0ERtM";
-
+	useEffect(() => {
+		// Check if script is already added
+		if (!document.querySelector("#elfsight-platform-script")) {
+			const script = document.createElement("script");
+			script.src = "https://static.elfsight.com/platform/platform.js";
+			script.async = true;
+			script.id = "elfsight-platform-script";
+			document.body.appendChild(script);
+		}
+	}, []);
 	useEffect(() => {
 		const fetchReviews = async () => {
 			try {
@@ -49,7 +58,11 @@ const Testimonial = () => {
 					umrah anda dan kami juga berasa bangga kerana dapat bekerjasama dengan
 					anda.
 				</p> */}
-				<div className="mt-8 [column-fill:_balance] sm:columns-2 sm:gap-4 lg:columns-3 lg:gap-4">
+				<div
+					className="elfsight-app-1b00d326-3288-48da-91fc-ddcc2fb87c62"
+					data-elfsight-app-lazy
+				></div>
+				{/* <div className="mt-8 [column-fill:_balance] sm:columns-2 sm:gap-4 lg:columns-3 lg:gap-4">
 					{reviews.map((review, index) => (
 						<div key={index} className="mb-8 sm:break-inside-avoid">
 							<motion.blockquote
@@ -109,7 +122,7 @@ const Testimonial = () => {
 							</motion.blockquote>
 						</div>
 					))}
-				</div>
+				</div> */}
 			</div>
 		</section>
 	);

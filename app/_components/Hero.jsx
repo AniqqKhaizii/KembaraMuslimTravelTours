@@ -69,7 +69,7 @@ const HeroCarousel = () => {
 const HeroSection = () => {
 	return (
 		<section className="h-screen lg:py-32 py-12 lg:mt-0 relative bg-cover bg-center overflow-hidden">
-			<video
+			{/* <video
 				className="absolute top-0 left-0 w-full h-full object-cover"
 				autoPlay
 				loop
@@ -77,10 +77,14 @@ const HeroSection = () => {
 			>
 				<source src="/Videos/HeroUtama1.mp4" type="video/mp4" />
 				Your browser does not support the video tag.
-			</video>
+			</video> */}
+			<img
+				className="absolute top-0 left-0 w-full h-full object-cover"
+				src="/Hero/HeroLatest1.jpg"
+			/>
 			<div className="absolute inset-0 h-full bg-gradient-to-r from-white via-orange-400/50 to-transparent from-0% via-70% to-100%"></div>
 			<div className="absolute inset-0 h-full bg-gradient-to-b from-white via-white/50 to-transparent from-0% via-15% to-60%"></div>
-			<div className="absolute inset-0 h-full bg-black/80"></div>
+			<div className="absolute inset-0 h-full bg-black/70"></div>
 			{/* <div className="absolute inset-0 h-full bg-gradient-to-b from-black/80 via-gray-50 to-white from-90% via-100% to-100%"></div> */}
 
 			<div
