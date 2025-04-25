@@ -104,6 +104,8 @@ function Header() {
 		},
 	];
 	// bg-[linear-gradient(120deg,_#fdfbfb_0%,_#ebedee_50%,_#fdfbfb_100%)] lg:w-3/5 w-4/5 mx-auto rounded-2xl mt-4 px-4
+
+	// bg-gradient-to-br from-[#b7c21c] to-[#e76f21]
 	return (
 		<div className="flex justify-center">
 			<motion.header
@@ -113,15 +115,15 @@ function Header() {
 				viewport={{ once: true }}
 				className={`${
 					isPakejPage ? "relative" : "fixed"
-				} top-0 z-[9999] transition-all duration-900 text-[14px] ${
+				} top-0 z-[9999] transition-all duration-900 text-[14px] tracking-wide w-full text-white ${
 					sticky || isMultiDirectory || !isLargeScreen
-						? "bg-gradient-to-br from-[#b7c21c] to-[#e76f21] shadow-xl w-full text-white lg:px-12 px-4 py-0"
+						? "bg-orange-500 shadow-xl lg:px-32 px-4 py-0"
 						: isHomePage
-						? "lg:w-3/5 w-4/5 mx-auto rounded-2xl py-4 px-4"
-						: "lg:w-3/5 w-4/5 mx-auto rounded-2xl mt-4 px-4 text-white"
+						? "mx-auto rounded-2xl py-2 px-64"
+						: "mx-auto rounded-2xl mt-2 px-64"
 				}`}
 			>
-				<div className="flex items-center justify-between w-full max-w-screen-2xl mx-auto">
+				<div className="flex items-center justify-between">
 					<div className="flex items-center justify-between w-full">
 						<div className="md:flex md:items-center md:gap-12">
 							<a className="flex drop-shadow-sm" href="/">
@@ -148,13 +150,13 @@ function Header() {
 									{Menu.map((item, index) => (
 										<li
 											key={index}
-											className={`relative group cursor-pointer py-2 px-4 rounded-md ${
+											className={`relative group cursor-pointer py-1 px-4 rounded-xl ${
 												pathname === item.path && sticky
-													? "bg-gray-100 text-black"
+													? "bg-white text-orange-700"
 													: pathname === item.path && !sticky
 													? "bg-orange-500 text-white"
 													: pathname !== item.path && sticky
-													? "hover:bg-gray-100 hover:text-black"
+													? "hover:bg-gray-100 hover:text-orange-700"
 													: "hover:bg-orange-500 hover:text-white"
 											}`}
 										>
@@ -165,13 +167,16 @@ function Header() {
 												)}
 											</Link>
 											{item.submenu && (
-												<ul className="absolute -left-10 border-t-4 w-[24vw] border-zinc-800 top-6 opacity-0 scale-95 bg-orange-500 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-lg mt-5 grid grid-cols-1 lg:grid-cols-2">
+												<ul className="absolute -left-10 border-t-4 w-[22vw] border-zinc-800 top-7 opacity-0 scale-95 bg-orange-500 rounded-lg group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-lg mt-5 grid grid-cols-1 lg:grid-cols-2 gap-2">
 													{item.submenu.map((subItem) => (
 														<li
 															key={subItem.id}
-															className="flex justify-start items-center w-full text-left text-sm text-white hover:bg-orange-600 px-2 py-2"
+															className="flex justify-start items-center w-full text-left text-sm text-white hover:bg-orange-600 py-2 px-4 rounded-lg"
 														>
-															<Link href={subItem.path} className="flex">
+															<Link
+																href={subItem.path}
+																className="flex items-center"
+															>
 																<FaPaperPlane className="mr-2" />
 																{subItem.name}
 															</Link>

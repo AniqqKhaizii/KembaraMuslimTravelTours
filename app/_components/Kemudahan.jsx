@@ -20,35 +20,35 @@ function Tentang() {
 
 			<div className="relative mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
 				<div className="grid grid-cols-1 gap-y-8 lg:grid-cols-2 lg:items-center lg:gap-x-0">
-					<motion.div
-						initial={{ x: -100 }}
-						whileInView={{ x: 0 }}
-						transition={{ ease: "easeInOut", duration: 1 }}
-						viewport={{ once: true, amount: 0.2 }}
+					<div
+						data-aos="fade-right"
 						className="mx-auto max-w-xl text-center lg:mx-0 lg:text-left "
 					>
 						<p className="text-gray-300 font-reenie text-2xl my-2 font-semiregular">
 							Journeys of Faith and Discovery
 						</p>
-						<h2 className="text-3xl font-bold font-header sm:text-5xl">
+						<h2 className="text-3xl font-bold sm:text-5xl">
 							Kemudahan Yang Kami Sediakan
 						</h2>
 
-						<p className="mt-4 text-gray-300">
+						<p className="mt-4 text-gray-300 font-primary">
 							Jemaah akan diberikan kelengkapan dan kemudahan yang disediakan
 							oleh pihak kami sepanjang perjalanan anda ke Tanah Suci.
 						</p>
 
 						<a
 							href="/Pakej"
-							className="mt-8 inline-block  bg-orange-600 px-6 py-3 text-md font-medium text-white transition hover:bg-orange-700 focus:outline-none rounded-full"
+							className="mt-8 inline-block bg-orange-500 px-4 py-1.5 text-md font-medium text-white transition hover:bg-orange-600 focus:outline-none rounded-2xl"
 						>
 							Lihat Pakej Kami
 						</a>
-					</motion.div>
+					</div>
 
 					<div className="grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3">
-						<div className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center">
+						<div
+							data-aos="fade-left"
+							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
+						>
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
 									width="64"
@@ -58,11 +58,14 @@ function Tentang() {
 								/>
 							</span>
 
-							<h2 className="mt-2 text-lg text-center font-regular text-white">
+							<h2 className="mt-2 text-md text-center font-regular text-white">
 								Kursus Umrah Percuma
 							</h2>
 						</div>
-						<div className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center">
+						<div
+							data-aos="fade-left"
+							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
+						>
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
 									width="64"
@@ -72,11 +75,14 @@ function Tentang() {
 								/>
 							</span>
 
-							<h2 className="mt-2 text-lg text-center font-regular text-white">
+							<h2 className="mt-2 text-md text-center font-regular text-white">
 								Tiket Penerbangan
 							</h2>
 						</div>
-						<div className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center">
+						<div
+							data-aos="fade-left"
+							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
+						>
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
 									width="64"
@@ -86,11 +92,14 @@ function Tentang() {
 								/>
 							</span>
 
-							<h2 className="mt-2 text-lg text-center font-regular text-white">
+							<h2 className="mt-2 text-md text-center font-regular text-white">
 								Kit Umrah Ekslusif
 							</h2>
 						</div>
-						<div className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center">
+						<div
+							data-aos="fade-left"
+							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
+						>
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
 									width="64"
@@ -100,11 +109,14 @@ function Tentang() {
 								/>
 							</span>
 
-							<h2 className="mt-2 text-lg text-center font-regular text-white">
+							<h2 className="mt-2 text-md text-center font-regular text-white">
 								Hotel Dekat & Selesa
 							</h2>
 						</div>
-						<div className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center">
+						<div
+							data-aos="fade-left"
+							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
+						>
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
 									width="64"
@@ -114,11 +126,14 @@ function Tentang() {
 								/>
 							</span>
 
-							<h2 className="mt-2 text-lg text-center font-regular text-white">
+							<h2 className="mt-2 text-md text-center font-regular text-white">
 								Pengangkutan Selesa
 							</h2>
 						</div>
-						<div className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center">
+						<div
+							data-aos="fade-left"
+							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
+						>
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
 									width="64"
@@ -128,7 +143,7 @@ function Tentang() {
 								/>
 							</span>
 
-							<h2 className="mt-2 text-lg text-center font-regular text-white">
+							<h2 className="mt-2 text-md text-center font-regular text-white">
 								Mutawwif Berpengalaman
 							</h2>
 						</div>
@@ -137,7 +152,7 @@ function Tentang() {
 			</div>
 			<div
 				data-aos="fade-right"
-				className="absolute bottom-5 left-0 lg:h-[25vh] h-[15vh] flex items-end justify-end"
+				className="absolute bottom-5 left-10 lg:h-[25vh] h-[15vh] flex items-end justify-end"
 			>
 				<img
 					src="/2.png"

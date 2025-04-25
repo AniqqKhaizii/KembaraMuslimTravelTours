@@ -88,6 +88,7 @@ module.exports = {
 			},
 			boxShadow: {
 				"custom-shadow": "5px 5px 15px #b3b3b3, -5px -5px 15px #ffffff",
+				"custom-orange": "14px 11px 0px 0px rgba(249, 115, 22, 1)",
 			},
 			transitionTimingFunction: {
 				"minor-spring": "cubic-bezier(0.18,0.89,0.82,1.04)",
@@ -110,18 +111,18 @@ module.exports = {
 					"100%": { "background-position": "-100%" },
 				},
 				slideInLeft: {
-					'0%': { transform: 'translateX(-100%)', opacity: 0 },
-					'100%': { transform: 'translateX(0)', opacity: 1 },
+					"0%": { transform: "translateX(-100%)", opacity: 0 },
+					"100%": { transform: "translateX(0)", opacity: 1 },
 				},
 				fadeUp: {
-					'0%': { opacity: '0', transform: 'translateY(30px)' },
-					'100%': { opacity: '1', transform: 'translateY(0)' },
+					"0%": { opacity: "0", transform: "translateY(30px)" },
+					"100%": { opacity: "1", transform: "translateY(0)" },
 				},
 			},
 			animation: {
 				shine: "shine 5s linear infinite",
-				slideInLeft: 'slideInLeft 1s ease-in-out',
-				fadeUp: 'fadeUp 1s ease-in-out',
+				slideInLeft: "slideInLeft 1s ease-in-out",
+				fadeUp: "fadeUp 1s ease-in-out",
 			},
 		},
 	},

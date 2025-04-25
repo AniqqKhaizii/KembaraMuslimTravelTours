@@ -40,7 +40,7 @@ const Testimonial = () => {
 				<p className="text-center text-gray-700 font-reenie text-2xl font-semibold">
 					Truly enriching journey!
 				</p>
-				<h2 className="text-center text-5xl font-bold font-header tracking-tight text-orange-600 sm:text-5xl">
+				<h2 className="text-center text-5xl font-bold  text-orange-600 sm:text-5xl">
 					Testimoni Jemaah Kami
 				</h2>
 				{/* <p className="mt-4 text-center text-gray-500">
@@ -61,7 +61,7 @@ const Testimonial = () => {
 									delay: index * 0.2,
 								}}
 								viewport={{ once: true, amount: 0.2 }}
-								className="rounded-xl bg-gray-100 p-6 shadow-sm sm:p-8"
+								className="rounded-xl bg-gray-50 p-6 shadow-md sm:p-8"
 							>
 								<div className="flex items-center gap-2">
 									<img
@@ -91,7 +91,7 @@ const Testimonial = () => {
 										</p>
 									</div>
 								</div>
-								<p className="mt-4 text-gray-600 text-sm">
+								<p className="mt-4 text-gray-700 font-primary text-sm">
 									{expandedReviews.has(index)
 										? review.text
 										: review.text.length > maxLength

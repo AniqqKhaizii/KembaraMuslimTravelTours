@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaArrowRightLong } from "react-icons/fa6";
 import * as motion from "framer-motion/client";
+import { FaPaperPlane } from "react-icons/fa";
 const KembaraDuaTanahSuci = () => {
 	const [initialX, setInitialX] = useState(50);
 
@@ -43,7 +43,7 @@ const KembaraDuaTanahSuci = () => {
 					whileInView={{ x: 0 }}
 					transition={{ ease: "easeInOut", duration: 1 }}
 					viewport={{ once: true, amount: 0.2 }}
-					className="text-5xl md:text-8xl font-regular text-white"
+					className="text-5xl md:text-8xl font-medium text-white"
 				>
 					Kembara Dua Tanah Suci
 				</motion.h1>
@@ -65,7 +65,7 @@ const KembaraDuaTanahSuci = () => {
 				>
 					<Link href="/KembaraDuaTanahSuci">
 						<button className="relative flex items-center gap-2 px-5 py-1.5 text-lg font-regular text-white transition-all duration-300 ease-in-out rounded-full bg-gradient-to-r from-orange-500 to-red-500 shadow-md shadow-orange-500/30 hover:from-red-500 hover:to-orange-500 hover:shadow-orange-600/40 focus:ring-2 focus:ring-orange-400 focus:ring-offset-2">
-							Lihat Lanjut <FaArrowRightLong />
+							Lihat Lanjut <FaPaperPlane />
 						</button>
 					</Link>
 				</motion.div>

@@ -6,6 +6,8 @@ import Lightbox from "yet-another-react-lightbox";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
+import { FaPaperPlane } from "react-icons/fa";
+
 const imagesArray = [
 	{
 		src: "/Galeri/Galeri1.jpg",
@@ -50,41 +52,25 @@ const Galeri = () => {
 
 	return (
 		<>
-			<section className="bg-white bg-cover bg-no-repeat bg-blend-lighten px-2 py-16 sm:py-24 text-slate-900">
+			<section className="bg-white bg-cover bg-no-repeat bg-blend-lighten px-2 py-8 sm:py-12 text-slate-900">
 				<div className="mx-auto max-w-screen-xl px-2">
 					<div className="flex flex-row justify-between items-end py-2 w-full">
 						<div className="flex flex-col justify-between">
 							<p className="text-gray-700 font-reenie text-2xl font-semibold">
 								Where Adventure Meets Faith
 							</p>
-							<h2 className="text-3xl max-w-7xl font-bold font-header sm:text-5xl text-orange-600">
+							<h2 className="text-3xl max-w-7xl font-bold sm:text-5xl text-orange-600">
 								Galeri Kembara Muslim
 							</h2>
 						</div>
 
-						<button className="border border-gray-700 rounded-full px-4 text-gray-700 group hover:bg-orange-600 hover:border-none">
+						<button className="group bg-orange-500 rounded-full px-4 py-1.5 text-white group hover:bg-orange-600 hover:border-none">
 							<a
 								href="/Galeri"
-								className="flex items-center  group-hover:text-white"
+								className="flex items-center gap-2 group-hover:text-white"
 							>
 								<span className="shrink-0">Lihat semua</span>
-								<svg
-									className="w-12 h-8 text-gray-700 group-hover:text-white"
-									aria-hidden="true"
-									xmlns="http://www.w3.org/2000/svg"
-									width="24"
-									height="24"
-									fill="none"
-									viewBox="0 0 24 24"
-								>
-									<path
-										stroke="currentColor"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="m10 16 4-4-4-4"
-									/>
-								</svg>
+								<FaPaperPlane className="text-sm group-hover:-translate-y-1 transition-all duration-200" />
 							</a>
 						</button>
 					</div>

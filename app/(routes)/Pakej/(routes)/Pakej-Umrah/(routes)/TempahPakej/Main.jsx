@@ -430,10 +430,7 @@ const Main = () => {
 				{ headers: { "Content-Type": "application/x-www-form-urlencoded" } }
 			);
 
-			window.open(
-				"https://dev.toyyibpay.com/" + response.data[0].BillCode,
-				"_blank"
-			);
+			window.location.href = `https://dev.toyyibpay.com/${response.data[0].BillCode}`;
 			return response.data;
 		} catch (error) {
 			console.error("Error:", error);
@@ -441,7 +438,6 @@ const Main = () => {
 		}
 	};
 
-	console.log("maklumatJemaah", maklumatJemaah);
 	return (
 		<div className="bg-gray-50">
 			<div className="lg:max-w-screen-xl sm:max-w-screen-lg xs:max-w-screen-xl mx-auto sm:px-4 xs:px-4 py-10 grid grid-cols-1 lg:grid-cols-3 gap-6 ">

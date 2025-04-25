@@ -49,7 +49,14 @@ const Index = () => {
 					</p>
 				</div>
 
-				<form action="" className="mx-auto mb-0 mt-8 max-w-md space-y-4">
+				<form
+					action=""
+					onSubmit={(e) => {
+						e.preventDefault();
+						checkUser();
+					}}
+					className="mx-auto mb-0 mt-8 max-w-md space-y-4"
+				>
 					<div>
 						<label htmlFor="Username" className="sr-only">
 							Username
@@ -120,8 +127,7 @@ const Index = () => {
 
 					<div className="flex items-center justify-end">
 						<button
-							type="button"
-							onClick={checkUser}
+							type="submit"
 							className="inline-block rounded-lg bg-black px-5 py-3 text-sm font-medium text-orange-500"
 						>
 							Sign in

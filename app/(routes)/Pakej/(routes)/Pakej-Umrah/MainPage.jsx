@@ -226,7 +226,7 @@ const MainPage = () => {
 	};
 
 	return (
-		<div className="flex flex-col min-h-screen pb-12 bg-gray-100">
+		<div className="flex flex-col min-h-screen pb-12 bg-gray-50">
 			<div
 				className="relative lg:h-[55vh] h-[90vh] bg-cover bg-center bg-no-repeat overflow-hidden z-0"
 				style={{
@@ -234,10 +234,10 @@ const MainPage = () => {
 				}}
 			>
 				{/* Gradient Overlay */}
-				<div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-gray-100"></div>
+				<div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-gray-50"></div>
 
 				{/* Content */}
-				<div className="relative z-10 flex flex-col items-start justify-start w-full h-full bg-gradient-to-b from-black/70 via-transparent to-gray-100 py-14 px-12">
+				<div className="relative z-10 flex flex-col items-start justify-start w-full h-full bg-gradient-to-b from-black/70 via-transparent to-gray-50 py-14 px-12">
 					<h1 className="lg:text-5xl text-4xl font-semibold text-white text-left uppercase text-shadow-2xl">
 						<span className="text-2xl">
 							Pakej<br></br>
@@ -281,7 +281,7 @@ const MainPage = () => {
 							<div className="mt-4">
 								{/* Pricing & Date */}
 								<section ref={tabs[0].ref} className="py-6">
-									<h2 className="text-2xl font-medium p-4 bg-orange-500 text-white text-left">
+									<h2 className="text-2xl font-semibold p-5 text-orange-500 text-left">
 										Room Pricing
 									</h2>
 
@@ -312,9 +312,9 @@ const MainPage = () => {
 											keys: ["Infant_Quad", "Infant_Triple", "Infant_Double"],
 										},
 									].map((category, catIdx) => (
-										<div key={catIdx} className="border-b-2 border-gray-500">
-											<div className="grid sm:grid-cols-1 lg:grid-cols-4 text-center lg:divide-y-0 sm:divide-x-0 sm:divide-y divide-gray-300 bg-gray-50 p-2 gap-2">
-												<h3 className="flex items-center text-xl font-semibold text-gray-500 px-4 sm:py-4 py-0">
+										<div key={catIdx} className="my-2">
+											<div className="grid sm:grid-cols-1 lg:grid-cols-4 text-center lg:divide-y-0 sm:divide-x-0 sm:divide-y divide-gray-300 p-2 gap-2 border-l-4 border-orange-500 rounded-lg shadow-md">
+												<h3 className="flex items-center lg:justify-start justify-center text-xl font-semibold text-gray-500 px-4 sm:py-4 py-0">
 													{category.title}
 												</h3>
 
@@ -332,8 +332,8 @@ const MainPage = () => {
 															{loadingPackages ? (
 																<Skeleton height={50} />
 															) : (
-																<div className="flex flex-col items-end p-4 rounded-md border border-gray-300">
-																	<div className="flex items-center justify-between gap-2 text-gray-600">
+																<div className="flex flex-col lg:items-end items-center p-4 border-l border-r border-gray-300">
+																	<div className="flex items-center justify-between gap-2 text-orange-600 font-medium">
 																		<div className="flex items-center gap-1">
 																			<GiBed className="text-xl" />
 																			{[...Array(personCount)].map(
@@ -345,12 +345,12 @@ const MainPage = () => {
 																				)
 																			)}
 																		</div>
-																		<span className="text-lg font-semibold text-gray-700">
+																		<span className="text-lg text-orange-600">
 																			{type.split("_").pop().toUpperCase()}
 																		</span>
 																	</div>
-																	<div className="flex items-end justify-center gap-2 text-2xl font-bold text-gray-800 mt-2">
-																		<span className="text-lg text-gray-500">
+																	<div className="flex items-end justify-center gap-1 text-2xl font-semibold text-black mt-2">
+																		<span className="text-lg font-light tracking-wide text-black">
 																			RM
 																		</span>
 																		{packages[0]?.[type]?.toLocaleString() ||
@@ -368,11 +368,11 @@ const MainPage = () => {
 
 								{/* Travel Dates */}
 								<section ref={tabs[1].ref} className="py-2">
-									<h2 className="text-2xl font-medium p-5 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-left">
+									<h2 className="text-2xl font-semibold p-5 text-orange-500 text-left">
 										Select Your Travel Dates
 									</h2>
 
-									<form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 border border-gray-300 p-4 bg-gray-50">
+									<form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
 										{packages.map((pkg, index) => {
 											const formattedStartDate = new Intl.DateTimeFormat(
 												"en-GB",
@@ -398,15 +398,15 @@ const MainPage = () => {
 											return (
 												<label
 													key={index}
-													className={`relative block border rounded-md p-6 text-center  transition-all duration-200 overflow-hidden 
+													className={`relative block border rounded-sm p-4 text-center transition-all duration-200 overflow-hidden 
                         ${
 													pkg.Status === "Full"
-														? "opacity-40 cursor-not-allowed"
-														: "hover:shadow-xl cursor-pointer"
+														? "bg-gray-200/80 cursor-not-allowed"
+														: "hover:scale-[1.02] transition-all duration-200 cursor-pointer"
 												}
                         ${
 													isSelected
-														? "border-green-500 bg-green-500 shadow-xl ring-1 ring-green-600 text-white"
+														? "border-green-500  shadow-xl ring-1 ring-green-600 scale-[1.02]"
 														: "border-gray-300 text-gray-800"
 												}`}
 												>
@@ -414,7 +414,7 @@ const MainPage = () => {
 														type="checkbox"
 														name="travel_date"
 														value={travelDate}
-														className="absolute top-0 left-0 w-5 h-5 opacity-100 shadow-md"
+														className="absolute top-0 left-0 w-5 h-5 opacity-0 shadow-md"
 														checked={isSelected}
 														onChange={handleCheckboxChange}
 														disabled={pkg.Status === "Full"}
@@ -434,7 +434,7 @@ const MainPage = () => {
 													</div>
 
 													<div
-														className={`absolute top-0 right-0 px-6 py-1 text-xs tracking-wider text-center uppercase whitespace-no-wrap origin-bottom-left transform rotate-45 -translate-y-full translate-x-1/3 shadow-lg
+														className={`absolute top-0 right-0 px-6 py-1 text-xs tracking-wider text-center uppercase border border-white whitespace-no-wrap origin-bottom-left transform rotate-45 -translate-y-full translate-x-1/3 shadow-lg
                             ${
 															pkg.Status === "Full"
 																? "bg-red-500 text-white"
@@ -453,70 +453,63 @@ const MainPage = () => {
 
 								{/* Hotels */}
 								<section ref={tabs[2].ref} className="py-2">
-									<h2 className="text-2xl font-medium p-4 bg-orange-500 text-white text-left">
+									<h2 className="text-2xl font-semibold p-5 text-orange-500 text-left">
 										Hotels
 									</h2>
 
-									<div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-4 border border-gray-300 p-4 bg-gray-50">
-										{/* Makkah Hotel */}
-										<div className="grid grid-cols-1 gap-6 items-center bg-gray-50 shadow-inner p-6 rounded-lg">
-											{/* Hotel Image */}
-											<div className="w-full">
-												<img
-													src={
-														packages[0]?.MakkahHotelImage || "/placeholder.jpg"
-													}
-													alt="Makkah Hotel"
-													className="w-full h-60 object-cover rounded-lg shadow"
-												/>
-											</div>
+									<div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-6 p-4">
+										{/* Reusable Hotel Info Card */}
+										{[
+											{
+												title: "Makkah Hotel",
+												image:
+													packages[0]?.MakkahHotelImage || "/placeholder.jpg",
+												name: packages[0]?.MakkahHotelName || "N/A",
+												distance: packages[0]?.MakkahHotelDistance || "N/A",
+												mosque: "Masjid al-Haram",
+											},
+											{
+												title: "Madinah Hotel",
+												image:
+													packages[0]?.MadinahHotelImage || "/placeholder.jpg",
+												name: packages[0]?.MadinahHotelName || "N/A",
+												distance: packages[0]?.MadinahHotelDistance || "N/A",
+												mosque: "Al-Masjid An-Nabawi",
+											},
+										].map((hotel, index) => (
+											<div
+												key={index}
+												className="border border-gray-200 rounded-xl shadow-sm p-6 bg-gray-50 space-y-4 transition-shadow"
+											>
+												{/* Image */}
+												<div className="w-full">
+													<img
+														src={hotel.image}
+														alt={hotel.title}
+														className="w-full h-56 object-cover rounded-md"
+													/>
+												</div>
 
-											{/* Hotel Info */}
-											<div className="text-lg space-y-2">
-												<h3 className="text-xl font-semibold text-green-700">
-													Makkah Hotel
-												</h3>
-												<p className="text-gray-700">
-													<strong>Name:</strong>{" "}
-													{packages[0]?.MakkahHotelName || "N/A"}
-												</p>
-												<p className="text-gray-700">
-													<strong>Distance:</strong>{" "}
-													{packages[0]?.MakkahHotelDistance || "N/A"}m from
-													Masjid al-Haram
-												</p>
+												{/* Info */}
+												<div className="space-y-1 text-gray-800">
+													<h3 className="text-xl font-semibold text-orange-500">
+														{hotel.title}
+													</h3>
+													<p>
+														<span className="font-medium text-gray-600">
+															Name:
+														</span>{" "}
+														{hotel.name}
+													</p>
+													<p>
+														<span className="font-medium text-gray-600">
+															Distance:
+														</span>{" "}
+														{hotel.distance}m from {hotel.mosque}
+													</p>
+												</div>
 											</div>
-										</div>
-
-										{/* Madinah Hotel */}
-										<div className="grid grid-cols-1 gap-6 items-center bg-gray-50 shadow-inner p-6 rounded-lg">
-											{/* Hotel Image */}
-											<div className="w-full">
-												<img
-													src={
-														packages[0]?.MadinahHotelImage || "/placeholder.jpg"
-													}
-													alt="Madinah Hotel"
-													className="w-full h-60 object-cover rounded-lg shadow"
-												/>
-											</div>
-
-											{/* Hotel Info */}
-											<div className="text-lg space-y-2">
-												<h3 className="text-xl font-semibold text-green-700">
-													Madinah Hotel
-												</h3>
-												<p className="text-gray-700">
-													<strong>Name:</strong>{" "}
-													{packages[0]?.MadinahHotelName || "N/A"}
-												</p>
-												<p className="text-gray-700">
-													<strong>Distance:</strong>{" "}
-													{packages[0]?.MadinahHotelDistance || "N/A"}m from
-													Al-Masjid An-Nabawi
-												</p>
-											</div>
-										</div>
+										))}
 									</div>
 								</section>
 							</div>

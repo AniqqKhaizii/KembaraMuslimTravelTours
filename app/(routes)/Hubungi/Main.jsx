@@ -21,9 +21,7 @@ const ContactPage = () => {
 					<p className="text-center text-orange-600 font-reenie text-2xl my-2 font-semibold">
 						"See the World, Stay True to Your Faith"
 					</p>
-					<h1 className="text-5xl font-bold font-header text-white">
-						Hubungi Kami
-					</h1>
+					<h1 className="text-5xl font-bold  text-white">Hubungi Kami</h1>
 				</div>
 			</div>
 
@@ -31,7 +29,7 @@ const ContactPage = () => {
 			<div className="shadow-lg bg-gradient-to-br from-white to-gray-100 max-w-screen-2xl lg:mx-auto mx-2 my-12 rounded-xl overflow-hidden">
 				<div className="grid lg:grid-cols-2 gap-6">
 					{/* Contact Information */}
-					<div className="bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 px-4 py-12 text-white">
+					<div className="bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 p-12 text-white">
 						<h2 className="text-4xl font-extrabold mb-4">Maklumat Kami</h2>
 						<p className="text-lg font-light mb-8">
 							Kami di <strong>Kembara Muslim Travel & Tours</strong> sentiasa
