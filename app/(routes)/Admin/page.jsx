@@ -9,18 +9,34 @@ const Index = () => {
 	const [Password, setPassword] = useState("");
 	const [loginStatus, setLoginStatus] = useState("");
 	const [statusHolder, setStatusHolder] = useState("message");
+	const [showModal, setShowModal] = useState(false);
+	const [forgotEmail, setForgotEmail] = useState("");
+
+	const handleForgotPassword = () => {
+		// You can call your API here with forgotEmail
+		console.log("Sending reset email to:", forgotEmail);
+		setShowModal(false); // Close modal after submitting
+	};
 
 	const checkUser = () => {
 		Axios.post("/api/Login", {
-			Username: Username,
-			Password: Password,
+			Username,
+			Password,
 		}).then((response) => {
 			if (response.data.message || Username === "" || Password === "") {
 				router.push("/Admin");
 				setLoginStatus(response.data.message);
 			} else {
 				const userData = response.data[0];
-				localStorage.setItem("UserData", JSON.stringify(userData));
+				const rememberMe = localStorage.getItem("rememberMe") === "true";
+
+				// Store data in localStorage only if remember me is checked
+				if (rememberMe) {
+					localStorage.setItem("UserData", JSON.stringify(userData));
+				} else {
+					localStorage.removeItem("UserData");
+				}
+
 				sessionStorage.setItem("UserData", JSON.stringify(userData));
 				router.push("/Admin/Dashboard");
 			}
@@ -35,6 +51,17 @@ const Index = () => {
 			}, 4000);
 		}
 	}, [loginStatus]);
+
+	useEffect(() => {
+		const remembered = localStorage.getItem("rememberMe");
+		if (remembered === "true") {
+			const storedUser = localStorage.getItem("UserData");
+			if (storedUser) {
+				const parsed = JSON.parse(storedUser);
+				setUsername(parsed?.AdmUname || "");
+			}
+		}
+	}, []);
 
 	return (
 		<section className="relative flex flex-wrap lg:h-screen lg:items-center bg-gradient-to-bl from-orange-300 to-orange-800">
@@ -59,14 +86,14 @@ const Index = () => {
 				>
 					<div>
 						<label htmlFor="Username" className="sr-only">
-							Username
+							Email
 						</label>
 
 						<div className="relative">
 							<input
 								type="text"
 								className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-								placeholder="Enter username"
+								placeholder="Enter email"
 								onChange={(e) => setUsername(e.target.value)}
 								required
 							/>
@@ -124,11 +151,61 @@ const Index = () => {
 							</span>
 						</div>
 					</div>
-
-					<div className="flex items-center justify-end">
+					<div className="flex items-center justify-between">
+						<label className="flex items-center gap-2 text-sm text-white">
+							<input
+								type="checkbox"
+								className="form-checkbox h-4 w-4 text-orange-500"
+								onChange={(e) =>
+									localStorage.setItem("rememberMe", e.target.checked)
+								}
+							/>
+							Remember me
+						</label>
+						{showModal && (
+							<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+								<div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+									<h2 className="text-xl font-medium">Forgot Password</h2>
+									<p className="text-sm text-gray-600 mb-6">
+										Enter your email to receive password reset instructions.
+									</p>
+									<input
+										type="email"
+										value={forgotEmail}
+										onChange={(e) => setForgotEmail(e.target.value)}
+										placeholder="Your email"
+										className="w-full border border-gray-300 p-2 rounded mb-4"
+										required
+									/>
+									<div className="flex justify-end gap-2">
+										<button
+											onClick={() => setShowModal(false)}
+											className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+										>
+											Cancel
+										</button>
+										<button
+											onClick={handleForgotPassword}
+											className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700"
+										>
+											Send
+										</button>
+									</div>
+								</div>
+							</div>
+						)}
+						<button
+							type="button"
+							className="text-sm text-white underline hover:text-orange-200"
+							onClick={() => setShowModal(true)}
+						>
+							Forgot Password?
+						</button>
+					</div>
+					<div className="flex items-center w-full">
 						<button
 							type="submit"
-							className="inline-block rounded-lg bg-black px-5 py-3 text-sm font-medium text-orange-500"
+							className="w-full flex justify-center text-center rounded-lg bg-black px-5 py-3 text-sm font-medium text-orange-500 hover:bg-orange-600 hover:text-white"
 						>
 							Sign in
 						</button>

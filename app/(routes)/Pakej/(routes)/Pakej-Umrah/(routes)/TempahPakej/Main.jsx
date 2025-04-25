@@ -407,8 +407,7 @@ const Main = () => {
 			billPriceSetting: 0,
 			billPayorInfo: 1,
 			billAmount: hargaBayaran,
-			billReturnUrl:
-				"http://localhost:3000/Pakej/Pakej-Umrah/TempahPakej/PaymentReturn",
+			billReturnUrl: `${window.location.origin}/Pakej/Pakej-Umrah/TempahPakej/PaymentReturn`,
 			billCallbackUrl: "",
 			billExternalReferenceNo: RefNo,
 			billTo: maklumatJemaah?.NamaPengguna,

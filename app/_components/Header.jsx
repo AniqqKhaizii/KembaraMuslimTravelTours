@@ -115,7 +115,7 @@ function Header() {
 				viewport={{ once: true }}
 				className={`${
 					isPakejPage ? "relative" : "fixed"
-				} top-0 z-[9999] transition-all duration-900 text-[14px] tracking-wide w-full text-white ${
+				} top-0 z-[999] transition-all duration-900 text-[14px] tracking-wide w-full text-white ${
 					sticky || isMultiDirectory || !isLargeScreen
 						? "bg-orange-500 shadow-xl lg:px-32 px-4 py-0"
 						: isHomePage

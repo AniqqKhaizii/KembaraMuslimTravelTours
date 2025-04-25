@@ -2,14 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @font-face {
 	font-family: "Khat";
 	src: url(/fonts/mutiara-ramadhan-font/MutiaraRamadhan.ttf);
 }
 
 @font-face {
-	font-family: "PlayfairDisplay" ;
+	font-family: "PlayfairDisplay";
 	src: url(/fonts/Playfair-Display/PlayfairDisplay.ttf);
 }
 
@@ -44,6 +43,36 @@
 
 body {
 	font-family: Arial, Helvetica, sans-serif;
+}
+
+.poster-modal .ant-modal-content {
+	padding: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	background: transparent;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* This will auto-size the modal based on image size */
+.poster-img-wrapper {
+	background-image: url("/Pengumuman/Pengumuman.jpg");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: auto;
+	height: auto;
+	aspect-ratio: 3 / 4; /* fallback ratio — update if known */
+	width: 30vw;
+	max-width: 100%;
+	z-index: 9999;
+}
+
+/* Remove modal max-width constraints */
+.poster-modal .ant-modal {
+	max-width: none !important;
+	width: auto !important;
 }
 
 /* Scrollbar for WebKit-based browsers (Chrome, Edge, Safari) */
@@ -264,10 +293,10 @@ body {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+	* {
+		@apply border-border outline-ring/50;
 	}
-  body {
-    @apply bg-background text-foreground;
+	body {
+		@apply bg-background text-foreground;
 	}
 }
