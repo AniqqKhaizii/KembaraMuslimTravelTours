@@ -154,7 +154,7 @@ function Header() {
 												pathname === item.path && sticky
 													? "bg-white text-orange-700"
 													: pathname === item.path && !sticky
-													? "bg-orange-500 text-white"
+													? "hover:bg-gray-100 bg-orange-500 text-white"
 													: pathname !== item.path && sticky
 													? "hover:bg-gray-100 hover:text-orange-700"
 													: "hover:bg-orange-500 hover:text-white"
