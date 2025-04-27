@@ -1,10 +1,9 @@
 import nodemailer from "nodemailer";
-import { poolPromise } from "@/lib/db"; // Adjust this import to your actual DB connection
+import pool from "@/lib/db";
 
 export async function POST(req) {
 	try {
 		const { email } = await req.json();
-		const pool = poolPromise;
 
 		// Search for user by email
 		const [rows] = await pool.query(

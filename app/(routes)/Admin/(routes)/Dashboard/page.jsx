@@ -138,7 +138,7 @@ const Dashboard = () => {
 							<AiOutlineHome className="w-8 h-8" />
 							<div className="flex flex-col items-end w-full gap-2">
 								<span>Available Trip</span>
-								<span className="text-3xl">{trips.length}</span>
+								<span className="text-3xl">{trips?.length}</span>
 							</div>
 						</div>
 					</div>
@@ -148,7 +148,7 @@ const Dashboard = () => {
 							<div className="flex flex-col items-end w-full gap-2">
 								<span>Selling Trip</span>
 								<span className="text-3xl">
-									{trips.filter((trip) => trip.Status === "Open").length}
+									{trips?.filter((trip) => trip.Status === "Open").length}
 								</span>
 							</div>
 						</div>
@@ -159,7 +159,7 @@ const Dashboard = () => {
 							<div className="flex flex-col items-end w-full gap-2">
 								<span>Full Trip</span>
 								<span className="text-3xl">
-									{trips.filter((trip) => trip.Status === "Full").length}
+									{trips?.filter((trip) => trip.Status === "Full").length}
 								</span>
 							</div>
 						</div>

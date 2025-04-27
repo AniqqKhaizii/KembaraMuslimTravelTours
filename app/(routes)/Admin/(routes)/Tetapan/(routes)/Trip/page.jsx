@@ -7,15 +7,13 @@ import {
 	Button,
 	DatePicker,
 	Modal,
-	Select,
-	Spin,
 	message,
+	Spin,
 } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import AdminLayout from "../../../../layout/AdminLayout";
 import Axios from "axios";
 import dayjs from "dayjs";
-const { Option } = Select;
 
 const ManageTripDetails = () => {
 	const [trips, setTrips] = useState([]);
@@ -23,42 +21,16 @@ const ManageTripDetails = () => {
 	const [currentTrip, setCurrentTrip] = useState(null);
 	const [form] = Form.useForm();
 	const [loading, setLoading] = useState(true);
-	const [userData, setUserData] = useState(null); // Initially set to null
-	const [AdminData, setAdminData] = useState(null); // Initially set to null (changed from [] to null to track loading state)
+	const [userData, setUserData] = useState(null);
+
 	useEffect(() => {
-		if (typeof window !== "undefined") {
-			const storedUserData =
-				sessionStorage.getItem("UserData") || localStorage.getItem("UserData");
-			if (storedUserData) {
-				setUserData(JSON.parse(storedUserData));
-			}
+		const storedUserData =
+			sessionStorage.getItem("UserData") || localStorage.getItem("UserData");
+		if (storedUserData) {
+			setUserData(JSON.parse(storedUserData));
 		}
 	}, []);
-	useEffect(() => {
-		if (userData) {
-			const fetchUserInfo = async () => {
-				const params = {
-					Username: userData.AdmUname,
-					UserLevel: userData.AdmLevel,
-					UserRole: userData.AdmRole,
-				};
-				try {
-					const response = await Axios.get(`/api/Admin/AdminCarian`, {
-						params: params,
-					});
-					if (response.data.message) {
-						alert(response.data.message);
-					} else {
-						const queryData = response.data;
-						setAdminData(queryData);
-					}
-				} catch (error) {
-					console.error("Error fetching user info", error);
-				}
-			};
-			fetchUserInfo();
-		}
-	}, [userData]);
+
 	useEffect(() => {
 		const fetchTrips = async () => {
 			setLoading(true);
@@ -80,9 +52,9 @@ const ManageTripDetails = () => {
 				setLoading(false);
 			}
 		};
-
 		fetchTrips();
-	}, []);
+	}, [currentTrip]);
+
 	const showModal = (trip = null) => {
 		setCurrentTrip(trip);
 		if (trip) {
@@ -93,6 +65,11 @@ const ManageTripDetails = () => {
 					: null,
 				EndTravelDate: trip.EndTravelDate ? dayjs(trip.EndTravelDate) : null,
 				Duration: trip.Duration,
+				Airline: trip.Airline,
+				FlightDetails: trip.FlightDetails,
+				SeatAvailable: trip.SeatAvailable,
+				SeatSold: trip.SeatSold,
+				Deadline: trip.Deadline,
 			});
 		} else {
 			form.resetFields();
@@ -108,25 +85,47 @@ const ManageTripDetails = () => {
 	const handleFormSubmit = async (values) => {
 		const formattedValues = {
 			...values,
-			StartTravelDate: values.StartTravelDate.format("YYYYMMDD"), // format to 'yyyymmdd'
-			EndTravelDate: values.EndTravelDate.format("YYYYMMDD"), // format to 'yyyymmdd'
+			StartTravelDate: values.StartTravelDate.format("YYYYMMDD"),
+			EndTravelDate: values.EndTravelDate.format("YYYYMMDD"),
 		};
 
 		try {
-			if (currentTrip) {
-				const response = await Axios.get("/api/Tetapan/ManageTrip", {
-					params: {
-						Operation: "UPDATE",
-						TripID: currentTrip.TripID,
-						TripName: formattedValues.TripName,
-						StartTravelDate: formattedValues.StartTravelDate,
-						EndTravelDate: formattedValues.EndTravelDate,
-						Duration: formattedValues.Duration,
-					},
-				});
-				if (response.data.message) {
-					message.error(response.data.message);
-				} else {
+			const response = currentTrip
+				? await Axios.get("/api/Tetapan/ManageTrip", {
+						params: {
+							Operation: "UPDATE",
+							TripID: currentTrip.TripID,
+							TripName: formattedValues.TripName,
+							StartTravelDate: formattedValues.StartTravelDate,
+							EndTravelDate: formattedValues.EndTravelDate,
+							Duration: formattedValues.Duration,
+							Airline: formattedValues.Airline,
+							FlightDetails: formattedValues.FlightDetails,
+							SeatAvailable: formattedValues.SeatAvailable,
+							SeatSold: formattedValues.SeatSold,
+							Deadline: formattedValues.Deadline,
+						},
+				  })
+				: await Axios.get("/api/Tetapan/ManageTrip", {
+						params: {
+							Operation: "ADD_NEW",
+							TripID: null,
+							TripName: formattedValues.TripName,
+							StartTravelDate: formattedValues.StartTravelDate,
+							EndTravelDate: formattedValues.EndTravelDate,
+							Duration: formattedValues.Duration,
+							Airline: formattedValues.Airline,
+							FlightDetails: formattedValues.FlightDetails,
+							SeatAvailable: formattedValues.SeatAvailable,
+							SeatSold: formattedValues.SeatSold,
+							Deadline: formattedValues.Deadline,
+						},
+				  });
+
+			if (response.data.message) {
+				message.error(response.data.message);
+			} else {
+				if (currentTrip) {
 					setTrips((prev) =>
 						prev.map((trip) =>
 							trip.TripID === currentTrip.TripID
@@ -135,27 +134,8 @@ const ManageTripDetails = () => {
 						)
 					);
 					message.success("Trip updated successfully");
-				}
-			} else {
-				const response = await Axios.get("/api/Tetapan/ManageTrip", {
-					params: {
-						Operation: "ADD_NEW",
-						TripID: null,
-						TripName: formattedValues.TripName,
-						StartTravelDate: formattedValues.StartTravelDate,
-						EndTravelDate: formattedValues.EndTravelDate,
-						Duration: formattedValues.Duration,
-					},
-				});
-				if (response.data.message) {
-					message.error(response.data.message);
 				} else {
-					const queryData = response.data;
-					const newTrip = {
-						TripID: trips.length + 1,
-						...formattedValues,
-					};
-					setTrips((prev) => [...prev, newTrip]);
+					setTrips((prev) => [...prev, formattedValues]);
 					message.success("Trip added successfully");
 				}
 			}
@@ -225,7 +205,6 @@ const ManageTripDetails = () => {
 				className: "uppercase font-primary",
 			}),
 		},
-
 		{
 			title: "Travel Date",
 			dataIndex: "StartTravelDate", // Keep one dataIndex for sorting
@@ -256,7 +235,7 @@ const ManageTripDetails = () => {
 			dataIndex: "Duration",
 			key: "Duration",
 			width: 100,
-			className: "font-primary ",
+			className: "font-primary",
 			render: (value) => {
 				return value ? value + " Hari" : "N/A";
 			},
@@ -268,7 +247,8 @@ const ManageTripDetails = () => {
 			title: "Seat Balance",
 			dataIndex: "SeatAvailable", // Keep one dataIndex for sorting
 			key: "SeatAvailable",
-			className: "font-primary",
+			align: "center",
+			className: "font-primary text-center",
 			render: (_, record) => {
 				const SeatSold = record.SeatSold ? record.SeatSold : 0;
 				const SeatAvailable = record.SeatAvailable ? record.SeatAvailable : 0;
@@ -315,7 +295,7 @@ const ManageTripDetails = () => {
 					<Button
 						icon={<DeleteOutlined />}
 						onClick={() => handleDelete(record.TripID)}
-						className="bg-red-500 hover:bg-red-600 text-white  px-2 rounded-md w-full"
+						className="bg-red-500 hover:bg-red-600 text-white px-2 rounded-md w-full"
 					>
 						Delete
 					</Button>
@@ -323,19 +303,6 @@ const ManageTripDetails = () => {
 			),
 		},
 	];
-	if (AdminData) {
-		if (AdminData[0]?.AdmLevel === 1) {
-			columns.splice(7, 0, {
-				title: "Commision",
-				dataIndex: "Commision",
-				key: "Commision",
-				className: "font-primary ",
-				onCell: () => ({
-					className: "uppercase font-primary",
-				}),
-			});
-		}
-	}
 
 	return (
 		<AdminLayout>
@@ -356,86 +323,97 @@ const ManageTripDetails = () => {
 								Add New Trip
 							</Button>
 						</div>
-
 						<Table
+							loading={loading}
 							columns={columns}
 							dataSource={trips}
+							pagination={false}
 							rowKey="TripID"
-							defaultSorted={{ field: "StartTravelDate", order: "ascend" }}
 						/>
-
 						<Modal
-							title={currentTrip ? "Edit Trip" : "Add New Trip"}
+							title={currentTrip ? "Edit Trip" : "Add Trip"}
 							open={isModalVisible}
 							onCancel={handleCancel}
 							footer={null}
+							width={1000}
 						>
-							<Form form={form} layout="vertical" onFinish={handleFormSubmit}>
-								{/* Hidden Field for TripID */}
-								<Form.Item name="TripID" hidden>
-									<Input type="hidden" />
-								</Form.Item>
-
-								{/* Trip Name */}
-								<Form.Item
-									name="TripName"
-									label="Trip Name"
-									rules={[
-										{ required: true, message: "Please enter the trip name" },
-									]}
+							<Spin spinning={loading}>
+								<Form
+									form={form}
+									onFinish={handleFormSubmit}
+									layout="vertical"
+									className="grid grid-cols-2 gap-4"
 								>
-									<Input placeholder="Enter trip name" />
-								</Form.Item>
-
-								{/* Start Travel Date */}
-								<Form.Item
-									name="StartTravelDate"
-									label="Start Travel Date"
-									rules={[
-										{
-											required: true,
-											message: "Please select the start travel date",
-										},
-									]}
-								>
-									<DatePicker style={{ width: "100%" }} />
-								</Form.Item>
-
-								{/* End Travel Date */}
-								<Form.Item
-									name="EndTravelDate"
-									label="End Travel Date"
-									rules={[
-										{
-											required: true,
-											message: "Please select the end travel date",
-										},
-									]}
-								>
-									<DatePicker style={{ width: "100%" }} />
-								</Form.Item>
-
-								{/* Duration */}
-								<Form.Item
-									name="Duration"
-									label="Duration (Days)"
-									rules={[
-										{
-											required: true,
-											message: "Please enter the duration of the trip",
-										},
-									]}
-								>
-									<Input type="number" placeholder="Enter duration in days" />
-								</Form.Item>
-
-								{/* Submit Button */}
-								<Form.Item>
-									<Button type="primary" htmlType="submit" block>
-										{currentTrip ? "Update Trip" : "Add Trip"}
+									<Form.Item
+										name="TripName"
+										label="Trip Name"
+										className="col-span-2"
+										rules={[
+											{
+												required: true,
+												message: "Please input the trip name!",
+											},
+										]}
+									>
+										<Input />
+									</Form.Item>
+									<Form.Item
+										name="StartTravelDate"
+										label="Start Travel Date"
+										rules={[
+											{
+												required: true,
+												message: "Please input the start travel date!",
+											},
+										]}
+									>
+										<DatePicker format="DD/MM/YYYY" className="w-full" />
+									</Form.Item>
+									<Form.Item
+										name="EndTravelDate"
+										label="End Travel Date"
+										rules={[
+											{
+												required: true,
+												message: "Please input the end travel date!",
+											},
+										]}
+									>
+										<DatePicker format="DD/MM/YYYY" className="w-full" />
+									</Form.Item>
+									<Form.Item
+										name="Duration"
+										label="Duration (Days)"
+										rules={[
+											{ required: true, message: "Please input the duration!" },
+										]}
+									>
+										<Input type="number" />
+									</Form.Item>
+									<Form.Item name="Airline" label="Airline">
+										<Input />
+									</Form.Item>
+									<Form.Item name="FlightDetails" label="Flight Details">
+										<Input />
+									</Form.Item>
+									<Form.Item name="SeatAvailable" label="Seat Available">
+										<Input type="number" />
+									</Form.Item>
+									<Form.Item name="SeatSold" label="Seat Sold">
+										<Input type="number" />
+									</Form.Item>
+									<Form.Item name="Deadline" label="Deadline">
+										<DatePicker format="DD/MM/YYYY" className="w-full" />
+									</Form.Item>
+									<Button
+										type="primary"
+										htmlType="submit"
+										className="w-full bg-blue-500 hover:bg-blue-600 col-span-2"
+									>
+										Save
 									</Button>
-								</Form.Item>
-							</Form>
+								</Form>
+							</Spin>
 						</Modal>
 					</>
 				)}

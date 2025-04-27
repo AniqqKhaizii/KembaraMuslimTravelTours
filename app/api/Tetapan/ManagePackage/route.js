@@ -1,4 +1,4 @@
-import { poolPromise } from "@/lib/db";
+import pool from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -48,7 +48,6 @@ export async function GET(req) {
 		const Infant_Quad = parseDecimal(searchParams.get("Infant_Quad"));
 
 		const Commission = parseDecimal(searchParams.get("Commission"));
-		const pool = await poolPromise;
 
 		const [rows] = await pool.query(
 			`CALL SP_Manage_Package(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -119,10 +118,8 @@ export async function POST(req) {
 			? convertBase64ToBinary(PakejPoster)
 			: null;
 
-		const pool = await poolPromise;
-
 		const [rows] = await pool.query(
-			`CALL SP_Manage_Package(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			`CALL SP_Manage_Package(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			[
 				Operation,
 				PakejID,

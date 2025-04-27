@@ -1,4 +1,4 @@
-import { poolPromise } from "@/lib/db";
+import pool from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic"; // 🔥 Ensure this runs dynamically on Vercel
@@ -19,9 +19,6 @@ export async function GET(req) {
 		const Distance = searchParams.get("Distance")
 			? parseFloat(searchParams.get("Distance"))
 			: null;
-
-		const pool = await poolPromise;
-
 		const Address = searchParams.get("Address");
 		const Latitude = searchParams.get("Latitude");
 		const Longitude = searchParams.get("Longitude");

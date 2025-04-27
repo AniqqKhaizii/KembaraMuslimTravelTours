@@ -1,4 +1,4 @@
-import { poolPromise } from "@/lib/db";
+import pool from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic"; // 🔥 Force dynamic behavior
@@ -11,8 +11,6 @@ export async function GET(req) {
 		const UserLevel = searchParams.get("UserLevel");
 		const UserRole = searchParams.get("UserRole");
 		const UserEmail = searchParams.get("UserEmail");
-
-		const pool = await poolPromise;
 
 		const [rows] = await pool.query(`CALL SP_Admin_Carian(?, ?, ?, ?)`, [
 			Username,

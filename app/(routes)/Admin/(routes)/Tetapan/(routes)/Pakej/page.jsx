@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Form, Input, Button, Table, Modal, Space, Spin, message } from "antd";
 import { PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import AdminLayout from "../../../../layout/AdminLayout";
@@ -19,6 +19,42 @@ const TetapanPakej = () => {
 	const [hotelMakkah, setHotelMakkah] = useState(null);
 	const [hotelMadinah, setHotelMadinah] = useState(null);
 	const [trips, setTrips] = useState(null);
+	const [userData, setUserData] = useState(null);
+	const [AdminData, setAdminData] = useState(null);
+	useEffect(() => {
+		if (typeof window !== "undefined") {
+			const storedUserData =
+				sessionStorage.getItem("UserData") || localStorage.getItem("UserData");
+			if (storedUserData) {
+				setUserData(JSON.parse(storedUserData));
+			}
+		}
+	}, []);
+	useEffect(() => {
+		if (userData) {
+			const fetchUserInfo = async () => {
+				const params = {
+					Username: userData.AdmUname,
+					UserLevel: userData.AdmLevel,
+					UserRole: userData.AdmRole,
+				};
+				try {
+					const response = await Axios.get(`/api/Admin/AdminCarian`, {
+						params: params,
+					});
+					if (response.data.message) {
+						alert(response.data.message);
+					} else {
+						const queryData = response.data;
+						setAdminData(queryData);
+					}
+				} catch (error) {
+					console.error("Error fetching user info", error);
+				}
+			};
+			fetchUserInfo();
+		}
+	}, [userData]);
 
 	useEffect(() => {
 		const fetchHotelsAndTrips = async () => {
@@ -121,7 +157,7 @@ const TetapanPakej = () => {
 			Infant_Triple: parseFloat(values.Infant_Triple),
 			Infant_Quad: parseFloat(values.Infant_Quad),
 			TripIDs: values.TripIDs.join(", "),
-			Commision: parseFloat(values.Commission),
+			Commission: parseFloat(values.Commission),
 		};
 		if (editingPackage) {
 			const response = await Axios.get("/api/Tetapan/ManagePackage", {
@@ -146,7 +182,7 @@ const TetapanPakej = () => {
 					TripIDs: formattedValues.TripIDs,
 					TripUnique: formattedValues.TripUnique,
 					PakejPoster: formattedValues.PakejPoster,
-					Commision: formattedValues.Commission,
+					Commission: formattedValues.Commission,
 				},
 			});
 			if (response.data.message) {
@@ -184,7 +220,7 @@ const TetapanPakej = () => {
 					HotelMakkahID: formattedValues.HotelMakkahID,
 					HotelMadinahID: formattedValues.HotelMadinahID,
 					TripIDs: formattedValues.TripIDs,
-					Commision: formattedValues.Commission,
+					Commission: formattedValues.Commission,
 				},
 			});
 			if (response.data.message) {
@@ -232,11 +268,11 @@ const TetapanPakej = () => {
 		}
 	}, [editingPackage, form]);
 
-	const handleEdit = (record) => {
+	const handleEdit = useCallback((record) => {
 		setEditingPackage(record);
 		form.setFieldsValue(record);
 		setIsModalVisible(true);
-	};
+	}, []);
 
 	const handleDelete = async (id) => {
 		try {
@@ -371,7 +407,7 @@ const TetapanPakej = () => {
 		{
 			title: "Hotel",
 			key: "Hotel",
-			className: "font-primary text-center",
+			className: "font-primary",
 			render: (text, record) => (
 				<span className="uppercase font-primary">
 					{record.MakkahHotelName} / {record.MadinahHotelName}
@@ -413,25 +449,11 @@ const TetapanPakej = () => {
 			},
 		},
 		{
-			title: "Commission",
-			dataIndex: "Commission",
-			key: "Commission",
-			className: "font-primary text-center",
-			render: (text, record) => (
-				<span className="font-primary">
-					{record.Commission ? `RM ${record.Commission}` : "N/A"}
-				</span>
-			),
-			onCell: () => ({
-				style: { verticalAlign: "top" },
-				className: "uppercase font-primary",
-			}),
-		},
-		{
 			title: "Actions",
 			key: "actions",
 			className: "font-primary w-32",
 			onCell: () => ({
+				style: { verticalAlign: "top" },
 				className: "uppercase font-primary",
 			}),
 			render: (_, record) => (
@@ -450,6 +472,25 @@ const TetapanPakej = () => {
 		},
 	];
 
+	if (AdminData) {
+		if (AdminData[0]?.AdmLevel === 1) {
+			columns.splice(4, 0, {
+				title: "Commission",
+				dataIndex: "Commission",
+				key: "Commission",
+				className: "font-primary text-center",
+				render: (text, record) => (
+					<span className="font-primary">
+						{record.Commission ? `RM ${record.Commission}` : "N/A"}
+					</span>
+				),
+				onCell: () => ({
+					style: { verticalAlign: "top" },
+					className: "uppercase font-primary",
+				}),
+			});
+		}
+	}
 	const HotelSelectionMakkah = ({ hotels, form }) => {
 		const [selectedHotel, setSelectedHotel] = useState(
 			editingPackage ? editingPackage.HotelMakkahID : null
@@ -597,68 +638,123 @@ const TetapanPakej = () => {
 							dataSource={packages.map((pkg) => ({ ...pkg, key: pkg.PakejID }))}
 							rowKey="key"
 						/>
-
-						<Modal
-							title={editingPackage ? "Edit Package" : "Add New Package"}
-							open={isModalVisible}
-							onCancel={() => {
-								setIsModalVisible(false);
-								form.resetFields();
-								setEditingPackage(null);
-							}}
-							confirmLoading="true"
-							centered={true}
-							width={"60%"}
-							footer={null}
-						>
-							<Form
-								form={form}
-								layout="vertical"
-								onFinish={handleAddPackage}
-								initialValues={editingPackage || {}}
+						<React.Suspense fallback={<div>Loading...</div>}>
+							<Modal
+								title={editingPackage ? "Edit Package" : "Add New Package"}
+								open={isModalVisible}
+								onCancel={() => {
+									setIsModalVisible(false);
+									form.resetFields();
+									setEditingPackage(null);
+								}}
+								confirmLoading="true"
+								centered={true}
+								width={"60%"}
+								footer={null}
 							>
-								<Form.Item
-									name="PakejName"
-									label="Package Name"
-									rules={[
-										{
-											required: true,
-											message: "Please enter the package name",
-										},
-									]}
+								<Form
+									form={form}
+									layout="vertical"
+									onFinish={handleAddPackage}
+									initialValues={editingPackage || {}}
 								>
-									<Input placeholder="Enter package name" />
-								</Form.Item>
+									<Form.Item
+										name="PakejName"
+										label="Package Name"
+										rules={[
+											{
+												required: true,
+												message: "Please enter the package name",
+											},
+										]}
+									>
+										<Input placeholder="Enter package name" />
+									</Form.Item>
 
-								<HotelSelectionMakkah hotels={hotelMakkah} form={form} />
-								<HotelSelectionMadinah hotels={hotelMadinah} form={form} />
-								<TripSelection trips={trips} form={form} />
+									<HotelSelectionMakkah hotels={hotelMakkah} form={form} />
+									<HotelSelectionMadinah hotels={hotelMadinah} form={form} />
+									<TripSelection trips={trips} form={form} />
+									{/* Commission Field in RM */}
+									<Form.Item name="Commission" label="Commission (RM)">
+										<div className="flex items-center">
+											<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-l-md">
+												RM
+											</p>
+											<Input
+												name="Commission"
+												type="number"
+												min={0}
+												className="rounded-r-md"
+												placeholder="Enter commission"
+											/>
+										</div>
+									</Form.Item>
+									<table className="table-auto w-full border-collapse border border-gray-300 mb-4">
+										<thead>
+											<tr className="bg-gray-200">
+												<th className="border border-gray-300 px-4 py-2">
+													KATEGORI
+												</th>
+												<th className="border border-gray-300 px-4 py-2">
+													BILIK 2
+												</th>
+												<th className="border border-gray-300 px-4 py-2">
+													BILIK 3
+												</th>
+												<th className="border border-gray-300 px-4 py-2">
+													BILIK 4
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											{/* ADULT */}
+											<tr className="h-9">
+												<td className="border border-gray-300 px-4 py-1 font-bold">
+													ADULT
+												</td>
+												{["Adult_Double", "Adult_Triple", "Adult_Quad"].map(
+													(field) => (
+														<td
+															key={field}
+															className="border border-gray-300 px-4 py-2"
+														>
+															<div className="flex items-start justify-center h-9">
+																<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
+																	RM
+																</p>
+																<Form.Item
+																	name={field}
+																	rules={[
+																		{
+																			required: true,
+																			message: "Please enter the price",
+																		},
+																	]}
+																	className="flex items-center"
+																>
+																	<Input
+																		type="number"
+																		min={0}
+																		className="rounded-s-none"
+																		placeholder="Enter price"
+																	/>
+																</Form.Item>
+															</div>
+														</td>
+													)
+												)}
+											</tr>
 
-								<table className="table-auto w-full border-collapse border border-gray-300 mb-4">
-									<thead>
-										<tr className="bg-gray-200">
-											<th className="border border-gray-300 px-4 py-2">
-												KATEGORI
-											</th>
-											<th className="border border-gray-300 px-4 py-2">
-												BILIK 2
-											</th>
-											<th className="border border-gray-300 px-4 py-2">
-												BILIK 3
-											</th>
-											<th className="border border-gray-300 px-4 py-2">
-												BILIK 4
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										{/* ADULT */}
-										<tr className="h-9">
-											<td className="border border-gray-300 px-4 py-1 font-bold">
-												ADULT
-											</td>
-											{["Adult_Double", "Adult_Triple", "Adult_Quad"].map(
-												(field) => (
+											{/* CHILD WITH BED */}
+											<tr className="h-9">
+												<td className="border border-gray-300 px-4 py-2 font-bold">
+													CHILD WITH BED
+												</td>
+												{[
+													"ChildWBed_Double",
+													"ChildWBed_Triple",
+													"ChildWBed_Quad",
+												].map((field) => (
 													<td
 														key={field}
 														className="border border-gray-300 px-4 py-2"
@@ -686,97 +782,19 @@ const TetapanPakej = () => {
 															</Form.Item>
 														</div>
 													</td>
-												)
-											)}
-										</tr>
+												))}
+											</tr>
 
-										{/* CHILD WITH BED */}
-										<tr className="h-9">
-											<td className="border border-gray-300 px-4 py-2 font-bold">
-												CHILD WITH BED
-											</td>
-											{[
-												"ChildWBed_Double",
-												"ChildWBed_Triple",
-												"ChildWBed_Quad",
-											].map((field) => (
-												<td
-													key={field}
-													className="border border-gray-300 px-4 py-2"
-												>
-													<div className="flex items-start justify-center h-9">
-														<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
-															RM
-														</p>
-														<Form.Item
-															name={field}
-															rules={[
-																{
-																	required: true,
-																	message: "Please enter the price",
-																},
-															]}
-															className="flex items-center"
-														>
-															<Input
-																type="number"
-																min={0}
-																className="rounded-s-none"
-																placeholder="Enter price"
-															/>
-														</Form.Item>
-													</div>
+											{/* CHILD WITHOUT BED */}
+											<tr className="h-9">
+												<td className="border border-gray-300 px-4 py-2 font-bold">
+													CHILD WITHOUT BED
 												</td>
-											))}
-										</tr>
-
-										{/* CHILD WITHOUT BED */}
-										<tr className="h-9">
-											<td className="border border-gray-300 px-4 py-2 font-bold">
-												CHILD WITHOUT BED
-											</td>
-											{[
-												"ChildNoBed_Double",
-												"ChildNoBed_Triple",
-												"ChildNoBed_Quad",
-											].map((field) => (
-												<td
-													key={field}
-													className="border border-gray-300 px-4 py-2"
-												>
-													<div className="flex items-start justify-center h-9">
-														<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
-															RM
-														</p>
-														<Form.Item
-															name={field}
-															rules={[
-																{
-																	required: true,
-																	message: "Please enter the price",
-																},
-															]}
-															className="flex items-center"
-														>
-															<Input
-																type="number"
-																min={0}
-																className="rounded-s-none"
-																placeholder="Enter price"
-															/>
-														</Form.Item>
-													</div>
-												</td>
-											))}
-										</tr>
-
-										{/* INFANT */}
-										<tr className="h-9">
-											<td className="border border-gray-300 px-4 py-2 font-bold">
-												INFANT
-											</td>
-											{["Infant_Double", "Infant_Triple", "Infant_Quad"].map(
-												(field) => (
+												{[
+													"ChildNoBed_Double",
+													"ChildNoBed_Triple",
+													"ChildNoBed_Quad",
+												].map((field) => (
 													<td
 														key={field}
 														className="border border-gray-300 px-4 py-2"
@@ -804,19 +822,57 @@ const TetapanPakej = () => {
 															</Form.Item>
 														</div>
 													</td>
-												)
-											)}
-										</tr>
-									</tbody>
-								</table>
+												))}
+											</tr>
 
-								<Form.Item>
-									<Button type="primary" htmlType="submit" block>
-										{editingPackage ? "Update Package" : "Add Package"}
-									</Button>
-								</Form.Item>
-							</Form>
-						</Modal>
+											{/* INFANT */}
+											<tr className="h-9">
+												<td className="border border-gray-300 px-4 py-2 font-bold">
+													INFANT
+												</td>
+												{["Infant_Double", "Infant_Triple", "Infant_Quad"].map(
+													(field) => (
+														<td
+															key={field}
+															className="border border-gray-300 px-4 py-2"
+														>
+															<div className="flex items-start justify-center h-9">
+																<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
+																	RM
+																</p>
+																<Form.Item
+																	name={field}
+																	rules={[
+																		{
+																			required: true,
+																			message: "Please enter the price",
+																		},
+																	]}
+																	className="flex items-center"
+																>
+																	<Input
+																		type="number"
+																		min={0}
+																		className="rounded-s-none"
+																		placeholder="Enter price"
+																	/>
+																</Form.Item>
+															</div>
+														</td>
+													)
+												)}
+											</tr>
+										</tbody>
+									</table>
+
+									<Form.Item>
+										<Button type="primary" htmlType="submit" block>
+											{editingPackage ? "Update Package" : "Add Package"}
+										</Button>
+									</Form.Item>
+								</Form>
+							</Modal>
+						</React.Suspense>
 					</>
 				)}
 			</div>

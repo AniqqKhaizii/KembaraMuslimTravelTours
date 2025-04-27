@@ -157,11 +157,9 @@ const Details = () => {
 			title: "Action",
 			key: "Action",
 			render: (_, record) => {
-				const router = useRouter(); // Initialize the router
-
 				const handleBookingClick = () => {
-					// Redirect to the 'make booking' page, passing the TripId as a query parameter
-					router.push(`/make-booking?tripId=${record.TripId}`);
+					const bookingUrl = `/Admin/Booking/create-booking?pkgId=${id}&tripId=${record.TripID}`;
+					window.open(bookingUrl, "_blank"); // This will open the URL in a new tab
 				};
 
 				return (
@@ -206,6 +204,7 @@ const Details = () => {
 				Infant_Triple: packageData[0].Infant_Triple,
 				Infant_Quad: packageData[0].Infant_Quad,
 				PakejPoster: base64Poster,
+				Commission: packageData[0].Commission,
 			});
 
 			if (response.status === 200) {

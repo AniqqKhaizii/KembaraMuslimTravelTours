@@ -1,4 +1,4 @@
-import { poolPromise } from "@/lib/db";
+import pool from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic"; // 🔥 Force dynamic behavior
@@ -16,8 +16,6 @@ export async function POST(req) {
 			AdmImage,
 			CreateBy,
 		} = await req.json();
-
-		const pool = await poolPromise;
 
 		const [rows] = await pool.query(
 			`CALL SP_Admin_Simpan(?, ?, ?, ?, ?, ?, ?, ?, ?)`,

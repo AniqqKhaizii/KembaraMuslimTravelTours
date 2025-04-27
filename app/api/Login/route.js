@@ -1,4 +1,4 @@
-import { poolPromise } from "@/lib/db";
+import pool from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic"; // 🔥 Ensure Vercel treats this as a dynamic route
@@ -9,8 +9,6 @@ export async function POST(req) {
 
 		// ⚠️ SECURITY WARNING: Raw password comparison is risky!
 		// Consider hashing and secure comparison methods.
-
-		const pool = await poolPromise;
 
 		const [rows] = await pool.query(`CALL SP_Sistem_Akses_Login(?, ?)`, [
 			Username,

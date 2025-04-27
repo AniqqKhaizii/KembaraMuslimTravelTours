@@ -1,4 +1,4 @@
-import { poolPromise } from "@/lib/db";
+import pool from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic"; // ✅ Ensure API runs dynamically in Vercel
@@ -18,8 +18,15 @@ export async function GET(req) {
 
 		const StartTravelDate = searchParams.get("StartTravelDate") || null;
 		const EndTravelDate = searchParams.get("EndTravelDate") || null;
-
-		const pool = await poolPromise;
+		const Airline = searchParams.get("Airline") || null;
+		const FlightDetails = searchParams.get("FlightDetails") || null;
+		const SeatAvailable = searchParams.get("SeatAvailable")
+			? parseInt(searchParams.get("SeatAvailable"), 10)
+			: null;
+		const SeatSold = searchParams.get("SeatSold")
+			? parseInt(searchParams.get("SeatSold"), 10)
+			: null;
+		const Deadline = searchParams.get("Deadline") || null;
 
 		const [rows] = await pool.query(
 			`CALL SP_Manage_Trip(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -30,11 +37,11 @@ export async function GET(req) {
 				StartTravelDate,
 				EndTravelDate,
 				Duration,
-				null,
-				null,
-				null,
-				null,
-				null,
+				Airline,
+				FlightDetails,
+				SeatAvailable,
+				SeatSold,
+				Deadline,
 			]
 		);
 
