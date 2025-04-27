@@ -1,9 +1,11 @@
-"use client";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
-
-import { MdDashboard, MdHotel } from "react-icons/md";
-import { AiOutlineUser, AiOutlineHome, AiOutlineSetting } from "react-icons/ai";
+import {
+	MdDashboard,
+	MdOutlineBookmarks,
+	MdOutlineModeOfTravel,
+} from "react-icons/md";
+import { AiOutlineUser, AiOutlineHome } from "react-icons/ai";
 import {
 	FaUserTie,
 	FaUsers,
@@ -11,24 +13,18 @@ import {
 	FaSuitcase,
 	FaCamera,
 } from "react-icons/fa";
-import { MdOutlineModeOfTravel } from "react-icons/md";
 import { RiAdminLine, RiSettings3Line } from "react-icons/ri";
-import { CgMenu } from "react-icons/cg";
-import { CgMenuLeftAlt } from "react-icons/cg";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
-
-import Image from "next/image";
+import { LiaFileInvoiceSolid } from "react-icons/lia";
 import Link from "next/link";
 
 const Sidebar = ({ isCollapsed, toggleSidebar }) => {
 	const currentPage = usePathname().split("/")[2];
 	const currentPageSubmenu = usePathname().split("/")[3];
 
-	// State to manage submenu visibility
 	const [showUsersSubmenu, setShowUsersSubmenu] = useState(false);
 	const [showTetapanSubmenu, setShowTetapanSubmenu] = useState(false);
 
-	// Sidebar main menu
 	const sidebarData = [
 		{ text: "Dashboard", icon: MdDashboard, href: "/Admin/Dashboard" },
 		{
@@ -38,12 +34,13 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
 			submenu: [
 				{ text: "Admin", icon: RiAdminLine, href: "/Admin/Users/AdminKMTT" },
 				{ text: "Agent", icon: FaUserTie, href: "/Admin/Users/Agent" },
-				{ text: "Customers", icon: FaUsers, href: "/Admin/Users/Customers" },
 			],
 		},
-		{ text: "Booking", icon: AiOutlineHome, href: "/Admin/Booking" },
+		{ text: "Customers", icon: FaUsers, href: "/Admin/Customers" },
+		{ text: "Booking", icon: MdOutlineBookmarks, href: "/Admin/Booking" },
+		{ text: "Invoices", icon: LiaFileInvoiceSolid, href: "/Admin/Invoices" },
 		{
-			text: "Tetapan",
+			text: "Settings",
 			icon: RiSettings3Line,
 			href: "#",
 			submenu: [
@@ -59,34 +56,23 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
 		},
 	];
 
-	// Toggle submenu functions
 	const toggleUsersSubmenu = () => setShowUsersSubmenu(!showUsersSubmenu);
 	const toggleTetapanSubmenu = () => setShowTetapanSubmenu(!showTetapanSubmenu);
 
 	return (
 		<div
 			className={`${
-				isCollapsed ? "w-16" : "w-64"
-			} flex-col bg-[url('/AdminBg.png')] bg-cover bg-top shadow-lg transition-all duration-300 hidden sm:flex z-50 sticky top-0 h-screen`}
+				isCollapsed ? "w-16" : "w-56"
+			} flex-col bg-[url('/AdminBg.png')] bg-cover bg-top backdrop-blur transition-all duration-300 hidden sm:flex z-50 sticky top-0 h-screen`}
 		>
 			<div className="flex items-start justify-center pt-2 border-b border-gray-200 bg-transparent">
-				<Image
+				<img
 					src="/LogoKMTT.png"
 					alt="Logo"
-					width={isCollapsed ? 200 : 160}
-					height={isCollapsed ? 240 : 160}
 					className={`${
-						isCollapsed ? "w-auto h-auto" : "w-40 h-24"
+						isCollapsed ? "w-2/3 h-2/3" : "w-40 h-24"
 					} mx-auto py-0.5`}
 				/>
-				<button
-					onClick={toggleSidebar}
-					className={`absolute ${
-						isCollapsed ? "left-20" : "left-60"
-					} text-white border-solid border-white rounded-full w-8 h-8 flex items-center justify-center transition-all duration-300 mt-1`}
-				>
-					{isCollapsed ? <CgMenuLeftAlt size={26} /> : <CgMenu size={26} />}
-				</button>
 			</div>
 
 			<ul className="pt-2 space-y-1 text-sm">
@@ -96,7 +82,6 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
 							<div>
 								<button
 									className={`flex items-center justify-between w-full px-4 py-2 text-gray-200 hover:bg-slate-100 hover:text-gray-700 rounded-ss-2xl transition-all duration-300 ${
-										// Check if currentPage matches the main menu link or any submenu link
 										item.submenu?.some(
 											(subItem) => currentPage === subItem.href.split("/")[2]
 										)
@@ -110,7 +95,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
 									}
 								>
 									<div className="flex items-center gap-4">
-										<item.icon size={24} />
+										<item.icon size={isCollapsed ? 18 : 24} />{" "}
 										{!isCollapsed && <span>{item.text}</span>}
 									</div>
 									{!isCollapsed &&
@@ -143,7 +128,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
 													(subItem) =>
 														currentPageSubmenu === subItem.href.split("/")[3]
 												))) ||
-										(item.text === "Tetapan" &&
+										(item.text === "Settings" &&
 											(showTetapanSubmenu ||
 												item.submenu?.some(
 													(subItem) =>
@@ -165,8 +150,10 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
 														: ""
 												}`}
 											>
-												{subItem.icon && <subItem.icon size={20} />}
-												{/* Render text only when sidebar is not collapsed */}
+												{subItem.icon && (
+													<subItem.icon size={isCollapsed ? 16 : 20} />
+												)}{" "}
+												{/* Adjust icon size here */}
 												{!isCollapsed && <span>{subItem.text}</span>}
 											</Link>
 										</li>
@@ -182,7 +169,8 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
 										: ""
 								}`}
 							>
-								<item.icon size={24} />
+								<item.icon size={isCollapsed ? 18 : 24} />{" "}
+								{/* Adjust icon size here */}
 								{!isCollapsed && <span>{item.text}</span>}
 							</Link>
 						)}

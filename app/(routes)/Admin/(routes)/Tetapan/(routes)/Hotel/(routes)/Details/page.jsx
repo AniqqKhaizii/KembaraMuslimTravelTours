@@ -4,30 +4,35 @@ import { useSearchParams } from "next/navigation";
 import Axios from "axios";
 import AdminLayout from "../../../../../../layout/AdminLayout";
 import { BsPlusCircleFill } from "react-icons/bs";
+
 const HotelDetails = () => {
 	const searchParams = useSearchParams();
 	const HotelID = searchParams.get("HotelID");
+
 	const [hotel, setHotel] = useState(null);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
 	const [updatedHotel, setUpdatedHotel] = useState({});
 	const [newImages, setNewImages] = useState({});
-	const [editMode, setEditMode] = useState(false); // Toggle edit mode
+	const [loading, setLoading] = useState(true);
+	const [editMode, setEditMode] = useState(false);
+	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		const fetchHotelDetails = async () => {
+			if (!HotelID) {
+				setError("Invalid HotelID");
+				setLoading(false);
+				return;
+			}
 			try {
-				const response = await Axios.get(
-					"http://localhost:3002/api/Tetapan/Hotel/ManageHotel",
-					{
-						params: {
-							Operation: "SEARCH",
-							HotelID: parseInt(HotelID),
-						},
-					}
-				);
-				setHotel(response.data[0]);
-				setUpdatedHotel(response.data[0]);
+				const response = await Axios.get("/api/Tetapan/ManageHotel", {
+					params: {
+						Operation: "SEARCH",
+						HotelID: parseInt(HotelID),
+					},
+				});
+				const hotelData = response.data[0];
+				setHotel(hotelData);
+				setUpdatedHotel(hotelData);
 			} catch (err) {
 				console.error(err);
 				setError("Failed to load hotel details");
@@ -35,13 +40,7 @@ const HotelDetails = () => {
 				setLoading(false);
 			}
 		};
-
-		if (HotelID) {
-			fetchHotelDetails();
-		} else {
-			setError("Invalid HotelID");
-			setLoading(false);
-		}
+		fetchHotelDetails();
 	}, [HotelID]);
 
 	const handleInputChange = (e) => {
@@ -54,12 +53,15 @@ const HotelDetails = () => {
 		setNewImages((prev) => ({ ...prev, [imageKey]: file }));
 	};
 
+	// Handle hotel details update
 	const handleUpdate = async () => {
 		const formData = new FormData();
 		formData.append("HotelID", HotelID);
+
 		Object.keys(updatedHotel).forEach((key) => {
 			formData.append(key, updatedHotel[key]);
 		});
+
 		Object.keys(newImages).forEach((key) => {
 			if (newImages[key]) {
 				formData.append(key, newImages[key]);
@@ -67,18 +69,10 @@ const HotelDetails = () => {
 		});
 
 		try {
-			await Axios.post(
-				"http://localhost:3002/api/Tetapan/Hotel/ManageHotel",
-				formData,
-				{
-					params: {
-						Operation: "UPDATE",
-					},
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				}
-			);
+			await Axios.post("/api/Tetapan/ManageHotel", formData, {
+				params: { Operation: "UPDATE" },
+				headers: { "Content-Type": "multipart/form-data" },
+			});
 			alert("Hotel details updated successfully!");
 			setEditMode(false); // Exit edit mode after successful update
 		} catch (err) {
@@ -87,50 +81,68 @@ const HotelDetails = () => {
 		}
 	};
 
-	if (loading) return <AdminLayout>Loading...</AdminLayout>;
-	if (error) return <AdminLayout>{error}</AdminLayout>;
-
+	console.log("newImages", newImages);
+	// Render the component
 	return (
 		<AdminLayout>
 			<div className="p-6">
 				<h1 className="text-3xl font-bold mb-6 text-gray-800">Hotel Details</h1>
-				<div className="bg-white border rounded-lg shadow-md p-8 space-y-8">
+
+				<div className="grid grid-cols-3 bg-white border rounded-md p-6 gap-12">
+					{/* Hotel Details Section */}
 					<div>
-						<h2 className="text-2xl font-semibold text-gray-900 mb-6 border-b pb-2">
-							{hotel.HotelName}
+						<h2 className="text-xl font-semibold text-gray-900 mb-4">
+							{hotel?.HotelName}
 						</h2>
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-							{Object.keys(hotel).map((key) =>
-								key.includes("Image") ? null : (
-									<div
-										key={key}
-										className="bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 px-4 py-6 shadow-lg rounded-md border border-gray-200 backdrop-blur-sm"
-									>
-										<label className="text-sm font-medium text-white">
-											{key}
-										</label>
-										{editMode ? (
-											<input
-												type="text"
-												name={key}
-												value={updatedHotel[key] || ""}
-												onChange={handleInputChange}
-												className="w-full mt-1 p-2 border rounded-md"
-											/>
-										) : (
-											<p className="text-gray-700">{hotel[key] || "N/A"}</p>
-										)}
-									</div>
-								)
+						<div className="space-y-4">
+							{Object.keys(hotel || {}).map(
+								(key) =>
+									!["HotelID", "Image", "CreatedDate", "UpdatedDate"].some(
+										(exclude) => key.includes(exclude)
+									) && (
+										<div key={key} className="flex justify-between mb-4">
+											<label className="text-sm font-medium text-gray-600">
+												{key}
+											</label>
+											{editMode ? (
+												<input
+													type="text"
+													name={key}
+													value={updatedHotel[key] || ""}
+													onChange={handleInputChange}
+													className="w-2/3 p-2 border rounded-md"
+												/>
+											) : (
+												<div className="text-gray-700">
+													{key === "Stars" ? (
+														<>
+															{Array.from({ length: hotel[key] || 0 }).map(
+																(_, index) => (
+																	<span key={index} className="text-yellow-500">
+																		⭐
+																	</span>
+																)
+															)}
+														</>
+													) : key === "Distance" ? (
+														<span>{hotel[key]} m</span>
+													) : (
+														<p>{hotel[key] || "N/A"}</p>
+													)}
+												</div>
+											)}
+										</div>
+									)
 							)}
 						</div>
 					</div>
 
-					<div>
+					{/* Hotel Images Section */}
+					<div className="col-span-2">
 						<h3 className="text-lg font-semibold text-gray-100 bg-orange-600 p-2 mb-4">
 							Hotel Images
 						</h3>
-						<div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-6">
+						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 							{[
 								"Image1",
 								"Image2",
@@ -141,23 +153,21 @@ const HotelDetails = () => {
 								"Image7",
 								"Image8",
 							].map((imgKey, index) => (
-								<div key={index} className="relative space-y-2 group">
-									{hotel[imgKey] ? (
+								<div key={index} className="relative">
+									{hotel?.[imgKey] || newImages[imgKey] ? (
 										<img
-											src={hotel[imgKey]}
+											src={newImages[imgKey] || hotel[imgKey]}
 											alt={`Hotel Image ${index + 1}`}
-											className="w-full h-32 object-cover rounded-lg shadow border"
+											className="w-full h-32 object-cover rounded-md"
 										/>
 									) : (
 										<button
 											onClick={() =>
 												document.getElementById(`upload-${imgKey}`).click()
 											}
-											className="w-full h-48 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 px-4 py-6 shadow-lg rounded-md border border-gray-200 backdrop-blur-sm flex items-center justify-center text-gray-300 hover:text-gray-400 transition-all duration-300 hover:bg-gray-200 relative"
+											className="w-full h-32 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 p-4 rounded-md flex items-center justify-center text-gray-500 hover:text-gray-700"
 										>
-											<span className="text-4xl font-bold">
-												<BsPlusCircleFill />
-											</span>
+											<BsPlusCircleFill className="text-3xl" />
 											<input
 												id={`upload-${imgKey}`}
 												type="file"
@@ -171,6 +181,7 @@ const HotelDetails = () => {
 						</div>
 					</div>
 
+					{/* Edit and Save Buttons Section */}
 					<div className="flex justify-between">
 						{!editMode ? (
 							<button

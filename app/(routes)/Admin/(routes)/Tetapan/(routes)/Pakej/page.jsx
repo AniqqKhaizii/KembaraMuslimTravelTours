@@ -121,6 +121,7 @@ const TetapanPakej = () => {
 			Infant_Triple: parseFloat(values.Infant_Triple),
 			Infant_Quad: parseFloat(values.Infant_Quad),
 			TripIDs: values.TripIDs.join(", "),
+			Commision: parseFloat(values.Commission),
 		};
 		if (editingPackage) {
 			const response = await Axios.get("/api/Tetapan/ManagePackage", {
@@ -143,6 +144,9 @@ const TetapanPakej = () => {
 					HotelMakkahID: formattedValues.HotelMakkahID,
 					HotelMadinahID: formattedValues.HotelMadinahID,
 					TripIDs: formattedValues.TripIDs,
+					TripUnique: formattedValues.TripUnique,
+					PakejPoster: formattedValues.PakejPoster,
+					Commision: formattedValues.Commission,
 				},
 			});
 			if (response.data.message) {
@@ -180,6 +184,7 @@ const TetapanPakej = () => {
 					HotelMakkahID: formattedValues.HotelMakkahID,
 					HotelMadinahID: formattedValues.HotelMadinahID,
 					TripIDs: formattedValues.TripIDs,
+					Commision: formattedValues.Commission,
 				},
 			});
 			if (response.data.message) {
@@ -222,6 +227,7 @@ const TetapanPakej = () => {
 				Infant_Double: editingPackage.Infant_Double,
 				Infant_Triple: editingPackage.Infant_Triple,
 				Infant_Quad: editingPackage.Infant_Quad,
+				Commission: editingPackage.Commission,
 			});
 		}
 	}, [editingPackage, form]);
@@ -363,20 +369,14 @@ const TetapanPakej = () => {
 			),
 		},
 		{
-			title: "Hotel Makkah",
-			dataIndex: "MakkahHotelName",
-			key: "MakkahHotelName",
+			title: "Hotel",
+			key: "Hotel",
 			className: "font-primary text-center",
-			onCell: () => ({
-				style: { verticalAlign: "top" },
-				className: "uppercase font-primary",
-			}),
-		},
-		{
-			title: "Hotel Madinah",
-			dataIndex: "MadinahHotelName",
-			key: "MadinahHotelName",
-			className: "font-primary text-center",
+			render: (text, record) => (
+				<span className="uppercase font-primary">
+					{record.MakkahHotelName} / {record.MadinahHotelName}
+				</span>
+			),
 			onCell: () => ({
 				style: { verticalAlign: "top" },
 				className: "uppercase font-primary",
@@ -413,6 +413,21 @@ const TetapanPakej = () => {
 			},
 		},
 		{
+			title: "Commission",
+			dataIndex: "Commission",
+			key: "Commission",
+			className: "font-primary text-center",
+			render: (text, record) => (
+				<span className="font-primary">
+					{record.Commission ? `RM ${record.Commission}` : "N/A"}
+				</span>
+			),
+			onCell: () => ({
+				style: { verticalAlign: "top" },
+				className: "uppercase font-primary",
+			}),
+		},
+		{
 			title: "Actions",
 			key: "actions",
 			className: "font-primary w-32",
@@ -437,12 +452,12 @@ const TetapanPakej = () => {
 
 	const HotelSelectionMakkah = ({ hotels, form }) => {
 		const [selectedHotel, setSelectedHotel] = useState(
-			editingPackage ? editingPackage.MakkahHotelID : null
+			editingPackage ? editingPackage.HotelMakkahID : null
 		);
 
 		useEffect(() => {
 			if (editingPackage) {
-				form.setFieldsValue({ HotelMakkahID: editingPackage.MakkahHotelID });
+				form.setFieldsValue({ HotelMakkahID: editingPackage.HotelMakkahID });
 			}
 		}, [selectedHotel]);
 
@@ -475,12 +490,12 @@ const TetapanPakej = () => {
 
 	const HotelSelectionMadinah = ({ hotels, form }) => {
 		const [selectedHotel, setSelectedHotel] = useState(
-			editingPackage ? editingPackage.MadinahHotelID : null
+			editingPackage ? editingPackage.HotelMadinahID : null
 		);
 
 		useEffect(() => {
 			if (editingPackage) {
-				form.setFieldsValue({ HotelMadinahID: editingPackage.MadinahHotelID });
+				form.setFieldsValue({ HotelMadinahID: editingPackage.HotelMadinahID });
 			}
 		}, [selectedHotel]);
 
@@ -500,7 +515,7 @@ const TetapanPakej = () => {
 					{hotels.map((hotel) => (
 						<Button
 							key={hotel.HotelID}
-							type={selectedHotel === hotel.HotelID ? "primary" : "default"} // Highlight selected
+							type={selectedHotel === hotel.HotelID ? "primary" : "default"}
 							onClick={() => handleSelectHotel(hotel.HotelID)}
 						>
 							{hotel.HotelName}
@@ -528,14 +543,12 @@ const TetapanPakej = () => {
 		const handleSelectTrip = (tripId) => {
 			let updatedTrips;
 			if (selectedTrips.includes(tripId)) {
-				// Remove trip if already selected
 				updatedTrips = selectedTrips.filter((id) => id !== tripId);
 			} else {
-				// Add trip if not selected
 				updatedTrips = [...selectedTrips, tripId];
 			}
 			setSelectedTrips(updatedTrips);
-			form.setFieldsValue({ TripIDs: updatedTrips }); // Update form value
+			form.setFieldsValue({ TripIDs: updatedTrips });
 		};
 
 		return (
@@ -646,13 +659,15 @@ const TetapanPakej = () => {
 											</td>
 											{["Adult_Double", "Adult_Triple", "Adult_Quad"].map(
 												(field) => (
-													<td className="border border-gray-300 px-4 py-2">
+													<td
+														key={field}
+														className="border border-gray-300 px-4 py-2"
+													>
 														<div className="flex items-start justify-center h-9">
 															<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
 																RM
 															</p>
 															<Form.Item
-																key={field}
 																name={field}
 																rules={[
 																	{
@@ -685,13 +700,15 @@ const TetapanPakej = () => {
 												"ChildWBed_Triple",
 												"ChildWBed_Quad",
 											].map((field) => (
-												<td className="border border-gray-300 px-4 py-2">
+												<td
+													key={field}
+													className="border border-gray-300 px-4 py-2"
+												>
 													<div className="flex items-start justify-center h-9">
 														<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
 															RM
 														</p>
 														<Form.Item
-															key={field}
 															name={field}
 															rules={[
 																{
@@ -723,13 +740,15 @@ const TetapanPakej = () => {
 												"ChildNoBed_Triple",
 												"ChildNoBed_Quad",
 											].map((field) => (
-												<td className="border border-gray-300 px-4 py-2">
+												<td
+													key={field}
+													className="border border-gray-300 px-4 py-2"
+												>
 													<div className="flex items-start justify-center h-9">
 														<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
 															RM
 														</p>
 														<Form.Item
-															key={field}
 															name={field}
 															rules={[
 																{
@@ -758,13 +777,15 @@ const TetapanPakej = () => {
 											</td>
 											{["Infant_Double", "Infant_Triple", "Infant_Quad"].map(
 												(field) => (
-													<td className="border border-gray-300 px-4 py-2">
+													<td
+														key={field}
+														className="border border-gray-300 px-4 py-2"
+													>
 														<div className="flex items-start justify-center h-9">
 															<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
 																RM
 															</p>
 															<Form.Item
-																key={field}
 																name={field}
 																rules={[
 																	{

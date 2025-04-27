@@ -11,14 +11,28 @@ const Index = () => {
 	const [statusHolder, setStatusHolder] = useState("message");
 	const [showModal, setShowModal] = useState(false);
 	const [forgotEmail, setForgotEmail] = useState("");
+	const [loginLoading, setLoginLoading] = useState(false);
 
-	const handleForgotPassword = () => {
-		// You can call your API here with forgotEmail
-		console.log("Sending reset email to:", forgotEmail);
-		setShowModal(false); // Close modal after submitting
+	const handleForgotPassword = async () => {
+		try {
+			const response = await Axios.post("/api/forgot-password", {
+				email: forgotEmail,
+			});
+
+			if (response.data.success) {
+				alert("Password reset instructions have been sent to your email.");
+			} else {
+				alert(response.data.message || "Failed to send reset instructions.");
+			}
+		} catch (error) {
+			console.error("Error sending forgot password request:", error);
+			alert("An error occurred. Please try again later.");
+		}
+		setShowModal(false);
 	};
 
 	const checkUser = () => {
+		setLoginLoading(true);
 		Axios.post("/api/Login", {
 			Username,
 			Password,
@@ -38,6 +52,7 @@ const Index = () => {
 				}
 
 				sessionStorage.setItem("UserData", JSON.stringify(userData));
+				setLoginLoading(false);
 				router.push("/Admin/Dashboard");
 			}
 		});
@@ -54,6 +69,8 @@ const Index = () => {
 
 	useEffect(() => {
 		const remembered = localStorage.getItem("rememberMe");
+		const storedUser = localStorage.getItem("UserData");
+		storedUser ? setUsername(storedUser.AdmUname) : setUsername("");
 		if (remembered === "true") {
 			const storedUser = localStorage.getItem("UserData");
 			if (storedUser) {
@@ -207,7 +224,7 @@ const Index = () => {
 							type="submit"
 							className="w-full flex justify-center text-center rounded-lg bg-black px-5 py-3 text-sm font-medium text-orange-500 hover:bg-orange-600 hover:text-white"
 						>
-							Sign in
+							{loginLoading ? "Logging in..." : "Login"}
 						</button>
 					</div>
 				</form>

@@ -1,43 +1,50 @@
-// import nodemailer from "nodemailer";
+import nodemailer from "nodemailer";
+import { poolPromise } from "@/lib/db"; // Adjust this import to your actual DB connection
 
-// export async function POST(req) {
-// 	const { email } = await req.json();
+export async function POST(req) {
+	try {
+		const { email } = await req.json();
+		const pool = poolPromise;
 
-// 	const pool = await poolPromise;
+		// Search for user by email
+		const [rows] = await pool.query(
+			`SELECT * FROM adminTbl WHERE AdmEmail = ?`,
+			[email]
+		);
 
-// 	const [rows] = await pool.query(`CALL SP_Admin_Carian(?, ?, ?, ?)`, [
-// 		Username,
-// 		UserLevel,
-// 		UserRole,
-// 		UserEmail,
-// 	]);
+		if (!rows.length) {
+			return new Response(JSON.stringify({ message: "Email not found!" }), {
+				status: 404,
+			});
+		}
 
-// 	if (email !== rows[0][0].AdmEmail) {
-// 		return new Response(JSON.stringify({ message: "Email not found!" }), {
-// 			status: 404,
-// 		});
-// 	}
+		// Create a reset token (you should ideally generate a real token here)
+		const resetToken = "dummy-token-123"; // Replace with real secure random token
 
-// 	// Send email with nodemailer
-// 	let transporter = nodemailer.createTransport({
-// 		service: "gmail",
-// 		auth: {
-// 			user: process.env.SMTP_USER,
-// 			pass: process.env.SMTP_PASS,
-// 		},
-// 	});
+		// Send reset email
+		let transporter = nodemailer.createTransport({
+			service: "gmail",
+			auth: {
+				user: process.env.SMTP_USER,
+				pass: process.env.SMTP_PASS,
+			},
+		});
 
-// 	await transporter.sendMail({
-// 		from: '"KMTT Support" <support@kmtt.com>',
-// 		to: email,
-// 		subject: "Password Reset",
-// 		html: `<p>Click <a href="https://www.kembaramuslimtravel.com/reset-password?token=123">here</a> to reset your password.</p>`,
-// 	});
+		await transporter.sendMail({
+			from: '"KMTT Support" <support@kmtt.com>',
+			to: email,
+			subject: "Password Reset",
+			html: `<p>Click <a href="https://www.kembaramuslimtravel.com/reset-password?token=${resetToken}">here</a> to reset your password.</p>`,
+		});
 
-// 	return new Response(
-// 		JSON.stringify({ message: "Reset link sent to email!" }),
-// 		{
-// 			status: 200,
-// 		}
-// 	);
-// }
+		return new Response(
+			JSON.stringify({ message: "Reset link sent to email!" }),
+			{ status: 200 }
+		);
+	} catch (error) {
+		console.error(error);
+		return new Response(JSON.stringify({ message: "Server error" }), {
+			status: 500,
+		});
+	}
+}

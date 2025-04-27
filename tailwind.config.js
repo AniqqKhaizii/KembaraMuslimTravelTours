@@ -81,7 +81,7 @@ module.exports = {
 				gotham: ["Gotham", "sans-serif"],
 				header: ["PlayfairDisplay", "serif"],
 				reenie: ["ReenieBeanie", "cursive"],
-				impact: ["ImpactFont", "sans-serif"],
+				satoshi: ["SatoshiFont", "sans-serif"],
 			},
 			backgroundImage: {
 				"custom-gradient": "linear-gradient(145deg, #cacaca, #f0f0f0)",

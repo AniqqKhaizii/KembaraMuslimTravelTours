@@ -27,13 +27,15 @@ export default function ClientWrapper({ children }) {
 
 	return (
 		<ConfigProvider
-			theme={{
-				token: {
-					fontFamily: isAdminPage ? "Poppins, sans-serif" : "Arial, sans-serif",
-				},
-			}}
+		// theme={{
+		// 	token: {
+		// 		fontFamily: isAdminPage
+		// 			? "font-satoshi, sans-serif"
+		// 			: "Arial, sans-serif",
+		// 	},
+		// }}
 		>
-			<div className={isAdminPage ? "font-primary" : ""}>
+			<div>
 				{!isAdminPage && <Header />}
 				<div>
 					{children}

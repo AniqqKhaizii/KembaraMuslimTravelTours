@@ -3,6 +3,10 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
+const convertBase64ToBinary = (base64String) => {
+	return Buffer.from(base64String, "base64");
+};
+
 export async function GET(req) {
 	try {
 		const { searchParams } = req.nextUrl;
@@ -43,6 +47,78 @@ export async function GET(req) {
 		const Infant_Triple = parseDecimal(searchParams.get("Infant_Triple"));
 		const Infant_Quad = parseDecimal(searchParams.get("Infant_Quad"));
 
+		const Commission = parseDecimal(searchParams.get("Commission"));
+		const pool = await poolPromise;
+
+		const [rows] = await pool.query(
+			`CALL SP_Manage_Package(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			[
+				Operation,
+				PakejID,
+				PakejName,
+				Adult_Double,
+				Adult_Triple,
+				Adult_Quad,
+				ChildWBed_Double,
+				ChildWBed_Triple,
+				ChildWBed_Quad,
+				ChildNoBed_Double,
+				ChildNoBed_Triple,
+				ChildNoBed_Quad,
+				Infant_Double,
+				Infant_Triple,
+				Infant_Quad,
+				HotelMakkahID,
+				HotelMadinahID,
+				TripIDs,
+				PakejPoster,
+				TripUnique,
+				Commission,
+			]
+		);
+
+		return NextResponse.json(rows[0]); // MySQL procedures return nested arrays
+	} catch (err) {
+		console.error("❌ ERROR:", err);
+		return NextResponse.json(
+			{ error: { message: err.message } },
+			{ status: 500 }
+		);
+	}
+}
+
+export async function POST(req) {
+	try {
+		const body = await req.json();
+
+		const {
+			Operation,
+			PakejID,
+			PakejName,
+			HotelMakkahID,
+			HotelMadinahID,
+			TripIDs,
+			TripUnique,
+			PakejPoster,
+			Adult_Double,
+			Adult_Triple,
+			Adult_Quad,
+			ChildWBed_Double,
+			ChildWBed_Triple,
+			ChildWBed_Quad,
+			ChildNoBed_Double,
+			ChildNoBed_Triple,
+			ChildNoBed_Quad,
+			Infant_Double,
+			Infant_Triple,
+			Infant_Quad,
+			Commission,
+		} = body;
+
+		const binaryPakejPoster = PakejPoster
+			? convertBase64ToBinary(PakejPoster)
+			: null;
+
 		const pool = await poolPromise;
 
 		const [rows] = await pool.query(
@@ -66,12 +142,13 @@ export async function GET(req) {
 				HotelMakkahID,
 				HotelMadinahID,
 				TripIDs,
-				PakejPoster,
+				binaryPakejPoster,
 				TripUnique,
+				Commission,
 			]
 		);
 
-		return NextResponse.json(rows[0]); // MySQL procedures return nested arrays
+		return NextResponse.json(rows[0]);
 	} catch (err) {
 		console.error("❌ ERROR:", err);
 		return NextResponse.json(

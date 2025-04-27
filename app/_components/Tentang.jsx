@@ -8,7 +8,7 @@ export default function HeroSection() {
 			{/* Image Grid */}
 			<div
 				data-aos="fade-right"
-				className="grid lg:grid-cols-2 grid-cols-1 items-start gap-4 w-1/2 lg:w-1/3"
+				className="hidden lg:grid lg:grid-cols-2 grid-cols-1 items-start gap-4 w-1/2 lg:w-1/3"
 			>
 				<div className="flex lg:flex-col flex-row gap-4">
 					<Image
