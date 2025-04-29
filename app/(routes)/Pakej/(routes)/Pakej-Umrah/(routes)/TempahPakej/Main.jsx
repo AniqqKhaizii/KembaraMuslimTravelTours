@@ -35,6 +35,10 @@ const Main = () => {
 	const [showAlert, setShowAlert] = useState(false);
 	const [maklumatJemaah, setMaklumatJemaah] = useState({});
 
+	const [selectedOption, setSelectedOption] = useState("");
+	const [totalPrice, setTotalPrice] = useState(0);
+	const [currentStep, setCurrentStep] = useState(1);
+
 	useEffect(() => {
 		if (showAlert) {
 			const timer = setTimeout(() => {
@@ -131,7 +135,14 @@ const Main = () => {
 	}, []);
 
 	const [rooms, setRooms] = useState([
-		{ adult: 1, childWithBed: 0, childWithoutBed: 0, infant: 0, roomType: "" },
+		{
+			adult: 1,
+			childWithBed: 0,
+			childWithoutBed: 0,
+			infant: 0,
+			roomID: 1,
+			roomType: "",
+		},
 	]);
 
 	// Room capacity rules
@@ -162,16 +173,17 @@ const Main = () => {
 	};
 
 	// Room type selection
-	const handleRoomTypeChange = (index, value) => {
+	const handleRoomTypeChange = (index, roomID, roomType) => {
 		const updatedRooms = [...rooms];
-		updatedRooms[index].roomType = value;
+		updatedRooms[index].roomID = roomID;
+		updatedRooms[index].roomType = roomType;
 
 		// Reset guest counts when room type changes
 		updatedRooms[index].adult = 0;
 		updatedRooms[index].childWithBed = 0;
 
 		setRooms(updatedRooms);
-		handleCardSelect(value);
+		handleCardSelect(roomType);
 	};
 
 	const handleIncrement = (index, key) => {
@@ -222,7 +234,33 @@ const Main = () => {
 		handleCardSelect(updatedRooms[index].roomType);
 	};
 
-	const [currentStep, setCurrentStep] = useState(1);
+	const handleCardSelect = (option) => {
+		const formattedOption = option.replace("bilik", "").trim();
+		setSelectedOption(formattedOption);
+
+		const newTotalPrice = rooms.reduce((total, room) => {
+			const { adult, childWithBed, childWithoutBed, infant } = room;
+			const roomPrice = roomPrices[room.roomType];
+			if (!roomPrice) {
+				console.error("Invalid room type:", room.roomType);
+				return total;
+			}
+
+			const a = Number(adult) || 0;
+			const cwb = Number(childWithBed) || 0;
+			const cwob = Number(childWithoutBed) || 0;
+			const inf = Number(infant) || 0;
+
+			const roomTotal =
+				a * (Number(roomPrice.adult) || 0) +
+				cwb * (Number(roomPrice.child) || 0) +
+				(cwob > 0 ? Number(roomPrice.childWithoutBed) || 0 : 0) +
+				(inf > 0 ? Number(roomPrice.infant) || 0 : 0);
+			return total + roomTotal;
+		}, 0);
+
+		setTotalPrice(newTotalPrice);
+	};
 
 	const handleNextStep = (e) => {
 		if (currentStep === 1) {
@@ -269,36 +307,6 @@ const Main = () => {
 		if (currentStep > 1) {
 			setCurrentStep((prevStep) => prevStep - 1);
 		}
-	};
-
-	const [selectedOption, setSelectedOption] = useState("");
-	const [totalPrice, setTotalPrice] = useState(0);
-
-	const handleCardSelect = (option) => {
-		const formattedOption = option.replace("bilik", "").trim();
-		setSelectedOption(formattedOption);
-
-		const newTotalPrice = rooms.reduce((total, room) => {
-			const { adult, childWithBed, childWithoutBed, infant } = room;
-
-			// Ensure selected room type matches valid room prices
-			const roomPrice = roomPrices[room.roomType]; // Use room.roomType for dynamic handling
-			if (!roomPrice) {
-				console.error("Invalid room type:", room.roomType);
-				return total;
-			}
-
-			// Price calculation logic
-			const roomTotal =
-				adult * roomPrice.adult +
-				childWithBed * roomPrice.child +
-				(childWithoutBed > 0 ? roomPrice.childWithoutBed : 0) + // Add only if > 0
-				(infant > 0 ? roomPrice.infant : 0); // Add only if > 0
-
-			return total + roomTotal;
-		}, 0);
-
-		setTotalPrice(newTotalPrice);
 	};
 
 	const formatICNumber = (value) => {
@@ -589,20 +597,21 @@ const Main = () => {
 													id="roomType"
 													className="w-full font-primary"
 													value={room.roomType || ""} // Ensure selected value is displayed
-													onChange={(value) =>
-														handleRoomTypeChange(index, value)
-													} // Directly use `value`
+													onChange={(value) => {
+														const [roomID, roomType] = value.split("|");
+														handleRoomTypeChange(index, roomID, roomType);
+													}}
 												>
 													<Select.Option value="">
 														Select room type
 													</Select.Option>
-													<Select.Option value="Berdua">
+													<Select.Option value="1|Berdua">
 														Bilik Berdua
 													</Select.Option>
-													<Select.Option value="Bertiga">
+													<Select.Option value="2|Bertiga">
 														Bilik Bertiga
 													</Select.Option>
-													<Select.Option value="Berempat">
+													<Select.Option value="3|Berempat">
 														Bilik Berempat
 													</Select.Option>
 												</Select>
@@ -1268,7 +1277,7 @@ const Main = () => {
 							<span>GROSS TOTAL</span>
 							<span>
 								RM{" "}
-								{rooms
+								{/* {rooms
 									.reduce(
 										(acc, room) =>
 											acc +
@@ -1280,7 +1289,8 @@ const Main = () => {
 											(room.infant * roomPrices[selectedOption]?.infant || 0),
 										0
 									)
-									.toFixed(2)}
+									.toFixed(2)} */}
+								{totalPrice.toFixed(2)}
 							</span>
 						</div>
 
@@ -1289,7 +1299,7 @@ const Main = () => {
 							<span>AFTER DISCOUNT</span>
 							<span>
 								RM{" "}
-								{rooms
+								{/* {rooms
 									.reduce(
 										(acc, room) =>
 											acc +
@@ -1301,7 +1311,8 @@ const Main = () => {
 											(room.infant * roomPrices[selectedOption]?.infant || 0),
 										0
 									)
-									.toFixed(2)}
+									.toFixed(2)} */}
+								{totalPrice.toFixed(2)}
 							</span>
 						</div>
 

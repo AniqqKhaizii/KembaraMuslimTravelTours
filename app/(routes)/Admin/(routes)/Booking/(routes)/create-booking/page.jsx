@@ -2,8 +2,9 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
-import { Form, message, Input, Select } from "antd";
-import { CiCircleMinus } from "react-icons/ci";
+import { Form, message, Input, Select, Button } from "antd";
+import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
+import Loading from "@/app/loading";
 const CreateBookingPage = () => {
 	const [packageData, setPackageData] = useState(null);
 	const [tripDetails, setTripDetails] = useState([]);
@@ -16,17 +17,34 @@ const CreateBookingPage = () => {
 	const [form] = Form.useForm();
 	const [roomPrices, setRoomPrices] = useState({});
 	const [rooms, setRooms] = useState([
-		{ adult: 1, childWithBed: 0, childWithoutBed: 0, infant: 0, roomType: "" },
+		{
+			adult: 1,
+			childWithBed: 0,
+			childWithoutBed: 0,
+			infant: 0,
+			roomID: 1,
+			roomType: "",
+		},
 	]);
+	const [bookingID, setBookingID] = useState(null);
+	const [maklumatJemaah, setMaklumatJemaah] = useState({});
+	const [custDetails, setCustDetails] = useState({});
+	const [guestName, setGuestName] = useState(
+		document.getElementById("NamaJemaah1 - Bilik 1")?.value
+	);
+	const [icNumber, setIcNumber] = useState(
+		document.getElementById("ICJemaah1 - Bilik 1")?.value
+	);
 
-	// Room capacity rules
+	const [selectedOption, setSelectedOption] = useState("");
+	const [totalPrice, setTotalPrice] = useState(0);
+
 	const roomCapacity = {
 		Berdua: 2,
 		Bertiga: 3,
 		Berempat: 4,
 	};
 
-	// Add new room option
 	const handleAddRoomOption = () => {
 		setRooms([
 			...rooms,
@@ -40,23 +58,20 @@ const CreateBookingPage = () => {
 		]);
 	};
 
-	// Remove room option
 	const handleRemoveRoomOption = (index) => {
 		const updatedRooms = rooms.filter((_, i) => i !== index);
 		setRooms(updatedRooms);
 	};
 
-	// Room type selection
-	const handleRoomTypeChange = (index, value) => {
+	const handleRoomTypeChange = (index, roomID, roomType) => {
 		const updatedRooms = [...rooms];
-		updatedRooms[index].roomType = value;
-
-		// Reset guest counts when room type changes
-		updatedRooms[index].adult = 0;
+		updatedRooms[index].roomID = roomID;
+		updatedRooms[index].roomType = roomType;
+		updatedRooms[index].adult = 1;
 		updatedRooms[index].childWithBed = 0;
 
 		setRooms(updatedRooms);
-		handleCardSelect(value);
+		handleCardSelect(roomType);
 	};
 
 	const handleIncrement = (index, key) => {
@@ -107,30 +122,28 @@ const CreateBookingPage = () => {
 		handleCardSelect(updatedRooms[index].roomType);
 	};
 
-	const [selectedOption, setSelectedOption] = useState("");
-	const [totalPrice, setTotalPrice] = useState(0);
-
 	const handleCardSelect = (option) => {
 		const formattedOption = option.replace("bilik", "").trim();
 		setSelectedOption(formattedOption);
 
 		const newTotalPrice = rooms.reduce((total, room) => {
 			const { adult, childWithBed, childWithoutBed, infant } = room;
-
-			// Ensure selected room type matches valid room prices
-			const roomPrice = roomPrices[room.roomType]; // Use room.roomType for dynamic handling
+			const roomPrice = roomPrices[room.roomType];
 			if (!roomPrice) {
 				console.error("Invalid room type:", room.roomType);
 				return total;
 			}
 
-			// Price calculation logic
-			const roomTotal =
-				adult * roomPrice.adult +
-				childWithBed * roomPrice.child +
-				(childWithoutBed > 0 ? roomPrice.childWithoutBed : 0) + // Add only if > 0
-				(infant > 0 ? roomPrice.infant : 0); // Add only if > 0
+			const a = Number(adult) || 0;
+			const cwb = Number(childWithBed) || 0;
+			const cwob = Number(childWithoutBed) || 0;
+			const inf = Number(infant) || 0;
 
+			const roomTotal =
+				a * (Number(roomPrice.adult) || 0) +
+				cwb * (Number(roomPrice.child) || 0) +
+				(cwob > 0 ? Number(roomPrice.childWithoutBed) || 0 : 0) +
+				(inf > 0 ? Number(roomPrice.infant) || 0 : 0);
 			return total + roomTotal;
 		}, 0);
 
@@ -149,7 +162,6 @@ const CreateBookingPage = () => {
 			try {
 				setLoading(true);
 
-				// Fetch pkg details
 				const { data } = await axios.get(
 					`/api/Tetapan/ManagePackage?Operation=SEARCH&TripUnique=Y&PakejID=${pkgId}`
 				);
@@ -158,8 +170,26 @@ const CreateBookingPage = () => {
 				if (data && data.length > 0) {
 					const pkg = data[0];
 					setPackageData(pkg);
-
-					// Handle image conversion if pkg poster exists
+					setRoomPrices({
+						Berdua: {
+							adult: pkg.Adult_Double,
+							childWithBed: pkg.ChildWBed_Double,
+							childWithoutBed: pkg.ChildNoBed_Double,
+							infant: pkg.Infant_Double,
+						},
+						Bertiga: {
+							adult: pkg.Adult_Triple,
+							childWithBed: pkg.ChildWBed_Triple,
+							childWithoutBed: pkg.ChildNoBed_Triple,
+							infant: pkg.Infant_Triple,
+						},
+						Berempat: {
+							adult: pkg.Adult_Quad,
+							childWithBed: pkg.ChildWBed_Quad,
+							childWithoutBed: pkg.ChildNoBed_Quad,
+							infant: pkg.Infant_Quad,
+						},
+					});
 					if (pkg.PakejPoster && Array.isArray(pkg.PakejPoster.data)) {
 						const base64String = Buffer.from(pkg.PakejPoster.data).toString(
 							"base64"
@@ -176,9 +206,17 @@ const CreateBookingPage = () => {
 					const tripResponse = await axios.get(
 						`/api/Tetapan/ManageTrip?Operation=SEARCH&TripID=${tripId}`
 					);
-					console.log("tripResponse", tripResponse.data);
 					setTripDetails(tripResponse.data[0] || {});
-					console.log("tripDetails", tripDetails);
+
+					const pakejName = pkg.PakejName.split(" ")[0].toUpperCase();
+					const date = new Date();
+					const yy = String(date.getFullYear()).slice(-2);
+					const mm = String(date.getMonth() + 1).padStart(2, "0");
+					const dd = String(date.getDate()).padStart(2, "0");
+					const rand4 = Math.floor(1000 + Math.random() * 9000);
+
+					const bookingID = `${pakejName}${yy}${mm}${dd}${rand4}-${tripResponse.data[0].TripID}`;
+					setBookingID(bookingID);
 				} else {
 					message.error("Package not found");
 				}
@@ -193,8 +231,77 @@ const CreateBookingPage = () => {
 		fetchPackageDetails();
 	}, [pkgId, tripId]);
 
+	const formatICNumber = (value) => {
+		// Remove any non-numeric characters
+		const digits = value.replace(/\D/g, "");
+
+		// Auto-insert dashes at correct positions
+		if (digits.length <= 6) {
+			return digits;
+		} else if (digits.length <= 8) {
+			return `${digits.slice(0, 6)}-${digits.slice(6)}`;
+		} else {
+			return `${digits.slice(0, 6)}-${digits.slice(6, 8)}-${digits.slice(
+				8,
+				12
+			)}`;
+		}
+	};
+	const isValidMalaysianIC = (icNumber) => {
+		const icRegex = /^\d{6}-\d{2}-\d{4}$/; // Basic format check
+		if (!icRegex.test(icNumber)) return false;
+
+		const [dob, stateCode, serial] = icNumber.split("-");
+
+		// Extract Year, Month, and Day
+		const year = parseInt(dob.substring(0, 2), 10);
+		const month = parseInt(dob.substring(2, 4), 10);
+		const day = parseInt(dob.substring(4, 6), 10);
+
+		// Determine full birth year (Assuming range 1900-2099)
+		const fullYear = year >= 50 ? 1900 + year : 2000 + year;
+
+		// Validate Date
+		const isValidDate = !isNaN(
+			new Date(`${fullYear}-${month}-${day}`).getTime()
+		);
+		if (!isValidDate) return false;
+
+		// Validate Malaysian State Code
+		const validStateCodes = [
+			"01",
+			"02",
+			"03",
+			"04",
+			"05",
+			"06",
+			"07",
+			"08",
+			"09",
+			"10",
+			"11",
+			"12",
+			"13",
+			"14",
+			"15",
+			"16",
+			"21",
+			"22",
+			"23",
+			"24",
+			"25",
+			"26",
+			"27",
+			"28",
+			"29",
+		];
+		if (!validStateCodes.includes(stateCode)) return false;
+
+		return true;
+	};
+
 	if (loading) {
-		return <div>Loading...</div>;
+		return <Loading />;
 	}
 
 	if (!packageData) {
@@ -205,19 +312,90 @@ const CreateBookingPage = () => {
 		Emirates: "/flight/Emirates.svg",
 		AirAsia: "/flight/AirAsia.svg",
 	};
+
+	const handleProceed = async () => {
+		console.log("This is happened when proceeding");
+		const totalPax = rooms.reduce(
+			(sum, room) =>
+				sum +
+				room.adult +
+				room.childWithBed +
+				room.childWithoutBed +
+				room.infant,
+			0
+		);
+		const jemaahList = [];
+		Object.keys(maklumatJemaah).forEach((key) => {
+			if (key.startsWith("Nama")) {
+				const name = maklumatJemaah[key];
+				const icKey = key.replace("Nama", "IC");
+				const ic = maklumatJemaah[icKey];
+
+				const match = key.match(/Bilik (\d+)/);
+				const roomIndex = match ? parseInt(match[1], 10) - 1 : 0;
+				const roomID = rooms[roomIndex]?.roomID || 0;
+
+				jemaahList.push({
+					ICNumber: ic,
+					FullName: name,
+					RoomID: roomID,
+				});
+			}
+		});
+		const AddOnCustDetails = JSON.stringify(jemaahList);
+
+		const bookingData = {
+			p_Operation: "ADD_NEW",
+			p_BookID: bookingID,
+			p_CustName: custDetails.name,
+			p_CustID: custDetails.ic,
+			p_CustEmail: custDetails.email,
+			p_CustAddress: custDetails.address,
+			p_CustPhone: custDetails.phone,
+			p_PakejID: packageData.PakejID,
+			p_TripID: tripDetails.TripID,
+			p_TotalPax: totalPax,
+			p_Discount: 0,
+			p_DepoAmt: 0,
+			p_BalancePayment: totalPrice,
+			p_TotalAmt: 0,
+			p_isPaid: false,
+			p_BookDate: null,
+			p_PaidDate: null,
+			p_BillCode: null,
+			p_OrderID: null,
+			p_TransactionID: null,
+			p_AddOnCustDetails: AddOnCustDetails,
+			p_ReferralCode: null,
+		};
+
+		try {
+			const response = await axios.post("/api/Booking", bookingData, {
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			const result = response.data;
+			console.log("Booking Response:", result);
+		} catch (error) {
+			console.error("Error posting booking:", error);
+		}
+	};
+
 	return (
 		<div className="min-h-screen bg-[url(/Hero/HeroLatest.jpg)] bg-fixed bg-cover">
 			<div className="backdrop-blur backdrop-brightness-75 py-12">
 				{updatedPoster && (
-					<div className="w-full max-w-3xl mx-auto">
+					<div className="w-full max-w-5xl mx-auto">
 						<img
-							className="w-full h-[47vh] object-cover object-top rounded-t-lg"
+							className="w-full h-[50vh] object-cover object-top rounded-t-lg"
 							src={updatedPoster}
 							alt="Package Poster"
 						/>
 					</div>
 				)}
-				<div className="max-w-3xl mx-auto p-6 bg-white rounded-b-lg">
+				<div className="max-w-5xl mx-auto p-6 bg-white rounded-b-lg">
 					<div className="pkg-details mb-6 pb-2 border-b-2 border-gray-200">
 						<div className="flex items-center justify-between">
 							<p className="text-3xl font-semibold text-gray-900">
@@ -237,62 +415,52 @@ const CreateBookingPage = () => {
 						</h2>
 						{tripDetails ? (
 							<div className="border-b border-gray-200 py-2">
-								<p className="text-lg text-gray-600">
-									<div className="flex items-center justify-between">
-										<strong className="font-medium text-gray-800">
-											Destination :
-										</strong>{" "}
-										{tripDetails.TripName}
-									</div>
-								</p>
-								<p className="text-lg text-gray-600">
-									<div className="flex items-center justify-between">
-										<strong className="font-medium text-gray-800">
-											Travel Date :
-										</strong>{" "}
-										{new Date(tripDetails.EndTravelDate).toLocaleDateString(
-											"en-GB",
-											{
-												day: "2-digit",
-												month: "short",
-												year: "numeric",
-											}
-										)}{" "}
-										-{" "}
-										{new Date(tripDetails.StartTravelDate).toLocaleDateString(
-											"en-GB",
-											{
-												day: "2-digit",
-												month: "short",
-												year: "numeric",
-											}
-										)}
-									</div>
-								</p>
-								<p className="text-lg text-gray-600">
-									<div className="flex items-center justify-between">
-										<strong className="font-medium text-gray-800">
-											Duration :
-										</strong>{" "}
-										{tripDetails.Duration} days
-									</div>
-								</p>
-								<p className="text-lg text-gray-600">
-									<div className="flex items-center justify-between">
-										<strong className="font-medium text-gray-800">
-											Flight Details :
-										</strong>{" "}
-										{tripDetails.FlightDetails}
-									</div>
-								</p>
-								<p className="text-lg text-gray-600">
-									<div className="flex items-center justify-between">
-										<strong className="font-medium text-gray-800">
-											Seat Available :
-										</strong>{" "}
-										{tripDetails.SeatBalance} Seats
-									</div>
-								</p>
+								<div className="flex items-center justify-between text-lg text-gray-600">
+									<strong className="font-medium text-gray-800">
+										Destination :
+									</strong>{" "}
+									{tripDetails.TripName}
+								</div>
+								<div className="flex items-center justify-between text-lg text-gray-600">
+									<strong className="font-medium text-gray-800">
+										Travel Date :
+									</strong>{" "}
+									{new Date(tripDetails.EndTravelDate).toLocaleDateString(
+										"en-GB",
+										{
+											day: "2-digit",
+											month: "short",
+											year: "numeric",
+										}
+									)}{" "}
+									-{" "}
+									{new Date(tripDetails.StartTravelDate).toLocaleDateString(
+										"en-GB",
+										{
+											day: "2-digit",
+											month: "short",
+											year: "numeric",
+										}
+									)}
+								</div>
+								<div className="flex items-center justify-between text-lg text-gray-600">
+									<strong className="font-medium text-gray-800">
+										Duration :
+									</strong>{" "}
+									{tripDetails.Duration} days
+								</div>
+								<div className="flex items-center justify-between text-lg text-gray-600">
+									<strong className="font-medium text-gray-800">
+										Flight Details :
+									</strong>{" "}
+									{tripDetails.FlightDetails}
+								</div>
+								<div className="flex items-center justify-between text-lg text-gray-600">
+									<strong className="font-medium text-gray-800">
+										Seat Available :
+									</strong>{" "}
+									{tripDetails.SeatBalance} Seats
+								</div>
 							</div>
 						) : (
 							<p className="text-lg text-gray-600">
@@ -306,31 +474,46 @@ const CreateBookingPage = () => {
 							Customer Information
 						</h2>
 						<div className="border-b border-gray-200 py-2">
-							<Form form={form} layout="vertical">
+							<Form
+								form={form}
+								layout="vertical"
+								onValuesChange={() => {
+									setCustDetails(form.getFieldsValue());
+									document.getElementById("NamaJemaah1 - Bilik 1").value =
+										custDetails.name;
+									document.getElementById("ICJemaah1 - Bilik 1").value =
+										custDetails.ic;
+								}}
+							>
 								<Form.Item
 									name="name"
 									label="Name"
 									rules={[
-										{
-											required: true,
-											message: "Please input your name!",
-										},
+										{ required: true, message: "Please input your name!" },
 									]}
 								>
 									<Input placeholder="Enter your name" />
 								</Form.Item>
 								<Form.Item
+									name="ic"
+									label="IC Number"
+									rules={[
+										{ required: true, message: "Please input your IC Number" },
+									]}
+									onChange={(e) => {
+										const value = e.target.value;
+										const formattedValue = formatICNumber(value);
+										form.setFieldsValue({ ic: formattedValue });
+									}}
+								>
+									<Input placeholder="Enter your email" />
+								</Form.Item>
+								<Form.Item
 									name="email"
 									label="Email"
 									rules={[
-										{
-											required: true,
-											message: "Please input your email!",
-										},
-										{
-											type: "email",
-											message: "Please enter a valid email!",
-										},
+										{ required: true, message: "Please input your email!" },
+										{ type: "email", message: "Please enter a valid email!" },
 									]}
 								>
 									<Input placeholder="Enter your email" />
@@ -351,10 +534,7 @@ const CreateBookingPage = () => {
 									name="address"
 									label="Address"
 									rules={[
-										{
-											required: true,
-											message: "Please input your address!",
-										},
+										{ required: true, message: "Please input your address!" },
 									]}
 								>
 									<Input placeholder="Enter your address" />
@@ -371,77 +551,194 @@ const CreateBookingPage = () => {
 							id="tour-overview"
 							className="grid lg:grid-cols-2 grid-cols-1 gap-4 "
 						>
-							{rooms.map((room, index) => (
-								<div key={index} className="border rounded-lg p-4">
-									<div className="flex justify-between items-center mb-3">
-										<h3 className="text-lg">Room {index + 1}</h3>
-										{index > 0 && (
-											<button
-												className="flex items-center text-red-500 hover:underline hover:underline-offset-2 gap-2"
-												onClick={() => handleRemoveRoomOption(index)}
+							{rooms.map((room, index) => {
+								const totalGuests =
+									room.adult +
+									room.childWithBed +
+									room.childWithoutBed +
+									room.infant;
+								return (
+									<div key={index} className="border rounded-lg p-4">
+										<div className="flex justify-between items-center mb-3">
+											<h3 className="text-lg">Room {index + 1}</h3>
+											{index > 0 && (
+												<button
+													className="flex items-center text-red-500 hover:underline hover:underline-offset-2 gap-2"
+													onClick={() => handleRemoveRoomOption(index)}
+												>
+													<CiCircleMinus className="text-red-700" />
+													Remove room option
+												</button>
+											)}
+										</div>
+										<div className="flex flex-col justify-between items-center mb-3">
+											<Select
+												name="roomType"
+												id="roomType"
+												className="w-full font-primary"
+												value={room.roomType || ""} // Ensure selected value is displayed
+												onChange={(value) => {
+													const [roomID, roomType] = value.split("|");
+													handleRoomTypeChange(index, roomID, roomType);
+												}}
 											>
-												<CiCircleMinus className="text-red-700" />
-												Remove room option
-											</button>
-										)}
-									</div>
-									<div className="flex flex-col justify-between items-center mb-3">
-										<Select
-											name="roomType"
-											id="roomType"
-											className="w-full font-primary"
-											value={room.roomType || ""} // Ensure selected value is displayed
-											onChange={(value) => handleRoomTypeChange(index, value)} // Directly use `value`
-										>
-											<Select.Option value="">Select room type</Select.Option>
-											<Select.Option value="Berdua">Bilik Berdua</Select.Option>
-											<Select.Option value="Bertiga">
-												Bilik Bertiga
-											</Select.Option>
-											<Select.Option value="Berempat">
-												Bilik Berempat
-											</Select.Option>
-										</Select>
-									</div>
+												<Select.Option value="">Select room type</Select.Option>
+												<Select.Option value="1|Berdua">
+													Bilik Berdua
+												</Select.Option>
+												<Select.Option value="2|Bertiga">
+													Bilik Bertiga
+												</Select.Option>
+												<Select.Option value="3|Berempat">
+													Bilik Berempat
+												</Select.Option>
+											</Select>
+										</div>
 
-									<div className="grid grid-cols-1 gap-3 py-4 border-t border-gray-300">
-										{[
-											{ type: "Adult", key: "adult" },
-											{ type: "Child w/ Bed", key: "childWithBed" },
-											{ type: "Child w/o Bed", key: "childWithoutBed" },
-											{ type: "Infant", key: "infant" },
-										].map(({ type, key }, idx) => (
-											<div
-												key={idx}
-												className="flex items-center justify-between w-full"
-											>
-												<span className="font-medium text-gray-600">
-													{type}
-												</span>
-												<div className="flex items-center gap-6">
-													<button
-														className="px-3 py-1 border border-orange-600 text-orange-600"
-														onClick={() => handleDecrement(index, key)}
-													>
-														-
-													</button>
-													<span className="text-md font-semibold text-gray-800 w-2">
-														{room[key]}
+										<div className="grid grid-cols-1 gap-3 py-4 border-t border-gray-300">
+											{[
+												{ type: "Adult", key: "adult" },
+												{ type: "Child w/ Bed", key: "childWithBed" },
+												{ type: "Child w/o Bed", key: "childWithoutBed" },
+												{ type: "Infant", key: "infant" },
+											].map(({ type, key }, idx) => (
+												<div
+													key={idx}
+													className="flex items-center justify-between w-full"
+												>
+													<span className="font-medium text-gray-600">
+														{type}
 													</span>
-													<button
-														className="px-3 py-1 border border-orange-600 text-orange-600"
-														onClick={() => handleIncrement(index, key)}
-													>
-														+
-													</button>
+													<div className="flex items-center gap-6">
+														<button
+															className="px-3 py-1 border border-orange-600 text-orange-600"
+															onClick={() => handleDecrement(index, key)}
+														>
+															-
+														</button>
+														<span className="text-md font-semibold text-gray-800 w-2">
+															{room[key]}
+														</span>
+														<button
+															className="px-3 py-1 border border-orange-600 text-orange-600"
+															onClick={() => handleIncrement(index, key)}
+														>
+															+
+														</button>
+													</div>
 												</div>
-											</div>
-										))}
-									</div>
-								</div>
-							))}
+											))}
+										</div>
 
-							<div className="lg:col-span-2 col-span-1 mt-4  p-4 rounded-sm">
+										<div className="space-y-4 border-t border-gray-300 py-4">
+											{[...Array(totalGuests)].map((_, i) => {
+												return (
+													<div
+														key={`guest-${index}-${i}`}
+														className="relative grid grid-cols-1 md:grid-cols-2 gap-4"
+													>
+														<div>
+															<label className="block text-sm font-medium text-gray-700 mb-1">
+																Nama Jemaah {i + 1}
+															</label>
+															<input
+																type="text"
+																id={`NamaJemaah${i + 1} - Bilik ${index + 1}`}
+																name={`NamaJemaah${i + 1} - Bilik ${index + 1}`}
+																placeholder="Contoh: Ali Bin Abu"
+																value={
+																	maklumatJemaah?.[
+																		`NamaJemaah${i + 1} - Bilik ${index + 1}`
+																	] || ""
+																}
+																onChange={(e) => {
+																	setMaklumatJemaah((prev) => ({
+																		...prev,
+																		[`NamaJemaah${i + 1} - Bilik ${index + 1}`]:
+																			e.target.value,
+																	}));
+																	setGuestName(e.target.value);
+																}}
+																className="w-full border-gray-300 rounded-md shadow-sm p-2"
+																required
+															/>
+														</div>
+
+														<div>
+															<label className="block text-sm font-medium text-gray-700 mb-1">
+																No IC Jemaah {i + 1}
+															</label>
+															<input
+																type="text"
+																id={`ICJemaah${i + 1} - Bilik ${index + 1}`}
+																name={`ICJemaah${i + 1} - Bilik ${index + 1}`}
+																placeholder="Contoh: 910101-01-1234"
+																value={
+																	maklumatJemaah?.[
+																		`ICJemaah${i + 1} - Bilik ${index + 1}`
+																	] || ""
+																}
+																onChange={(e) => {
+																	const formattedValue = formatICNumber(
+																		e.target.value
+																	);
+																	setMaklumatJemaah((prev) => ({
+																		...prev,
+																		[`ICJemaah${i + 1} - Bilik ${index + 1}`]:
+																			formattedValue,
+																	}));
+																	setIcNumber(formattedValue);
+																}}
+																onBlur={(e) => {
+																	const value = e.target.value;
+																	if (value && !isValidMalaysianIC(value)) {
+																		alert(
+																			"Invalid Malaysian IC format or details!"
+																		);
+																		setMaklumatJemaah((prev) => ({
+																			...prev,
+																			[`ICJemaah${i + 1} - Bilik ${index + 1}`]:
+																				"",
+																		}));
+																	}
+																}}
+																className="w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 p-2"
+																required
+															/>
+														</div>
+
+														{!guestName &&
+															!icNumber &&
+															custDetails.name &&
+															custDetails.ic && (
+																<button
+																	type="button"
+																	className="absolute top-0 right-0 text-red-500"
+																	onClick={() => {
+																		setMaklumatJemaah((prev) => ({
+																			...prev,
+																			[`NamaJemaah${i + 1} - Bilik ${
+																				index + 1
+																			}`]: custDetails.name,
+																			[`ICJemaah${i + 1} - Bilik ${index + 1}`]:
+																				custDetails.ic,
+																		}));
+																		setGuestName(custDetails.name);
+																		setIcNumber(custDetails.ic);
+																	}}
+																>
+																	<CiCirclePlus size={20} />
+																</button>
+															)}
+													</div>
+												);
+											})}
+										</div>
+									</div>
+								);
+							})}
+
+							<div className="lg:col-span-2 col-span-1 rounded-sm">
 								<strong className="text-gray-700 text-lg block mb-2">
 									Guests Summary:
 								</strong>
@@ -520,7 +817,7 @@ const CreateBookingPage = () => {
 								</div>
 							</div>
 
-							<div className="my-4">
+							<div className="m-4">
 								<button
 									className="px-4 py-2 border border-blue-500 text-blue-500 rounded-sm hover:bg-blue-500 hover:text-white"
 									onClick={handleAddRoomOption}
@@ -646,6 +943,10 @@ const CreateBookingPage = () => {
 							</span>
 						</div>
 					</div>
+				</div>
+
+				<div className="my-2 max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
+					<Button onClick={handleProceed}>Lock Seat</Button>
 				</div>
 			</div>
 		</div>
