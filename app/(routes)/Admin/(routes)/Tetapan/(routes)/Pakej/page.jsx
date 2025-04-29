@@ -268,11 +268,13 @@ const TetapanPakej = () => {
 		}
 	}, [editingPackage, form]);
 
-	const handleEdit = useCallback((record) => {
-		setEditingPackage(record);
-		form.setFieldsValue(record);
-		setIsModalVisible(true);
-	}, []);
+	const handleEdit =
+		((record) => {
+			setEditingPackage(record);
+			form.setFieldsValue(record);
+			setIsModalVisible(true);
+		},
+		[]);
 
 	const handleDelete = async (id) => {
 		try {
