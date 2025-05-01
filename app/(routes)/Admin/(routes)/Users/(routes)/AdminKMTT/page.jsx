@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import AdminLayout from "../../../../layout/AdminLayout";
 import { IoMdAdd } from "react-icons/io";
 import { UploadOutlined } from "@ant-design/icons";
-import { Input, Button, Table, Modal, Space, Select, Upload } from "antd";
+import { Input, Button, Table, Modal, Space, Select, Upload, Form } from "antd";
 import { PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
-
+const { Option } = Select;
 import Axios from "axios";
 
 const AdminPage = () => {
@@ -145,25 +145,29 @@ const AdminPage = () => {
 			),
 		},
 	];
+
 	const handleAddUser = async () => {
+		console.log("userData", userData);
 		try {
 			// Prepare formData to send in the API request
 			const formDataToSend = {
-				AddNew: "Y", // Assuming you're adding a new user
+				AddNew: "Y",
 				AdmName: formData.name,
 				AdmEmail: formData.email,
 				AdmUname: formData.username,
 				AdmPassword: formData.password,
-				AdmRole: formData.role,
 				AdmLevel: formData.userlevel,
+				AdmRole: formData.role,
 				AdmImage: formData.image,
-				CreateBy: "Admin",
+				CreateBy: userData.AdmUname,
+				ModifyBy: null,
 			};
 
 			// Make the API call using Axios
-			const response = await Axios.get(`/api/Admin/AdminSimpan`, {
-				params: formDataToSend, // Send data as URL params
-			});
+			const response = await Axios.post(
+				`/api/Admin/AdminSimpan`,
+				formDataToSend
+			);
 
 			// Check if the response is successful
 			if (response.status === 200) {
@@ -190,6 +194,7 @@ const AdminPage = () => {
 			// Handle error appropriately (e.g., show an error message to the user)
 		}
 	};
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({ ...prev, [name]: value }));
@@ -199,7 +204,6 @@ const AdminPage = () => {
 		if (file && file instanceof Blob) {
 			const reader = new FileReader();
 			reader.onloadend = () => {
-				console.log("reader.result", reader.result);
 				setFormData((prev) => ({ ...prev, image: reader.result }));
 			};
 			reader.readAsDataURL(file); // Convert the file to base64
@@ -219,12 +223,14 @@ const AdminPage = () => {
 				AdmRole: formData.role,
 				AdmLevel: formData.userlevel,
 				AdmImage: formData.image,
-				CreateBy: "Admin", // You might want to set a real user or keep it static
+				CreateBy: null,
+				ModifyBy: userData.AdmUname,
 			};
 
-			const response = await Axios.get(`/api/Admin/AdminSimpan`, {
-				params: formDataToSend, // Send data as URL params
-			});
+			const response = await Axios.post(
+				`/api/Admin/AdminSimpan`,
+				formDataToSend
+			);
 
 			if (response.status === 200) {
 				console.log("User updated successfully:", response.data);
@@ -234,7 +240,6 @@ const AdminPage = () => {
 				);
 				setUsers(updatedUsers);
 
-				// Close the modal and reset the form
 				setIsModalEditOpen(false);
 				setEditingUser(null);
 				setFormData({
@@ -257,6 +262,7 @@ const AdminPage = () => {
 			console.error("Error updating user:", error);
 		}
 	};
+
 	const handleDeleteUser = async () => {
 		try {
 			// Make the API call using Axios to call the SP_Admin_Hapus stored procedure
@@ -298,7 +304,6 @@ const AdminPage = () => {
 			name: user.AdmName,
 			email: user.AdmEmail,
 			username: user.AdmUname,
-			password: user.AdmPassword,
 			role: user.AdmRole,
 			userlevel: user.AdmLevel,
 			image: user.AdmImage || null,
@@ -375,73 +380,120 @@ const AdminPage = () => {
 					</Upload>
 				</div>
 
-				{/* User Details Form */}
-				<div className="grid grid-cols-2 gap-4">
-					<Input
-						placeholder="Name"
-						name="name"
-						value={formData.name}
-						onChange={handleChange}
-						className="col-span-2 mb-3 glass-input text-white"
-						rootClassName="glass-input-wrapper"
-					/>
-					<Input
-						placeholder="Email"
-						name="email"
-						value={formData.email}
-						onChange={handleChange}
-						className="mb-3 glass-input text-white"
-						rootClassName="glass-input-wrapper"
-					/>
-					<Input
-						placeholder="Username"
-						name="username"
-						value={formData.username}
-						onChange={handleChange}
-						className="mb-3 glass-input text-white"
-						rootClassName="glass-input-wrapper"
-					/>
-					<Input.Password
-						placeholder="Password"
-						name="password"
-						value={formData.password}
-						onChange={handleChange}
-						className="mb-3 glass-input text-white"
-						rootClassName="glass-input-wrapper"
-					/>
-					<Input.Password
-						placeholder="Re-enter Password"
-						name="password"
-						value={formData.password}
-						onChange={handleChange}
-						className="mb-3 glass-input text-white"
-						rootClassName="glass-input-wrapper"
-					/>
-					<Select
-						defaultValue={formData.role}
-						className="glass-select w-full mb-3"
-						dropdownClassName="glass-select-dropdown"
-						onChange={(value) =>
-							setFormData((prev) => ({ ...prev, role: value }))
-						}
-					>
-						<Option value="Admin">Admin</Option>
-						<Option value="Agent">Agent</Option>
-						<Option value="Customer">Customer</Option>
-					</Select>
-					<Select
-						defaultValue={formData.userlevel}
-						className="glass-select w-full mb-3"
-						dropdownClassName="glass-select-dropdown"
-						onChange={(value) =>
-							setFormData((prev) => ({ ...prev, userlevel: value }))
-						}
-					>
-						<Option value="1">Level 1</Option>
-						<Option value="2">Level 2</Option>
-						<Option value="3">Level 3</Option>
-					</Select>
-				</div>
+				<Form
+					layout="vertical"
+					onFinish={handleAddUser}
+					initialValues={formData}
+				>
+					<div className="grid grid-cols-2 gap-4">
+						<Form.Item
+							label={<span className="text-white">Name</span>}
+							name="name"
+							rules={[{ required: true, message: "Please enter your name" }]}
+							className="col-span-2 mb-0"
+						>
+							<Input placeholder="Name" className="glass-input text-white" />
+						</Form.Item>
+
+						<Form.Item
+							label={<span className="text-white">Email</span>}
+							name="email"
+							rules={[
+								{ required: true, type: "email", message: "Invalid email" },
+							]}
+							className="mb-0"
+						>
+							<Input placeholder="Email" className="glass-input text-white" />
+						</Form.Item>
+
+						<Form.Item
+							label={<span className="text-white">Username</span>}
+							name="username"
+							rules={[{ required: true, message: "Please enter a username" }]}
+							className="mb-0"
+						>
+							<Input
+								placeholder="Username"
+								className="glass-input text-white"
+							/>
+						</Form.Item>
+
+						<Form.Item
+							label={<span className="text-white">Password</span>}
+							name="password"
+							rules={[{ required: true, message: "Please enter a password" }]}
+							className="mb-0"
+						>
+							<Input.Password placeholder="Password" className="glass-input" />
+						</Form.Item>
+
+						<Form.Item
+							label={<span className="text-white">Confirm Password</span>}
+							name="confirmPassword"
+							dependencies={["password"]}
+							hasFeedback
+							rules={[
+								{
+									required: true,
+									message: "Please confirm your password",
+								},
+								({ getFieldValue }) => ({
+									validator(_, value) {
+										if (!value || getFieldValue("password") === value) {
+											return Promise.resolve();
+										}
+										return Promise.reject(new Error("Passwords do not match"));
+									},
+								}),
+							]}
+							className="mb-0"
+						>
+							<Input.Password
+								placeholder="Re-enter Password"
+								className="glass-input"
+							/>
+						</Form.Item>
+
+						<Form.Item
+							label={<span className="text-white">Role</span>}
+							name="role"
+							className="mb-0"
+						>
+							<Select
+								className="glass-select w-full"
+								popupClassName="glass-select-dropdown"
+							>
+								<Option value="Admin">Admin</Option>
+								<Option value="Agent">Agent</Option>
+								<Option value="Customer">Customer</Option>
+							</Select>
+						</Form.Item>
+
+						<Form.Item
+							label={<span className="text-white">User Level</span>}
+							name="userlevel"
+							className="mb-0"
+						>
+							<Select
+								className="glass-select w-full"
+								popupClassName="glass-select-dropdown"
+							>
+								<Option value="1">Level 1</Option>
+								<Option value="2">Level 2</Option>
+								<Option value="3">Level 3</Option>
+							</Select>
+						</Form.Item>
+					</div>
+
+					<Form.Item className="mt-8">
+						<Button
+							type="submit"
+							className="w-full bg-blue-500 text-white hover:bg-blue-700"
+						>
+							Submit
+						</Button>
+					</Form.Item>
+				</Form>
 			</Modal>
 
 			{/* Edit User Modal */}
@@ -464,6 +516,27 @@ const AdminPage = () => {
 				className="glass-modal"
 			>
 				<div className="grid grid-cols-2 gap-4">
+					{/* Image Upload Section */}
+					<div className="col-span-2 flex flex-col items-center mb-4">
+						<img
+							src={formData.image ? formData.image : "/Placeholder1.png"}
+							alt="User Image"
+							className="w-24 h-24 rounded-full object-cover mb-4"
+						/>
+						<Upload
+							listType="picture"
+							beforeUpload={() => false} // Disable auto upload
+							onChange={handleImageUpload}
+							className="w-full flex justify-center"
+						>
+							<Button
+								icon={<UploadOutlined />}
+								className="w-full bg-transparent text-white backdrop-blur"
+							>
+								Upload Image
+							</Button>
+						</Upload>
+					</div>
 					<Input
 						placeholder="Name"
 						name="name"
@@ -491,23 +564,32 @@ const AdminPage = () => {
 					<Input.Password
 						placeholder="Password"
 						name="password"
-						value={formData.password}
 						onChange={handleChange}
 						className="mb-3 glass-input text-white"
 						rootClassName="glass-input-wrapper"
+						required
 					/>
-					<Input.Password
-						placeholder="Re-enter Password"
-						name="password"
-						value={formData.password}
-						onChange={handleChange}
-						className="mb-3 glass-input text-white"
-						rootClassName="glass-input-wrapper"
-					/>
+					<div className="relative">
+						<Input.Password
+							placeholder="Re-enter Password"
+							name="confirmPassword"
+							onChange={handleChange}
+							className="mb-3 glass-input"
+							rootClassName="glass-input-wrapper"
+							required
+						/>
+						{formData.password &&
+							formData.confirmPassword &&
+							formData.password !== formData.confirmPassword && (
+								<p className="absolute -bottom-2 left-2 text-red-500 text-sm">
+									Passwords do not match
+								</p>
+							)}
+					</div>
 					<Select
 						defaultValue={formData.role}
 						className="glass-select w-full mb-3"
-						dropdownClassName="glass-select-dropdown"
+						popupClassName="glass-select-dropdown"
 						onChange={(value) =>
 							setFormData((prev) => ({ ...prev, role: value }))
 						}
@@ -519,7 +601,7 @@ const AdminPage = () => {
 					<Select
 						defaultValue={formData.userlevel}
 						className="glass-select w-full mb-3"
-						dropdownClassName="glass-select-dropdown"
+						popupClassName="glass-select-dropdown"
 						onChange={(value) =>
 							setFormData((prev) => ({ ...prev, userlevel: value }))
 						}

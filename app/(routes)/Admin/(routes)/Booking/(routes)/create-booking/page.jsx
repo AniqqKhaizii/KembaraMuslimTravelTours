@@ -191,10 +191,12 @@ const CreateBookingPage = () => {
 							infant: pkg.Infant_Quad,
 						},
 					});
+					console.log("pkg.PakejPoster", pkg.PakejPoster.data);
 					if (pkg.PakejPoster && Array.isArray(pkg.PakejPoster.data)) {
 						const base64String = Buffer.from(pkg.PakejPoster.data).toString(
 							"base64"
 						);
+						console.log("base64String", base64String);
 						pkg.PakejPoster = `data:image/jpeg;base64,${base64String}`;
 						setUpdatedPoster(pkg.PakejPoster);
 					} else if (
@@ -316,15 +318,21 @@ const CreateBookingPage = () => {
 
 	const handleProceed = async () => {
 		console.log("This is happened when proceeding");
-		const totalPax = rooms.reduce(
-			(sum, room) =>
-				sum +
-				room.adult +
-				room.childWithBed +
-				room.childWithoutBed +
-				room.infant,
-			0
+
+		const Pax = rooms.reduce(
+			(summary, room) => {
+				summary.Adult += room.adult;
+				summary.ChildWithBed += room.childWithBed;
+				summary.ChildWithoutBed += room.childWithoutBed;
+				summary.Infant += room.infant;
+				return summary;
+			},
+			{ Adult: 0, ChildWithBed: 0, ChildWithoutBed: 0, Infant: 0 }
 		);
+
+		const totalPax =
+			Pax.Adult + Pax.ChildWithBed + Pax.ChildWithoutBed + Pax.Infant;
+
 		const jemaahList = [];
 		Object.keys(maklumatJemaah).forEach((key) => {
 			if (key.startsWith("Nama")) {
@@ -355,12 +363,13 @@ const CreateBookingPage = () => {
 			p_CustPhone: custDetails.phone,
 			p_PakejID: packageData.PakejID,
 			p_TripID: tripDetails.TripID,
+			p_Pax: JSON.stringify(Pax),
 			p_TotalPax: totalPax,
 			p_Discount: 0,
 			p_DepoAmt: 0,
 			p_BalancePayment: totalPrice,
-			p_TotalAmt: 0,
-			p_isPaid: false,
+			p_TotalAmt: totalPrice,
+			p_Status: "Locked",
 			p_BookDate: null,
 			p_PaidDate: null,
 			p_BillCode: null,
@@ -377,8 +386,14 @@ const CreateBookingPage = () => {
 				},
 			});
 
-			const result = response.data;
-			console.log("Booking Response:", result);
+			const result = response;
+			if (result.status === 200) {
+				message.success("Booking created successfully");
+
+				setTimeout(() => {
+					router.push("/Admin/Booking/Details?BookID=" + result.data.o_BookID);
+				}, 3000); // 3000 milliseconds = 3 seconds
+			}
 		} catch (error) {
 			console.error("Error posting booking:", error);
 		}

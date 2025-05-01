@@ -7,9 +7,6 @@ export async function POST(req) {
 	try {
 		const { Username, Password } = await req.json();
 
-		// ⚠️ SECURITY WARNING: Raw password comparison is risky!
-		// Consider hashing and secure comparison methods.
-
 		const [rows] = await pool.query(`CALL SP_Sistem_Akses_Login(?, ?)`, [
 			Username,
 			Password,

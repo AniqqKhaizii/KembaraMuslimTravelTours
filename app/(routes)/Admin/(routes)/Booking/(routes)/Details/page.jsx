@@ -98,16 +98,26 @@ const Details = () => {
 						<h1 className="text-2xl font-semibold pb-4">
 							Booking ID : {bookData[0].BookID}
 						</h1>
-						<Button
-							onClick={() =>
-								window
-									.open(`/Admin/Booking/Invoice?BookID=${id}`, "_blank")
-									.focus()
-							}
-							className="px-6 py-2 bg-gray-500 text-white rounded-3xl"
-						>
-							Generate Invoice
-						</Button>
+						<div className="flex items-center gap-2">
+							<Button
+								onClick={() =>
+									window
+										.open(`/Admin/Booking/Invoice?BookID=${id}`, "_blank")
+										.focus()
+								}
+								className="px-6 py-2 bg-gray-500 text-white rounded-3xl"
+							>
+								Generate Invoice
+							</Button>
+							{bookData[0].Status !== "Paid" && (
+								<Button
+									onClick={null}
+									className="px-6 py-2 bg-gray-500 text-white rounded-3xl"
+								>
+									Pay
+								</Button>
+							)}
+						</div>
 					</div>
 
 					<div className="mt-4 grid lg:grid-cols-2 sm:grid-cols-1 gap-6 col-span-2">
@@ -129,7 +139,7 @@ const Details = () => {
 								</div>
 
 								<button
-									onClick={() => router.back()}
+									onClick={() => router.push("/Admin/Booking")}
 									className="px-2 bg-transparent border-0 hover:border-b hover:border-gray-500 text-white"
 								>
 									Back to List

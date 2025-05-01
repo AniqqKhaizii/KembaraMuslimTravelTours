@@ -15,10 +15,11 @@ export async function POST(req) {
 			AdmLevel,
 			AdmImage,
 			CreateBy,
+			ModifyBy,
 		} = await req.json();
 
 		const [rows] = await pool.query(
-			`CALL SP_Admin_Simpan(?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			`CALL SP_Admin_Simpan(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			[
 				AddNew,
 				AdmName,
@@ -29,6 +30,7 @@ export async function POST(req) {
 				AdmLevel,
 				AdmImage,
 				CreateBy,
+				ModifyBy,
 			]
 		);
 

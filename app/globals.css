@@ -206,7 +206,7 @@ body {
 	}
 
 	.glass-input input:focus {
-		@apply ring-2 ring-white/30;
+		@apply ring-2 ring-white/30 bg-transparent text-black;
 	}
 	.glass-select .ant-select-selector {
 		@apply bg-white/20 backdrop-blur-md border border-white/30 rounded-md !important;

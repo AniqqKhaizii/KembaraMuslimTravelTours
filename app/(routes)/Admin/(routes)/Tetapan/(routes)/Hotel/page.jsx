@@ -223,7 +223,9 @@ const ManageHotel = () => {
 				) : (
 					<>
 						<div className="flex justify-between items-center mb-4 border-b border-gray-200 p-4">
-							<h2 className="text-3xl font-regular">Manage Hotel Details</h2>
+							<h2 className="text-3xl font-regular text-white">
+								Manage Hotel Details
+							</h2>
 							<Button
 								type="primary"
 								icon={<PlusOutlined />}

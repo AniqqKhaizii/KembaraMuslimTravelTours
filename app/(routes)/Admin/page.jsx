@@ -36,26 +36,45 @@ const Index = () => {
 		Axios.post("/api/Login", {
 			Username,
 			Password,
-		}).then((response) => {
-			if (response.data.message || Username === "" || Password === "") {
-				router.push("/Admin");
-				setLoginStatus(response.data.message);
-			} else {
-				const userData = response.data[0];
-				const rememberMe = localStorage.getItem("rememberMe") === "true";
+		})
+			.then((response) => {
+				const data = response.data;
 
-				// Store data in localStorage only if remember me is checked
-				if (rememberMe) {
-					localStorage.setItem("UserData", JSON.stringify(userData));
-				} else {
-					localStorage.removeItem("UserData");
+				if (Username === "" || Password === "") {
+					setLoginStatus("Username and password are required.");
+					setLoginLoading(false);
+					return;
 				}
 
-				sessionStorage.setItem("UserData", JSON.stringify(userData));
+				if (Array.isArray(data) && data.length > 0) {
+					const userData = data[0];
+
+					if (userData.Code && userData.Code < 0) {
+						alert("Invalid username or password.");
+						setLoginLoading(false);
+						return;
+					}
+
+					const rememberMe = localStorage.getItem("rememberMe") === "true";
+					if (rememberMe) {
+						localStorage.setItem("UserData", JSON.stringify(userData));
+					} else {
+						localStorage.removeItem("UserData");
+					}
+
+					sessionStorage.setItem("UserData", JSON.stringify(userData));
+					setLoginLoading(false);
+					router.push("/Admin/Dashboard");
+				} else {
+					alert("Invalid login response or user not found.");
+					setLoginLoading(false);
+				}
+			})
+			.catch((error) => {
+				console.error("Login error:", error);
+				setLoginStatus("Login failed. Please try again.");
 				setLoginLoading(false);
-				router.push("/Admin/Dashboard");
-			}
-		});
+			});
 	};
 
 	useEffect(() => {

@@ -18,7 +18,7 @@ export async function GET(req) {
 		const p_DepoAmt = null;
 		const p_BalancePayment = null;
 		const p_TotalAmt = null;
-		const p_isPaid = null;
+		const p_Status = null;
 		const p_BookDate = null;
 		const p_PaidDate = null;
 		const p_BillCode = null;
@@ -40,7 +40,7 @@ export async function GET(req) {
 				p_DepoAmt,
 				p_BalancePayment,
 				p_TotalAmt,
-				p_isPaid,
+				p_Status,
 				p_BookDate,
 				p_PaidDate,
 				p_BillCode,
@@ -64,7 +64,6 @@ export async function GET(req) {
 export async function POST(req) {
 	try {
 		const requestBody = await req.json();
-		console.log("Parsed Request Body:", requestBody);
 
 		const {
 			p_Operation,
@@ -82,7 +81,7 @@ export async function POST(req) {
 			p_DepoAmt,
 			p_BalancePayment,
 			p_TotalAmt,
-			p_isPaid,
+			p_Status,
 			p_BookDate,
 			p_PaidDate,
 			p_BillCode,
@@ -92,7 +91,6 @@ export async function POST(req) {
 			p_ReferralCode,
 		} = requestBody;
 
-		// Step 1: Store customer details
 		const customerQuery = `
       CALL SP_Manage_Customers(?, ?, ?, ?, ?, ?, ?)
     `;
@@ -114,7 +112,6 @@ export async function POST(req) {
 			);
 		}
 
-		// Step 2: Store booking details
 		const bookingQuery = `
       CALL SP_Manage_Booking(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
@@ -130,7 +127,7 @@ export async function POST(req) {
 			p_DepoAmt,
 			p_BalancePayment,
 			p_TotalAmt,
-			p_isPaid,
+			p_Status,
 			p_BookDate,
 			p_PaidDate,
 			p_BillCode,
@@ -138,10 +135,8 @@ export async function POST(req) {
 			p_TransactionID,
 			p_ReferralCode,
 		]);
-		console.log("bookingResult", bookingResult);
 
 		const o_BookID = bookingResult[0][0]?.BookID;
-		console.log("o_BookID", o_BookID);
 
 		if (!o_BookID) {
 			return NextResponse.json(

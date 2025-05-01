@@ -72,31 +72,26 @@ export async function GET(req) {
 // --- POST: for formData-based submission
 export async function POST(req) {
 	try {
-		const formData = await req.formData();
+		const body = await req.json();
 
-		const Operation = formData.get("Operation");
-		const HotelID = formData.get("HotelID")
-			? parseInt(formData.get("HotelID"), 10)
-			: null;
-		const HotelName = formData.get("HotelName");
-		const Location = formData.get("Location");
-		const Stars = formData.get("Stars")
-			? parseInt(formData.get("Stars"), 10)
-			: null;
-		const Distance = formData.get("Distance")
-			? parseFloat(formData.get("Distance"))
-			: null;
-		const Address = formData.get("Address");
-		const Latitude = formData.get("Latitude");
-		const Longitude = formData.get("Longitude");
-		const Image1 = formData.get("Image1");
-		const Image2 = formData.get("Image2");
-		const Image3 = formData.get("Image3");
-		const Image4 = formData.get("Image4");
-		const Image5 = formData.get("Image5");
-		const Image6 = formData.get("Image6");
-		const Image7 = formData.get("Image7");
-		const Image8 = formData.get("Image8");
+		const Operation = body.Operation;
+		const HotelID = body.HotelID ? parseInt(body.HotelID, 10) : null;
+		const HotelName = body.HotelName;
+		const Location = body.Location;
+		const Stars = body.Stars ? parseInt(body.Stars, 10) : null;
+		const Distance = body.Distance ? parseFloat(body.Distance) : null;
+		const Address = body.Address;
+		const Latitude = body.Latitude;
+		const Longitude = body.Longitude;
+
+		const Image1 = body.Image1 ? convertBase64ToBinary(body.Image1) : null;
+		const Image2 = body.Image2 ? convertBase64ToBinary(body.Image2) : null;
+		const Image3 = body.Image3 ? convertBase64ToBinary(body.Image3) : null;
+		const Image4 = body.Image4 ? convertBase64ToBinary(body.Image4) : null;
+		const Image5 = body.Image5 ? convertBase64ToBinary(body.Image5) : null;
+		const Image6 = body.Image6 ? convertBase64ToBinary(body.Image6) : null;
+		const Image7 = body.Image7 ? convertBase64ToBinary(body.Image7) : null;
+		const Image8 = body.Image8 ? convertBase64ToBinary(body.Image8) : null;
 
 		const [rows] = await pool.query(
 			`CALL SP_Manage_Hotel(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
