@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button, message, Table } from "antd";
 import AdminLayout from "../../../../../../layout/AdminLayout";
 import axios from "axios";
+import { PlusOutlined } from "@ant-design/icons";
 
 const Details = () => {
 	const router = useRouter();
@@ -163,12 +164,13 @@ const Details = () => {
 				};
 
 				return (
-					<button
+					<Button
+						icon={<PlusOutlined />}
 						onClick={handleBookingClick}
-						className="px-2 py-1 bg-blue-500 text-white text-sm rounded-md"
+						className="px-3 py-1 bg-blue-200/20 rounded-3xl text-white text-sm"
 					>
 						Add Booking
-					</button>
+					</Button>
 				);
 			},
 		},
@@ -221,63 +223,63 @@ const Details = () => {
 	return (
 		<AdminLayout>
 			{packageData && (
-				<div className="m-4 border-2 border-gray-100 rounded-md p-4">
-					<h1 className="text-2xl font-semibold mb-4 border-b border-gray-200">
+				<div className="m-4 border-2 border-gray-100/30 rounded-lg backdrop-blur-md p-8 text-white">
+					<h1 className="text-2xl font-semibold pb-4 border-b border-gray-200/30">
 						Package Details
 					</h1>
 
-					<div className="grid lg:grid-cols-3 sm:grid-cols-1 gap-6">
+					<div className="grid lg:grid-cols-3 sm:grid-cols-1 gap-6 mt-4">
 						<div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-6 col-span-2">
 							{/* Package Name */}
 							<div className="flex flex-col gap-2 col-span-2">
-								<label className="text-sm text-gray-600">Package Name</label>
-								<span className="p-2 border-b rounded-md text-gray-800">
+								<label className="text-sm text-white">Package Name</label>
+								<span className="p-2 border-b border-gray-100/30 rounded-md text-gray-100">
 									Pakej {packageData[0].PakejName}
 								</span>
 							</div>
 
 							{/* Makkah Hotel Name */}
 							<div className="flex flex-col gap-2">
-								<label className="text-sm text-gray-600">Makkah Hotel</label>
-								<span className="p-2 border-b rounded-md text-gray-800">
+								<label className="text-sm text-white">Makkah Hotel</label>
+								<span className="p-2 border-b border-gray-100/30 rounded-md text-gray-100">
 									{packageData[0].MakkahHotelName}
 								</span>
 							</div>
 
 							{/* Madinah Hotel Name */}
 							<div className="flex flex-col gap-2">
-								<label className="text-sm text-gray-600">Madinah Hotel</label>
-								<span className="p-2 border-b rounded-md text-gray-800">
+								<label className="text-sm text-gray-200">Madinah Hotel</label>
+								<span className="p-2 border-b border-gray-100/30 rounded-md text-gray-100">
 									{packageData[0].MadinahHotelName}
 								</span>
 							</div>
 
 							{/* Package Pricing */}
 							<div className="flex flex-col gap-4 lg:col-span-2">
-								<label className="text-sm text-gray-600">Pricing Details</label>
-								<div className="bg-gray-100 p-4 rounded-md">
+								<label className="text-sm text-white">Pricing Details</label>
+								<div className="bg-gray-100/10 p-4 rounded-md">
 									<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-										<div className="flex justify-between text-sm text-gray-800">
+										<div className="flex justify-between text-sm">
 											<span>Adult Double</span>
 											<span>RM {packageData[0].Adult_Double}</span>
 										</div>
-										<div className="flex justify-between text-sm text-gray-800">
+										<div className="flex justify-between text-sm">
 											<span>Adult Triple</span>
 											<span>RM {packageData[0].Adult_Triple}</span>
 										</div>
-										<div className="flex justify-between text-sm text-gray-800">
+										<div className="flex justify-between text-sm">
 											<span>Adult Quad</span>
 											<span>RM {packageData[0].Adult_Quad}</span>
 										</div>
-										<div className="flex justify-between text-sm text-gray-800">
+										<div className="flex justify-between text-sm">
 											<span>Child With Bed (Double)</span>
 											<span>RM {packageData[0].ChildWBed_Double}</span>
 										</div>
-										<div className="flex justify-between text-sm text-gray-800">
+										<div className="flex justify-between text-sm">
 											<span>Child No Bed (Double)</span>
 											<span>RM {packageData[0].ChildNoBed_Double}</span>
 										</div>
-										<div className="flex justify-between text-sm text-gray-800">
+										<div className="flex justify-between text-sm">
 											<span>Infant (Double)</span>
 											<span>RM {packageData[0].Infant_Double}</span>
 										</div>
@@ -286,21 +288,22 @@ const Details = () => {
 							</div>
 
 							{/* Trip Details Table */}
-							<div className="col-span-2">
-								<label className="text-sm text-gray-600">Trip Details</label>
+							<div className="flex flex-col gap-4 col-span-2">
+								<label className="text-sm text-gray-200">Trip Details</label>
 								<Table
 									columns={tripColumns}
 									dataSource={tripDetails}
 									rowKey="TripID"
 									pagination={true}
 									loading={loading}
+									className="w-full bg-white/10 rounded-lg glass-table"
 								/>
 							</div>
 						</div>
 
 						{/* Poster Slot */}
 						<div className="flex flex-col gap-2 row-span-2">
-							<label className="text-sm text-gray-600">Package Poster</label>
+							<label className="text-sm text-gray-200">Package Poster</label>
 							{updatedPoster ? (
 								<img
 									src={updatedPoster}
@@ -330,13 +333,13 @@ const Details = () => {
 					<div className="mt-4 flex justify-end gap-2">
 						<Button
 							onClick={handleBack}
-							className="px-6 py-2 bg-gray-500 text-white rounded-md"
+							className="px-6 py-2 bg-gray-500 text-white rounded-3xl"
 						>
 							Back
 						</Button>
 						<Button
 							onClick={handleSaveChanges}
-							className="px-6 py-2 bg-blue-500 text-white rounded-md"
+							className="px-6 py-2 bg-blue-500 text-white rounded-3xl"
 						>
 							Save Changes
 						</Button>

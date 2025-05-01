@@ -21,6 +21,7 @@ const TetapanPakej = () => {
 	const [trips, setTrips] = useState(null);
 	const [userData, setUserData] = useState(null);
 	const [AdminData, setAdminData] = useState(null);
+
 	useEffect(() => {
 		if (typeof window !== "undefined") {
 			const storedUserData =
@@ -247,34 +248,33 @@ const TetapanPakej = () => {
 		setIsModalVisible(false);
 	};
 
-	useEffect(() => {
-		if (editingPackage) {
-			form.setFieldsValue({
-				PakejName: editingPackage.PakejName,
-				Adult_Double: editingPackage.Adult_Double,
-				Adult_Triple: editingPackage.Adult_Triple,
-				Adult_Quad: editingPackage.Adult_Quad,
-				ChildWBed_Double: editingPackage.ChildWBed_Double,
-				ChildWBed_Triple: editingPackage.ChildWBed_Triple,
-				ChildWBed_Quad: editingPackage.ChildWBed_Quad,
-				ChildNoBed_Double: editingPackage.ChildNoBed_Double,
-				ChildNoBed_Triple: editingPackage.ChildNoBed_Triple,
-				ChildNoBed_Quad: editingPackage.ChildNoBed_Quad,
-				Infant_Double: editingPackage.Infant_Double,
-				Infant_Triple: editingPackage.Infant_Triple,
-				Infant_Quad: editingPackage.Infant_Quad,
-				Commission: editingPackage.Commission,
-			});
-		}
-	}, [editingPackage, form]);
+	// useEffect(() => {
+	// 	if (editingPackage) {
+	// 		form.setFieldsValue({
+	// 			PakejName: editingPackage.PakejName,
+	// 			Adult_Double: editingPackage.Adult_Double,
+	// 			Adult_Triple: editingPackage.Adult_Triple,
+	// 			Adult_Quad: editingPackage.Adult_Quad,
+	// 			ChildWBed_Double: editingPackage.ChildWBed_Double,
+	// 			ChildWBed_Triple: editingPackage.ChildWBed_Triple,
+	// 			ChildWBed_Quad: editingPackage.ChildWBed_Quad,
+	// 			ChildNoBed_Double: editingPackage.ChildNoBed_Double,
+	// 			ChildNoBed_Triple: editingPackage.ChildNoBed_Triple,
+	// 			ChildNoBed_Quad: editingPackage.ChildNoBed_Quad,
+	// 			Infant_Double: editingPackage.Infant_Double,
+	// 			Infant_Triple: editingPackage.Infant_Triple,
+	// 			Infant_Quad: editingPackage.Infant_Quad,
+	// 			Commission: editingPackage.Commission,
+	// 		});
+	// 	}
+	// }, [editingPackage, form]);
 
-	const handleEdit =
-		((record) => {
-			setEditingPackage(record);
-			form.setFieldsValue(record);
-			setIsModalVisible(true);
-		},
-		[]);
+	const handleEdit = (record) => {
+		const { PakejPoster, ...newRecord } = record;
+		setEditingPackage(newRecord);
+		form.setFieldsValue(newRecord);
+		setIsModalVisible(true);
+	};
 
 	const handleDelete = async (id) => {
 		try {
@@ -324,7 +324,7 @@ const TetapanPakej = () => {
 			}),
 			render: (_, record) => (
 				<table className="w-full text-left text-[11px]">
-					<thead className="bg-gray-400 text-white">
+					<thead className="text-white">
 						<tr>
 							<th className="p-1 border-l border-t border-b border-gray-300 text-left">
 								Kategori
@@ -437,8 +437,8 @@ const TetapanPakej = () => {
 						{tripDetails.map((trip, index) => (
 							<span
 								key={index}
-								className={`flex flex-col items-center px-1 py-0.5 text-white 
-											${trip.Status === "Open" ? "bg-green-500" : "bg-red-500"} 
+								className={`flex flex-col items-center px-1 py-0.5 border border-gray-100/40 text-white 
+											${trip.Status === "Open" ? "bg-green-600" : "bg-red-600"} 
 											text-[11px] rounded-3xl`}
 							>
 								<strong>{trip.TripName}</strong>
@@ -460,13 +460,20 @@ const TetapanPakej = () => {
 			}),
 			render: (_, record) => (
 				<Space>
-					<Button icon={<EditOutlined />} onClick={() => handleEdit(record)} />
 					<Button
+						className="flex items-center gap-2 bg-white/10 hover:bg-blue-600/70 border border-gray-100/40 text-white py-2 px-4 rounded-3xl"
+						icon={<EditOutlined />}
+						onClick={() => handleEdit(record)}
+					/>
+					<Button
+						className="flex items-center gap-2 bg-red-700/50 hover:bg-red-600/70 border border-gray-100/40 text-white py-3 px-4 rounded-3xl"
 						icon={<DeleteOutlined />}
 						onClick={() => handleDelete(record.PakejID)}
-						danger
 					/>
-					<Button onClick={() => handleViewDetails(record)}>
+					<Button
+						className="flex items-center gap-2 bg-blue-700 hover:bg-blue-600/70 border border-gray-100/40 text-white py-2 px-4 rounded-3xl"
+						onClick={() => handleViewDetails(record)}
+					>
 						View Details
 					</Button>
 				</Space>
@@ -622,24 +629,33 @@ const TetapanPakej = () => {
 					<Spin className="min-h-40 flex items-center justify-center" />
 				) : (
 					<>
-						<div className="flex justify-between items-center mb-4 border-b border-gray-200 p-4">
-							<h1 className="text-3xl font-regular">Manage Umrah Packages</h1>
+						<div className="flex justify-between items-center p-4">
+							<h1 className="text-3xl font-regular text-white">
+								Manage Umrah Packages
+							</h1>
 							<Button
-								type="primary"
 								icon={<PlusOutlined />}
 								onClick={() => {
 									setEditingPackage(null);
 									setIsModalVisible(true);
 								}}
+								className="flex items-center gap-2 bg-blue-200/10 hover:bg-blue-600/70 border border-gray-100/40 text-white py-2 px-4 rounded-3xl"
 							>
 								Add New Package
 							</Button>
 						</div>
-						<Table
-							columns={columns}
-							dataSource={packages.map((pkg) => ({ ...pkg, key: pkg.PakejID }))}
-							rowKey="key"
-						/>
+						<div className="p-2">
+							<Table
+								className="w-full bg-white/10 rounded-lg glass-table"
+								loading={loading}
+								columns={columns}
+								dataSource={packages.map((pkg) => ({
+									...pkg,
+									key: pkg.PakejID,
+								}))}
+								rowKey="key"
+							/>
+						</div>
 						<React.Suspense fallback={<div>Loading...</div>}>
 							<Modal
 								title={editingPackage ? "Edit Package" : "Add New Package"}

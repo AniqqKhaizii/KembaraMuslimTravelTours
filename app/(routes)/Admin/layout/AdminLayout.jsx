@@ -11,24 +11,24 @@ const Layout = ({ children }) => {
 	};
 
 	return (
-		<div className="overflow-clip">
-			<div className="flex min-h-screen overflow-y-clip">
+		<div className="overflow-clip bg-[url('/AdminMainBg3.jpg')] bg-cover bg-fixed">
+			<div className="flex min-h-screen overflow-y-clip backdrop-blur-md backdrop-brightness-[0.25]">
 				<Sidebar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
 
 				<div className="flex flex-col w-full min-h-screen transition-all duration-300 overflow-clip">
 					<Navbar toggleSidebar={toggleSidebar} isCollapsed={isCollapsed} />
 					<div className="flex-1 overflow-auto">{children}</div>
-					<footer className="flex items-center justify-between px-4 py-2 bottom-0 bg-white border-t border-gray-300">
-						<p className="text-sm text-gray-600">
+					<footer className="flex items-center justify-between px-4 py-4 bottom-0 text-white border-t-2 border-gray-100/40">
+						<p className="text-sm text-white">
 							&copy; {new Date().getFullYear()} Kembara Muslim Travel & Tours
 						</p>
-						<p className="text-sm text-gray-600">
+						<p className="text-sm text-white">
 							Developed by{" "}
 							<a
 								href="https://github.com/AniqqKhaizii"
 								target="_blank"
 								rel="noopener noreferrer"
-								className="text-blue-600 hover:underline"
+								className="text-blue-200 hover:underline"
 							>
 								Cucu Man Said
 							</a>

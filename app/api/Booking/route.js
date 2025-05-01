@@ -3,6 +3,64 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
+export async function GET(req) {
+	try {
+		// Example: getting parameters from query string (optional)
+		const { searchParams } = new URL(req.url);
+		const p_Operation = searchParams.get("Operation");
+		const p_BookID = searchParams.get("BookID") || null;
+		const p_PakejID = null;
+		const o_CustID = null;
+		const p_TripID = null;
+		const p_Pax = null;
+		const p_TotalPax = null;
+		const p_Discount = null;
+		const p_DepoAmt = null;
+		const p_BalancePayment = null;
+		const p_TotalAmt = null;
+		const p_isPaid = null;
+		const p_BookDate = null;
+		const p_PaidDate = null;
+		const p_BillCode = null;
+		const p_OrderID = null;
+		const p_TransactionID = null;
+		const p_ReferralCode = null;
+
+		const [rows] = await pool.query(
+			`CALL SP_Manage_Booking(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			[
+				p_Operation,
+				p_BookID,
+				p_PakejID,
+				o_CustID,
+				p_TripID,
+				p_Pax,
+				p_TotalPax,
+				p_Discount,
+				p_DepoAmt,
+				p_BalancePayment,
+				p_TotalAmt,
+				p_isPaid,
+				p_BookDate,
+				p_PaidDate,
+				p_BillCode,
+				p_OrderID,
+				p_TransactionID,
+				p_ReferralCode,
+			]
+		);
+
+		// Return the first result set if multiple are returned
+		return NextResponse.json(rows[0] ?? []);
+	} catch (error) {
+		console.error("❌ ERROR:", error);
+		return NextResponse.json(
+			{ error: { message: error.message } },
+			{ status: 500 }
+		);
+	}
+}
+
 export async function POST(req) {
 	try {
 		const requestBody = await req.json();
@@ -18,6 +76,7 @@ export async function POST(req) {
 			p_CustPhone,
 			p_PakejID,
 			p_TripID,
+			p_Pax,
 			p_TotalPax,
 			p_Discount,
 			p_DepoAmt,
@@ -57,7 +116,7 @@ export async function POST(req) {
 
 		// Step 2: Store booking details
 		const bookingQuery = `
-      CALL SP_Manage_Booking(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      CALL SP_Manage_Booking(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 		const [bookingResult] = await pool.query(bookingQuery, [
 			"ADD_NEW",
@@ -65,6 +124,7 @@ export async function POST(req) {
 			p_PakejID,
 			o_CustID, // Using the generated CustID
 			p_TripID,
+			p_Pax,
 			p_TotalPax,
 			p_Discount,
 			p_DepoAmt,

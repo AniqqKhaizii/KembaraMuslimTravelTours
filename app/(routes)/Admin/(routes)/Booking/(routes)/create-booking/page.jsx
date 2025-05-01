@@ -5,6 +5,7 @@ import axios from "axios";
 import { Form, message, Input, Select, Button } from "antd";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 import Loading from "@/app/loading";
+import Image from "next/image";
 const CreateBookingPage = () => {
 	const [packageData, setPackageData] = useState(null);
 	const [tripDetails, setTripDetails] = useState([]);
@@ -401,10 +402,12 @@ const CreateBookingPage = () => {
 							<p className="text-3xl font-semibold text-gray-900">
 								Pakej Umrah {packageData.PakejName}
 							</p>
-							<img
+							<Image
 								src={airlineLogos[tripDetails.Airline]}
 								alt="Airline Logo"
-								className="w-12 h-12"
+								className="w-12 h-auto"
+								width={0}
+								height={0}
 							/>
 						</div>
 					</div>

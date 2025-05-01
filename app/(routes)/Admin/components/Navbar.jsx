@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Axios from "axios";
 import { RiLogoutCircleRLine } from "react-icons/ri";
-import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
+import { TbArrowAutofitLeft, TbArrowAutofitRight } from "react-icons/tb";
 
 const Navbar = ({ toggleSidebar, isCollapsed }) => {
 	const [userData, setUserData] = useState(null);
@@ -67,23 +67,23 @@ const Navbar = ({ toggleSidebar, isCollapsed }) => {
 
 	//  bg-[url('/AdminBg.png')] bg-cover
 	return (
-		<div className="sm:px-4 px-4 py-4 h-fit w-full flex justify-between items-center z-10 text-black border-b-2 border-gray-100">
+		<div className="sm:px-4 px-4 py-4 h-fit w-full flex justify-between items-center z-10 border-b-2 border-gray-100/40 text-white">
 			<div className="flex items-center justify-start gap-4">
-				<button onClick={toggleSidebar}>
+				<button
+					onClick={toggleSidebar}
+					className="bg-white/20 p-1 rounded-full border border-gray-100/50 hover:scale-105"
+				>
 					{isCollapsed ? (
-						<RiMenuFoldLine size={25} className="font-light hover:scale-105" />
+						<TbArrowAutofitRight size={20} className="font-light" />
 					) : (
-						<RiMenuUnfoldLine
-							size={25}
-							className="font-light hover:scale-105"
-						/>
+						<TbArrowAutofitLeft size={20} className="font-light" />
 					)}
 				</button>
-				<h1 className="text-lg sm:flex hidden font-medium">
+				{/* <h1 className="text-lg sm:flex hidden font-medium">
 					{adminData && adminData.length > 0
 						? toCamelCase(adminData[0]?.AdmName)
 						: "Guest"}
-				</h1>
+				</h1> */}
 			</div>
 			<div className="flex items-center sm:gap-2 gap-2">
 				{/* User Info Button */}
@@ -93,9 +93,9 @@ const Navbar = ({ toggleSidebar, isCollapsed }) => {
 							<Image
 								src={adminData[0].Image || "/Placeholder1.png"}
 								alt="User Profile"
-								width={25}
-								height={25}
-								className="rounded-full shadow-md"
+								width={30}
+								height={30}
+								className="rounded-full shadow-md border border-gray-100/40"
 							/>
 							{/* <div className="flex flex-col items-start leading-none">
 								<span className="text-sm font-regular">
@@ -111,12 +111,11 @@ const Navbar = ({ toggleSidebar, isCollapsed }) => {
 					)}
 				</button>
 
-				{/* Logout Button */}
 				<button
 					onClick={handleLogout}
-					className="text-2xl drop-shadow-md hover:scale-105"
+					className="bg-white/20 border border-gray-100/40 p-1 rounded-full font-light drop-shadow-md hover:scale-105"
 				>
-					<RiLogoutCircleRLine size={25} />
+					<RiLogoutCircleRLine size={20} />
 				</button>
 			</div>
 		</div>

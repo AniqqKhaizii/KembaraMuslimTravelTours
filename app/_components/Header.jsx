@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { FaChevronDown, FaPaperPlane } from "react-icons/fa";
 import { HiBars3 } from "react-icons/hi2";
 import Axios from "axios";
+import { fetchPackages } from "../../hooks/callPackages";
 
 const useIsLargeScreen = () => {
 	const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -36,23 +37,18 @@ function Header() {
 	const isLargeScreen = useIsLargeScreen();
 	const isPakejPage = pathname.includes("/Pakej/Pakej-Umrah");
 	const [packages, setPackages] = useState([]);
+	const handleGetPackages = async () => {
+		try {
+			const data = await fetchPackages();
+			setPackages(data);
+		} catch (error) {}
+	};
 
 	useEffect(() => {
-		const fetchPackages = async () => {
-			try {
-				const response = await Axios.get("/api/Tetapan/ManagePackage", {
-					params: {
-						Operation: "SEARCH",
-						TripUnique: "Y",
-					},
-				});
-				setPackages(response.data);
-			} catch (error) {
-				console.error("Error fetching packages:", error);
-			}
-		};
-		fetchPackages();
+		handleGetPackages();
 	}, []);
+
+	console.log("packages", packages);
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -103,9 +99,7 @@ function Header() {
 			path: "/Admin",
 		},
 	];
-	// bg-[linear-gradient(120deg,_#fdfbfb_0%,_#ebedee_50%,_#fdfbfb_100%)] lg:w-3/5 w-4/5 mx-auto rounded-2xl mt-4 px-4
 
-	// bg-gradient-to-br from-[#b7c21c] to-[#e76f21]
 	return (
 		<div className="flex justify-center">
 			<motion.header
@@ -167,7 +161,7 @@ function Header() {
 												)}
 											</Link>
 											{item.submenu && (
-												<ul className="absolute -left-10 border-t-4 w-[22vw] border-zinc-800 top-7 opacity-0 scale-95 bg-orange-500 rounded-lg group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-lg mt-5 grid grid-cols-1 lg:grid-cols-2 gap-2">
+												<ul className="absolute left-0 border-t-4 w-[12vw] border-zinc-800 top-7 opacity-0 scale-95 bg-orange-500 rounded-lg group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-lg mt-5 grid grid-cols-1 gap-2">
 													{item.submenu.map((subItem) => (
 														<li
 															key={subItem.id}

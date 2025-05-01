@@ -37,6 +37,11 @@
 	src: url(/fonts/Satoshi-Fonts/Satoshi_Regular.ttf);
 }
 
+@font-face {
+	font-family: "HelveticaFont";
+	src: url(/fonts/Helvetica/Helvetica.ttf);
+}
+
 * {
 	scroll-behavior: smooth;
 }
@@ -72,6 +77,73 @@ body {
 	aspect-ratio: 3 / 4;
 	/* fallback ratio */
 	z-index: 9999;
+}
+
+/* In your CSS or inside a Tailwind-friendly style setup */
+.glass-table .ant-table {
+	background-color: rgba(255, 255, 255, 0) !important;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.glass-table .ant-table-thead>tr>th {
+	background-color: rgba(255, 255, 255, 0.0) !important;
+	color: #ffffff !important;
+}
+
+.glass-table .ant-table-tbody>tr>td {
+	background-color: rgba(255, 255, 255, 0.0) !important;
+	color: #ffffff !important;
+}
+
+
+.glass-modal .ant-modal-content {
+	background: rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(10px);
+	border-radius: 1rem;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+	color: #fff;
+}
+
+.glass-modal .ant-modal-header {
+	background: transparent;
+	border-bottom: 1px solid rgba(255, 255, 255, 0);
+	color:#fff;
+}
+
+.glass-modal .ant-modal-title {
+	color: #fff;
+}
+
+.glass-modal .ant-modal-body {
+	color: #fff;
+}
+
+.glass-modal .ant-modal-footer {
+	background: transparent;
+	border-top: 1px solid rgba(255, 255, 255, 0.2);
+	padding-top: 1rem;
+}
+
+.glass-input {
+	background: rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(8px);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 0.5rem;
+	color: #fff;
+	transition: all 0.3s ease;
+}
+
+.glass-input::placeholder {
+	color: rgba(0, 0, 0, 0.6);
+}
+
+.glass-input:hover,
+.glass-input:focus {
+	background: rgba(255, 255, 255, 0.25);
+	border-color: rgba(255, 255, 255, 0.5);
+	outline: none;
+	box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
 }
 
 /* Make it more responsive on smaller screens */
@@ -124,6 +196,24 @@ body {
 @layer utilities {
 	.text-balance {
 		text-wrap: balance;
+	}
+	.glass-input-wrapper {
+		@apply border border-white/10 rounded-md;
+	}
+
+	.glass-input input {
+		@apply bg-transparent text-white placeholder-black/70 outline-none;
+	}
+
+	.glass-input input:focus {
+		@apply ring-2 ring-white/30;
+	}
+	.glass-select .ant-select-selector {
+		@apply bg-white/20 backdrop-blur-md border border-white/30 rounded-md !important;
+	}
+
+	.glass-select-dropdown {
+		@apply bg-white/20 backdrop-blur-md border border-white/20 rounded-md text-white;
 	}
 }
 
@@ -303,6 +393,8 @@ body {
 		column-count: 1;
 	}
 }
+
+
 
 @layer base {
 	* {

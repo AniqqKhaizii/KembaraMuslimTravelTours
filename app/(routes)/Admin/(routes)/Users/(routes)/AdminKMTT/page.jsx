@@ -7,7 +7,6 @@ import { Input, Button, Table, Modal, Space, Select, Upload } from "antd";
 import { PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 import Axios from "axios";
-import { apiUrl } from "../../../../../../../config.js";
 
 const AdminPage = () => {
 	const [loading, setLoading] = useState(true);
@@ -72,15 +71,17 @@ const AdminPage = () => {
 			title: "No.",
 			dataIndex: "index",
 			key: "index",
+			className: "font-light font-primary",
 			render: (_, __, index) => <span>{index + 1}.</span>,
 			onCell: () => ({
-				className: "uppercase font-primary ",
+				className: "uppercase font-primary",
 			}),
 		},
 		{
 			title: "Name",
 			dataIndex: "AdmName",
 			key: "AdmName",
+			className: "font-light font-primary",
 			onCell: () => ({
 				className: "uppercase font-primary",
 			}),
@@ -89,6 +90,7 @@ const AdminPage = () => {
 			title: "Email",
 			dataIndex: "AdmEmail",
 			key: "AdmEmail",
+			className: "font-light font-primary",
 			onCell: () => ({
 				className: "font-primary",
 			}),
@@ -97,6 +99,7 @@ const AdminPage = () => {
 			title: "Username",
 			dataIndex: "AdmUname",
 			key: "AdmUname",
+			className: "font-light font-primary",
 			onCell: () => ({
 				className: "font-primary",
 			}),
@@ -105,6 +108,7 @@ const AdminPage = () => {
 			title: "Role",
 			dataIndex: "AdmRole",
 			key: "AdmRole",
+			className: "font-light font-primary",
 			onCell: () => ({
 				className: "uppercase font-primary",
 			}),
@@ -113,6 +117,7 @@ const AdminPage = () => {
 			title: "User Level",
 			dataIndex: "AdmLevel",
 			key: "AdmLevel",
+			className: "font-light font-primary",
 			onCell: () => ({
 				className: "uppercase font-primary",
 			}),
@@ -120,6 +125,7 @@ const AdminPage = () => {
 		{
 			title: "Actions",
 			key: "actions",
+			className: "font-light font-primary",
 			onCell: () => ({
 				className: "uppercase font-primary",
 			}),
@@ -127,12 +133,12 @@ const AdminPage = () => {
 				<Space>
 					<Button
 						icon={<EditOutlined />}
-						className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded"
+						className="bg-green-500/60 hover:bg-green-600 text-white py-1 px-2 rounded-3xl"
 						onClick={() => openEditModal(users)}
 					/>
 					<Button
 						icon={<DeleteOutlined />}
-						className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded"
+						className="bg-red-500/60 hover:bg-red-600 text-white py-1 px-2 rounded-3xl"
 						onClick={() => openDeleteModal(users)}
 					/>
 				</Space>
@@ -216,12 +222,10 @@ const AdminPage = () => {
 				CreateBy: "Admin", // You might want to set a real user or keep it static
 			};
 
-			// Make the API call using Axios
 			const response = await Axios.get(`/api/Admin/AdminSimpan`, {
 				params: formDataToSend, // Send data as URL params
 			});
 
-			// Check if the response is successful
 			if (response.status === 200) {
 				console.log("User updated successfully:", response.data);
 				// Update the user list
@@ -243,7 +247,6 @@ const AdminPage = () => {
 					image: null,
 				});
 
-				// Optionally, fetch updated user list again
 				Axios.get(`/api/Admin/AdminCarian`).then((res) => {
 					setUsers(res.data);
 				});
@@ -252,7 +255,6 @@ const AdminPage = () => {
 			}
 		} catch (error) {
 			console.error("Error updating user:", error);
-			// Handle error appropriately (e.g., show an error message to the user)
 		}
 	};
 	const handleDeleteUser = async () => {
@@ -312,18 +314,19 @@ const AdminPage = () => {
 	return (
 		<AdminLayout>
 			<div className="px-4">
-				<div className="flex justify-between items-center mb-4 border-b border-gray-200 p-4">
-					<h1 className="text-3xl font-regular">Senarai Admin</h1>
-					<button
+				<div className="flex justify-between items-center p-4">
+					<h1 className="text-3xl font-regular text-white">Senarai Admin</h1>
+					<Button
+						icon={<PlusOutlined />}
 						onClick={() => setIsModalAddOpen(true)}
-						className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+						className="flex items-center gap-2 bg-blue-200/10 hover:bg-blue-600/70 border border-gray-100/40 text-white py-2 px-4 rounded-3xl"
 					>
-						<IoMdAdd />
 						Add User
-					</button>
+					</Button>
 				</div>
 
 				<Table
+					className="w-full bg-white/10 rounded-lg glass-table"
 					loading={loading}
 					columns={columns}
 					dataSource={users}
@@ -348,7 +351,7 @@ const AdminPage = () => {
 					});
 				}}
 				onOk={handleAddUser}
-				className="rounded-lg"
+				className="glass-modal"
 			>
 				{/* Image Upload Section */}
 				<div className="flex flex-col items-center mb-4">
@@ -363,7 +366,10 @@ const AdminPage = () => {
 						onChange={handleImageUpload}
 						className="w-full flex justify-center"
 					>
-						<Button icon={<UploadOutlined />} className="w-full">
+						<Button
+							icon={<UploadOutlined />}
+							className="w-full bg-transparent text-white backdrop-blur"
+						>
 							Upload Image
 						</Button>
 					</Upload>
@@ -376,39 +382,45 @@ const AdminPage = () => {
 						name="name"
 						value={formData.name}
 						onChange={handleChange}
-						className="col-span-2 mb-3"
+						className="col-span-2 mb-3 glass-input text-white"
+						rootClassName="glass-input-wrapper"
 					/>
 					<Input
 						placeholder="Email"
 						name="email"
 						value={formData.email}
 						onChange={handleChange}
-						className="mb-3"
+						className="mb-3 glass-input text-white"
+						rootClassName="glass-input-wrapper"
 					/>
 					<Input
 						placeholder="Username"
 						name="username"
 						value={formData.username}
 						onChange={handleChange}
-						className="mb-3"
+						className="mb-3 glass-input text-white"
+						rootClassName="glass-input-wrapper"
 					/>
 					<Input.Password
 						placeholder="Password"
 						name="password"
 						value={formData.password}
 						onChange={handleChange}
-						className="mb-3"
+						className="mb-3 glass-input text-white"
+						rootClassName="glass-input-wrapper"
 					/>
 					<Input.Password
 						placeholder="Re-enter Password"
 						name="password"
 						value={formData.password}
 						onChange={handleChange}
-						className="mb-3"
+						className="mb-3 glass-input text-white"
+						rootClassName="glass-input-wrapper"
 					/>
 					<Select
 						defaultValue={formData.role}
-						className="w-full mb-3"
+						className="glass-select w-full mb-3"
+						dropdownClassName="glass-select-dropdown"
 						onChange={(value) =>
 							setFormData((prev) => ({ ...prev, role: value }))
 						}
@@ -419,7 +431,8 @@ const AdminPage = () => {
 					</Select>
 					<Select
 						defaultValue={formData.userlevel}
-						className="w-full mb-3"
+						className="glass-select w-full mb-3"
+						dropdownClassName="glass-select-dropdown"
 						onChange={(value) =>
 							setFormData((prev) => ({ ...prev, userlevel: value }))
 						}
@@ -448,6 +461,7 @@ const AdminPage = () => {
 					});
 				}}
 				onOk={handleEditUser}
+				className="glass-modal"
 			>
 				<div className="grid grid-cols-2 gap-4">
 					<Input
@@ -455,39 +469,45 @@ const AdminPage = () => {
 						name="name"
 						value={formData.name}
 						onChange={handleChange}
-						className="col-span-2 mb-3"
+						className="col-span-2 mb-3 glass-input text-white"
+						rootClassName="glass-input-wrapper"
 					/>
 					<Input
 						placeholder="Email"
 						name="email"
 						value={formData.email}
 						onChange={handleChange}
-						className="mb-3"
+						className="mb-3 glass-input text-white"
+						rootClassName="glass-input-wrapper"
 					/>
 					<Input
 						placeholder="Username"
 						name="username"
 						value={formData.username}
 						onChange={handleChange}
-						className="mb-3"
+						className="mb-3 glass-input text-white"
+						rootClassName="glass-input-wrapper"
 					/>
 					<Input.Password
 						placeholder="Password"
 						name="password"
 						value={formData.password}
 						onChange={handleChange}
-						className="mb-3"
+						className="mb-3 glass-input text-white"
+						rootClassName="glass-input-wrapper"
 					/>
 					<Input.Password
 						placeholder="Re-enter Password"
 						name="password"
 						value={formData.password}
 						onChange={handleChange}
-						className="mb-3"
+						className="mb-3 glass-input text-white"
+						rootClassName="glass-input-wrapper"
 					/>
 					<Select
 						defaultValue={formData.role}
-						className="w-full mb-3"
+						className="glass-select w-full mb-3"
+						dropdownClassName="glass-select-dropdown"
 						onChange={(value) =>
 							setFormData((prev) => ({ ...prev, role: value }))
 						}
@@ -498,7 +518,8 @@ const AdminPage = () => {
 					</Select>
 					<Select
 						defaultValue={formData.userlevel}
-						className="w-full mb-3"
+						className="glass-select w-full mb-3"
+						dropdownClassName="glass-select-dropdown"
 						onChange={(value) =>
 							setFormData((prev) => ({ ...prev, userlevel: value }))
 						}
@@ -517,6 +538,7 @@ const AdminPage = () => {
 				onCancel={() => setIsModalDeleteOpen(false)}
 				onOk={handleDeleteUser}
 				okButtonProps={{ danger: true }}
+				className="glass-modal"
 			>
 				<p>Are you sure you want to delete this user?</p>
 			</Modal>

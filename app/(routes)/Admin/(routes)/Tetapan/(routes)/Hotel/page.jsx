@@ -190,14 +190,14 @@ const ManageHotel = () => {
 					<Button
 						icon={<EditOutlined />}
 						onClick={() => showModal(record)}
-						className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md font-primary"
+						className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-3xl font-primary"
 					>
 						Edit
 					</Button>
 					<Button
 						icon={<DeleteOutlined />}
 						onClick={() => handleDelete(record.HotelID)}
-						className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md font-primary"
+						className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-3xl font-primary"
 					>
 						Delete
 					</Button>
@@ -206,7 +206,7 @@ const ManageHotel = () => {
 						onClick={() =>
 							router.push(`Hotel/Details?HotelID=${record.HotelID}`)
 						}
-						className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-primary"
+						className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-3xl font-primary"
 					>
 						Details
 					</Button>
@@ -233,35 +233,51 @@ const ManageHotel = () => {
 							</Button>
 						</div>
 
-						<Table columns={columns} dataSource={hotels} rowKey="HotelID" />
+						<div className="p-2">
+							<Table
+								columns={columns}
+								dataSource={hotels}
+								rowKey="HotelID"
+								className="bg-white/10 rounded-lg glass-table"
+							/>
+						</div>
 
 						<Modal
 							title={currentHotel ? "Edit Hotel" : "Add New Hotel"}
 							open={isModalVisible}
 							onCancel={handleCancel}
 							footer={null}
+							className="glass-modal"
 						>
 							<Form form={form} layout="vertical" onFinish={handleFormSubmit}>
 								{/* Hotel Name */}
 								<Form.Item
-									label="Hotel Name"
+									label={<span className="text-white">Hotel Name</span>}
 									name="HotelName"
 									rules={[
 										{ required: true, message: "Please enter the hotel name" },
 									]}
 								>
-									<Input placeholder="Enter hotel name" />
+									<Input
+										placeholder="Enter hotel name"
+										className="glass-input text-white"
+										rootClassName="glass-input-wrapper"
+									/>
 								</Form.Item>
 
 								{/* Location */}
 								<Form.Item
-									label="Location"
+									label={<span className="text-white">Location</span>}
 									name="Location"
 									rules={[
 										{ required: true, message: "Please enter the location" },
 									]}
 								>
-									<Select placeholder="Select location">
+									<Select
+										placeholder="Select location"
+										className="glass-select w-full"
+										dropdownClassName="glass-select-dropdown"
+									>
 										<Option value="Makkah">Makkah</Option>
 										<Option value="Madinah">Madinah</Option>
 									</Select>
@@ -269,11 +285,15 @@ const ManageHotel = () => {
 
 								{/* Stars */}
 								<Form.Item
-									label="Stars"
+									label={<span className="text-white">Stars</span>}
 									name="Stars"
 									rules={[{ required: true, message: "Please select stars" }]}
 								>
-									<Select placeholder="Select stars">
+									<Select
+										placeholder="Select stars"
+										className="glass-select w-full"
+										dropdownClassName="glass-select-dropdown"
+									>
 										<Option value="1">1</Option>
 										<Option value="2">2</Option>
 										<Option value="3">3</Option>
@@ -284,13 +304,18 @@ const ManageHotel = () => {
 
 								{/* Distance */}
 								<Form.Item
-									label="Distance (m)"
+									label={<span className="text-white">Distance (m)</span>}
 									name="Distance"
 									rules={[
 										{ required: true, message: "Please enter the distance" },
 									]}
 								>
-									<Input placeholder="Enter distance in meters" type="number" />
+									<Input
+										placeholder="Enter distance in meters"
+										type="number"
+										className="glass-input text-white"
+										rootClassName="glass-input-wrapper"
+									/>
 								</Form.Item>
 
 								{/* Submit Button */}

@@ -79,17 +79,17 @@ const HeroSection = () => {
 				Your browser does not support the video tag.
 			</video> */}
 			<img
-				className="absolute top-0 left-0 w-full h-full object-cover"
+				className="absolute top-0 left-0 w-full h-full object-cover object-left"
 				src="/Hero/HeroLatest1.jpg"
 			/>
-			<div className="absolute inset-0 h-full bg-gradient-to-r from-white via-orange-500/50 to-transparent from-0% via-70% to-100%"></div>
-			<div className="absolute inset-0 h-full bg-gradient-to-b from-white via-white/50 to-transparent from-0% via-15% to-60%"></div>
-			<div className="absolute inset-0 h-full bg-black/70"></div>
+			{/* <div className="absolute inset-0 h-full bg-gradient-to-r from-white via-orange-500/50 to-transparent from-0% via-70% to-100%"></div>
+			<div className="absolute inset-0 h-full bg-gradient-to-b from-white via-white/50 to-transparent from-0% via-15% to-60%"></div> */}
+			<div className="absolute inset-0 h-full backdrop-blur-md backdrop-brightness-50"></div>
 			{/* <div className="absolute inset-0 h-full bg-gradient-to-b from-black/80 via-gray-50 to-white from-90% via-100% to-100%"></div> */}
 
 			<div
 				data-aos="fade-up"
-				className="w-full h-full px-12 lg:px-12 grid grid-cols-1 items-center gap-5 relative z-20"
+				className="w-full h-full px-12 lg:px-12 grid grid-cols-1 items-center gap-5 relative z-20 "
 			>
 				{/* Hero Content */}
 				<div className="flex flex-col gap-6 items-start justify-center text-center mx-auto max-w-screen-xl w-full">

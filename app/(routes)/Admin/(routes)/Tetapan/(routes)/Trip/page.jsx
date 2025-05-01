@@ -288,14 +288,14 @@ const ManageTripDetails = () => {
 					<Button
 						icon={<EditOutlined />}
 						onClick={() => showModal(record)}
-						className="bg-green-500 hover:bg-green-600 text-white px-2 rounded-md w-full"
+						className="bg-green-500 hover:bg-green-600 text-white px-4 font-primary rounded-3xl w-full"
 					>
 						Edit
 					</Button>
 					<Button
 						icon={<DeleteOutlined />}
 						onClick={() => handleDelete(record.TripID)}
-						className="bg-red-500 hover:bg-red-600 text-white px-2 rounded-md w-full"
+						className="bg-red-500 hover:bg-red-600 text-white px-4 font-primary rounded-3xl w-full"
 					>
 						Delete
 					</Button>
@@ -311,7 +311,7 @@ const ManageTripDetails = () => {
 					<Spin className="min-h-40 flex items-center justify-center" />
 				) : (
 					<>
-						<div className="flex justify-between items-center mb-4 border-b border-gray-200 p-4">
+						<div className="flex justify-between items-center p-4 text-white">
 							<h2 className="text-3xl font-regular">
 								Manage Umrah Trip Details
 							</h2>
@@ -319,11 +319,13 @@ const ManageTripDetails = () => {
 								type="primary"
 								icon={<PlusOutlined />}
 								onClick={() => showModal()}
+								className="flex items-center gap-2 bg-blue-200/10 hover:bg-blue-600/70 border border-gray-100/40 text-white py-2 px-4 rounded-3xl"
 							>
 								Add New Trip
 							</Button>
 						</div>
 						<Table
+							className="w-full bg-white/10 rounded-lg glass-table"
 							loading={loading}
 							columns={columns}
 							dataSource={trips}
@@ -336,18 +338,19 @@ const ManageTripDetails = () => {
 							onCancel={handleCancel}
 							footer={null}
 							width={1000}
+							className="glass-modal"
 						>
 							<Spin spinning={loading}>
 								<Form
 									form={form}
 									onFinish={handleFormSubmit}
 									layout="vertical"
-									className="grid grid-cols-2 gap-4"
+									className="grid grid-cols-2 gap-4 gap-y-0"
 								>
 									<Form.Item
 										name="TripName"
-										label="Trip Name"
-										className="col-span-2"
+										label={<span className="text-white">Trip Name</span>}
+										className="col-span-2 text-white"
 										rules={[
 											{
 												required: true,
@@ -355,11 +358,16 @@ const ManageTripDetails = () => {
 											},
 										]}
 									>
-										<Input />
+										<Input
+											className="glass-input text-white"
+											rootClassName="glass-input-wrapper"
+										/>
 									</Form.Item>
 									<Form.Item
 										name="StartTravelDate"
-										label="Start Travel Date"
+										label={
+											<span className="text-white">Start Travel Date</span>
+										}
 										rules={[
 											{
 												required: true,
@@ -367,11 +375,14 @@ const ManageTripDetails = () => {
 											},
 										]}
 									>
-										<DatePicker format="DD/MM/YYYY" className="w-full" />
+										<DatePicker
+											format="DD/MM/YYYY"
+											className="w-full glass-input"
+										/>
 									</Form.Item>
 									<Form.Item
 										name="EndTravelDate"
-										label="End Travel Date"
+										label={<span className="text-white">End Travel Date</span>}
 										rules={[
 											{
 												required: true,
@@ -379,36 +390,75 @@ const ManageTripDetails = () => {
 											},
 										]}
 									>
-										<DatePicker format="DD/MM/YYYY" className="w-full" />
+										<DatePicker
+											format="DD/MM/YYYY"
+											className="w-full glass-input"
+										/>
 									</Form.Item>
 									<Form.Item
 										name="Duration"
-										label="Duration (Days)"
+										label={<span className="text-white">Duration (Days)</span>}
 										rules={[
 											{ required: true, message: "Please input the duration!" },
 										]}
 									>
-										<Input type="number" />
+										<Input
+											type="number"
+											className="glass-input text-white"
+											rootClassName="glass-input-wrapper"
+										/>
 									</Form.Item>
-									<Form.Item name="Airline" label="Airline">
-										<Input />
+									<Form.Item
+										name="Airline"
+										label={<span className="text-white">Airline</span>}
+									>
+										<Input
+											className="glass-input text-white"
+											rootClassName="glass-input-wrapper"
+										/>
 									</Form.Item>
-									<Form.Item name="FlightDetails" label="Flight Details">
-										<Input />
+									<Form.Item
+										name="FlightDetails"
+										label={<span className="text-white">Flight Details</span>}
+									>
+										<Input
+											className="glass-input text-white"
+											rootClassName="glass-input-wrapper"
+										/>
 									</Form.Item>
-									<Form.Item name="SeatAvailable" label="Seat Available">
-										<Input type="number" />
+									<Form.Item
+										name="SeatAvailable"
+										label={<span className="text-white">Seat Available</span>}
+									>
+										<Input
+											type="number"
+											className="glass-input text-white"
+											rootClassName="glass-input-wrapper"
+										/>
 									</Form.Item>
-									<Form.Item name="SeatSold" label="Seat Sold">
-										<Input type="number" />
+									<Form.Item
+										name="SeatSold"
+										label={<span className="text-white">Seat Sold</span>}
+									>
+										<Input
+											type="number"
+											className="glass-input text-white"
+											rootClassName="glass-input-wrapper"
+										/>
 									</Form.Item>
-									<Form.Item name="Deadline" label="Deadline">
-										<DatePicker format="DD/MM/YYYY" className="w-full" />
+									<Form.Item
+										name="Deadline"
+										label={<span className="text-white">Deadline</span>}
+									>
+										<DatePicker
+											format="DD/MM/YYYY"
+											className="w-full glass-input"
+										/>
 									</Form.Item>
 									<Button
 										type="primary"
 										htmlType="submit"
-										className="w-full bg-blue-500 hover:bg-blue-600 col-span-2"
+										className="w-full mt-2 py-4 col-span-2 border border-white rounded-full bg-transparent text-white backdrop-blur"
 									>
 										Save
 									</Button>

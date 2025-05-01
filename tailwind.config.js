@@ -82,6 +82,7 @@ module.exports = {
 				header: ["PlayfairDisplay", "serif"],
 				reenie: ["ReenieBeanie", "cursive"],
 				satoshi: ["SatoshiFont", "sans-serif"],
+				invoice: ["Helvetica", "sans-serif"],
 			},
 			backgroundImage: {
 				"custom-gradient": "linear-gradient(145deg, #cacaca, #f0f0f0)",
