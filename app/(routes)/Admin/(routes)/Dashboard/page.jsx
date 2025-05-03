@@ -10,11 +10,11 @@ const FlightLogo = ({ flightCode }) => {
 	const logo = [
 		{
 			flightCode: "Emirates",
-			logoUrl: "/flight/Emirates.svg",
+			logoUrl: "/public/flight/Emirates.svg",
 		},
 		{
 			flightCode: "AirAsia",
-			logoUrl: "/flight/AirAsia.svg",
+			logoUrl: "/public/flight/AirAsia.svg",
 		},
 	];
 

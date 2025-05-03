@@ -68,7 +68,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
 		>
 			<div className="flex items-start justify-center pt-2 bg-transparent">
 				<Image
-					src="/LogoKMTT.png"
+					src="/public/LogoKMTT.png"
 					alt="Logo"
 					width={isCollapsed ? 100 : 150}
 					height={isCollapsed ? 100 : 150}

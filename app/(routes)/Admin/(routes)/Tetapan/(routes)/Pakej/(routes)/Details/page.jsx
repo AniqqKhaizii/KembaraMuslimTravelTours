@@ -83,8 +83,8 @@ const Details = () => {
 	};
 
 	const airlineLogos = {
-		Emirates: "/flight/Emirates.svg",
-		AirAsia: "/flight/AirAsia.svg",
+		Emirates: "/public/flight/Emirates.svg",
+		AirAsia: "/public/flight/AirAsia.svg",
 	};
 
 	const tripColumns = [
