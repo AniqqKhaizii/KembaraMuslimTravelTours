@@ -352,8 +352,8 @@ const CreateBookingPage = () => {
 	}
 
 	const airlineLogos = {
-		Emirates: "/flight/Emirates.svg",
-		AirAsia: "/flight/AirAsia.svg",
+		Emirates: "/Flight/Emirates.svg",
+		AirAsia: "/Flight/AirAsia.svg",
 	};
 
 	const handleProceed = async () => {
