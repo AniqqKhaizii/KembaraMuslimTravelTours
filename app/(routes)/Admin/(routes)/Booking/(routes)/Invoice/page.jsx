@@ -298,19 +298,19 @@ const Invoice = () => {
 								</div>
 								<hr className="col-span-4 w-full h-[3px] bg-gradient-to-r from-orange-600 to-transparent" />
 								<div className="col-span-3 flex flex-col justify-center items-baseline">
-									<span className="text-sm text-right font-semibold">
+									<span className="text-sm text-left font-semibold">
 										Bill To:
 									</span>
-									<span className="text-sm text-right font-weight600 text-gray-700">
+									<span className="text-sm text-left font-weight600 text-gray-700">
 										{bookData[0]?.CustName}
 									</span>
-									<span className="text-sm text-right font-weight600 text-gray-700">
+									<span className="text-sm text-left font-weight600 text-gray-700">
 										{bookData[0]?.CustEmail}
 									</span>
-									<span className="text-sm text-right font-weight600 text-gray-700">
+									<span className="text-sm text-left font-weight600 text-gray-700">
 										{bookData[0]?.CustPhone}
 									</span>
-									<span className="text-sm text-right font-weight600 text-gray-700">
+									<span className="text-sm text-left font-weight600 text-gray-700 max-w-[10rem] break-words">
 										{bookData[0]?.CustAddress}
 									</span>
 								</div>

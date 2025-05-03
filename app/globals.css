@@ -87,12 +87,13 @@ body {
 
 .glass-table .ant-table-thead>tr>th {
 	background-color: rgba(255, 255, 255, 0.0) !important;
-	color: #ffffff !important;
+	color: var(--glass-text-color) !important;
+	
 }
 
 .glass-table .ant-table-tbody>tr>td {
 	background-color: rgba(255, 255, 255, 0.0) !important;
-	color: #ffffff !important;
+	color: var(--glass-text-color) !important;
 }
 
 
@@ -102,21 +103,21 @@ body {
 	border-radius: 1rem;
 	border: 1px solid rgba(255, 255, 255, 0.3);
 	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-	color: #fff;
+	color: var(--glass-text-color);
 }
 
 .glass-modal .ant-modal-header {
 	background: transparent;
 	border-bottom: 1px solid rgba(255, 255, 255, 0);
-	color:#fff;
+	color: var(--glass-text-color);
 }
 
 .glass-modal .ant-modal-title {
-	color: #fff;
+	color: var(--glass-text-color);
 }
 
 .glass-modal .ant-modal-body {
-	color: #fff;
+	color: var(--glass-text-color);
 }
 
 .glass-modal .ant-modal-footer {
@@ -130,7 +131,7 @@ body {
 	backdrop-filter: blur(8px);
 	border: 1px solid rgba(255, 255, 255, 0.3);
 	border-radius: 0.5rem;
-	color: #fff;
+	color: var(--glass-text-color);
 	transition: all 0.3s ease;
 }
 
@@ -197,23 +198,26 @@ body {
 	.text-balance {
 		text-wrap: balance;
 	}
+	.text-glass-text-color {
+		color:var(--glass-text-color);
+	}
 	.glass-input-wrapper {
 		@apply border border-white/10 rounded-md;
 	}
 
 	.glass-input input {
-		@apply bg-transparent text-white placeholder-black/70 outline-none;
+		@apply bg-transparent text-glass-text-color placeholder-black/70 outline-none;
 	}
 
 	.glass-input input:focus {
 		@apply ring-2 ring-white/30 bg-transparent text-black;
 	}
 	.glass-select .ant-select-selector {
-		@apply bg-white/20 backdrop-blur-md border border-white/30 rounded-md text-white !important;
+		@apply bg-white/20 backdrop-blur-md border border-white/30 rounded-md text-glass-text-color !important;
 	}
 
 	.glass-select-dropdown {
-		@apply bg-white/20 backdrop-blur-md border border-white/20 rounded-md text-white;
+		@apply bg-white/20 backdrop-blur-md border border-white/20 rounded-md text-glass-text-color;
 	}
 }
 
@@ -252,6 +256,7 @@ body {
 		--sidebar-accent-foreground: 240 5.9% 10%;
 		--sidebar-border: 220 13% 91%;
 		--sidebar-ring: 217.2 91.2% 59.8%;
+		--glass-text-color: #18181b;
 	}
 	.dark {
 		--background: 222.2 84% 4.9%;
@@ -286,6 +291,7 @@ body {
 		--sidebar-accent-foreground: 240 4.8% 95.9%;
 		--sidebar-border: 240 3.7% 15.9%;
 		--sidebar-ring: 217.2 91.2% 59.8%;
+		--glass-text-color: #ffffff;
 	}
 }
 

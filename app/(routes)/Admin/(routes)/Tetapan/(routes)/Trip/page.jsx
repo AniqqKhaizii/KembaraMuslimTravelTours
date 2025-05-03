@@ -183,8 +183,7 @@ const ManageTripDetails = () => {
 			width: 300,
 			className: "font-primary ",
 			onCell: () => ({
-				className:
-					"uppercase font-primary text-blue-600 cursor-pointer hover:underline",
+				className: "uppercase font-primary",
 			}),
 		},
 		{
@@ -209,7 +208,7 @@ const ManageTripDetails = () => {
 			title: "Travel Date",
 			dataIndex: "StartTravelDate", // Keep one dataIndex for sorting
 			key: "TravelDate",
-			width: 225,
+			width: 250,
 			className: "font-primary",
 			render: (_, record) => {
 				const startDate = record.StartTravelDate
@@ -249,6 +248,7 @@ const ManageTripDetails = () => {
 			key: "SeatAvailable",
 			align: "center",
 			className: "font-primary text-center",
+			width: 150,
 			render: (_, record) => {
 				const SeatSold = record.SeatSold ? record.SeatSold : 0;
 				const SeatAvailable = record.SeatAvailable ? record.SeatAvailable : 0;
@@ -262,6 +262,7 @@ const ManageTripDetails = () => {
 			title: "Status",
 			dataIndex: "Status",
 			key: "Status",
+			width: 150,
 			className: "font-primary text-center",
 			render: (text) => (
 				<span
@@ -311,7 +312,7 @@ const ManageTripDetails = () => {
 					<Spin className="min-h-40 flex items-center justify-center" />
 				) : (
 					<>
-						<div className="flex justify-between items-center p-4 text-white">
+						<div className="flex justify-between items-center p-4 dark:text-white text-zinc-950">
 							<h2 className="text-3xl font-regular">
 								Manage Umrah Trip Details
 							</h2>
@@ -319,13 +320,13 @@ const ManageTripDetails = () => {
 								type="primary"
 								icon={<PlusOutlined />}
 								onClick={() => showModal()}
-								className="flex items-center gap-2 bg-blue-200/10 hover:bg-blue-600/70 border border-gray-100/40 text-white py-2 px-4 rounded-3xl"
+								className="flex items-center gap-2 bg-blue-200/10 hover:bg-blue-600/70 border border-gray-100/40 dark:text-white text-zinc-950 py-2 px-4 rounded-3xl"
 							>
 								Add New Trip
 							</Button>
 						</div>
 						<Table
-							className="w-full bg-white/10 rounded-lg glass-table"
+							className="w-full bg-white/10 border rounded-lg glass-table"
 							loading={loading}
 							columns={columns}
 							dataSource={trips}

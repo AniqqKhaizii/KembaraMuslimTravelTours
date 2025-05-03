@@ -44,6 +44,8 @@ const CreateBookingPage = () => {
 	const [userData, setUserData] = useState(null);
 	const [adminData, setAdminData] = useState(null);
 
+	const [sah, setSah] = useState(false);
+
 	useEffect(() => {
 		if (typeof window !== "undefined") {
 			const storedUserData =
@@ -231,12 +233,10 @@ const CreateBookingPage = () => {
 							infant: pkg.Infant_Quad,
 						},
 					});
-					console.log("pkg.PakejPoster", pkg.PakejPoster.data);
 					if (pkg.PakejPoster && Array.isArray(pkg.PakejPoster.data)) {
 						const base64String = Buffer.from(pkg.PakejPoster.data).toString(
 							"base64"
 						);
-						console.log("base64String", base64String);
 						pkg.PakejPoster = `data:image/jpeg;base64,${base64String}`;
 						setUpdatedPoster(pkg.PakejPoster);
 					} else if (
@@ -357,8 +357,6 @@ const CreateBookingPage = () => {
 	};
 
 	const handleProceed = async () => {
-		console.log("This is happened when proceeding");
-
 		const Pax = rooms.reduce(
 			(summary, room) => {
 				summary.Adult += room.adult;
@@ -426,25 +424,40 @@ const CreateBookingPage = () => {
 					"Content-Type": "application/json",
 				},
 			});
-
+			console.log("response", response);
 			const result = response;
 			if (result.status === 200) {
 				message.success("Booking created successfully");
 
 				setTimeout(() => {
 					router.push("/Admin/Booking/Details?BookID=" + result.data.o_BookID);
-				}, 3000); // 3000 milliseconds = 3 seconds
+				}, 3000);
+			} else {
+				message.error("Failed to create booking " + result.data.message);
 			}
 		} catch (error) {
-			console.error("Error posting booking:", error);
+			const errorMsg =
+				error.response?.data?.message?.message ||
+				error.response?.data?.message ||
+				"Unknown error";
+
+			console.log("Error creating booking:", errorMsg);
+			message.error("Failed to create booking - " + errorMsg);
 		}
 	};
 
+	const handleCheckbox = (e) => {
+		if (e.target.checked) {
+			setSah(true);
+		} else {
+			setSah(false);
+		}
+	};
 	return (
 		<div className="min-h-screen bg-[url(/Hero/HeroLatest.jpg)] bg-fixed bg-cover">
 			<div className="backdrop-blur backdrop-brightness-75 py-12">
 				{updatedPoster && (
-					<div className="w-full max-w-5xl mx-auto">
+					<div className="w-full lg:max-w-5xl max-w-4xl mx-auto">
 						<img
 							className="w-full h-[50vh] object-cover object-top rounded-t-lg"
 							src={updatedPoster}
@@ -452,7 +465,7 @@ const CreateBookingPage = () => {
 						/>
 					</div>
 				)}
-				<div className="max-w-5xl mx-auto p-6 bg-white rounded-b-lg">
+				<div className="lg:max-w-5xl max-w-4xl mx-auto p-6 bg-white rounded-b-lg">
 					<div className="pkg-details mb-6 pb-2 border-b-2 border-gray-200">
 						<div className="flex items-center justify-between">
 							<p className="text-3xl font-semibold text-gray-900">
@@ -996,7 +1009,11 @@ const CreateBookingPage = () => {
 							on behalf of my travel members under my booking (invoice).
 						</p>
 						<div className="flex items-center justify-end">
-							<Input type="checkbox" className="w-3 h-3 mr-2" />
+							<Input
+								type="checkbox"
+								className="w-3 h-3 mr-2"
+								onChange={handleCheckbox}
+							/>
 							<span className="text-sm text-gray-500">
 								I agree to the terms & conditions
 							</span>
@@ -1004,8 +1021,10 @@ const CreateBookingPage = () => {
 					</div>
 				</div>
 
-				<div className="my-2 max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
-					<Button onClick={handleProceed}>Lock Seat</Button>
+				<div className="flex items-center justify-end my-2 lg:max-w-5xl max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+					<Button onClick={handleProceed} disabled={sah}>
+						Lock Seat
+					</Button>
 				</div>
 			</div>
 		</div>

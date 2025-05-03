@@ -94,6 +94,49 @@ export async function POST(req) {
 			p_SalesID,
 		} = requestBody;
 
+		if (!p_Operation) {
+			return NextResponse.json(
+				{ message: "Missing required field: p_Operation" },
+				{ status: 400 }
+			);
+		}
+		if (!p_BookID) {
+			return NextResponse.json(
+				{ message: "Missing required field: p_BookID" },
+				{ status: 400 }
+			);
+		}
+		if (!p_PakejID) {
+			return NextResponse.json(
+				{ message: "Missing required field: p_PakejID" },
+				{ status: 400 }
+			);
+		}
+		if (!p_TripID) {
+			return NextResponse.json(
+				{ message: "Missing required field: p_TripID" },
+				{ status: 400 }
+			);
+		}
+		if (
+			!p_CustID ||
+			!p_CustName ||
+			!p_CustEmail ||
+			!p_CustAddress ||
+			!p_CustPhone
+		) {
+			return NextResponse.json(
+				{ message: "Missing required field: Customer Details" },
+				{ status: 400 }
+			);
+		}
+		if (p_DepoAmt == null && p_TotalAmt == null) {
+			return NextResponse.json(
+				{ message: "Either p_DepoAmt or p_TotalAmt must be provided" },
+				{ status: 400 }
+			);
+		}
+
 		const customerQuery = `
       CALL SP_Manage_Customers(?, ?, ?, ?, ?, ?, ?)
     `;
@@ -122,7 +165,7 @@ export async function POST(req) {
 			"ADD_NEW",
 			p_BookID,
 			p_PakejID,
-			o_CustID, // Using the generated CustID
+			o_CustID,
 			p_TripID,
 			p_Pax,
 			p_TotalPax,
@@ -185,10 +228,6 @@ export async function POST(req) {
 			{ status: 200 }
 		);
 	} catch (error) {
-		console.error("❌ ERROR:", error);
-		return NextResponse.json(
-			{ error: { message: error.message } },
-			{ status: 500 }
-		);
+		return NextResponse.json({ message: error }, { status: 500 });
 	}
 }

@@ -137,49 +137,69 @@ const HotelDetails = () => {
 	return (
 		<AdminLayout>
 			<div className="p-6">
-				<h1 className="text-3xl mb-4 text-white">Hotel Details</h1>
+				<h1 className="text-3xl mb-4 dark:text-white text-zinc-950">
+					Hotel Details
+				</h1>
 				{loading ? (
-					<div className="flex items-center justify-center h-[80vh] text-white">
+					<div className="flex items-center justify-center h-[80vh] dark:text-white text-zinc-950">
 						<SpinnerCircleDemo />
 					</div>
 				) : (
 					<div className="grid grid-cols-3 rounded-lg p-6 gap-12">
 						{/* Hotel Details Section */}
 						<div className="bg-white/20 border py-4 px-8 rounded-lg shadow-xl">
-							<h2 className="text-xl font-semibold text-white mb-4 pb-2 text-center border-b">
+							<h2 className="text-xl font-semibold dark:text-white text-zinc-950 mb-4 text-center">
 								{hotel?.HotelName}
 							</h2>
 							<div className="space-y-8">
-								{Object.keys(hotel || {}).map(
-									(key) =>
-										!["HotelID", "Image", "CreatedDate", "UpdatedDate"].some(
-											(exclude) => key.includes(exclude)
-										) && (
-											<div
-												key={key}
-												className="flex items-start justify-between mb-4"
-											>
-												<label className="text-md font-regular text-gray-100">
-													{key}
-												</label>
-												{editMode ? (
-													<Input
-														type="text"
-														name={key}
-														value={updatedHotel[key] || ""}
-														onChange={handleInputChange}
-														className="w-2/3 glass-input text-white"
-														rootClassName="glass-input-wrapper"
-													/>
-												) : (
-													<div className="text-gray-200 text-right w-2/3">
-														{key === "Stars" ? (
+								<table className="w-full text-left">
+									<tbody>
+										{Object.keys(hotel || {}).map((key) => {
+											if (
+												["HotelID", "Image", "CreatedDate", "UpdatedDate"].some(
+													(exclude) => key.includes(exclude)
+												)
+											) {
+												return null;
+											}
+
+											return (
+												<tr
+													key={key}
+													className="border-y border-gray-400 dark:border-gray-100"
+												>
+													<td
+														className="py-5 pr-2 text-zinc-950 dark:text-white font-medium w-1/4"
+														valign="top"
+													>
+														{key}
+													</td>
+													<td
+														className="py-5 pr-2 text-zinc-950 dark:text-white w-4"
+														valign="top"
+													>
+														:
+													</td>
+													<td
+														className="py-5 text-zinc-950 dark:text-gray-200 text-right w-2/3"
+														valign="top"
+													>
+														{editMode ? (
+															<Input
+																type="text"
+																name={key}
+																value={updatedHotel[key] || ""}
+																onChange={handleInputChange}
+																className="w-full glass-input dark:text-white text-zinc-950"
+																rootClassName="glass-input-wrapper"
+															/>
+														) : key === "Stars" ? (
 															<>
 																{Array.from({ length: hotel[key] || 0 }).map(
 																	(_, index) => (
 																		<span
 																			key={index}
-																			className="text-yellow-500"
+																			className="text-yellow-500 drop-shadow"
 																		>
 																			⭐
 																		</span>
@@ -191,17 +211,18 @@ const HotelDetails = () => {
 														) : (
 															<p>{hotel[key] || "N/A"}</p>
 														)}
-													</div>
-												)}
-											</div>
-										)
-								)}
+													</td>
+												</tr>
+											);
+										})}
+									</tbody>
+								</table>
 							</div>
 						</div>
 
 						{/* Hotel Images Section */}
 						<div className="col-span-2">
-							<h3 className="text-lg font-semibold text-gray-100 bg-white/10 py-2 px-4 border shadow-xl mb-4 rounded-lg">
+							<h3 className="text-lg font-semibold dark:text-gray-100 text-zinc-950 bg-white/10 py-2 px-4 border border-gray-100/30  shadow-xl mb-4 rounded-lg">
 								Hotel Images
 							</h3>
 							<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -234,7 +255,7 @@ const HotelDetails = () => {
 												onClick={() =>
 													document.getElementById(`upload-${imgKey}`).click()
 												}
-												className="w-full h-40 bg-gray-100/10 p-4 rounded-lg shadow-xl flex items-center justify-center text-white hover:text-gray-300"
+												className="w-full h-40 bg-gray-100/10 p-4 rounded-lg shadow-xl flex items-center justify-center dark:text-white text-zinc-950 dark:hover:text-gray-300 hover:text-zinc-400"
 											>
 												<BsPlusCircleFill className="text-3xl" />
 												<input
@@ -256,7 +277,7 @@ const HotelDetails = () => {
 							{!editMode ? (
 								<Button
 									onClick={() => setEditMode(true)}
-									className="px-6 py-2 bg-blue-200/10 text-white rounded-3xl shadow hover:bg-blue-700"
+									className="px-6 py-2 dark:bg-blue-200/10 bg-green-500 text-white rounded-3xl shadow hover:bg-blue-700"
 								>
 									Edit Details
 								</Button>
@@ -264,13 +285,13 @@ const HotelDetails = () => {
 								<>
 									<Button
 										onClick={handleUpdate}
-										className="px-6 py-2 bg-green-200/10 text-white rounded-3xl shadow hover:bg-green-700"
+										className="px-6 py-2 dark:bg-green-200/10 bg-blue-500 text-white rounded-3xl shadow hover:bg-green-700"
 									>
 										Save Changes
 									</Button>
 									<Button
 										onClick={() => setEditMode(false)}
-										className="px-6 py-2 bg-red-200/10 text-white rounded-3xl shadow hover:bg-red-700"
+										className="px-6 py-2 dark:bg-red-200/10 bg-gray-500 text-white rounded-3xl shadow hover:bg-red-700"
 									>
 										Cancel
 									</Button>

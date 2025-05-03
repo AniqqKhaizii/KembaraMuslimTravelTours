@@ -324,81 +324,83 @@ const TetapanPakej = () => {
 			}),
 			render: (_, record) => (
 				<table className="w-full text-left text-[11px]">
-					<thead className="text-white">
+					<thead className="dark:text-white text-zinc-950">
 						<tr>
-							<th className="p-1 border-l border-t border-b border-gray-300 text-left">
+							<th className="p-1 border-l border-t border-b dark:border-gray-300 border-gray-400 text-left">
 								Kategori
 							</th>
-							<th className="p-1 border-l border-t border-b border-gray-300">
+							<th className="p-1 border-l border-t border-b dark:border-gray-300 border-gray-400">
 								Bilik 2
 							</th>
-							<th className="p-1 border-l border-t border-b border-gray-300">
+							<th className="p-1 border-l border-t border-b dark:border-gray-300 border-gray-400">
 								Bilik 3
 							</th>
-							<th className="p-1 border border-gray-300">Bilik 4</th>
+							<th className="p-1 border dark:border-gray-300 border-gray-400">
+								Bilik 4
+							</th>
 						</tr>
 					</thead>
 					<tbody>
 						{/* Adult */}
 						<tr>
-							<td className="p-1 border-l border-b border-gray-300 font-bold">
+							<td className="p-1 border-l border-b dark:border-gray-300 border-gray-400 font-bold">
 								ADULT
 							</td>
-							<td className="p-1 border-l border-b text-center border-gray-300">
+							<td className="p-1 border-l border-b text-center dark:border-gray-300 border-gray-400">
 								RM {parseFloat(record.Adult_Double)}
 							</td>
-							<td className="p-1 border-l border-b text-center border-gray-300">
+							<td className="p-1 border-l border-b text-center dark:border-gray-300 border-gray-400">
 								RM {parseFloat(record.Adult_Triple)}
 							</td>
-							<td className="p-1 border-l border-r border-b text-center border-gray-300">
+							<td className="p-1 border-l border-r border-b text-center dark:border-gray-300 border-gray-400">
 								RM {parseFloat(record.Adult_Quad)}
 							</td>
 						</tr>
 
 						{/* Child with Bed */}
 						<tr>
-							<td className="p-1 border-l border-b border-gray-300 font-bold">
+							<td className="p-1 border-l border-b dark:border-gray-300 border-gray-400 font-bold">
 								CHILD WITH BED
 							</td>
-							<td className="p-1 border-l border-b text-center border-gray-300">
+							<td className="p-1 border-l border-b text-center dark:border-gray-300 border-gray-400">
 								RM {parseFloat(record.ChildWBed_Double)}
 							</td>
-							<td className="p-1 border-l border-b text-center border-gray-300">
+							<td className="p-1 border-l border-b text-center dark:border-gray-300 border-gray-400">
 								RM {parseFloat(record.ChildWBed_Triple)}
 							</td>
-							<td className="p-1 border-l border-r border-b text-center border-gray-300">
+							<td className="p-1 border-l border-r border-b text-center dark:border-gray-300 border-gray-400">
 								RM {parseFloat(record.ChildWBed_Quad)}
 							</td>
 						</tr>
 
 						{/* Child without Bed */}
 						<tr>
-							<td className="p-1 border-l border-b border-gray-300 font-bold">
+							<td className="p-1 border-l border-b dark:border-gray-300 border-gray-400 font-bold">
 								CHILD WITHOUT BED
 							</td>
-							<td className="p-1 border-l border-b text-center border-gray-300">
+							<td className="p-1 border-l border-b text-center dark:border-gray-300 border-gray-400">
 								RM {parseFloat(record.ChildNoBed_Double)}
 							</td>
-							<td className="p-1 border-l border-b text-center border-gray-300">
+							<td className="p-1 border-l border-b text-center dark:border-gray-300 border-gray-400">
 								RM {parseFloat(record.ChildNoBed_Triple)}
 							</td>
-							<td className="p-1 border-l border-r border-b text-center border-gray-300">
+							<td className="p-1 border-l border-r border-b text-center dark:border-gray-300 border-gray-400">
 								RM {parseFloat(record.ChildNoBed_Quad)}
 							</td>
 						</tr>
 
 						{/* Infant */}
 						<tr>
-							<td className="p-1 border-l border-b border-gray-300 font-bold">
+							<td className="p-1 border-l border-b dark:border-gray-300 border-gray-400 font-bold">
 								INFANT
 							</td>
-							<td className="p-1 border-l border-b text-center border-gray-300">
+							<td className="p-1 border-l border-b text-center dark:border-gray-300 border-gray-400">
 								RM {parseFloat(record.Infant_Double)}
 							</td>
-							<td className="p-1 border-l border-b text-center border-gray-300">
+							<td className="p-1 border-l border-b text-center dark:border-gray-300 border-gray-400">
 								RM {parseFloat(record.Infant_Triple)}
 							</td>
-							<td className="p-1 border-l border-r border-b text-center border-gray-300">
+							<td className="p-1 border-l border-r border-b text-center dark:border-gray-300 border-gray-400">
 								RM {parseFloat(record.Infant_Quad)}
 							</td>
 						</tr>
@@ -410,6 +412,7 @@ const TetapanPakej = () => {
 			title: "Hotel",
 			key: "Hotel",
 			className: "font-primary",
+			width: 300,
 			render: (text, record) => (
 				<span className="uppercase font-primary">
 					{record.MakkahHotelName} / {record.MadinahHotelName}
@@ -424,6 +427,7 @@ const TetapanPakej = () => {
 			title: "Trip Umrah",
 			dataIndex: "tripDetails",
 			key: "TripID",
+			width: 400,
 			className: "font-primary text-center",
 			onCell: () => ({
 				style: { verticalAlign: "top" },
@@ -437,7 +441,7 @@ const TetapanPakej = () => {
 						{tripDetails.map((trip, index) => (
 							<span
 								key={index}
-								className={`flex flex-col items-center px-1 py-0.5 border border-gray-100/40 text-white 
+								className={`flex flex-col items-center px-1 py-0.5 border border-gray-100/40 text-white  
 											${trip.Status === "Open" ? "bg-green-600" : "bg-red-600"} 
 											text-[11px] rounded-3xl`}
 							>
@@ -461,7 +465,7 @@ const TetapanPakej = () => {
 			render: (_, record) => (
 				<Space>
 					<Button
-						className="flex items-center gap-2 bg-white/10 hover:bg-blue-600/70 border border-gray-100/40 text-white py-2 px-4 rounded-3xl"
+						className="flex items-center gap-2 bg-white/10 hover:bg-blue-600/70 border dark:border-gray-100/40 border-gray-400 dark:text-white text-gray-700 py-2 px-4 rounded-3xl"
 						icon={<EditOutlined />}
 						onClick={() => handleEdit(record)}
 					/>
@@ -519,7 +523,9 @@ const TetapanPakej = () => {
 		return (
 			<Form.Item
 				name="HotelMakkahID"
-				label={<span className="text-white">Makkah Hotel</span>}
+				label={
+					<span className="dark:text-white text-zinc-950">Makkah Hotel</span>
+				}
 				rules={[{ required: true, message: "Please select a hotel" }]}
 			>
 				<div className="flex flex-wrap gap-2">
@@ -557,7 +563,9 @@ const TetapanPakej = () => {
 		return (
 			<Form.Item
 				name="HotelMadinahID"
-				label={<span className="text-white">Madinah Hotel</span>}
+				label={
+					<span className="dark:text-white text-zinc-950">Madinah Hotel</span>
+				}
 				rules={[{ required: true, message: "Please select a hotel" }]}
 			>
 				<div className="flex flex-wrap gap-2">
@@ -604,7 +612,7 @@ const TetapanPakej = () => {
 		return (
 			<Form.Item
 				name="TripIDs"
-				label={<span className="text-white">Trips</span>}
+				label={<span className="dark:text-white text-zinc-950">Trips</span>}
 				rules={[{ required: true, message: "Please select at least one trip" }]}
 			>
 				<div className="flex flex-wrap gap-2">
@@ -630,7 +638,7 @@ const TetapanPakej = () => {
 				) : (
 					<>
 						<div className="flex justify-between items-center p-4">
-							<h1 className="text-3xl font-regular text-white">
+							<h1 className="text-3xl font-regular dark:text-white text-zinc-950">
 								Manage Umrah Packages
 							</h1>
 							<Button
@@ -639,7 +647,7 @@ const TetapanPakej = () => {
 									setEditingPackage(null);
 									setIsModalVisible(true);
 								}}
-								className="flex items-center gap-2 bg-blue-200/10 hover:bg-blue-600/70 border border-gray-100/40 text-white py-2 px-4 rounded-3xl"
+								className="flex items-center gap-2 bg-blue-200/10 hover:bg-blue-600/70 border border-gray-100/40 dark:text-white text-zinc-950 py-2 px-4 rounded-3xl"
 							>
 								Add New Package
 							</Button>
@@ -679,7 +687,11 @@ const TetapanPakej = () => {
 								>
 									<Form.Item
 										name="PakejName"
-										label={<span className="text-white">Package Name</span>}
+										label={
+											<span className="dark:text-white text-zinc-950">
+												Package Name
+											</span>
+										}
 										rules={[
 											{
 												required: true,
@@ -689,7 +701,7 @@ const TetapanPakej = () => {
 									>
 										<Input
 											placeholder="Enter package name"
-											className="glass-input text-white"
+											className="glass-input dark:text-white text-zinc-950"
 											rootClassName="glass-input-wrapper"
 										/>
 									</Form.Item>
@@ -700,36 +712,40 @@ const TetapanPakej = () => {
 									{/* Commission Field in RM */}
 									<Form.Item
 										name="Commission"
-										label={<span className="text-white">Commission (RM)</span>}
+										label={
+											<span className="dark:text-white text-zinc-950">
+												Commission (RM)
+											</span>
+										}
 										className="mb-4"
 									>
 										<div className="flex items-center">
-											<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-md text-white">
+											<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-md dark:text-white text-zinc-950">
 												RM
 											</p>
 											<Input
 												name="Commission"
 												type="number"
 												min={0}
-												className="glass-input text-white"
+												className="glass-input dark:text-white text-zinc-950"
 												rootClassName="glass-input-wrapper"
 												placeholder="Enter commission"
 											/>
 										</div>
 									</Form.Item>
-									<table className="table-auto w-full border-collapse border border-gray-300 mb-4  text-white">
+									<table className="table-auto w-full border-collapse border dark:border-gray-300 border-gray-400 mb-4  dark:text-white text-zinc-950">
 										<thead>
 											<tr className="bg-gray-200/20">
-												<th className="border border-gray-300 px-4 py-2">
+												<th className="border dark:border-gray-300 border-gray-400 px-4 py-2">
 													KATEGORI
 												</th>
-												<th className="border border-gray-300 px-4 py-2">
+												<th className="border dark:border-gray-300 border-gray-400 px-4 py-2">
 													BILIK 2
 												</th>
-												<th className="border border-gray-300 px-4 py-2">
+												<th className="border dark:border-gray-300 border-gray-400 px-4 py-2">
 													BILIK 3
 												</th>
-												<th className="border border-gray-300 px-4 py-2">
+												<th className="border dark:border-gray-300 border-gray-400 px-4 py-2">
 													BILIK 4
 												</th>
 											</tr>
@@ -737,14 +753,14 @@ const TetapanPakej = () => {
 										<tbody>
 											{/* ADULT */}
 											<tr className="h-9">
-												<td className="border border-gray-300 px-4 py-1 font-bold">
+												<td className="border dark:border-gray-300 border-gray-400 px-4 py-1 font-bold">
 													ADULT
 												</td>
 												{["Adult_Double", "Adult_Triple", "Adult_Quad"].map(
 													(field) => (
 														<td
 															key={field}
-															className="border border-gray-300 px-4 py-2"
+															className="border dark:border-gray-300 border-gray-400 px-4 py-2"
 														>
 															<div className="flex items-start justify-center h-9">
 																<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
@@ -775,7 +791,7 @@ const TetapanPakej = () => {
 
 											{/* CHILD WITH BED */}
 											<tr className="h-9">
-												<td className="border border-gray-300 px-4 py-2 font-bold">
+												<td className="border dark:border-gray-300 border-gray-400 px-4 py-2 font-bold">
 													CHILD WITH BED
 												</td>
 												{[
@@ -785,7 +801,7 @@ const TetapanPakej = () => {
 												].map((field) => (
 													<td
 														key={field}
-														className="border border-gray-300 px-4 py-2"
+														className="border dark:border-gray-300 border-gray-400 px-4 py-2"
 													>
 														<div className="flex items-start justify-center h-9">
 															<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
@@ -815,7 +831,7 @@ const TetapanPakej = () => {
 
 											{/* CHILD WITHOUT BED */}
 											<tr className="h-9">
-												<td className="border border-gray-300 px-4 py-2 font-bold">
+												<td className="border dark:border-gray-300 border-gray-400 px-4 py-2 font-bold">
 													CHILD WITHOUT BED
 												</td>
 												{[
@@ -825,7 +841,7 @@ const TetapanPakej = () => {
 												].map((field) => (
 													<td
 														key={field}
-														className="border border-gray-300 px-4 py-2"
+														className="border dark:border-gray-300 border-gray-400 px-4 py-2"
 													>
 														<div className="flex items-start justify-center h-9">
 															<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
@@ -855,14 +871,14 @@ const TetapanPakej = () => {
 
 											{/* INFANT */}
 											<tr className="h-9">
-												<td className="border border-gray-300 px-4 py-2 font-bold">
+												<td className="border dark:border-gray-300 border-gray-400 px-4 py-2 font-bold">
 													INFANT
 												</td>
 												{["Infant_Double", "Infant_Triple", "Infant_Quad"].map(
 													(field) => (
 														<td
 															key={field}
-															className="border border-gray-300 px-4 py-2"
+															className="border dark:border-gray-300 border-gray-400 px-4 py-2"
 														>
 															<div className="flex items-start justify-center h-9">
 																<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">

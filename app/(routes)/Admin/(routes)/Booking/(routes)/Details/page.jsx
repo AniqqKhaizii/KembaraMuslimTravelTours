@@ -19,16 +19,16 @@ const BookingDetails = ({ CombinedAddOnCustDetails }) => {
 	};
 
 	return (
-		<table className="table-auto w-full border border-white/40 rounded-lg">
+		<table className="table-auto w-full border dark:border-white/40 border-gray-400/50 rounded-lg">
 			<thead>
-				<tr className="uppercase text-sm leading-normal border-b border-white/40">
-					<th className="text-sm font-semibold px-4 py-2 text-left border-r border-white/40">
+				<tr className="uppercase text-sm leading-normal border-b dark:border-white/40 border-gray-400/50">
+					<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
 						Name
 					</th>
-					<th className="text-sm font-semibold px-4 py-2 text-left border-r border-white/40">
+					<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
 						IC Number
 					</th>
-					<th className="text-sm font-semibold px-4 py-2 text-left border-r border-white/40">
+					<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
 						Room Type
 					</th>
 				</tr>
@@ -36,18 +36,18 @@ const BookingDetails = ({ CombinedAddOnCustDetails }) => {
 			<tbody>
 				{/* Loop through the CombinedAddOnCustDetails */}
 				{CombinedAddOnCustDetails.map((customer, index) => {
-					const [name, ic, roomID] = customer.AddOnCustDetails.split(",");
+					const [name, ic, roomID] = customer.AddOnCustDetails?.split(",");
 					const roomDesc = getRoomDetails(Number(roomID)); // Get RoomDesc based on RoomID
 
 					return (
 						<tr key={index} className="odd:bg-white/10">
-							<td className="text-sm font-normal px-4 py-2 border-r border-white/40">
+							<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
 								{name}
 							</td>
-							<td className="text-sm font-normal px-4 py-2 border-r border-white/40">
+							<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
 								{ic}
 							</td>
-							<td className="text-sm font-normal px-4 py-2 border-r border-white/40">
+							<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
 								{roomDesc}
 							</td>
 						</tr>
@@ -93,8 +93,8 @@ const Details = () => {
 	return (
 		<AdminLayout>
 			{bookData && (
-				<div className="m-4 border-2 border-gray-100/30 rounded-lg backdrop-blur-md p-8 text-white">
-					<div className="flex justify-between w-full border-b border-gray-200/30">
+				<div className="m-4 border-2 dark:border-gray-100/30 border-gray-400/50 rounded-lg backdrop-blur-md p-8 dark:text-white text-zinc-950">
+					<div className="flex justify-between w-full border-b dark:border-gray-200/30 border-gray-400/50">
 						<h1 className="text-2xl font-semibold pb-4">
 							Booking ID : {bookData[0].BookID}
 						</h1>
@@ -105,14 +105,14 @@ const Details = () => {
 										.open(`/Admin/Booking/Invoice?BookID=${id}`, "_blank")
 										.focus()
 								}
-								className="px-6 py-2 bg-gray-500 text-white rounded-3xl"
+								className="px-6 py-2 dark:bg-gray-500 bg-white/10 dark:text-white text-zinc-950 rounded-3xl"
 							>
 								Generate Invoice
 							</Button>
 							{bookData[0].Status !== "Paid" && (
 								<Button
 									onClick={null}
-									className="px-6 py-2 bg-gray-500 text-white rounded-3xl"
+									className="px-6 py-2 dark:bg-gray-500 bg-white/10 dark:text-white text-zinc-950 rounded-3xl"
 								>
 									Pay
 								</Button>
@@ -122,11 +122,11 @@ const Details = () => {
 
 					<div className="mt-4 grid lg:grid-cols-2 sm:grid-cols-1 gap-6 col-span-2">
 						<div className="flex flex-col gap-2 bg-white/10 rounded-lg p-4">
-							<div className="flex justify-between border-b border-gray-200/30 pb-2">
+							<div className="flex justify-between border-b dark:border-gray-200/30 border-gray-400/50  pb-2">
 								<div className="flex items-center gap-1">
 									<h1 className="text-lg font-semibold">Booking Details</h1>
 									<span
-										className={`text-sm px-4 h-5 flex items-center rounded-full border ${
+										className={`text-sm px-4 h-5 flex text-white items-center rounded-full border dark:border-gray-200/30 border-gray-400/50 ${
 											bookData[0].Status === "Paid"
 												? "bg-green-500"
 												: bookData[0].Status === "Locked"
@@ -140,7 +140,7 @@ const Details = () => {
 
 								<button
 									onClick={() => router.push("/Admin/Booking")}
-									className="px-2 bg-transparent border-0 hover:border-b hover:border-gray-500 text-white"
+									className="px-2 bg-transparent border-0 hover:border-b hover:border-gray-500 dark:text-white text-zinc-950"
 								>
 									Back to List
 								</button>
@@ -214,9 +214,9 @@ const Details = () => {
 										<tr>
 											<td
 												colSpan="2"
-												className="border-t border-gray-100/20 px-4 py-2"
+												className="border-t dark:border-gray-100/20 border-gray-400/50 px-4 py-2"
 											>
-												<p className="font-normal text-white">
+												<p className="font-normal dark:text-white text-zinc-950">
 													Customer Details
 												</p>
 											</td>
@@ -280,7 +280,7 @@ const Details = () => {
 							</div>
 						</div>
 						<div className="flex flex-col gap-2 bg-white/10 rounded-lg p-4">
-							<div className="flex justify-between border-b border-gray-200/30 pb-2">
+							<div className="flex justify-between border-b dark:border-gray-200/30 border-gray-400/50 pb-2">
 								<h1 className="text-lg font-semibold">
 									Packages & Trip Details
 								</h1>
@@ -354,7 +354,7 @@ const Details = () => {
 							</div>
 						</div>
 						<div className="col-span-2 flex flex-col gap-2 bg-white/10 rounded-lg p-4">
-							<div className="flex justify-between border-b border-gray-200/30 pb-2">
+							<div className="flex justify-between border-b dark:border-gray-200/30 border-gray-400/50 pb-2">
 								<h1 className="text-lg font-semibold">Add On Jemaah Details</h1>
 							</div>
 							<div className="overflow-x-auto">
@@ -362,29 +362,29 @@ const Details = () => {
 							</div>
 						</div>
 						<div className="col-span-2 flex flex-col gap-2 bg-white/10 rounded-lg p-4">
-							<div className="flex justify-between border-b border-gray-200/30 pb-2">
+							<div className="flex justify-between border-b dark:border-gray-200/30 border-gray-400/50 pb-2">
 								<h1 className="text-lg font-semibold">Payment Details</h1>
 							</div>
 							<div className="overflow-x-auto">
-								<table className="table-auto w-full border border-white/40 rounded-lg">
+								<table className="table-auto w-full border dark:border-white/40 border-gray-400/50 rounded-lg">
 									<thead>
-										<tr className="uppercase text-sm leading-normal border-b border-white/40">
-											<th className="text-sm font-semibold px-4 py-2 text-left border-r border-white/40">
+										<tr className="uppercase text-sm leading-normal border-b dark:border-white/40 border-gray-400/50">
+											<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
 												Payment Date
 											</th>
-											<th className="text-sm font-semibold px-4 py-2 text-left border-r border-white/40">
+											<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
 												Payment ID
 											</th>
-											<th className="text-sm font-semibold px-4 py-2 text-left border-r border-white/40">
+											<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
 												Transaction ID
 											</th>
-											<th className="text-sm font-semibold px-4 py-2 text-left border-r border-white/40">
+											<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
 												Total Amount
 											</th>
-											<th className="text-sm font-semibold px-4 py-2 text-left border-r border-white/40">
+											<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
 												Deposits
 											</th>
-											<th className="text-sm font-semibold px-4 py-2 text-left border-r border-white/40">
+											<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
 												Discount
 											</th>
 										</tr>
@@ -392,24 +392,24 @@ const Details = () => {
 									<tbody>
 										{bookData[0].PaidDate ? (
 											<tr className="odd:bg-white/10">
-												<td className="text-sm font-normal px-4 py-2 border-r border-white/40">
+												<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
 													{dayjs(bookData[0].PaidDate).format(
 														"DD MMM YYYY hh:mm:ss A"
 													)}
 												</td>
-												<td className="text-sm font-normal px-4 py-2 border-r border-white/40">
+												<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
 													{bookData[0].OrderID}
 												</td>
-												<td className="text-sm font-normal px-4 py-2 border-r border-white/40">
+												<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
 													{bookData[0].TransactionID}
 												</td>
-												<td className="text-sm font-normal px-4 py-2 border-r border-white/40">
+												<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
 													{bookData[0].TotalAmount}
 												</td>
-												<td className="text-sm font-normal px-4 py-2 border-r border-white/40">
+												<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
 													{bookData[0].Deposits}
 												</td>
-												<td className="text-sm font-normal px-4 py-2 border-r border-white/40">
+												<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
 													{bookData[0].Discount}
 												</td>
 											</tr>
@@ -417,7 +417,7 @@ const Details = () => {
 											<tr className="odd:bg-white/10">
 												<td
 													colSpan={6}
-													className="text-sm text-center font-normal px-4 py-2 border-r border-white/40"
+													className="text-sm text-center font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50"
 												>
 													No Data
 												</td>
@@ -428,20 +428,20 @@ const Details = () => {
 							</div>
 						</div>
 						<div className="col-span-2 flex flex-col gap-2 bg-white/10 rounded-lg p-4">
-							<div className="flex justify-between border-b border-gray-200/30 pb-2">
+							<div className="flex justify-between border-b dark:border-gray-200/30 border-gray-400/50 pb-2">
 								<h1 className="text-lg font-semibold">Order History Details</h1>
 							</div>
 							<div className="overflow-x-auto">
-								<table className="table-auto w-full border border-white/40 rounded-lg">
+								<table className="table-auto w-full border dark:border-white/40 border-gray-400/50 rounded-lg">
 									<thead>
-										<tr className="uppercase text-sm leading-normal border-b border-white/40">
-											<th className="text-sm font-semibold px-4 py-2 text-left border-r border-white/40">
+										<tr className="uppercase text-sm leading-normal border-b dark:border-white/40 border-gray-400/50">
+											<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
 												Date & Time
 											</th>
-											<th className="text-sm font-semibold px-4 py-2 text-left border-r border-white/40">
+											<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
 												Action
 											</th>
-											<th className="text-sm font-semibold px-4 py-2 text-left border-r border-white/40">
+											<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
 												Remark
 											</th>
 										</tr>
@@ -450,40 +450,40 @@ const Details = () => {
 										{bookData[0].Status !== "Cancelled" ? (
 											<>
 												<tr className="odd:bg-white/10">
-													<td className="text-sm font-normal px-4 py-2 border-r border-white/40">
+													<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
 														{dayjs(bookData[0].BookDate).format(
 															"DD MMM YYYY hh:mm:ss A"
 														)}
 													</td>
-													<td className="text-sm font-normal px-4 py-2 border-r border-white/40">
+													<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
 														<div className="flex items-center justify-center gap-2">
 															[] -{" "}
-															<p className="bg-blue-500 px-2 text-white rounded-md">
+															<p className="bg-blue-500 px-2 dark:text-white text-zinc-950 rounded-md">
 																Locked Seat
 															</p>
 														</div>
 													</td>
-													<td className="text-sm font-normal px-4 py-2 border-r border-white/40"></td>
+													<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50"></td>
 												</tr>
 												{bookData[0].PaidDate && (
 													<tr className="odd:bg-white/10">
-														<td className="text-sm font-normal px-4 py-2 border-r border-white/40">
+														<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
 															{dayjs(bookData[0].PaidDate).format(
 																"DD MMM YYYY hh:mm:ss A"
 															)}
 														</td>
-														<td className="text-sm font-normal px-4 py-2 border-r border-white/40">
+														<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
 															<div className="flex items-center justify-center gap-2">
-																<p className="bg-blue-500 px-2 text-white rounded-md">
+																<p className="bg-blue-500 px-2 dark:text-white text-zinc-950 rounded-md">
 																	Locked Seat
 																</p>{" "}
 																-{" "}
-																<p className="bg-green-500 px-2 text-white rounded-md">
+																<p className="bg-green-500 px-2 dark:text-white text-zinc-950 rounded-md">
 																	Paid
 																</p>
 															</div>
 														</td>
-														<td className="text-sm font-normal px-4 py-2 border-r border-white/40"></td>
+														<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50"></td>
 													</tr>
 												)}
 											</>
@@ -491,7 +491,7 @@ const Details = () => {
 											<tr className="odd:bg-white/10">
 												<td
 													colSpan={6}
-													className="text-sm text-center font-normal px-4 py-2 border-r border-white/40"
+													className="text-sm text-center font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50"
 												>
 													No Data
 												</td>

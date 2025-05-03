@@ -2,7 +2,11 @@
 import React, { useState, useEffect } from "react";
 import AdminLayout from "../../layout/AdminLayout";
 import { Button, Table, Space } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {
+	DeleteOutlined,
+	EditOutlined,
+	WhatsAppOutlined,
+} from "@ant-design/icons";
 
 import Axios from "axios";
 
@@ -53,6 +57,7 @@ const Customers = () => {
 			title: "No.",
 			dataIndex: "index",
 			key: "index",
+			width: 10,
 			render: (_, __, index) => <span>{index + 1}.</span>,
 			onCell: () => ({
 				className: "uppercase font-primary ",
@@ -86,6 +91,7 @@ const Customers = () => {
 			title: "Address",
 			dataIndex: "CustAddress",
 			key: "CustAddress",
+			width: 350,
 			onCell: () => ({
 				className: "uppercase font-primary",
 			}),
@@ -102,9 +108,28 @@ const Customers = () => {
 			title: "Referral Code",
 			dataIndex: "ReferralCode",
 			key: "ReferralCode",
+			width: 150,
 			onCell: () => ({
 				className: "font-primary",
 			}),
+		},
+		{
+			title: "Contact",
+			dataIndex: "CustPhone",
+			key: "Contact",
+			width: 100,
+			onCell: () => ({
+				className: "font-primary",
+			}),
+			render: (_, record) => (
+				<Space className="flex justify-center">
+					<Button
+						icon={<WhatsAppOutlined />}
+						className="bg-green-500/60 hover:bg-green-600 text-white py-1 px-2 rounded-3xl"
+						onClick={() => window.open(`https://wa.me/${record.CustPhone}`)}
+					/>
+				</Space>
+			),
 		},
 	];
 
@@ -112,7 +137,9 @@ const Customers = () => {
 		<AdminLayout>
 			<div className="px-4">
 				<div className="flex justify-between items-center  p-4">
-					<h1 className="text-3xl font-regular text-white">Senarai Jemaah</h1>
+					<h1 className="text-3xl font-regular dark:text-white text-zinc-950">
+						Senarai Jemaah
+					</h1>
 				</div>
 
 				<Table

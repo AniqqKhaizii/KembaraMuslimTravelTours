@@ -147,7 +147,6 @@ const AdminPage = () => {
 	];
 
 	const handleAddUser = async () => {
-		console.log("userData", userData);
 		try {
 			// Prepare formData to send in the API request
 			const formDataToSend = {
@@ -233,8 +232,6 @@ const AdminPage = () => {
 			);
 
 			if (response.status === 200) {
-				console.log("User updated successfully:", response.data);
-				// Update the user list
 				const updatedUsers = users.map((user) =>
 					user.email === editingUser.email ? formData : user
 				);
@@ -320,11 +317,13 @@ const AdminPage = () => {
 		<AdminLayout>
 			<div className="px-4">
 				<div className="flex justify-between items-center p-4">
-					<h1 className="text-3xl font-regular text-white">Senarai Admin</h1>
+					<h1 className="text-3xl font-regular dark:text-white text-zinc-950">
+						Senarai Admin
+					</h1>
 					<Button
 						icon={<PlusOutlined />}
 						onClick={() => setIsModalAddOpen(true)}
-						className="flex items-center gap-2 bg-blue-200/10 hover:bg-blue-600/70 border border-gray-100/40 text-white py-2 px-4 rounded-3xl"
+						className="flex items-center gap-2 bg-blue-200/10 hover:bg-blue-600/70 border border-gray-100/40 dark:text-white text-zinc-950 py-2 px-4 rounded-3xl"
 					>
 						Add User
 					</Button>
@@ -373,7 +372,7 @@ const AdminPage = () => {
 					>
 						<Button
 							icon={<UploadOutlined />}
-							className="w-full bg-transparent text-white backdrop-blur"
+							className="w-full bg-transparent dark:text-white text-zinc-950 backdrop-blur"
 						>
 							Upload Image
 						</Button>
@@ -387,39 +386,53 @@ const AdminPage = () => {
 				>
 					<div className="grid grid-cols-2 gap-4">
 						<Form.Item
-							label={<span className="text-white">Name</span>}
+							label={
+								<span className="dark:text-white text-zinc-950">Name</span>
+							}
 							name="name"
 							rules={[{ required: true, message: "Please enter your name" }]}
 							className="col-span-2 mb-0"
 						>
-							<Input placeholder="Name" className="glass-input text-white" />
+							<Input
+								placeholder="Name"
+								className="glass-input dark:text-white text-zinc-950"
+							/>
 						</Form.Item>
 
 						<Form.Item
-							label={<span className="text-white">Email</span>}
+							label={
+								<span className="dark:text-white text-zinc-950">Email</span>
+							}
 							name="email"
 							rules={[
 								{ required: true, type: "email", message: "Invalid email" },
 							]}
 							className="mb-0"
 						>
-							<Input placeholder="Email" className="glass-input text-white" />
+							<Input
+								placeholder="Email"
+								className="glass-input dark:text-white text-zinc-950"
+							/>
 						</Form.Item>
 
 						<Form.Item
-							label={<span className="text-white">Username</span>}
+							label={
+								<span className="dark:text-white text-zinc-950">Username</span>
+							}
 							name="username"
 							rules={[{ required: true, message: "Please enter a username" }]}
 							className="mb-0"
 						>
 							<Input
 								placeholder="Username"
-								className="glass-input text-white"
+								className="glass-input dark:text-white text-zinc-950"
 							/>
 						</Form.Item>
 
 						<Form.Item
-							label={<span className="text-white">Password</span>}
+							label={
+								<span className="dark:text-white text-zinc-950">Password</span>
+							}
 							name="password"
 							rules={[{ required: true, message: "Please enter a password" }]}
 							className="mb-0"
@@ -428,7 +441,11 @@ const AdminPage = () => {
 						</Form.Item>
 
 						<Form.Item
-							label={<span className="text-white">Confirm Password</span>}
+							label={
+								<span className="dark:text-white text-zinc-950">
+									Confirm Password
+								</span>
+							}
 							name="confirmPassword"
 							dependencies={["password"]}
 							hasFeedback
@@ -455,7 +472,9 @@ const AdminPage = () => {
 						</Form.Item>
 
 						<Form.Item
-							label={<span className="text-white">Role</span>}
+							label={
+								<span className="dark:text-white text-zinc-950">Role</span>
+							}
 							name="role"
 							className="mb-0"
 						>
@@ -470,7 +489,11 @@ const AdminPage = () => {
 						</Form.Item>
 
 						<Form.Item
-							label={<span className="text-white">User Level</span>}
+							label={
+								<span className="dark:text-white text-zinc-950">
+									User Level
+								</span>
+							}
 							name="userlevel"
 							className="mb-0"
 						>
@@ -488,7 +511,7 @@ const AdminPage = () => {
 					<Form.Item className="mt-8">
 						<Button
 							type="submit"
-							className="w-full bg-blue-500 text-white hover:bg-blue-700"
+							className="w-full bg-blue-500 dark:text-white text-zinc-950 hover:bg-blue-700"
 						>
 							Submit
 						</Button>
@@ -531,7 +554,7 @@ const AdminPage = () => {
 						>
 							<Button
 								icon={<UploadOutlined />}
-								className="w-full bg-transparent text-white backdrop-blur"
+								className="w-full bg-transparent dark:text-white text-zinc-950 backdrop-blur"
 							>
 								Upload Image
 							</Button>
@@ -542,7 +565,7 @@ const AdminPage = () => {
 						name="name"
 						value={formData.name}
 						onChange={handleChange}
-						className="col-span-2 mb-3 glass-input text-white"
+						className="col-span-2 mb-3 glass-input dark:text-white text-zinc-950"
 						rootClassName="glass-input-wrapper"
 					/>
 					<Input
@@ -550,7 +573,7 @@ const AdminPage = () => {
 						name="email"
 						value={formData.email}
 						onChange={handleChange}
-						className="mb-3 glass-input text-white"
+						className="mb-3 glass-input dark:text-white text-zinc-950"
 						rootClassName="glass-input-wrapper"
 					/>
 					<Input
@@ -558,14 +581,14 @@ const AdminPage = () => {
 						name="username"
 						value={formData.username}
 						onChange={handleChange}
-						className="mb-3 glass-input text-white"
+						className="mb-3 glass-input dark:text-white text-zinc-950"
 						rootClassName="glass-input-wrapper"
 					/>
 					<Input.Password
 						placeholder="Password"
 						name="password"
 						onChange={handleChange}
-						className="mb-3 glass-input text-white"
+						className="mb-3 glass-input dark:text-white text-zinc-950"
 						rootClassName="glass-input-wrapper"
 						required
 					/>

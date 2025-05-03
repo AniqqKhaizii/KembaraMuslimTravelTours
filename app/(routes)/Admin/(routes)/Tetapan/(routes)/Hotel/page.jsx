@@ -223,7 +223,7 @@ const ManageHotel = () => {
 				) : (
 					<>
 						<div className="flex justify-between items-center mb-4 border-b border-gray-200 p-4">
-							<h2 className="text-3xl font-regular text-white">
+							<h2 className="text-3xl font-regular dark:text-white text-zinc-950">
 								Manage Hotel Details
 							</h2>
 							<Button

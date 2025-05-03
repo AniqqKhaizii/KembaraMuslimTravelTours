@@ -26,6 +26,7 @@ const BookingPage = () => {
 	const [customers, setCustomers] = useState([]);
 	const [groupedData, setGroupedData] = useState({});
 	const [tripFilter, setTripFilter] = useState(null);
+	const [salesFilter, setSalesFilter] = useState(null); // New state for Sales filter
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
@@ -82,15 +83,27 @@ const BookingPage = () => {
 		setTripFilter(value);
 	};
 
+	const handleSalesFilterChange = (value) => {
+		setSalesFilter(value); // Update the sales filter
+	};
+
+	// Filtered customers based on trip and sales
 	const filteredCustomers = tripFilter
 		? groupedData[tripFilter] || []
 		: [].concat(...Object.values(groupedData));
+
+	const finalFilteredCustomers = salesFilter
+		? salesFilter === "Online"
+			? filteredCustomers.filter((record) => record.SalesID === null)
+			: filteredCustomers.filter((record) => record.SalesID === salesFilter)
+		: filteredCustomers;
 
 	const columns = [
 		{
 			title: "No.",
 			dataIndex: "index",
 			key: "index",
+			width: 10,
 			render: (_, __, index) => <span>{index + 1}.</span>,
 			onCell: () => ({
 				className: "uppercase font-primary text-sm text-center",
@@ -100,10 +113,17 @@ const BookingPage = () => {
 			title: "Booking Date",
 			dataIndex: "BookDate",
 			key: "BookDate",
+			width: 170,
 			onCell: () => ({
 				className: "uppercase font-primary text-sm",
 			}),
 			render: (text) => dayjs(text).format("DD MMM YYYY hh:mm:ss A"),
+			sorter: (a, b) => {
+				const dateA = a.BookDate ? dayjs(a.BookDate).unix() : 0;
+				const dateB = b.BookDate ? dayjs(b.BookDate).unix() : 0;
+				return dateA - dateB;
+			},
+			defaultSortOrder: "descend",
 		},
 		{
 			title: "Booking ID",
@@ -116,6 +136,7 @@ const BookingPage = () => {
 		{
 			title: "Customer Name",
 			dataIndex: "CustName",
+			width: 200,
 			onCell: () => ({
 				className: "uppercase font-primary text-sm",
 			}),
@@ -124,6 +145,7 @@ const BookingPage = () => {
 			title: "Pakej & Trip",
 			dataIndex: "PakejTrip",
 			key: "PakejTrip",
+			width: 200,
 			onCell: () => ({
 				className: "font-primary uppercase text-sm",
 			}),
@@ -133,6 +155,7 @@ const BookingPage = () => {
 			title: "Travel Date",
 			dataIndex: "TravelDate",
 			key: "TravelDate",
+			width: 220,
 			onCell: () => ({
 				className: "uppercase font-primary text-sm",
 			}),
@@ -154,30 +177,46 @@ const BookingPage = () => {
 					<table className="table-auto w-full text-sm p-2">
 						<tbody>
 							<tr>
-								<td className="border-b border-gray-100/40">Adult</td>
-								<td className="border-b border-gray-100/40">:</td>
-								<td className="border-b border-gray-100/40">{paxData.Adult}</td>
+								<td className="border-b dark:border-gray-100/40 border-black/40">
+									Adult
+								</td>
+								<td className="border-b dark:border-gray-100/40 border-black/40">
+									:
+								</td>
+								<td className="border-b dark:border-gray-100/40 border-black/40">
+									{paxData.Adult}
+								</td>
 							</tr>
 							<tr>
-								<td className="border-b border-gray-100/40">Child With Bed</td>
-								<td className="border-b border-gray-100/40">:</td>
-								<td className="border-b border-gray-100/40">
+								<td className="border-b dark:border-gray-100/40 border-black/40">
+									Child With Bed
+								</td>
+								<td className="border-b dark:border-gray-100/40 border-black/40">
+									:
+								</td>
+								<td className="border-b dark:border-gray-100/40 border-black/40">
 									{paxData.ChildWithBed}
 								</td>
 							</tr>
 							<tr>
-								<td className="border-b border-gray-100/40">
+								<td className="border-b dark:border-gray-100/40 border-black/40">
 									Child Without Bed
 								</td>
-								<td className="border-b border-gray-100/40">:</td>
-								<td className="border-b border-gray-100/40">
+								<td className="border-b dark:border-gray-100/40 border-black/40">
+									:
+								</td>
+								<td className="border-b dark:border-gray-100/40 border-black/40">
 									{paxData.ChildWithoutBed}
 								</td>
 							</tr>
 							<tr>
-								<td className="border-b border-gray-100/40">Infant</td>
-								<td className="border-b border-gray-100/40">:</td>
-								<td className="border-b border-gray-100/40">
+								<td className="border-b dark:border-gray-100/40 border-black/40">
+									Infant
+								</td>
+								<td className="border-b dark:border-gray-100/40 border-black/40">
+									:
+								</td>
+								<td className="border-b dark:border-gray-100/40 border-black/40">
 									{paxData.Infant}
 								</td>
 							</tr>
@@ -195,6 +234,14 @@ const BookingPage = () => {
 			}),
 		},
 		{
+			title: "Sales Name",
+			dataIndex: "SalesName",
+			key: "SalesName",
+			onCell: () => ({
+				className: "font-primary text-sm",
+			}),
+		},
+		{
 			title: "Actions",
 			key: "Actions",
 			render: (_, record) => (
@@ -204,7 +251,7 @@ const BookingPage = () => {
 						onClick={() =>
 							(window.location.href = `/Admin/Booking/Details?BookID=${record.BookID}`)
 						}
-						className="bg-green-500/10 border border-green-500 text-white hover:bg-green-500 hover:text-white rounded-3xl"
+						className="dark:bg-green-500/10 bg-green-500 border border-green-500 text-white hover:bg-green-500 hover:dark:text-white  rounded-3xl"
 					>
 						View
 					</Button>
@@ -218,7 +265,7 @@ const BookingPage = () => {
 								)
 								.focus()
 						}
-						className="bg-orange-500/10 border border-orange-300 text-white hover:bg-orange-300 hover:text-white rounded-3xl"
+						className="dark:bg-orange-500/10 bg-orange-500 border border-orange-300 text-white hover:bg-orange-300 hover:dark:text-white  rounded-3xl"
 					>
 						Invoice
 					</Button>
@@ -231,28 +278,53 @@ const BookingPage = () => {
 		<AdminLayout>
 			<div className="px-4">
 				<div className="flex justify-between items-center p-4">
-					<h1 className="text-3xl font-regular text-white">Senarai Booking</h1>
-					<Select
-						value={tripFilter}
-						onChange={handleTripFilterChange}
-						className="w-64  glass-select"
-						popupClassName="glass-select-dropdown"
-						placeholder="Select Trip"
-					>
-						<Select.Option value={null}>All Trips</Select.Option>
-						{Object.keys(groupedData).map((tripID) => (
-							<Select.Option key={tripID} value={tripID}>
-								{groupedData[tripID][0].TripName}
-							</Select.Option>
-						))}
-					</Select>
+					<h1 className="text-3xl font-regular dark:text-white text-zinc-950">
+						Senarai Booking
+					</h1>
+					<div className="flex gap-4">
+						<Select
+							value={tripFilter}
+							onChange={handleTripFilterChange}
+							className="w-64 glass-select"
+							popupClassName="glass-select-dropdown"
+							placeholder="Select Trip"
+						>
+							<Select.Option value={null}>All Trips</Select.Option>
+							{Object.keys(groupedData).map((tripID) => (
+								<Select.Option key={tripID} value={tripID}>
+									{groupedData[tripID][0].TripName}
+								</Select.Option>
+							))}
+						</Select>
+
+						<Select
+							value={salesFilter}
+							onChange={handleSalesFilterChange}
+							className="w-64 glass-select"
+							popupClassName="glass-select-dropdown"
+							placeholder="Select Sales"
+						>
+							<Select.Option value={null}>All Sales</Select.Option>
+							<Select.Option value={"Online"}>Online</Select.Option>
+							{customers
+								.filter((customer) => customer.SalesID) // Filter out customers with null SalesID
+								.map((customer) => (
+									<Select.Option
+										key={customer.SalesID}
+										value={customer.SalesID}
+									>
+										{customer.SalesName}
+									</Select.Option>
+								))}
+						</Select>
+					</div>
 				</div>
 
 				<div className="px-4">
 					<Table
 						loading={loading}
 						columns={columns}
-						dataSource={filteredCustomers}
+						dataSource={finalFilteredCustomers}
 						onHeaderRow={() => ({
 							className: "uppercase font-primary",
 						})}

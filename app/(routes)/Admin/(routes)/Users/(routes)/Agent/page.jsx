@@ -137,13 +137,13 @@ import { FaUsers, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 // 			render: (_, agent) => (
 // 				<div className="flex justify-start items-center gap-2">
 // 					<button
-// 						className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded"
+// 						className="bg-green-500 hover:bg-green-600 dark:text-white text-zinc-950 py-1 px-2 rounded"
 // 						onClick={() => openEditModal(agent)}
 // 					>
 // 						Edit
 // 					</button>
 // 					<button
-// 						className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded"
+// 						className="bg-red-500 hover:bg-red-600 dark:text-white text-zinc-950 py-1 px-2 rounded"
 // 						onClick={() => openDeleteModal(agent)}
 // 					>
 // 						Delete
@@ -159,7 +159,7 @@ import { FaUsers, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 // 				<div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-3 gap-4">
 // 					<div className="flex justify-center">
 // 						<div className="flex justify-center items-center w-1/4 bg-gradient-to-br from-blue-700 to-blue-500 p-6 rounded-s-xl border border-blue-100 shadow-lg">
-// 							<span className="text-6xl text-white">
+// 							<span className="text-6xl dark:text-white text-zinc-950">
 // 								<FaUsers />
 // 							</span>
 // 						</div>
@@ -175,7 +175,7 @@ import { FaUsers, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 // 					<div className="flex justify-center">
 // 						<div className="flex justify-center items-center w-1/4  bg-gradient-to-br from-green-700 to-green-500 p-6 rounded-s-xl border border-green-100 shadow-lg">
-// 							<span className="text-6xl text-white">
+// 							<span className="text-6xl dark:text-white text-zinc-950">
 // 								<FaCheckCircle />
 // 							</span>
 // 						</div>
@@ -191,7 +191,7 @@ import { FaUsers, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 // 					<div className="flex justify-center">
 // 						<div className="flex justify-center items-center w-1/4 bg-gradient-to-br from-red-700 to-red-500 p-6 rounded-s-xl border border-red-100 shadow-lg">
-// 							<span className="text-6xl text-white">
+// 							<span className="text-6xl dark:text-white text-zinc-950">
 // 								<FaTimesCircle />
 // 							</span>
 // 						</div>
@@ -209,7 +209,7 @@ import { FaUsers, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 // 					<h1 className="text-3xl font-regular">Senarai Agent</h1>
 // 					<button
 // 						onClick={() => setIsModalAddOpen(true)}
-// 						className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+// 						className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 dark:text-white text-zinc-950 py-2 px-4 rounded"
 // 					>
 // 						<IoMdAdd />
 // 						Register Agent
@@ -401,10 +401,10 @@ const AgentPage = () => {
 		<AdminLayout>
 			<div className="flex items-center justify-center h-[80vh]">
 				<div className="bg-white/20 backdrop-blur-md p-10 rounded-xl shadow-lg border border-white/30 text-center max-w-md">
-					<h1 className="text-4xl font-semibold text-gray-200 mb-4">
+					<h1 className="text-4xl font-semibold dark:text-white text-zinc-950 mb-4">
 						Coming Soon!
 					</h1>
-					<p className="text-gray-100 text-lg">
+					<p className="dark:text-gray-100 text-gray-700 text-lg">
 						This page is under development. Stay tuned!
 					</p>
 				</div>
