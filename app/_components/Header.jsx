@@ -151,7 +151,7 @@ function Header() {
 													? "hover:bg-gray-100 bg-orange-500 text-white"
 													: pathname !== item.path && sticky
 													? "hover:bg-gray-100 hover:text-orange-700"
-													: "hover:bg-orange-500 hover:text-white"
+													: "hover:bg-gray-100 hover:text-orange-700"
 											}`}
 										>
 											<Link className="flex" href={item.path}>
@@ -161,7 +161,7 @@ function Header() {
 												)}
 											</Link>
 											{item.submenu && (
-												<ul className="absolute left-0 border-t-4 w-[12vw] border-zinc-800 top-7 opacity-0 scale-95 bg-orange-500 rounded-lg group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-lg mt-5 grid grid-cols-1 gap-2">
+												<ul className="absolute left-0 border-t-4 w-[12vw] border-zinc-800 top-7 opacity-0 scale-95 bg-orange-500 rounded-b-lg group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-lg mt-5 grid grid-cols-1 gap-2">
 													{item.submenu.map((subItem) => (
 														<li
 															key={subItem.id}

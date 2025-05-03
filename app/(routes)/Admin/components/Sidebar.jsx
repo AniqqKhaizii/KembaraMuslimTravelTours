@@ -221,10 +221,10 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
 													href={subItem.href}
 													className={`flex items-center ${
 														isCollapsed ? "gap-0 px-2" : "gap-4 px-4"
-													} py-2 dark:text-white text-zinc-950 hover:bg-slate-100 hover:text-slate-900 dark:hover:text-slate-900 rounded-es-2xl transition-all duration-300 ${
+													} py-2  hover:bg-slate-100 hover:text-slate-900 dark:hover:text-slate-900 rounded-es-2xl transition-all duration-300 ${
 														currentPageSubmenu === subItem.href.split("/")[3]
-															? "bg-slate-100 text-gray-700 dark:text-slate-900 shadow-inner"
-															: ""
+															? "bg-slate-100 text-gray-700 dark:text-zinc-950 shadow-inner"
+															: "dark:text-white text-zinc-950"
 													}`}
 												>
 													{subItem.icon && (
