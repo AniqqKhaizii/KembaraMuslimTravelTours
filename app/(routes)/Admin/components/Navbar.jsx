@@ -65,7 +65,6 @@ const Navbar = ({ toggleSidebar, isCollapsed }) => {
 		return [...firstThreeWords].join(" ");
 	};
 
-	//  bg-[url('/AdminBg.png')] bg-cover
 	return (
 		<div className="sm:px-4 px-4 py-4 h-fit w-full flex justify-between items-center z-10 border-b-2 border-gray-100/40 text-white">
 			<div className="flex items-center justify-start gap-4">

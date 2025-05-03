@@ -206,11 +206,11 @@ const Invoice = () => {
 		AirAsia: "/flight/AirAsia.svg",
 	};
 
-	// useEffect(() => {
-	// 	const handleContextMenu = (e) => e.preventDefault();
-	// 	document.addEventListener("contextmenu", handleContextMenu);
-	// 	return () => document.removeEventListener("contextmenu", handleContextMenu);
-	// }, []);
+	useEffect(() => {
+		const handleContextMenu = (e) => e.preventDefault();
+		document.addEventListener("contextmenu", handleContextMenu);
+		return () => document.removeEventListener("contextmenu", handleContextMenu);
+	}, []);
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
@@ -229,7 +229,6 @@ const Invoice = () => {
 	const generateInvoiceNumber = () => {
 		const prefix = "INV";
 
-		// Create date and add 8 hours
 		const date = new Date();
 		date.setHours(date.getHours() + 8);
 

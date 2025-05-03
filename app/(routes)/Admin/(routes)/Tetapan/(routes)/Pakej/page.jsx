@@ -519,7 +519,7 @@ const TetapanPakej = () => {
 		return (
 			<Form.Item
 				name="HotelMakkahID"
-				label="Hotel Makkah"
+				label={<span className="text-white">Makkah Hotel</span>}
 				rules={[{ required: true, message: "Please select a hotel" }]}
 			>
 				<div className="flex flex-wrap gap-2">
@@ -557,7 +557,7 @@ const TetapanPakej = () => {
 		return (
 			<Form.Item
 				name="HotelMadinahID"
-				label="Hotel Madinah"
+				label={<span className="text-white">Madinah Hotel</span>}
 				rules={[{ required: true, message: "Please select a hotel" }]}
 			>
 				<div className="flex flex-wrap gap-2">
@@ -604,7 +604,7 @@ const TetapanPakej = () => {
 		return (
 			<Form.Item
 				name="TripIDs"
-				label="Umrah Trip"
+				label={<span className="text-white">Trips</span>}
 				rules={[{ required: true, message: "Please select at least one trip" }]}
 			>
 				<div className="flex flex-wrap gap-2">
@@ -669,6 +669,7 @@ const TetapanPakej = () => {
 								centered={true}
 								width={"60%"}
 								footer={null}
+								className="glass-modal"
 							>
 								<Form
 									form={form}
@@ -678,7 +679,7 @@ const TetapanPakej = () => {
 								>
 									<Form.Item
 										name="PakejName"
-										label="Package Name"
+										label={<span className="text-white">Package Name</span>}
 										rules={[
 											{
 												required: true,
@@ -686,30 +687,39 @@ const TetapanPakej = () => {
 											},
 										]}
 									>
-										<Input placeholder="Enter package name" />
+										<Input
+											placeholder="Enter package name"
+											className="glass-input text-white"
+											rootClassName="glass-input-wrapper"
+										/>
 									</Form.Item>
 
 									<HotelSelectionMakkah hotels={hotelMakkah} form={form} />
 									<HotelSelectionMadinah hotels={hotelMadinah} form={form} />
 									<TripSelection trips={trips} form={form} />
 									{/* Commission Field in RM */}
-									<Form.Item name="Commission" label="Commission (RM)">
+									<Form.Item
+										name="Commission"
+										label={<span className="text-white">Commission (RM)</span>}
+										className="mb-4"
+									>
 										<div className="flex items-center">
-											<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-l-md">
+											<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-md text-white">
 												RM
 											</p>
 											<Input
 												name="Commission"
 												type="number"
 												min={0}
-												className="rounded-r-md"
+												className="glass-input text-white"
+												rootClassName="glass-input-wrapper"
 												placeholder="Enter commission"
 											/>
 										</div>
 									</Form.Item>
-									<table className="table-auto w-full border-collapse border border-gray-300 mb-4">
+									<table className="table-auto w-full border-collapse border border-gray-300 mb-4  text-white">
 										<thead>
-											<tr className="bg-gray-200">
+											<tr className="bg-gray-200/20">
 												<th className="border border-gray-300 px-4 py-2">
 													KATEGORI
 												</th>

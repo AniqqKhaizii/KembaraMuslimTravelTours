@@ -5,7 +5,7 @@ import {
 	MdOutlineBookmarks,
 	MdOutlineModeOfTravel,
 } from "react-icons/md";
-import { AiOutlineUser, AiOutlineHome } from "react-icons/ai";
+import { AiOutlineUser } from "react-icons/ai";
 import {
 	FaUserTie,
 	FaUsers,
@@ -68,7 +68,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
 		>
 			<div className="flex items-start justify-center pt-2 bg-transparent">
 				<Image
-					src="/public/LogoKMTT.png"
+					src="/LOGOKMTT.png"
 					alt="Logo"
 					width={isCollapsed ? 100 : 150}
 					height={isCollapsed ? 100 : 150}
