@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense, useMemo } from "react";
 import Axios from "axios";
 import { message } from "antd"; // since you are using message.error
 import AdminLayout from "../../layout/AdminLayout";
@@ -44,6 +44,10 @@ const Dashboard = () => {
 	const [hotelMadinah, setHotelMadinah] = useState(null);
 	const [trips, setTrips] = useState(null);
 	const [loading, setLoading] = useState(false);
+
+	const [tripNameFilter, setTripNameFilter] = useState("");
+	const [airlineFilter, setAirlineFilter] = useState("");
+	const [statusFilter, setStatusFilter] = useState("");
 
 	const formatDate = (dateString) => {
 		const date = new Date(dateString);
@@ -132,6 +136,38 @@ const Dashboard = () => {
 		}
 	}, [trips]);
 
+	const groupedData = useMemo(() => {
+		const map = new Map();
+
+		packages.forEach((pkg) => {
+			const tripIDs = pkg.TripID.split(",").map((id) => parseInt(id.trim()));
+			tripIDs.forEach((id) => {
+				if (!map.has(id)) map.set(id, []);
+				map.get(id).push(pkg);
+			});
+		});
+
+		return Array.from(map.entries()).map(([tripId, pkgs]) => {
+			const trip = trips.find((t) => t.TripID === tripId);
+			return { trip, packages: pkgs };
+		});
+	}, [packages, trips]);
+
+	const filteredData = useMemo(() => {
+		return groupedData.filter(({ trip }) => {
+			const matchTrip = trip?.TripName?.toLowerCase().includes(
+				tripNameFilter.toLowerCase()
+			);
+			const matchAirline = trip?.Airline?.toLowerCase().includes(
+				airlineFilter.toLowerCase()
+			);
+			const matchStatus = trip?.Status?.toLowerCase().includes(
+				statusFilter.toLowerCase()
+			);
+			return matchTrip && matchAirline && matchStatus;
+		});
+	}, [groupedData, tripNameFilter, airlineFilter, statusFilter]);
+
 	return (
 		<AdminLayout>
 			<Suspense fallback={<div>Loading...</div>}>
@@ -176,9 +212,35 @@ const Dashboard = () => {
 						</h1>
 
 						{loading ? (
-							<div>Loading packages...</div>
+							<div className="flex items-center justify-center min-h-[45vh]">
+								Loading packages...
+							</div>
 						) : (
 							<div className="p-2 font-primary font-light">
+								<div className="flex gap-4 text-sm w-1/2 mb-6">
+									<input
+										type="text"
+										placeholder="Search Trip Name"
+										className="border p-2 rounded w-full md:w-1/3 bg-white/10"
+										value={tripNameFilter}
+										onChange={(e) => setTripNameFilter(e.target.value)}
+									/>
+									<input
+										type="text"
+										placeholder="Search By Flight"
+										className="border p-2 rounded w-full md:w-1/3 bg-white/10"
+										value={airlineFilter}
+										onChange={(e) => setAirlineFilter(e.target.value)}
+									/>
+									<input
+										type="text"
+										placeholder="Search Status"
+										className="border p-2 rounded w-full md:w-1/3 bg-white/10"
+										value={statusFilter}
+										onChange={(e) => setStatusFilter(e.target.value)}
+									/>
+								</div>
+
 								<table className="w-full border-2 border-gray-300 bg-white/10 backdrop-blur-md rounded-lg overflow-hidden shadow-md">
 									<thead>
 										<tr className="text-white border-t border-gray-100">
@@ -210,139 +272,117 @@ const Dashboard = () => {
 										</tr>
 									</thead>
 									<tbody>
-										{packages.length === 0 ? (
+										{filteredData.length === 0 ? (
 											<tr>
-												<td colSpan="8" className="text-center py-4">
-													No packages found.
+												<td colSpan="9" className="text-center py-4 text-white">
+													No matching results.
 												</td>
 											</tr>
 										) : (
-											packages.map((pkg, index) => {
-												const tripIDs = pkg.TripID.split(",").map((id) =>
-													parseInt(id.trim())
-												);
-												const matchingTrips = trips.filter((trip) =>
-													tripIDs.includes(trip.TripID)
-												);
+											filteredData.map(({ trip, packages }, groupIndex) => {
+												if (!trip) return null;
 
-												return matchingTrips.map((trip, tripIndex) => (
-													<tr
-														key={`${index}-${tripIndex}`}
-														className="text-center"
-													>
-														<td
-															className="border-b border-gray-300 py-2 px-4 text-left uppercase"
-															valign="top"
-														>
-															Trip {trip.TripName || trip.TripName} - Pakej{" "}
-															{pkg.PakejName || pkg.PakejName}
-														</td>
-														<td
-															className="border-b border-gray-300 py-2 px-4"
-															valign="top"
-														>
-															<div className="flex justify-center items-start">
-																<FlightLogo flightCode={trip.Airline} />
-															</div>
-														</td>
-														<td
-															className="border-b border-gray-300 text-center py-2 px-4"
-															valign="top"
-														>
-															{trip.StartTravelDate
-																? formatDate(trip.StartTravelDate)
-																: "-"}{" "}
-															-{" "}
-															{trip.EndTravelDate
-																? formatDate(trip.EndTravelDate)
-																: "-"}
-														</td>
-														<td
-															className="border-b border-gray-300 text-left py-2 px-4"
-															valign="top"
-														>
-															{/* Price details */}
-															Adult: RM
-															{pkg.Adult_Double
-																? parseFloat(pkg.Adult_Double).toFixed(0)
-																: "0"}{" "}
-															<br />
-															Child With Bed: RM
-															{pkg.ChildWBed_Double
-																? parseFloat(pkg.ChildWBed_Double).toFixed(0)
-																: "0"}{" "}
-															<br />
-															Child No Bed: RM
-															{pkg.ChildNoBed_Double
-																? parseFloat(pkg.ChildNoBed_Double).toFixed(0)
-																: "0"}{" "}
-															<br />
-															Infant: RM
-															{pkg.Infant_Double
-																? parseFloat(pkg.Infant_Double).toFixed(0)
-																: "0"}
-														</td>
-														<td
-															className="border-b border-gray-300 text-left py-2 px-4"
-															valign="top"
-														>
-															Total Seats:{" "}
-															<span className="font-bold">
-																{trip.SeatAvailable}
-															</span>
-															<br />
-															Sold:{" "}
-															<span className="font-bold">
-																{trip.SeatSold}
-															</span>{" "}
-															<br />
-															Available:{" "}
-															<span className="font-bold">
-																{trip.SeatBalance}
-															</span>
-														</td>
-														<td
-															className="border-b border-gray-300 text-center py-2 px-4"
-															valign="top"
-														>
-															{trip.Deadline || "-"}
-														</td>
-														<td
-															className="border-b border-gray-300 text-center py-2 px-4"
-															valign="top"
-														>
-															{trip.Status || "-"}
-														</td>
-														<td
-															className="border-b border-gray-300 text-center py-2 px-4"
-															valign="top"
-														>
-															RM {pkg.Commission || "-"}
-														</td>
-														<td
-															className="border-b border-gray-300 text-left py-2 px-4"
-															valign="top"
-														>
-															<div className="flex flex-col justify-center space-y-2">
-																<button
-																	onClick={() => {
-																		const bookingUrl = `/Admin/Booking/create-booking?pkgId=${pkg.PakejID}&tripId=${trip.TripID}`;
-																		window.open(bookingUrl, "_blank");
-																	}}
-																	className="px-2 py-1 bg-blue-500/60 border border-gray-100/50 text-white rounded"
-																>
-																	Add Booking
-																</button>
-																<button className="px-2 py-1 bg-green-500/60 border border-gray-100/50 rounded">
-																	Flyers PDF
-																</button>
-																<button className="px-2 py-1 border border-gray-100/50 rounded">
-																	Edit
-																</button>
-															</div>
-														</td>
-													</tr>
-												));
+												return (
+													<React.Fragment key={`group-${groupIndex}`}>
+														{/* Group Header Row */}
+														<tr className="border border-gray-200 text-white text-left">
+															<td
+																colSpan="9"
+																className="py-3 px-4 font-bold uppercase"
+															>
+																{`Trip ${trip.TripName} (${formatDate(
+																	trip.StartTravelDate
+																)} - ${formatDate(trip.EndTravelDate)})`}
+															</td>
+														</tr>
+
+														{/* Package Rows */}
+														{packages.map((pkg, pkgIndex) => (
+															<tr
+																key={`${groupIndex}-${pkgIndex}`}
+																className="text-center text-white"
+															>
+																<td className="border-b border-gray-300 py-2 px-4 text-left uppercase">
+																	Trip {trip.TripName} - Pakej {pkg.PakejName}
+																</td>
+																<td className="border-b border-gray-300 py-2 px-4">
+																	<div className="flex justify-center">
+																		<FlightLogo flightCode={trip.Airline} />
+																	</div>
+																</td>
+																<td className="border-b border-gray-300 py-2 px-4">
+																	{trip.StartTravelDate
+																		? formatDate(trip.StartTravelDate)
+																		: "-"}{" "}
+																	-{" "}
+																	{trip.EndTravelDate
+																		? formatDate(trip.EndTravelDate)
+																		: "-"}
+																</td>
+																<td className="border-b border-gray-300 py-2 px-4 text-left">
+																	Adult: RM
+																	{parseFloat(pkg.Adult_Double || 0).toFixed(0)}
+																	<br />
+																	Child WB: RM
+																	{parseFloat(
+																		pkg.ChildWBed_Double || 0
+																	).toFixed(0)}
+																	<br />
+																	Child NB: RM
+																	{parseFloat(
+																		pkg.ChildNoBed_Double || 0
+																	).toFixed(0)}
+																	<br />
+																	Infant: RM
+																	{parseFloat(pkg.Infant_Double || 0).toFixed(
+																		0
+																	)}
+																</td>
+																<td className="border-b border-gray-300 py-2 px-4 text-left">
+																	<div className="flex items-center justify-between">
+																		Total <b>{trip.SeatAvailable}</b>
+																	</div>
+																	<div className="flex items-center justify-between">
+																		Sold <b>{trip.SeatSold}</b>
+																	</div>
+																	<div className="flex items-center justify-between border-t">
+																		Available <b>{trip.SeatBalance}</b>
+																	</div>
+																</td>
+																<td className="border-b border-gray-300 py-2 px-4">
+																	{trip.Deadline || "-"}
+																</td>
+																<td className="border-b border-gray-300 py-2 px-4">
+																	{trip.Status || "-"}
+																</td>
+																<td className="border-b border-gray-300 py-2 px-4">
+																	RM {pkg.Commission || "-"}
+																</td>
+																<td className="border-b border-gray-300 py-2 px-4 text-left">
+																	<div className="flex flex-col space-y-2">
+																		<button
+																			onClick={() =>
+																				window.open(
+																					`/Admin/Booking/create-booking?pkgId=${pkg.PakejID}&tripId=${trip.TripID}`,
+																					"_blank"
+																				)
+																			}
+																			className="px-2 py-1 text-sm bg-blue-500/60 border border-gray-100/50 text-white rounded"
+																		>
+																			Add Booking
+																		</button>
+																		<button className="px-2 py-1 text-sm bg-green-500/60 border border-gray-100/50 text-white rounded">
+																			Flyers PDF
+																		</button>
+																		<button className="px-2 py-1 text-sm border border-gray-100/50 text-white rounded">
+																			Edit
+																		</button>
+																	</div>
+																</td>
+															</tr>
+														))}
+													</React.Fragment>
+												);
 											})
 										)}
 									</tbody>

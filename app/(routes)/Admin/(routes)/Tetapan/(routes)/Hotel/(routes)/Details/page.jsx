@@ -52,10 +52,8 @@ const HotelDetails = () => {
 
 				imageFields.forEach((imgKey) => {
 					const imageData = hotelData?.[imgKey];
-					console.log("imageData", imageData?.data);
 					if (imageData && Array.isArray(imageData.data)) {
 						const base64String = Buffer.from(imageData.data).toString("base64");
-						console.log("base64String", base64String);
 						base64Images[imgKey] = `data:image/jpeg;base64,${base64String}`;
 					} else if (
 						typeof imageData === "string" &&
@@ -136,7 +134,6 @@ const HotelDetails = () => {
 		}
 	};
 
-	console.log("newImages", newImages);
 	return (
 		<AdminLayout>
 			<div className="p-6">

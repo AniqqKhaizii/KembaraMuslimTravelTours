@@ -7,8 +7,9 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import axios from "axios";
 import { RoomDetail } from "../../../../../../../lib/constants";
-import html2pdf from "html2pdf.js";
+
 import { FaInstagram, FaTiktok, FaWhatsapp } from "react-icons/fa";
+
 dayjs.extend(relativeTime);
 dayjs.extend(advancedFormat);
 
@@ -179,46 +180,7 @@ const Invoice = () => {
 	const [loading, setLoading] = useState(false);
 	const [bookData, setBookData] = useState(null);
 
-	const [userData, setUserData] = useState(null);
-	const [adminData, setAdminData] = useState(null);
-
 	const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
-
-	useEffect(() => {
-		if (typeof window !== "undefined") {
-			const storedUserData =
-				sessionStorage.getItem("UserData") || localStorage.getItem("UserData");
-			if (storedUserData) {
-				setUserData(JSON.parse(storedUserData));
-			}
-		}
-	}, []);
-
-	useEffect(() => {
-		if (userData) {
-			const fetchUserInfo = async () => {
-				const params = {
-					Username: userData.AdmUname,
-					UserLevel: userData.AdmLevel,
-					UserRole: userData.AdmRole,
-				};
-				try {
-					const response = await axios.get(`/api/Admin/AdminCarian`, {
-						params: params,
-					});
-					if (response.data.message) {
-						alert(response.data.message);
-					} else {
-						const queryData = response.data;
-						setAdminData(queryData);
-					}
-				} catch (error) {
-					console.error("Error fetching user info", error);
-				}
-			};
-			fetchUserInfo();
-		}
-	}, [userData]);
 
 	useEffect(() => {
 		const fetchPackageDetails = async () => {
@@ -244,11 +206,11 @@ const Invoice = () => {
 		AirAsia: "/flight/AirAsia.svg",
 	};
 
-	useEffect(() => {
-		const handleContextMenu = (e) => e.preventDefault();
-		document.addEventListener("contextmenu", handleContextMenu);
-		return () => document.removeEventListener("contextmenu", handleContextMenu);
-	}, []);
+	// useEffect(() => {
+	// 	const handleContextMenu = (e) => e.preventDefault();
+	// 	document.addEventListener("contextmenu", handleContextMenu);
+	// 	return () => document.removeEventListener("contextmenu", handleContextMenu);
+	// }, []);
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
@@ -277,8 +239,10 @@ const Invoice = () => {
 		return `${prefix}${formattedDate}-${randomNum}`;
 	};
 
-	const handleDownloadPDF = () => {
+	const handleDownloadPDF = async () => {
 		setIsGeneratingPDF(true);
+
+		const html2pdf = (await import("html2pdf.js")).default;
 
 		setTimeout(() => {
 			const element = document.getElementById("invoice");
@@ -353,19 +317,19 @@ const Invoice = () => {
 								</div>
 								<div className="flex flex-col justify-start items-end">
 									<div className="flex justify-center items-baseline gap-2">
-										<span className="text-sm text-right font-semibold">
+										<span className="text-sm text-right font-semibold whitespace-nowrap">
 											Date:
 										</span>
-										<span className="text-sm text-right font-weight600 text-gray-700">
+										<span className="text-sm text-right font-weight600 text-gray-700 whitespace-nowrap">
 											{dayjs().format("DD MMM YYYY")}
 										</span>
 									</div>
 									<div className="flex justify-center items-baseline gap-2">
-										<span className="text-sm text-right font-semibold">
+										<span className="text-sm text-right font-semibold whitespace-nowrap">
 											Sales ID:
 										</span>
-										<span className="text-sm text-right font-weight600 text-gray-700">
-											{userData?.AdmUname}
+										<span className="text-sm text-right font-weight600 text-gray-700 whitespace-nowrap">
+											{bookData[0]?.SalesName}
 										</span>
 									</div>
 									<div className="text-sm whitespace-nowrap text-gray-700">

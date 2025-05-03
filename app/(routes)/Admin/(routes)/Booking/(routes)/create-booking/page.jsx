@@ -30,6 +30,7 @@ const CreateBookingPage = () => {
 	const [bookingID, setBookingID] = useState(null);
 	const [maklumatJemaah, setMaklumatJemaah] = useState({});
 	const [custDetails, setCustDetails] = useState({});
+
 	const [guestName, setGuestName] = useState(
 		document.getElementById("NamaJemaah1 - Bilik 1")?.value
 	);
@@ -39,6 +40,45 @@ const CreateBookingPage = () => {
 
 	const [selectedOption, setSelectedOption] = useState("");
 	const [totalPrice, setTotalPrice] = useState(0);
+
+	const [userData, setUserData] = useState(null);
+	const [adminData, setAdminData] = useState(null);
+
+	useEffect(() => {
+		if (typeof window !== "undefined") {
+			const storedUserData =
+				sessionStorage.getItem("UserData") || localStorage.getItem("UserData");
+			if (storedUserData) {
+				setUserData(JSON.parse(storedUserData));
+			}
+		}
+	}, []);
+
+	useEffect(() => {
+		if (userData) {
+			const fetchUserInfo = async () => {
+				const params = {
+					Username: userData.AdmUname,
+					UserLevel: userData.AdmLevel,
+					UserRole: userData.AdmRole,
+				};
+				try {
+					const response = await axios.get(`/api/Admin/AdminCarian`, {
+						params: params,
+					});
+					if (response.data.message) {
+						alert(response.data.message);
+					} else {
+						const queryData = response.data;
+						setAdminData(queryData);
+					}
+				} catch (error) {
+					console.error("Error fetching user info", error);
+				}
+			};
+			fetchUserInfo();
+		}
+	}, [userData]);
 
 	const roomCapacity = {
 		Berdua: 2,
@@ -377,6 +417,7 @@ const CreateBookingPage = () => {
 			p_TransactionID: null,
 			p_AddOnCustDetails: AddOnCustDetails,
 			p_ReferralCode: null,
+			p_SalesID: adminData[0]?.AdmUname,
 		};
 
 		try {

@@ -25,9 +25,10 @@ export async function GET(req) {
 		const p_OrderID = null;
 		const p_TransactionID = null;
 		const p_ReferralCode = null;
+		const p_SalesID = null;
 
 		const [rows] = await pool.query(
-			`CALL SP_Manage_Booking(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			`CALL SP_Manage_Booking(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			[
 				p_Operation,
 				p_BookID,
@@ -47,6 +48,7 @@ export async function GET(req) {
 				p_OrderID,
 				p_TransactionID,
 				p_ReferralCode,
+				p_SalesID,
 			]
 		);
 
@@ -89,6 +91,7 @@ export async function POST(req) {
 			p_TransactionID,
 			p_AddOnCustDetails,
 			p_ReferralCode,
+			p_SalesID,
 		} = requestBody;
 
 		const customerQuery = `
@@ -113,7 +116,7 @@ export async function POST(req) {
 		}
 
 		const bookingQuery = `
-      CALL SP_Manage_Booking(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      CALL SP_Manage_Booking(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 		const [bookingResult] = await pool.query(bookingQuery, [
 			"ADD_NEW",
@@ -134,13 +137,14 @@ export async function POST(req) {
 			p_OrderID,
 			p_TransactionID,
 			p_ReferralCode,
+			p_SalesID,
 		]);
 
-		const o_BookID = bookingResult[0][0]?.BookID;
+		const o_BookID = bookingResult[1][0]?.BookID;
 
 		if (!o_BookID) {
 			return NextResponse.json(
-				{ message: "Error storing booking data" },
+				{ message: "Error storing booking data sadsadasda" },
 				{ status: 400 }
 			);
 		}
