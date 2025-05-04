@@ -13,8 +13,8 @@ export default function Home() {
 			<Hero />
 			<Tentang />
 			<Pakej />
-			<Kemudahan />
 			<Galeri />
+			<Kemudahan />
 			<Testimonial />
 			<KembaraDuaTanahSuci />
 		</div>

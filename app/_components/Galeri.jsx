@@ -52,8 +52,9 @@ const Galeri = () => {
 
 	return (
 		<>
-			<section className="bg-white bg-cover bg-no-repeat bg-blend-lighten px-2 py-8 sm:py-12 text-slate-900">
-				<div className="mx-auto max-w-screen-xl px-2">
+			<section className="relative bg-[url('/Hero/PakejBg1.jpg')] bg-cover bg-fixed px-2 py-8 sm:pb-40 text-slate-900">
+				<div className="absolute inset-0 h-full bg-gradient-to-b from-white to-white/60"></div>
+				<div className="relative mx-auto max-w-screen-xl px-2">
 					<div className="flex flex-row justify-between items-end py-2 w-full">
 						<div className="flex flex-col justify-between">
 							<p className="text-gray-700 font-reenie text-2xl font-semibold">

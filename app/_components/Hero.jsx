@@ -30,7 +30,7 @@ const HeroCarousel = () => {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setCurrentSlide((prev) => (prev + 1) % slides.length);
-		}, 5000);
+		}, 10000);
 
 		return () => clearInterval(interval);
 	}, [slides.length]);
@@ -39,10 +39,10 @@ const HeroCarousel = () => {
 		<>
 			<h1
 				key={currentSlide}
-				className="flex flex-col items-start gap-0 text-left w-full font-extrabold drop-shadow-lg drop-shadow-black tracking-wide text-white text-4xl lg:text-7xl animate-slideInLeft"
+				className="flex flex-col items-center gap-0 text-center w-full font-extrabold drop-shadow-lg tracking-wide text-white text-3xl lg:text-5xl animate-popUp"
 			>
 				{slides[currentSlide].title}
-				<div className="flex lg:flex-row flex-col lg:items-center items-start gap-2">
+				<div className="flex lg:flex-row flex-col lg:items-center items-start gap-2 animate-fadeUp delay-200">
 					<span>
 						{currentSlide === 0
 							? "Menyempurnakan"
@@ -58,7 +58,7 @@ const HeroCarousel = () => {
 
 			<p
 				key={"p-" + currentSlide}
-				className="max-w-3xl text-gray-200 sm:text-sm md:text-md lg:text-lg text-left leading-relaxed drop-shadow-2xl animate-fadeUp font-primary"
+				className="flex justify-center self-center max-w-xl text-gray-200 sm:text-sm md:text-md lg:text-lg text-center leading-relaxed drop-shadow-2xl font-primary animate-fadeUp"
 			>
 				{slides[currentSlide].paragraph}
 			</p>
@@ -82,10 +82,7 @@ const HeroSection = () => {
 				className="absolute top-0 left-0 w-full h-full object-cover object-left"
 				src="/Hero/HeroLatest1.jpg"
 			/>
-			{/* <div className="absolute inset-0 h-full bg-gradient-to-r from-white via-orange-500/50 to-transparent from-0% via-70% to-100%"></div>
-			<div className="absolute inset-0 h-full bg-gradient-to-b from-white via-white/50 to-transparent from-0% via-15% to-60%"></div> */}
 			<div className="absolute inset-0 h-full backdrop-blur-md backdrop-brightness-50"></div>
-			{/* <div className="absolute inset-0 h-full bg-gradient-to-b from-black/80 via-gray-50 to-white from-90% via-100% to-100%"></div> */}
 
 			<div
 				data-aos="fade-up"
@@ -95,7 +92,7 @@ const HeroSection = () => {
 				<div className="flex flex-col gap-6 items-start justify-center text-center mx-auto max-w-screen-xl w-full">
 					<HeroCarousel />
 
-					<div className="flex flex-col sm:flex-row items-start justify-start gap-4 w-full">
+					<div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
 						<a href="/Pakej" className="lg:w-auto w-full text-center">
 							<SlideArrowButton className="w-full" />
 						</a>

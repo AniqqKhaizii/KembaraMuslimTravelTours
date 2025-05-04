@@ -90,14 +90,13 @@ const Pakej = () => {
 		fetchPackages();
 	}, []);
 	return (
-		<section className="relative overflow-hidden bg-[url('/Hero/PakejBg1.jpg')] bg-cover bg-fixed">
-			<div className="absolute inset-0 h-full bg-gradient-to-b from-white to-white/60"></div>
-			<div className="relative mx-auto px-6 py-12 sm:py-12 text-slate-900">
+		<section className="relative overflow-hidden bg-white">
+			<div className="relative mx-auto px-6 py-12 sm:pb-24 text-slate-900">
 				<header data-aos="fade-up" className="text-center">
 					<p className="text-gray-700 font-reenie text-2xl font-semibold">
 						- Experience the World, Embrace Your Faith -
 					</p>
-					<h2 className="mx-auto text-3xl max-w-4xl font-bold sm:text-5xl text-orange-600">
+					<h2 className="mx-auto text-3xl max-w-4xl font-semibold sm:text-5xl text-orange-600 tracking-tighter">
 						Pakej Umrah 2025
 					</h2>
 

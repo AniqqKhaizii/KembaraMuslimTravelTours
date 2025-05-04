@@ -111,9 +111,9 @@ module.exports = {
 					"0%": { "background-position": "100%" },
 					"100%": { "background-position": "-100%" },
 				},
-				slideInLeft: {
-					"0%": { transform: "translateX(-100%)", opacity: 0 },
-					"100%": { transform: "translateX(0)", opacity: 1 },
+				popUp: {
+					"0%": { transform: "scale(0)", opacity: "0" },
+					"100%": { transform: "scale(1)", opacity: "1" },
 				},
 				fadeUp: {
 					"0%": { opacity: "0", transform: "translateY(30px)" },
@@ -122,8 +122,8 @@ module.exports = {
 			},
 			animation: {
 				shine: "shine 5s linear infinite",
-				slideInLeft: "slideInLeft 1s ease-in-out",
-				fadeUp: "fadeUp 1s ease-in-out",
+				popUp: "popUp 0.6s ease-in",
+				fadeUp: "fadeUp 0.6s ease-in",
 			},
 		},
 	},

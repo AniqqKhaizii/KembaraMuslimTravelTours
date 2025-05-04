@@ -1,17 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-
+import { initializeTheme } from "@/hooks/use-appearance";
 const Layout = ({ children }) => {
 	const [isCollapsed, setIsCollapsed] = useState(false);
 
+	useEffect(() => {
+		initializeTheme();
+	});
 	const toggleSidebar = () => {
 		setIsCollapsed((prev) => !prev);
 	};
 
 	return (
 		<div className="overflow-clip bg-[url('/AdminMainBg.jpg')] dark:bg-[url('/AdminMainBg3.jpg')] bg-cover bg-fixed transition-all duration-300">
+			<initializeTheme />
 			<div className="flex min-h-screen overflow-y-clip dark:backdrop-blur-md backdrop-blur-xl backdrop-brightness-110 dark:backdrop-brightness-[0.25]">
 				<Sidebar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
 

@@ -4,7 +4,7 @@ import CountUp from "react-countup";
 import * as motion from "framer-motion/client";
 export default function HeroSection() {
 	return (
-		<section className="lg:px-48 px-12 flex flex-col lg:flex-row lg:items-center justify-center lg:justify-around lg:py-16 py-8">
+		<section className="lg:px-48 px-12 flex flex-col lg:flex-row lg:items-center justify-center lg:justify-around lg:py-40 py-8">
 			{/* Image Grid */}
 			<div
 				data-aos="fade-right"
