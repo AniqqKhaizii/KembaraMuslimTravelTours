@@ -295,6 +295,17 @@ body {
 	}
 }
 
+.page-break {
+	display: block;
+	height: 0;
+	page-break-before: always;
+	break-before: page;
+}
+
+.print-section {
+	break-inside: avoid;
+}
+
 @layer base {
 	* {
 		@apply border-border;

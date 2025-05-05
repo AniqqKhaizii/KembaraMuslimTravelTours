@@ -181,7 +181,7 @@ const Details = () => {
 			let base64Poster = updatedPoster;
 
 			// If it starts with "data:image", we need to remove that header part
-			if (updatedPoster.startsWith("data:image")) {
+			if (updatedPoster?.startsWith("data:image")) {
 				base64Poster = updatedPoster.split(",")[1];
 			}
 
@@ -192,7 +192,7 @@ const Details = () => {
 				HotelMakkahID: packageData[0].HotelMakkahID,
 				HotelMadinahID: packageData[0].HotelMadinahID,
 				TripIDs: tripDetails.map((trip) => trip.TripID).join(","),
-				TripUnique: tripDetails.map((trip) => trip.TripUnique).join(","),
+				TripUnique: null,
 				Adult_Double: packageData[0].Adult_Double,
 				Adult_Triple: packageData[0].Adult_Triple,
 				Adult_Quad: packageData[0].Adult_Quad,

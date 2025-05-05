@@ -5,6 +5,7 @@ import { message, Select } from "antd"; // since you are using message.error
 import AdminLayout from "../../layout/AdminLayout";
 import { AiOutlineHome } from "react-icons/ai";
 import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 
 const FlightLogo = ({ flightCode }) => {
 	const logo = [
@@ -49,6 +50,8 @@ const Dashboard = () => {
 	const [airlineFilter, setAirlineFilter] = useState("");
 	const [statusFilter, setStatusFilter] = useState(null);
 
+	const [expandedGroups, setExpandedGroups] = useState({});
+
 	const formatDate = (dateString) => {
 		const date = new Date(dateString);
 		const options = { year: "numeric", month: "short", day: "numeric" };
@@ -57,6 +60,8 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		const fetchHotelsAndTrips = async () => {
+			setLoading(true);
+
 			try {
 				const [makkahRes, madinahRes, tripsRes] = await Promise.all([
 					Axios.get("/api/Tetapan/ManageHotel", {
@@ -91,7 +96,6 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		const fetchPackages = async () => {
-			setLoading(true);
 			try {
 				const response = await Axios.get("/api/Tetapan/ManagePackage", {
 					params: {
@@ -169,6 +173,20 @@ const Dashboard = () => {
 		});
 	}, [groupedData, tripNameFilter, airlineFilter, statusFilter]);
 
+	useEffect(() => {
+		const allExpanded = {};
+		filteredData.forEach((_, idx) => {
+			allExpanded[idx] = true;
+		});
+		setExpandedGroups(allExpanded);
+	}, [filteredData]);
+
+	const toggleGroup = (index) => {
+		setExpandedGroups((prev) => ({
+			...prev,
+			[index]: !prev[index],
+		}));
+	};
 	return (
 		<AdminLayout>
 			<Suspense fallback={<div>Loading...</div>}>
@@ -246,7 +264,7 @@ const Dashboard = () => {
 									</Select>
 								</div>
 
-								<table className="w-full border-2 dark:border-gray-300 border-gray-400 bg-white/10 backdrop-blur-md rounded-lg overflow-hidden shadow-md min-h-[55vh]">
+								<table className="w-full border-2 dark:border-gray-300 border-gray-400 bg-white/10 backdrop-blur-md rounded-lg overflow-hidden shadow-md ">
 									<thead>
 										<tr className="dark:text-white text-zinc-900 border-t dark:border-gray-300 border-gray-400">
 											<th className="border dark:border-gray-300 border-gray-400 p-2 my-4">
@@ -295,102 +313,115 @@ const Dashboard = () => {
 												return (
 													<React.Fragment key={`group-${groupIndex}`}>
 														{/* Group Header Row */}
-														<tr className="border dark:border-gray-300 border-gray-400 dark:text-white text-zinc-900 text-left">
+														<tr
+															className="border h-9 dark:border-gray-300 border-gray-400 dark:text-white text-zinc-700 text-left bg-gray-100 dark:bg-white/20"
+															// onClick={() => toggleGroup(groupIndex)}
+														>
 															<td
 																colSpan="9"
 																className="py-3 px-4 font-bold uppercase"
 															>
-																{`Trip ${trip.TripName} (${formatDate(
-																	trip.StartTravelDate
-																)} - ${formatDate(trip.EndTravelDate)})`}
+																<div className="flex justify-between items-center">
+																	<span>{`Trip ${trip.TripName} (${formatDate(
+																		trip.StartTravelDate
+																	)} - ${formatDate(
+																		trip.EndTravelDate
+																	)})`}</span>
+																	{/* <span>
+																		{expandedGroups[groupIndex] ? "▲" : "▼"}
+																	</span> */}
+																</div>
 															</td>
 														</tr>
 
 														{/* Package Rows */}
-														{packages.map((pkg, pkgIndex) => (
-															<tr
-																key={`${groupIndex}-${pkgIndex}`}
-																className="text-center dark:text-white text-zinc-900"
-															>
-																<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4 text-left uppercase">
-																	Trip {trip.TripName} - Pakej {pkg.PakejName}
-																</td>
-																<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4">
-																	<div className="flex justify-center">
-																		<FlightLogo flightCode={trip.Airline} />
-																	</div>
-																</td>
-																<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4">
-																	{trip.StartTravelDate
-																		? formatDate(trip.StartTravelDate)
-																		: "-"}{" "}
-																	-{" "}
-																	{trip.EndTravelDate
-																		? formatDate(trip.EndTravelDate)
-																		: "-"}
-																</td>
-																<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4 text-left">
-																	Adult: RM
-																	{parseFloat(pkg.Adult_Double || 0).toFixed(0)}
-																	<br />
-																	Child WB: RM
-																	{parseFloat(
-																		pkg.ChildWBed_Double || 0
-																	).toFixed(0)}
-																	<br />
-																	Child NB: RM
-																	{parseFloat(
-																		pkg.ChildNoBed_Double || 0
-																	).toFixed(0)}
-																	<br />
-																	Infant: RM
-																	{parseFloat(pkg.Infant_Double || 0).toFixed(
-																		0
-																	)}
-																</td>
-																<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4 text-left">
-																	<div className="flex items-center justify-between">
-																		Total <b>{trip.SeatAvailable}</b>
-																	</div>
-																	<div className="flex items-center justify-between">
-																		Sold <b>{trip.SeatSold}</b>
-																	</div>
-																	<div className="flex items-center justify-between border-t dark:border-gray-300 border-gray-400">
-																		Available <b>{trip.SeatBalance}</b>
-																	</div>
-																</td>
-																<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4">
-																	{trip.Deadline || "-"}
-																</td>
-																<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4">
-																	{trip.Status || "-"}
-																</td>
-																<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4">
-																	RM {pkg.Commission || "-"}
-																</td>
-																<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4 text-left">
-																	<div className="flex flex-col space-y-2">
-																		<button
-																			onClick={() =>
-																				window.open(
-																					`/Admin/Booking/create-booking?pkgId=${pkg.PakejID}&tripId=${trip.TripID}`,
-																					"_blank"
-																				)
-																			}
-																			className="px-2 py-1 text-sm dark:bg-blue-500/60 bg-blue-500 border border-gray-100/50 text-white rounded"
-																		>
-																			Add Booking
-																		</button>
-																		<button className="px-2 py-1 text-sm dark:bg-green-500/60 bg-green-500 border border-gray-100/50 text-white rounded">
-																			Flyers PDF
-																		</button>
-																		<button className="px-2 py-1 text-sm border dark:border-gray-100/50 border-gray-100 dark:text-white text-zinc-900 rounded">
-																			Edit
-																		</button>
-																	</div>
-																</td>
-															</tr>
-														))}
+														{expandedGroups[groupIndex] &&
+															packages.map((pkg, pkgIndex) => (
+																<tr
+																	key={`${groupIndex}-${pkgIndex}`}
+																	className="text-center dark:text-white text-zinc-900"
+																>
+																	<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4 text-left uppercase">
+																		Trip {trip.TripName} - Pakej {pkg.PakejName}
+																	</td>
+																	<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4">
+																		<div className="flex justify-center">
+																			<FlightLogo flightCode={trip.Airline} />
+																		</div>
+																	</td>
+																	<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4">
+																		{trip.StartTravelDate
+																			? formatDate(trip.StartTravelDate)
+																			: "-"}{" "}
+																		-{" "}
+																		{trip.EndTravelDate
+																			? formatDate(trip.EndTravelDate)
+																			: "-"}
+																	</td>
+																	<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4 text-left">
+																		Adult: RM
+																		{parseFloat(pkg.Adult_Double || 0).toFixed(
+																			0
+																		)}
+																		<br />
+																		Child WB: RM
+																		{parseFloat(
+																			pkg.ChildWBed_Double || 0
+																		).toFixed(0)}
+																		<br />
+																		Child NB: RM
+																		{parseFloat(
+																			pkg.ChildNoBed_Double || 0
+																		).toFixed(0)}
+																		<br />
+																		Infant: RM
+																		{parseFloat(pkg.Infant_Double || 0).toFixed(
+																			0
+																		)}
+																	</td>
+																	<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4 text-left">
+																		<div className="flex items-center justify-between">
+																			Total <b>{trip.SeatAvailable}</b>
+																		</div>
+																		<div className="flex items-center justify-between">
+																			Sold <b>{trip.SeatSold}</b>
+																		</div>
+																		<div className="flex items-center justify-between border-t dark:border-gray-300 border-gray-400">
+																			Available <b>{trip.SeatBalance}</b>
+																		</div>
+																	</td>
+																	<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4">
+																		{trip.Deadline || "-"}
+																	</td>
+																	<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4">
+																		{trip.Status || "-"}
+																	</td>
+																	<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4">
+																		RM {pkg.Commission || "-"}
+																	</td>
+																	<td className="border-b dark:border-gray-300 border-gray-400 py-2 px-4 text-left">
+																		<div className="flex flex-col space-y-2">
+																			<button
+																				onClick={() =>
+																					window.open(
+																						`/Admin/Booking/create-booking?pkgId=${pkg.PakejID}&tripId=${trip.TripID}`,
+																						"_blank"
+																					)
+																				}
+																				className="px-2 py-1 text-sm dark:bg-blue-500/60 bg-blue-500 border border-gray-100/50 text-white rounded"
+																			>
+																				Add Booking
+																			</button>
+																			<button className="px-2 py-1 text-sm dark:bg-green-500/60 bg-green-500 border border-gray-100/50 text-white rounded">
+																				Flyers PDF
+																			</button>
+																			<button className="px-2 py-1 text-sm border dark:border-gray-100/50 border-gray-100 dark:text-white text-zinc-900 rounded">
+																				Edit
+																			</button>
+																		</div>
+																	</td>
+																</tr>
+															))}
 													</React.Fragment>
 												);
 											})

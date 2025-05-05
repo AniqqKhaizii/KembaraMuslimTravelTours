@@ -26,7 +26,7 @@ const BookingPage = () => {
 	const [customers, setCustomers] = useState([]);
 	const [groupedData, setGroupedData] = useState({});
 	const [tripFilter, setTripFilter] = useState(null);
-	const [salesFilter, setSalesFilter] = useState(null); // New state for Sales filter
+	const [salesFilter, setSalesFilter] = useState(null);
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
@@ -54,7 +54,7 @@ const BookingPage = () => {
 					} else {
 						const queryData = response.data;
 						setCustomers(queryData);
-						groupDataByTrip(queryData); // Group the data when it's fetched
+						groupDataByTrip(queryData);
 					}
 				} catch (error) {
 					console.error("Error fetching user info", error);
@@ -66,7 +66,6 @@ const BookingPage = () => {
 		}
 	}, [userData]);
 
-	// Group data by TripID
 	const groupDataByTrip = (data) => {
 		const grouped = data.reduce((acc, record) => {
 			const tripID = record.TripID;
@@ -84,10 +83,9 @@ const BookingPage = () => {
 	};
 
 	const handleSalesFilterChange = (value) => {
-		setSalesFilter(value); // Update the sales filter
+		setSalesFilter(value);
 	};
 
-	// Filtered customers based on trip and sales
 	const filteredCustomers = tripFilter
 		? groupedData[tripFilter] || []
 		: [].concat(...Object.values(groupedData));
@@ -113,7 +111,7 @@ const BookingPage = () => {
 			title: "Booking Date",
 			dataIndex: "BookDate",
 			key: "BookDate",
-			width: 170,
+			width: 150,
 			onCell: () => ({
 				className: "uppercase font-primary text-sm",
 			}),
@@ -237,6 +235,7 @@ const BookingPage = () => {
 			title: "Sales Name",
 			dataIndex: "SalesName",
 			key: "SalesName",
+			width: 200,
 			onCell: () => ({
 				className: "font-primary text-sm",
 			}),
