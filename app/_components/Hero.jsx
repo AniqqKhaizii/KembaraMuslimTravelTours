@@ -93,11 +93,11 @@ const HeroSection = () => {
 
 					<div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
 						<a href="/Pakej" className="lg:w-auto w-full text-center">
-							<SlideArrowButton className="w-full" />
+							<SlideArrowButton className="w-full text-sm" />
 						</a>
 						<a
 							href="/Hubungi"
-							className="lg:w-auto w-full group px-6 py-2 gap-2 items-center rounded-2xl bg-white/30 border border-white hover:scale-105 transition-transform text-gray-200 hover:bg-white/20 backdrop-blur duration-300 ease-in-out flex justify-center"
+							className="lg:w-auto text-sm w-full group px-6 py-2 gap-2 items-center rounded-2xl bg-white/30 border border-white hover:scale-105 transition-transform text-gray-200 hover:bg-white/20 backdrop-blur duration-300 ease-in-out flex justify-center"
 						>
 							Hubungi Kami <FaArrowRightLong />
 						</a>

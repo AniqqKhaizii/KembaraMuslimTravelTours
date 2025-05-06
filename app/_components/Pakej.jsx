@@ -6,7 +6,7 @@ const PackageCard = ({ href, imageSrc, title, price, items }) => (
 	<div className="max-w-screen-xl rounded-2xl overflow-hidden shadow-md bg-gradient-to-br from-white to-gray-50">
 		<div className="relative group">
 			<img
-				className="w-full h-[50vh] object-cover rounded-t-lg brightness-50 group-hover:scale-105 transition duration-200 ease-in blur-[2px]"
+				className="w-full h-[60vh] object-cover rounded-t-lg brightness-[0.40] group-hover:scale-105 transition duration-200 ease-in"
 				src={imageSrc}
 				alt={title}
 			/>

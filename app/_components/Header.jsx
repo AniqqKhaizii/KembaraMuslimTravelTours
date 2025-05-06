@@ -103,17 +103,17 @@ function Header() {
 	return (
 		<div className="flex justify-center">
 			<motion.header
-				initial={{ y: -100, opacity: 0 }}
-				animate={{ y: 0, opacity: 1 }}
+				initial={{ y: -100 }}
+				animate={{ y: 0 }}
 				transition={{ duration: 0.2 }}
 				viewport={{ once: true }}
 				className={`${
 					isPakejPage ? "relative" : "fixed"
-				} top-0 z-[999] transition-all duration-900 text-[14px] tracking-wide w-full text-white ${
+				} top-0 z-[999] transition-all duration-200 ease-minor-spring text-[14px] tracking-wide w-full text-white ${
 					sticky || isMultiDirectory || !isLargeScreen
-						? "bg-orange-500 shadow-xl lg:px-32 px-4 py-0"
+						? "bg-gradient-to-r from-amber-600 to-orange-400 shadow-xl lg:px-64 px-4"
 						: isHomePage
-						? "mx-auto rounded-2xl py-2 px-64"
+						? "mx-auto rounded-2xl py-2 px-64 top-10"
 						: "mx-auto rounded-2xl mt-2 px-64"
 				}`}
 			>
@@ -124,10 +124,10 @@ function Header() {
 								<img
 									src="/LOGOKMTT.png"
 									alt="KMTT Logo"
-									className={`object-contain object-center ${
+									className={`object-center object-fill ${
 										sticky || isMultiDirectory || !isLargeScreen
-											? "w-24 h-16"
-											: "w-32 h-20"
+											? "w-36 h-12 mb-1 "
+											: "w-48 h-20"
 									} mt-2`}
 								/>
 							</a>
@@ -136,7 +136,7 @@ function Header() {
 						{/* Desktop Menu */}
 						<div
 							className={`hidden lg:block ${
-								sticky || isMultiDirectory || !isLargeScreen ? "mt-0" : "-mt-4"
+								sticky || isMultiDirectory || !isLargeScreen ? "mt-1" : "-mt-4"
 							}`}
 						>
 							<nav aria-label="Global">
@@ -144,32 +144,32 @@ function Header() {
 									{Menu.map((item, index) => (
 										<li
 											key={index}
-											className={`relative group cursor-pointer py-1 px-4 rounded-xl ${
+											className={`relative group cursor-pointer py-2 px-4 border-b-4 border-transparent ${
 												pathname === item.path && sticky
-													? "bg-white text-orange-700"
+													? "border-white"
 													: pathname === item.path && !sticky
-													? "hover:bg-gray-100 bg-orange-500 text-white"
+													? "border-white hover:border-white"
 													: pathname !== item.path && sticky
-													? "hover:bg-gray-100 hover:text-orange-700"
-													: "hover:bg-gray-100 hover:text-orange-700"
+													? "hover:border-white"
+													: "hover:border-white"
 											}`}
 										>
-											<Link className="flex" href={item.path}>
+											<Link className="flex shadow-2xl" href={item.path}>
 												{item.name}
 												{item.submenu && (
-													<FaChevronDown className="ml-2 mt-1 text-sm" />
+													<FaChevronDown className="ml-2 mt-1 text-xs" />
 												)}
 											</Link>
 											{item.submenu && (
-												<ul className="absolute left-0 border-t-4 w-[12vw] border-zinc-800 top-7 opacity-0 scale-95 bg-orange-500 rounded-b-lg group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-lg mt-5 grid grid-cols-1 gap-2">
+												<ul className="absolute left-0 w-[12vw] top-8 opacity-0 scale-95 bg-orange-500 rounded-b-sm group-hover:opacity-100 divide-y group-hover:scale-100 transition-all duration-300 shadow-2xl mt-6 grid grid-cols-1">
 													{item.submenu.map((subItem) => (
 														<li
 															key={subItem.id}
-															className="flex justify-start items-center w-full text-left text-sm text-white hover:bg-orange-600 py-2 px-4 rounded-lg"
+															className="flex justify-start items-center w-full text-left text-sm text-white hover:bg-orange-600 py-2 px-4"
 														>
 															<Link
 																href={subItem.path}
-																className="flex items-center"
+																className="flex items-center justify-start"
 															>
 																<FaPaperPlane className="mr-2" />
 																{subItem.name}
