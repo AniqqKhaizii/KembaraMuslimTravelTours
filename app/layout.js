@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
 		<html lang="en">
 			<body className={montserrat.className}>
 				<ClientWrapper>
-					<main>{children}</main>
+					<main className="scroll-smooth">{children}</main>
 				</ClientWrapper>
 			</body>
 		</html>

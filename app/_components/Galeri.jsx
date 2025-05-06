@@ -60,18 +60,17 @@ const Galeri = () => {
 							<p className="text-gray-700 font-reenie text-2xl font-semibold">
 								Where Adventure Meets Faith
 							</p>
-							<h2 className="text-3xl max-w-7xl font-bold sm:text-5xl text-orange-600">
+							<h2 className="text-3xl max-w-7xl font-medium tracking-tighter sm:text-5xl text-orange-600">
 								Galeri Kembara Muslim
 							</h2>
 						</div>
 
-						<button className="group bg-orange-500 rounded-full px-4 py-1.5 text-white group hover:bg-orange-600 hover:border-none">
-							<a
-								href="/Galeri"
-								className="flex items-center gap-2 group-hover:text-white"
-							>
-								<span className="shrink-0">Lihat semua</span>
-								<FaPaperPlane className="text-sm group-hover:-translate-y-1 transition-all duration-200" />
+						<button className="group border border-orange-500 rounded-lg px-4 py-3 text-orange-600 group ">
+							<a href="/Galeri" className="flex items-center gap-2">
+								<span className="shrink-0 text-xs group-hover:translate-x-1 transition-all duration-200">
+									Lihat semua
+								</span>
+								<FaPaperPlane className="text-xs group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-200" />
 							</a>
 						</button>
 					</div>

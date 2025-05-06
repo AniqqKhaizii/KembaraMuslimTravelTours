@@ -13,12 +13,12 @@ export default function Home() {
 			<Banner />
 			<PosterModal />
 			<Hero />
-			<Tentang />
+			{/* <Tentang /> */}
 			<Pakej />
 			<Galeri />
 			<Kemudahan />
 			<Testimonial />
-			<KembaraDuaTanahSuci />
+			{/* <KembaraDuaTanahSuci /> */}
 		</div>
 	);
 }

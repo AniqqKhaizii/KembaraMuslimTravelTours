@@ -22,10 +22,10 @@ const Footer = () => {
 	}, []);
 	return (
 		<footer className="bg-gradient-to-br from-[#090909] via-[#181818] to-[#090909]">
-			<div className="mx-auto max-w-screen-2xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-24">
-				<div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+			<div className="mx-auto max-w-screen-2xl px-4 pb-6 pt-16 lg:pt-24">
+				<div className="grid grid-cols-1 gap-20 lg:grid-cols-3">
 					<div>
-						<div className="flex justify-center text-teal-600 sm:justify-start -my-12">
+						<div className="flex justify-center text-teal-600 sm:justify-start -my-6">
 							<img src="/KMTT.png" alt="Logo" width={200} height={100} />
 						</div>
 
