@@ -42,14 +42,14 @@
 	src: url(/fonts/Helvetica/Helvetica.ttf);
 }
 
-* {
-	scroll-behavior: smooth;
-}
 
 body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
+.tentang {
+	clip-path: ellipse(90% 60% at 100% 60%);
+}
 .poster-modal .ant-modal-content {
 	padding: 0 !important;
 	border-radius: 0 !important;
@@ -410,8 +410,6 @@ body {
 		column-count: 1;
 	}
 }
-
-
 
 @layer base {
 	* {

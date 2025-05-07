@@ -32,10 +32,10 @@ const HeroCarousel = ({ currentSlide }) => {
 		<>
 			<h1
 				key={currentSlide}
-				className="flex flex-col items-center gap-0 text-center w-full font-extrabold drop-shadow-lg tracking-wide text-white text-3xl lg:text-5xl animate-popUp"
+				className="flex flex-col lg:items-start items-center gap-0 text-center w-full font-extrabold drop-shadow-lg tracking-wide text-white text-3xl lg:text-5xl"
 			>
 				{slides[currentSlide].title}
-				<div className="flex lg:flex-row flex-col lg:items-center items-start gap-2 animate-fadeUp delay-200">
+				<div className="flex lg:flex-row flex-col lg:items-center items-center gap-2">
 					<span>
 						{currentSlide === 0
 							? "Menyempurnakan"
@@ -43,7 +43,7 @@ const HeroCarousel = ({ currentSlide }) => {
 							? "Bermula Di"
 							: "Umrah Penuh"}
 					</span>
-					<span className="text-transparent bg-clip-text bg-gradient-to-tr from-orange-600 via-[#ec7222] to-orange-500">
+					<span className="font-reenie text-7xl drop-shadow-2xl  animate-fadeUp">
 						{slides[currentSlide].subtitle}
 					</span>
 				</div>
@@ -51,7 +51,7 @@ const HeroCarousel = ({ currentSlide }) => {
 
 			<p
 				key={"p-" + currentSlide}
-				className="flex justify-center self-center max-w-xl text-gray-200 sm:text-sm md:text-md lg:text-lg text-center leading-relaxed drop-shadow-2xl font-primary animate-fadeUp"
+				className="flex justify-start self-start max-w-2xl text-gray-200 sm:text-sm lg:text-lg lg:text-left text-center drop-shadow-2xl font-primary"
 			>
 				{slides[currentSlide].paragraph}
 			</p>
@@ -71,27 +71,18 @@ const HeroSection = () => {
 	}, []);
 
 	return (
-		<section className="h-screen lg:py-32 py-12 lg:mt-0 relative overflow-hidden">
-			{slides.map((slide, index) => (
-				<img
-					key={index}
-					src={slide.bgImage}
-					alt="Background"
-					className={`absolute top-0 left-0 w-full h-full object-cover object-left transition-opacity duration-1000 ease-in-out ${
-						currentSlide === index ? "opacity-100" : "opacity-0"
-					}`}
-				/>
-			))}
-			<div className="absolute inset-0 h-full backdrop-blur backdrop-brightness-50"></div>
+		<section className="lg:h-[100vh] h-[110vh] relative overflow-hidden">
+			<div className="absolute inset-0 h-full bg-[url('/BgMain.png')] bg-cover lg:bg-right-top bg-top"></div>
+			<div className="lg:hidden absolute inset-0 h-full bg-gradient-to-b from-transparent via-black/50 to-transparent from-0% via-55% to-120%"></div>
 
 			<div
-				data-aos="fade-up"
-				className="w-full h-full px-12 lg:px-12 grid grid-cols-1 items-center gap-5 relative z-20"
+				// data-aos="fade-up"
+				className="w-full lg:h-[80vh] h-[90vh] px-12 lg:px-12 grid grid-cols-1 items-center gap-5 relative z-20"
 			>
-				<div className="flex flex-col gap-6 items-start justify-center text-center mx-auto max-w-screen-xl w-full">
+				<div className="flex flex-col gap-6 items-start justify-start text-center mx-auto max-w-screen-xl w-full">
 					<HeroCarousel currentSlide={currentSlide} />
 
-					<div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+					<div className="flex flex-col sm:flex-row items-start justify-start gap-4 w-full">
 						<a href="/Pakej" className="lg:w-auto w-full text-center">
 							<SlideArrowButton className="w-full text-sm" />
 						</a>

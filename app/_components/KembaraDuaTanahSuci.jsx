@@ -18,9 +18,9 @@ const KembaraDuaTanahSuci = () => {
 		return () => window.removeEventListener("resize", handleResize);
 	}, [initialX]);
 	return (
-		<div className="sm:mx-10 mx-4 h-[70vh] relative overflow-hidden z-0 rounded-t-3xl">
+		<div className="sm:mx-6 mx-4 h-[40vh] relative overflow-hidden z-0 rounded-3xl">
 			{/* Background Image */}
-			<div className="absolute top-0 left-0 w-full h-full bg-[url('/Hero/KembaraDuaTanahSuci.jpg')] bg-cover bg-right-top"></div>
+			<div className="absolute top-0 left-0 w-full h-full bg-[url('/Hero/KembaraDuaTanahSuci.jpg')] bg-fixed bg-cover bg-right-top"></div>
 
 			{/* Video with gradient mask */}
 			<video
@@ -43,7 +43,7 @@ const KembaraDuaTanahSuci = () => {
 					whileInView={{ x: 0 }}
 					transition={{ ease: "easeInOut", duration: 1 }}
 					viewport={{ once: true, amount: 0.2 }}
-					className="text-5xl md:text-8xl font-medium text-white"
+					className="text-5xl md:text-7xl font-medium text-white"
 				>
 					Kembara Dua Tanah Suci
 				</motion.h1>

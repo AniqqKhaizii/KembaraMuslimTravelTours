@@ -2,18 +2,18 @@ import React from "react";
 import { FaWhatsapp, FaInstagram, FaTiktok } from "react-icons/fa";
 const Banner = () => {
 	return (
-		<div className="bg-gradient-to-r from-amber-600 to-orange-400 px-6 py-2 text-white sm:flex sm:items-center sm:justify-between sm:px-10 lg:px-64 font-primary text-sm">
-			<div className="flex items-center gap-2">
+		<div className="bg-gradient-to-r from-amber-600 to-orange-400 py-2 text-white flex items-center lg:justify-between justify-end px-2 lg:px-64 font-primary text-sm">
+			<div className="items-center gap-2 hidden lg:flex">
 				<span className="opacity-90">Email:</span>
 				<a
 					href="mailto:kembaramuslim7520@gmail.com"
-					className="hover:text-blue-700 underline underline-offset-2 transition duration-200"
+					className="hover:text-blue-700 underline underline-offset-2 transition duration-200 "
 				>
 					kembaramuslim7520@gmail.com
 				</a>
 			</div>
 
-			<div className="mt-3 flex items-center gap-6 sm:mt-0 text-2xl">
+			<div className="flex items-center gap-6 text-2xl">
 				<a href="https://wa.me/6281286555555">
 					<FaWhatsapp />
 				</a>

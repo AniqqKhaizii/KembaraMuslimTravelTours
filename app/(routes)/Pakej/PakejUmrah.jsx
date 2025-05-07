@@ -3,16 +3,11 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import * as motion from "framer-motion/client";
 
-{
-	/* <div className="absolute bottom-3 right-3 bg-gradient-to-r from-yellow-500 to-orange-500 px-3 py-1 text-xs font-semibold text-white rounded-lg shadow-md">
-	{duration}
-</div> */
-}
 const PackageCard = ({ href, imageSrc, title, price, items }) => (
 	<div className="max-w-screen-xl rounded-2xl overflow-hidden shadow-md bg-gradient-to-br from-white to-gray-50">
 		<div className="relative group">
 			<img
-				className="w-full h-[50vh] object-cover rounded-t-lg brightness-50 blur-[2px] group-hover:scale-105 transition duration-300 ease-in"
+				className="w-full h-[60vh] object-cover rounded-t-lg brightness-[0.40] group-hover:scale-105 transition duration-200 ease-in"
 				src={imageSrc}
 				alt={title}
 			/>
@@ -92,8 +87,8 @@ const PakejUmrah = () => {
 	}, []);
 
 	return (
-		<div className="mx-auto max-w-screen-4xl px-6 py-12 z-10 bg-gray-100">
-			<div className="flex items-end justify-between max-w-screen-lg lg:text-left text-center mx-auto  sm:px-2 py-6 z-0">
+		<div className="mx-auto  px-6 py-12 z-10 bg-gray-100">
+			<div className="flex items-end justify-between max-w-screen-2xl lg:text-left text-center mx-auto sm:px-2 py-6 z-0">
 				<div>
 					<h1 className="text-4xl font-bold lg:text-left text-center text-orange-600">
 						Senarai Pakej Umrah
@@ -105,8 +100,8 @@ const PakejUmrah = () => {
 					</h2>
 				</div>
 			</div>
-			<div className="mx-auto max-w-screen-lg sm:px-2 py-6 z-0">
-				<ul className="grid gap-6 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3">
+			<div className="mx-auto max-w-screen-2xl sm:px-2 py-6 z-0">
+				<ul className="grid gap-6 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4">
 					{packages.map((pkg, index) => (
 						<motion.li
 							key={pkg.PakejID} // Ensure each list item has a unique key

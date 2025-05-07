@@ -150,7 +150,7 @@ function Tentang() {
 					</div>
 				</div>
 			</div>
-			<div
+			{/* <div
 				data-aos="fade-right"
 				className="absolute bottom-5 left-10 lg:h-[25vh] h-[15vh] flex items-end justify-end"
 			>
@@ -159,7 +159,7 @@ function Tentang() {
 					alt="Logo"
 					className="w-full h-full object-contain drop-shadow-2xl"
 				/>
-			</div>
+			</div> */}
 		</section>
 	);
 }

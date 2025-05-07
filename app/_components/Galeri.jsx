@@ -54,9 +54,9 @@ const Galeri = () => {
 		<>
 			<section className="relative bg-[url('/Hero/PakejBg1.jpg')] bg-cover bg-fixed px-2 py-8 sm:pb-40 text-slate-900">
 				<div className="absolute inset-0 h-full bg-gradient-to-b from-white to-white/60"></div>
-				<div className="relative mx-auto max-w-screen-xl px-2">
-					<div className="flex flex-row justify-between items-end py-2 w-full">
-						<div className="flex flex-col justify-between">
+				<div className="relative mx-auto max-w-screen-2xl px-2">
+					<div className="flex lg:flex-row flex-col lg:gap-0 gap-4 lg:justify-between justify-center items-center lg:items-end py-2 w-full">
+						<div className="flex flex-col lg:justify-between lg:items-start items-center">
 							<p className="text-gray-700 font-reenie text-2xl font-semibold">
 								Where Adventure Meets Faith
 							</p>
@@ -65,7 +65,7 @@ const Galeri = () => {
 							</h2>
 						</div>
 
-						<button className="group border border-orange-500 rounded-lg px-4 py-3 text-orange-600 group ">
+						<button className="group border border-orange-500 rounded-lg lg:px-4 lg:py-3 px-3 py-1 lg:w-auto w-32 text-orange-600 group">
 							<a href="/Galeri" className="flex items-center gap-2">
 								<span className="shrink-0 text-xs group-hover:translate-x-1 transition-all duration-200">
 									Lihat semua
@@ -74,7 +74,7 @@ const Galeri = () => {
 							</a>
 						</button>
 					</div>
-					<hr className="w-full h-[2px] bg-gradient-to-r from-orange-600 to-transparent mb-8" />
+					<hr className="w-full h-[2px] bg-gradient-to-r from-orange-600 to-transparent mb-4" />
 					<div className="gallery">
 						{imagesArray.map((item, index) => (
 							<motion.div

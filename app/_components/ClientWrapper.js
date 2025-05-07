@@ -4,10 +4,12 @@ import { usePathname } from "next/navigation";
 import Header from "./Header";
 import Footer from "./Footer";
 import Whatsapp from "./Whatsapp";
-import { ConfigProvider } from "antd";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
+import Banner from "./Banner";
+import KembaraDuaTanahSuci from "./KembaraDuaTanahSuci";
+import Tentang from "./Tentang";
 
 export default function ClientWrapper({ children }) {
 	const pathname = usePathname();
@@ -26,23 +28,24 @@ export default function ClientWrapper({ children }) {
 	if (!isMounted) return null; // Prevent hydration issues
 
 	return (
-		<ConfigProvider
-		// theme={{
-		// 	token: {
-		// 		fontFamily: isAdminPage
-		// 			? "font-satoshi, sans-serif"
-		// 			: "Arial, sans-serif",
-		// 	},
-		// }}
-		>
+		<div>
+			{!isAdminPage && (
+				<>
+					<Banner />
+					<Header />
+				</>
+			)}
 			<div>
-				{!isAdminPage && <Header />}
-				<div>
-					{children}
-					{!isAdminPage && <Whatsapp />}
-				</div>
-				{!isAdminPage && <Footer />}
+				{children}
+				{!isAdminPage && <Whatsapp />}
 			</div>
-		</ConfigProvider>
+			{!isAdminPage && (
+				<>
+					<KembaraDuaTanahSuci />
+					<Tentang />
+					<Footer />
+				</>
+			)}
+		</div>
 	);
 }

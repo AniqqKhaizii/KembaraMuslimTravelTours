@@ -28,7 +28,7 @@ const staffs = [
 ];
 const AboutUs = () => {
 	return (
-		<div className="bg-white">
+		<div className="bg-white mb-12">
 			{/* Banner Section */}
 			<div className="h-[60vh] relative overflow-hidden z-0 w-full">
 				<video

@@ -90,8 +90,8 @@ const Pakej = () => {
 		fetchPackages();
 	}, []);
 	return (
-		<section className="relative overflow-hidden bg-white">
-			<div className="relative mx-auto px-6 py-12 sm:pb-24 text-slate-900">
+		<section className="relative overflow-hidden bg-white lg:-mt-20">
+			<div className="relative mx-auto lg:px-6 px-2 sm:pb-24 text-slate-900">
 				<header data-aos="fade-up" className="text-center">
 					<p className="text-gray-700 font-reenie text-2xl font-semibold">
 						- Experience the World, Embrace Your Faith -
@@ -107,10 +107,10 @@ const Pakej = () => {
 					</p> */}
 				</header>
 				<div
-					data-aos="fade-up"
-					className="mx-auto max-w-screen-xl sm:px-2 py-12"
+					// data-aos="fade-up"
+					className="mx-auto max-w-screen-2xl sm:px-2 py-12"
 				>
-					<ul className="grid gap-2 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3">
+					<ul className="grid gap-2 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4">
 						{isLoading
 							? [...Array(3)].map((_, index) => (
 									<Skeleton key={index} className="min-h-[50vh]" />
