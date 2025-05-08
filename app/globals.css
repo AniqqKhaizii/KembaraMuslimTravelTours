@@ -42,30 +42,41 @@
 	src: url(/fonts/Helvetica/Helvetica.ttf);
 }
 
-
-body {
-	font-family: Arial, Helvetica, sans-serif;
+.body{
+	background: linear-gradient(#000000, #100f0f);
 }
 
-.tentang {
-	clip-path: ellipse(90% 60% at 100% 60%);
-}
 .poster-modal .ant-modal-content {
-	padding: 0 !important;
+	padding: 10px !important;
 	border-radius: 0 !important;
 	box-shadow: none !important;
 	background: transparent;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	color:white;
+}
+
+.poster-modal .ant-modal-close-icon {
+	color: black !important;
+	background-color: #ffffff;
+	margin-left: 30px;
+	margin-top: 10px;
+	padding: 5px;
+	border-radius: 6px;
+	transition: background-color 0.3s ease;
+}
+
+.poster-modal .ant-modal-close-icon:hover {
+	background-color: #e6e6e6;
 }
 
 .poster-modal .ant-modal {
 	max-width: none !important;
 	width: auto !important;
+	color: white;
 }
 
-/* This will auto-size the modal based on image size */
 .poster-img-wrapper {
 	background-image: url("/Pengumuman/Pengumuman.jpg");
 	background-size: contain;
@@ -75,11 +86,10 @@ body {
 	max-width: 90vw;
 	height: auto;
 	aspect-ratio: 3 / 4;
-	/* fallback ratio */
 	z-index: 9999;
+	color: white;
 }
 
-/* In your CSS or inside a Tailwind-friendly style setup */
 .glass-table .ant-table {
 	background-color: rgba(255, 255, 255, 0) !important;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -88,7 +98,6 @@ body {
 .glass-table .ant-table-thead>tr>th {
 	background-color: rgba(255, 255, 255, 0.0) !important;
 	color: var(--glass-text-color) !important;
-	
 }
 
 .glass-table .ant-table-tbody>tr>td {
@@ -315,13 +324,7 @@ body {
 	}
 }
 
-.bg-animation {
-	transition: background-image 1s linear;
-}
 
-.pakej-card {
-	clip-path: polygon(0 0, 55% 0, 65% 25%, 100% 25%, 100% 100%, 0 100%);
-}
 
 /*Gallery*/
 .gallery {

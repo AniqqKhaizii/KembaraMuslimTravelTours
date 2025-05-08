@@ -53,7 +53,7 @@ const Galeri = () => {
 	return (
 		<>
 			<section className="relative bg-[url('/Hero/PakejBg1.jpg')] bg-cover bg-fixed px-2 py-8 sm:pb-40 text-slate-900">
-				<div className="absolute inset-0 h-full bg-gradient-to-b from-white to-white/60"></div>
+				<div className="absolute inset-0 h-full bg-gradient-to-b from-white to-white/40"></div>
 				<div className="relative mx-auto max-w-screen-2xl px-2">
 					<div className="flex lg:flex-row flex-col lg:gap-0 gap-4 lg:justify-between justify-center items-center lg:items-end py-2 w-full">
 						<div className="flex flex-col lg:justify-between lg:items-start items-center">
@@ -81,8 +81,8 @@ const Galeri = () => {
 								key={index}
 								onClick={() => setIndex(index)}
 								className="gallery-item"
-								initial={{ opacity: 0, scale: 0.2 }}
-								whileInView={{ opacity: 1, scale: 1 }}
+								initial={{ scale: 0.2 }}
+								whileInView={{ scale: 1 }}
 								viewport={{ once: true, amount: 0.2 }}
 								transition={{ duration: 0.8 }}
 							>

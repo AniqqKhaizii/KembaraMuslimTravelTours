@@ -1,7 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import Axios from "axios";
 import { Skeleton } from "@/components/ui/skeleton";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 const PackageCard = ({ href, imageSrc, title, price, items }) => (
 	<div className="max-w-screen-xl rounded-2xl overflow-hidden shadow-md bg-gradient-to-br from-white to-gray-50">
 		<div className="relative group">
@@ -67,8 +70,68 @@ const PackageCard = ({ href, imageSrc, title, price, items }) => (
 );
 
 const Pakej = () => {
+	gsap.registerPlugin(ScrollTrigger);
+
+	const backgroundImage = useRef(null);
+	const headerRef = useRef(null);
+	const cardsRef = useRef([]);
+	cardsRef.current = [];
+
 	const [packages, setPackages] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
+
+	useLayoutEffect(() => {
+		if (!headerRef.current) return;
+		if (typeof window !== "undefined") {
+			const ctx = gsap.context(() => {
+				gsap.to(backgroundImage.current, {
+					y: 50,
+					ease: "power2.out",
+					scrollTrigger: {
+						trigger: backgroundImage.current,
+						start: "top bottom",
+						end: "bottom top",
+						scrub: true,
+					},
+				});
+
+				gsap.from(headerRef.current.children, {
+					y: 40,
+					opacity: 0,
+					stagger: 0.2,
+					duration: 1,
+					ease: "power3.out",
+					scrollTrigger: {
+						trigger: headerRef.current,
+						start: "top 80%",
+					},
+				});
+
+				cardsRef.current.forEach((card, i) => {
+					gsap.from(card, {
+						opacity: 0,
+						y: 50,
+						scale: 0.95,
+						duration: 0.8,
+						delay: i * 0.2, // optional: adds stagger-like delay
+						ease: "back.out(1.7)",
+						scrollTrigger: {
+							trigger: card,
+							start: "top 90%",
+							toggleActions: "play none none reverse", // play on enter, reverse on leave
+						},
+					});
+				});
+			}, backgroundImage);
+			return () => ctx.revert();
+		}
+	}, [isLoading]);
+
+	const addToRefs = (el) => {
+		if (el && !cardsRef.current.includes(el)) {
+			cardsRef.current.push(el);
+		}
+	};
 	useEffect(() => {
 		const fetchPackages = async () => {
 			setIsLoading(true);
@@ -89,34 +152,30 @@ const Pakej = () => {
 		};
 		fetchPackages();
 	}, []);
+
 	return (
-		<section className="relative overflow-hidden bg-white lg:-mt-20">
-			<div className="relative mx-auto lg:px-6 px-2 sm:pb-24 text-slate-900">
-				<header data-aos="fade-up" className="text-center">
+		<section className="relative overflow-hidden bg-gradient-to-b from-white to-transparent lg:-mt-48">
+			<div
+				ref={backgroundImage}
+				className="relative mx-auto lg:px-6 px-2 sm:pb-24 text-slate-900"
+			>
+				<header ref={headerRef} className="text-center">
 					<p className="text-gray-700 font-reenie text-2xl font-semibold">
 						- Experience the World, Embrace Your Faith -
 					</p>
 					<h2 className="mx-auto text-3xl max-w-4xl font-semibold sm:text-5xl text-orange-600 tracking-tighter">
 						Pakej Umrah 2025
 					</h2>
-
-					{/* <p className="mx-auto mt-4 text-xl lg:max-w-4xl sm:max-w-xl text-slate-500 ">
-						Umrah bersama KMTT menawarkan pakej yang berpatutan, mudah dan
-						selamat. Terokai pakej yang bersesuaian dengan bajet anda dan
-						rancang perjalanan anda sekarang!
-					</p> */}
 				</header>
-				<div
-					// data-aos="fade-up"
-					className="mx-auto max-w-screen-2xl sm:px-2 py-12"
-				>
+
+				<div className="mx-auto max-w-screen-2xl sm:px-2 py-12">
 					<ul className="grid gap-2 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4">
 						{isLoading
-							? [...Array(3)].map((_, index) => (
+							? [...Array(4)].map((_, index) => (
 									<Skeleton key={index} className="min-h-[50vh]" />
 							  ))
 							: packages.map((pkg, index) => (
-									<li key={pkg.PakejID}>
+									<li key={pkg.PakejID} ref={addToRefs}>
 										<PackageCard
 											href={`/Pakej/Pakej-Umrah?kategori=${
 												pkg.PakejName || "Unknown"
@@ -126,7 +185,7 @@ const Pakej = () => {
 													? `/Pakej/${pkg.PakejName}.jpg`
 													: "/default-image.jpg"
 											}
-											title={`Pakej Umrah ${pkg.PakejName}` || ""}
+											title={`Pakej Umrah ${pkg.PakejName}`}
 											price={`RM ${pkg.Adult_Quad || "N/A"}`}
 											items={["Visa", "Makan", "Penerbangan", "Hotel"]}
 										/>

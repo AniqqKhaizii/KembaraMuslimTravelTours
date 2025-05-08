@@ -72,11 +72,17 @@ const HeroSection = () => {
 
 	return (
 		<section className="lg:h-[100vh] h-[110vh] relative overflow-hidden">
-			<div className="absolute inset-0 h-full bg-[url('/BgMain.png')] bg-cover lg:bg-right-top bg-top"></div>
+			<div className="absolute inset-0 h-[90vh] bg-[url('/BgMainHero.png')] bg-cover lg:bg-right-top bg-top brightness-125"></div>
+			<div
+				data-scroll
+				data-scroll-speed="0.3"
+				className="absolute inset-0 h-[100vh] bg-[url('/CloudMainHero.png')] bg-cover lg:bg-right-top bg-top opacity-60"
+			></div>
 			<div className="lg:hidden absolute inset-0 h-full bg-gradient-to-b from-transparent via-black/50 to-transparent from-0% via-55% to-120%"></div>
 
 			<div
 				// data-aos="fade-up"
+
 				className="w-full lg:h-[80vh] h-[90vh] px-12 lg:px-12 grid grid-cols-1 items-center gap-5 relative z-20"
 			>
 				<div className="flex flex-col gap-6 items-start justify-start text-center mx-auto max-w-screen-xl w-full">

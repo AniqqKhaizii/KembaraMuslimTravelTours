@@ -20,10 +20,11 @@ const PosterModal = () => {
 	return (
 		<Modal
 			open={isVisible}
+			onOk={handleClose}
 			onCancel={handleClose}
 			footer={null}
-			closable={false}
-			className="poster-modal"
+			closable={true}
+			className="poster-modal text-white"
 			style={{ padding: 0 }}
 			centered
 		>

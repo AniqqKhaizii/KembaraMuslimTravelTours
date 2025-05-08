@@ -11,7 +11,7 @@ import Banner from "./Banner";
 import KembaraDuaTanahSuci from "./KembaraDuaTanahSuci";
 import Tentang from "./Tentang";
 
-export default function ClientWrapper({ children }) {
+export default function ClientWrapper({ children, className }) {
 	const pathname = usePathname();
 	const isAdminPage = pathname.includes("/Admin");
 
@@ -28,7 +28,7 @@ export default function ClientWrapper({ children }) {
 	if (!isMounted) return null; // Prevent hydration issues
 
 	return (
-		<div>
+		<>
 			{!isAdminPage && (
 				<>
 					<Banner />
@@ -46,6 +46,6 @@ export default function ClientWrapper({ children }) {
 					<Footer />
 				</>
 			)}
-		</div>
+		</>
 	);
 }
