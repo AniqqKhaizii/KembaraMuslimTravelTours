@@ -5,8 +5,8 @@ const Testimonial = () => {
 	const [reviews, setReviews] = useState([]);
 	const [expandedReviews, setExpandedReviews] = useState(new Set());
 	const placeId = "ChIJQ8MnC_FgSzAR0DHPST0ERtM";
+
 	useEffect(() => {
-		// Check if script is already added
 		if (!document.querySelector("#elfsight-platform-script")) {
 			const script = document.createElement("script");
 			script.src = "https://static.elfsight.com/platform/platform.js";
@@ -15,21 +15,22 @@ const Testimonial = () => {
 			document.body.appendChild(script);
 		}
 	}, []);
-	useEffect(() => {
-		const fetchReviews = async () => {
-			try {
-				const response = await fetch(
-					`/api/getReviews?place_id=${placeId}&language=ms`
-				);
-				const data = await response.json();
-				setReviews(data.result.reviews || []);
-			} catch (error) {
-				console.error("Error fetching reviews:", error);
-			}
-		};
 
-		fetchReviews();
-	}, [placeId]);
+	// useEffect(() => {
+	// 	const fetchReviews = async () => {
+	// 		try {
+	// 			const response = await fetch(
+	// 				`/api/getReviews?place_id=${placeId}&language=ms`
+	// 			);
+	// 			const data = await response.json();
+	// 			setReviews(data.result.reviews || []);
+	// 		} catch (error) {
+	// 			console.error("Error fetching reviews:", error);
+	// 		}
+	// 	};
+
+	// 	fetchReviews();
+	// }, [placeId]);
 
 	const toggleExpand = (index) => {
 		const newExpandedReviews = new Set(expandedReviews);
@@ -41,8 +42,7 @@ const Testimonial = () => {
 		setExpandedReviews(newExpandedReviews);
 	};
 
-	const maxLength = 150; // Set maximum characters to display
-
+	const maxLength = 150;
 	return (
 		<section className="bg-white overflow-x-hidden px-2">
 			<div className="mx-auto max-w-screen-2xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">

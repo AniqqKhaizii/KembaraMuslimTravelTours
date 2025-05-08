@@ -18,7 +18,7 @@ function Tentang() {
 		<section className="relative bg-[url('https://images.unsplash.com/photo-1639574326077-6cc1d8749395?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-no-repeat bg-fixed bg-top sm:h-[60vh] h-[150vh] px-6 flex items-center text-slate-100">
 			<div className="h-full absolute inset-0 bg-gradient-to-b from-gray-950/70 to-gray-950/80 "></div>
 
-			<div className="relative mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
+			<div className="relative mx-auto max-w-screen-2xl px-2 lg:px-8">
 				<div className="grid grid-cols-1 gap-y-8 lg:grid-cols-2 lg:items-center lg:gap-x-0">
 					<div
 						data-aos="fade-right"
@@ -44,10 +44,10 @@ function Tentang() {
 						</a>
 					</div>
 
-					<div className="grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3">
+					<div className="grid grid-cols-2 lg:gap-x-8 gap-x-4 gap-y-8 sm:grid-cols-3">
 						<div
 							data-aos="fade-left"
-							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
+							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 lg:px-8 px-2 shadow-sm justify-center items-center"
 						>
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
@@ -64,7 +64,7 @@ function Tentang() {
 						</div>
 						<div
 							data-aos="fade-left"
-							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
+							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 lg:px-8 px-2 shadow-sm justify-center items-center"
 						>
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
@@ -81,7 +81,7 @@ function Tentang() {
 						</div>
 						<div
 							data-aos="fade-left"
-							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
+							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 lg:px-8 px-2 shadow-sm justify-center items-center"
 						>
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
@@ -98,7 +98,7 @@ function Tentang() {
 						</div>
 						<div
 							data-aos="fade-left"
-							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
+							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 lg:px-8 px-2 shadow-sm justify-center items-center"
 						>
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
@@ -115,7 +115,7 @@ function Tentang() {
 						</div>
 						<div
 							data-aos="fade-left"
-							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
+							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 lg:px-8 px-2 shadow-sm justify-center items-center"
 						>
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img
@@ -132,7 +132,7 @@ function Tentang() {
 						</div>
 						<div
 							data-aos="fade-left"
-							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 px-8 shadow-sm justify-center items-center"
+							className="flex flex-col rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 py-4 lg:px-8 px-2 shadow-sm justify-center items-center"
 						>
 							<span className="text-center inline-flex items-center justify-center h-12 w-12 rounded-lg">
 								<img

@@ -23,7 +23,7 @@ export default function HeroSection() {
 
 	return (
 		<section className="grid lg:grid-cols-2 grid-cols-1 py-2 bg-white text-gray-800 shadow-inner">
-			<div className="lg:mx-6 mx-4 h-[40vh] relative overflow-hidden z-0 rounded-3xl shadow-lg">
+			<div className="lg:mx-6 mx-4 lg:h-[40vh] h-[15vh] relative overflow-hidden z-0 rounded-3xl shadow-lg">
 				{/* Background Image */}
 				<div className="absolute top-0 left-0 w-full h-full bg-[url('/Hero/KembaraDuaTanahSuci.jpg')] bg-fixed bg-cover bg-right-top"></div>
 
@@ -51,17 +51,17 @@ export default function HeroSection() {
 					</motion.h1>
 				</div>
 			</div>
-			<div className="max-w-5xl mx-32 grid grid-cols-1 items-center gap-12">
+			<div className="max-w-5xl lg:mx-32 mx-6 grid grid-cols-1 items-center gap-12 lg:my-0 my-4">
 				{/* Right: Text */}
-				<div className="space-y-6">
+				<div className="space-y-6 flex flex-col lg:items-start items-center">
 					<span className="inline-block bg-orange-500 text-white px-4 py-1 rounded-full text-sm tracking-wide">
 						Rakan Umrah Terbaik Anda
 					</span>
-					<h1 className="text-4xl lg:text-5xl font-bold leading-snug tracking-tight">
+					<h1 className="text-4xl lg:text-5xl lg:text-left text-center font-bold leading-snug tracking-tight">
 						Kembara Muslim{" "}
 						<span className="text-orange-600">Travel & Tours</span>
 					</h1>
-					<p className="text-sm text-justify text-gray-700">
+					<p className="text-sm  text-gray-700 lg:text-justify text-center">
 						Kembara Muslim Travel & Tours Sdn Bhd ialah agensi pelancongan
 						berlesen yang berpusat di Ayer Hitam, Kedah. Kami menguruskan pakej
 						Umrah dan percutian mesra Muslim dengan harga berpatutan dan servis
@@ -69,7 +69,7 @@ export default function HeroSection() {
 					</p>
 
 					{/* Stats */}
-					<div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+					<div className="grid grid-cols-2 md:grid-cols-4 w-full mx-auto gap-4 mt-6">
 						{[
 							{ label: "Pelanggan", value: 10000 },
 							{ label: "Penerbangan", value: 2000 },
@@ -77,10 +77,12 @@ export default function HeroSection() {
 							{ label: "Pakej", value: 50 },
 						].map((item, idx) => (
 							<div key={idx}>
-								<h3 className="text-2xl font-bold text-orange-600">
+								<h3 className="text-2xl font-bold lg:text-left text-center text-orange-600">
 									<CountUp end={item.value} duration={2} separator="," />+
 								</h3>
-								<p className="text-xs text-gray-500 mt-1">{item.label}</p>
+								<p className="text-xs text-gray-500 mt-1 lg:text-left text-center">
+									{item.label}
+								</p>
 							</div>
 						))}
 					</div>

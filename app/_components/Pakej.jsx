@@ -113,7 +113,7 @@ const Pakej = () => {
 						y: 50,
 						scale: 0.95,
 						duration: 0.8,
-						delay: i * 0.2, // optional: adds stagger-like delay
+						delay: i * 0.2,
 						ease: "back.out(1.7)",
 						scrollTrigger: {
 							trigger: card,
@@ -154,7 +154,12 @@ const Pakej = () => {
 	}, []);
 
 	return (
-		<section className="relative overflow-hidden bg-gradient-to-b from-white to-transparent lg:-mt-48">
+		<section className="relative overflow-hidden bg-[url('/BgMainPakej.png')] lg:-mt-20 -mt-2">
+			<div
+				data-scroll
+				data-scroll-speed="0.3"
+				className="absolute inset-0 h-full bg-[url('/BgMainPakej.png')]"
+			></div>
 			<div
 				ref={backgroundImage}
 				className="relative mx-auto lg:px-6 px-2 sm:pb-24 text-slate-900"
@@ -169,7 +174,7 @@ const Pakej = () => {
 				</header>
 
 				<div className="mx-auto max-w-screen-2xl sm:px-2 py-12">
-					<ul className="grid gap-2 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4">
+					<ul className="grid gap-2 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3">
 						{isLoading
 							? [...Array(4)].map((_, index) => (
 									<Skeleton key={index} className="min-h-[50vh]" />

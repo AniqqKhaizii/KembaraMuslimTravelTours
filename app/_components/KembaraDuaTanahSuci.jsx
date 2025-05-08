@@ -18,7 +18,7 @@ const KembaraDuaTanahSuci = () => {
 		return () => window.removeEventListener("resize", handleResize);
 	}, [initialX]);
 	return (
-		<div className="sm:mx-6 mx-4 h-[40vh] relative overflow-hidden z-0 rounded-3xl">
+		<div className="sm:mx-6 mx-4 lg:h-[40vh] h-[15vh] relative overflow-hidden z-0 rounded-3xl">
 			{/* Background Image */}
 			<div className="absolute top-0 left-0 w-full h-full bg-[url('/Hero/KembaraDuaTanahSuci.jpg')] bg-fixed bg-cover bg-right-top"></div>
 
@@ -37,13 +37,13 @@ const KembaraDuaTanahSuci = () => {
 			</video>
 
 			{/* Content Section */}
-			<div className="relative z-10 flex flex-col items-center justify-center w-full h-full p-10 md:p-24 text-center bg-black/70">
+			<div className="relative z-10 flex flex-col items-center justify-center w-full h-full p-2 md:p-24 text-center bg-black/70">
 				<motion.h1
 					initial={{ x: -initialX }}
 					whileInView={{ x: 0 }}
 					transition={{ ease: "easeInOut", duration: 1 }}
 					viewport={{ once: true, amount: 0.2 }}
-					className="text-5xl md:text-7xl font-medium text-white"
+					className="text-xl md:text-7xl font-medium text-white"
 				>
 					Kembara Dua Tanah Suci
 				</motion.h1>
@@ -52,7 +52,7 @@ const KembaraDuaTanahSuci = () => {
 					whileInView={{ x: 0 }}
 					transition={{ ease: "easeInOut", duration: 1 }}
 					viewport={{ once: true, amount: 0.2 }}
-					className="text-3xl md:text-4xl text-orange-500 font-reenie italic mt-3"
+					className="lg:block hidden text-md md:text-4xl text-orange-500 font-reenie italic mt-3"
 				>
 					Perjalanan suci yang mendekatkan hati dan jiwa
 				</motion.p>
@@ -61,10 +61,10 @@ const KembaraDuaTanahSuci = () => {
 					whileInView={{ x: 0 }}
 					transition={{ ease: "easeInOut", duration: 1 }}
 					viewport={{ once: true, amount: 0.2 }}
-					className="mt-5"
+					className="lg:mt-5 mt-1"
 				>
 					<Link href="/KembaraDuaTanahSuci">
-						<button className="relative flex items-center gap-2 px-5 py-1.5 text-lg font-regular text-white transition-all duration-300 ease-in-out rounded-full bg-gradient-to-r from-orange-500 to-red-500 shadow-md shadow-orange-500/30 hover:from-red-500 hover:to-orange-500 hover:shadow-orange-600/40 focus:ring-2 focus:ring-orange-400 focus:ring-offset-2">
+						<button className="lg:text-lg text-xs relative flex items-center gap-2 px-5 py-1.5 font-regular text-white transition-all duration-300 ease-in-out rounded-full bg-gradient-to-r from-orange-500 to-red-500 shadow-md shadow-orange-500/30 hover:from-red-500 hover:to-orange-500 hover:shadow-orange-600/40 focus:ring-2 focus:ring-orange-400 focus:ring-offset-2">
 							Lihat Lanjut <FaPaperPlane />
 						</button>
 					</Link>
