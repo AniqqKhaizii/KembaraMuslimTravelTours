@@ -8,12 +8,12 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
 import Banner from "./Banner";
-import KembaraDuaTanahSuci from "./KembaraDuaTanahSuci";
 import Tentang from "./Tentang";
 
 export default function ClientWrapper({ children, className }) {
 	const pathname = usePathname();
 	const isAdminPage = pathname.includes("/Admin");
+	const isSubPage = pathname.includes("/KembaraDuaTanahSuci");
 
 	const [isMounted, setIsMounted] = useState(false);
 
@@ -39,13 +39,14 @@ export default function ClientWrapper({ children, className }) {
 				{children}
 				{!isAdminPage && <Whatsapp />}
 			</div>
-			{!isAdminPage && (
+			{!isAdminPage && !isSubPage ? (
 				<>
-					<KembaraDuaTanahSuci />
 					<Tentang />
 					<Footer />
 				</>
-			)}
+			) : !isAdminPage && isSubPage ? (
+				<Footer />
+			) : null}
 		</>
 	);
 }

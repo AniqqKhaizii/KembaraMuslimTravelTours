@@ -2,13 +2,14 @@
 import React, { useEffect } from "react";
 
 import Hero from "./_components/Hero";
-import Banner from "./_components/Banner";
 import Pakej from "./_components/Pakej";
 import Kemudahan from "./_components/Kemudahan";
 import Galeri from "./_components/Galeri";
 import Testimonial from "./_components/Testimonial";
 
 import PosterModal from "../components/poster-modal";
+import FAQSection from "./_components/FAQSection";
+import UpcomingDeparture from "./_components/UpcomingDeparture";
 
 export default function Home() {
 	useEffect(() => {
@@ -26,6 +27,7 @@ export default function Home() {
 				<Galeri />
 				<Kemudahan />
 				<Testimonial />
+				<FAQSection />
 			</div>
 		</main>
 	);

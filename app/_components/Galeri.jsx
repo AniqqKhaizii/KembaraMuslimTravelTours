@@ -1,5 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import * as motion from "framer-motion/client";
 import Image from "next/image";
 import Lightbox from "yet-another-react-lightbox";
@@ -48,13 +50,43 @@ const imagesArray = [
 ];
 
 const Galeri = () => {
+	gsap.registerPlugin(ScrollTrigger);
+
 	const [index, setIndex] = useState(-1);
+	const galleryRefs = useRef([]);
+
+	const rows = [0, 1, 2].map((row) =>
+		imagesArray.filter((_, i) => i % 3 === row)
+	);
+
+	useEffect(() => {
+		galleryRefs.current.forEach((row, index) => {
+			if (!row) return;
+
+			const tl = gsap.timeline({
+				scrollTrigger: {
+					trigger: row,
+					start: "top bottom",
+					end: "bottom top",
+					scrub: true,
+				},
+			});
+
+			const distance = row.scrollWidth - row.clientWidth;
+
+			const direction = index % 2 === 0 ? -distance : distance || -300;
+			tl.to(row, {
+				x: direction,
+				ease: "none",
+			});
+		});
+	}, [rows]);
 
 	return (
 		<>
 			<section className="relative bg-[url('/Hero/PakejBg1.jpg')] bg-cover bg-fixed px-2 py-8 sm:pb-40 text-slate-900">
-				<div className="absolute inset-0 h-full bg-gradient-to-b from-[#E8F1FE] via-blue-100/50 to-blue-100/0"></div>
-				<div className="relative mx-auto max-w-screen-2xl px-2">
+				<div className="absolute inset-0 h-full bg-gradient-to-b from-[#E8F1FE] via-blue-100/90 to-blue-100/80"></div>
+				<div className="relative mx-auto max-w-screen-2xl px-2 overflow-clip">
 					<div className="flex lg:flex-row flex-col lg:gap-0 gap-4 lg:justify-between justify-center items-center lg:items-end py-2 w-full">
 						<div className="flex flex-col lg:justify-between lg:items-start items-center">
 							<p className="text-gray-700 font-reenie text-2xl font-semibold">
@@ -75,24 +107,33 @@ const Galeri = () => {
 						</button>
 					</div>
 					<hr className="w-full h-[2px] bg-gradient-to-r from-orange-600 to-transparent mb-4" />
-					<div className="gallery">
-						{imagesArray.map((item, index) => (
-							<motion.div
-								key={index}
-								onClick={() => setIndex(index)}
-								className="gallery-item"
-								initial={{ scale: 0.2 }}
-								whileInView={{ scale: 1 }}
-								viewport={{ once: true, amount: 0.2 }}
-								transition={{ duration: 0.8 }}
+					<div className="space-y-4">
+						{rows.map((rowImages, rowIndex) => (
+							<div
+								key={rowIndex}
+								ref={(el) => (galleryRefs.current[rowIndex] = el)}
+								className="flex space-x-4 whitespace-nowrap"
 							>
-								<Image
-									src={item.src}
-									alt={`Gallery Image ${index + 1}`}
-									width={600}
-									height={450}
-								/>
-							</motion.div>
+								{rowImages.map((item, i) => (
+									<motion.div
+										key={i}
+										onClick={() => setIndex(rowIndex * 4 + i)} // adjust index calculation
+										className="shrink-0 gallery-item"
+										initial={{ scale: 0.8 }}
+										whileInView={{ scale: 1 }}
+										viewport={{ once: true, amount: 0.2 }}
+										transition={{ duration: 0.6 }}
+									>
+										<Image
+											src={item.src}
+											className="shadow-lg"
+											alt={`Gallery Image ${rowIndex * 4 + i + 1}`}
+											width={400}
+											height={300}
+										/>
+									</motion.div>
+								))}
+							</div>
 						))}
 					</div>
 				</div>

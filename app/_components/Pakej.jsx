@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const PackageCard = ({ href, imageSrc, title, price, items }) => (
-	<div className="max-w-screen-xl rounded-2xl overflow-hidden shadow-md bg-gradient-to-br from-white to-gray-50">
+	<div className="max-w-screen-xl rounded-lg overflow-hidden shadow-2xl bg-gradient-to-br from-white to-gray-50">
 		<div className="relative group">
 			<img
 				className="w-full h-[60vh] object-cover rounded-t-lg brightness-[0.40] group-hover:scale-105 transition duration-200 ease-in"

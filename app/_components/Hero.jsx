@@ -85,7 +85,10 @@ const TestimonialCarousel = () => {
 					<div key={idx} className="p-2">
 						<div className="flex gap-2 items-center">
 							<img
-								src={t.profile_photo_url || "default-image-url.jpg"} // Fallback image if not available
+								src={
+									t.profile_photo_url ||
+									"https://img.icons8.com/?size=100&id=gYI9v0NbFgxC&format=png&color=000000"
+								}
 								alt={t.author_name}
 								className="w-14 h-14 rounded-full object-cover shadow-md border-2 border-white"
 							/>
@@ -110,7 +113,6 @@ const TestimonialCarousel = () => {
 const HeroCarousel = ({ currentSlide }) => {
 	return (
 		<>
-			{/* Social Proof */}
 			<p className="text-sm lg:text-base text-gray-200 uppercase tracking-wide font-semibold mb-1">
 				🌟 Lebih 5,000 jemaah telah memilih kami
 			</p>
