@@ -43,7 +43,7 @@ const tags = [
 	"Dipercayai Ribuan Jemaah",
 	"Perkhidmatan Lengkap",
 	"Sokongan Berterusan",
-	"Pakej Fleksibel",
+	// "Pakej Fleksibel",
 ];
 
 const TestimonialCarousel = () => {
@@ -93,7 +93,7 @@ const TestimonialCarousel = () => {
 								className="w-14 h-14 rounded-full object-cover shadow-md border-2 border-white"
 							/>
 							<div className="flex flex-col">
-								<h3 className="text-xs font-semibold text-white drop-shadow-md">
+								<h3 className="text-xs font-semibold text-kmtt-neutral drop-shadow-md">
 									{t.author_name}
 								</h3>
 								<p className="text-xs text-gray-500">{t.author_location}</p>
@@ -113,22 +113,21 @@ const TestimonialCarousel = () => {
 const HeroCarousel = ({ currentSlide }) => {
 	return (
 		<>
-			<p className="text-sm lg:text-base text-gray-200 uppercase tracking-wide font-semibold mb-1">
+			<p className="text-sm lg:text-base text-kmtt-accent uppercase tracking-wide font-semibold">
 				🌟 Lebih 5,000 jemaah telah memilih kami
 			</p>
-
 			<h1
 				key={currentSlide}
-				className="flex flex-col lg:items-start items-center gap-1 text-center max-w-2xl lg:text-left w-full font-extrabold drop-shadow-lg tracking-wide text-white text-3xl lg:text-5xl"
+				className="flex flex-col lg:items-start items-center text-center max-w-3xl lg:text-left w-full font-semibold drop-shadow-lg tracking-wide text-kmtt-text text-3xl lg:text-5xl"
 			>
 				{slides[currentSlide].title}
-				<span className="text-lg lg:text-2xl font-light text-gray-200">
+				{/* <span className="text-lg lg:text-2xl font-light text-kmtt-text">
 					{slides[currentSlide].subtitle}
-				</span>
+				</span> */}
 			</h1>
 
 			{/* Tags */}
-			<div className="lg:mx-0 mx-auto flex flex-wrap lg:flex-row flex-col lg:items-start items-center gap-2 text-xs uppercase tracking-wide font-semibold text-white/80 mt-2">
+			<div className="lg:mx-0 mx-auto max-w-2xl flex flex-wrap lg:flex-row flex-col lg:items-start items-center gap-2 text-xs uppercase tracking-wide font-semibold text-white/80 mt-2">
 				{tags.map((tag, index) => (
 					<span
 						key={index}
@@ -141,7 +140,7 @@ const HeroCarousel = ({ currentSlide }) => {
 
 			<p
 				key={"p-" + currentSlide}
-				className="flex justify-start self-start max-w-2xl text-gray-200 sm:text-sm lg:text-lg lg:text-left text-center drop-shadow-2xl font-primary mt-4"
+				className="flex justify-start self-start max-w-xl text-gray-200 sm:text-sm lg:text-lg lg:text-left text-center drop-shadow-2xl font-primary mt-4"
 			>
 				{slides[currentSlide].paragraph}
 			</p>
@@ -160,13 +159,17 @@ const HeroSection = () => {
 	}, []);
 
 	return (
-		<section className="lg:h-[100vh] h-[110vh] relative overflow-hidden lg:py-0 py-12">
+		<section className="lg:h-[100vh] h-[110vh] relative overflow-hidden">
 			{/* Background */}
-			<div className="absolute inset-0 h-[90vh] bg-[url('/BgMainHeroTest.png')] bg-cover lg:bg-right-top bg-top brightness-125"></div>
 			<div
 				data-scroll
-				data-scroll-speed="0.3"
-				className="absolute inset-0 h-[100vh] bg-[url('/CloudMainHeroTest.png')] bg-cover lg:bg-right-top bg-top opacity-60"
+				data-scroll-speed="0.5"
+				className="absolute inset-0 h-[100vh] bg-[url('/BgMainHero.png')] bg-cover lg:bg-right-top bg-top brightness-100"
+			></div>
+			<div
+				data-scroll
+				data-scroll-speed="0.6"
+				className="absolute inset-0 h-[100vh] bg-[url('/CloudMainHero.png')] bg-cover lg:bg-right-top bg-top opacity-50 blur-[2px]"
 			></div>
 			<div className="lg:hidden absolute inset-0 h-full bg-gradient-to-b from-transparent via-black/50 to-transparent from-0% via-55% to-120%"></div>
 

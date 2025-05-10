@@ -25,7 +25,7 @@ export default function Home() {
 				<Hero />
 				<Pakej />
 				<Galeri />
-				<Kemudahan />
+				{/* <Kemudahan /> */}
 				<Testimonial />
 				<FAQSection />
 			</div>

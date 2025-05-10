@@ -68,6 +68,13 @@ module.exports = {
 					border: "hsl(var(--sidebar-border))",
 					ring: "hsl(var(--sidebar-ring))",
 				},
+				kmtt: {
+					primary: "#F97316",
+					accent: "#F5CB70",
+					neutral: "#FFFFF0",
+					contrast: "#AC4B1C",
+					text: "#F4F4F4",
+				},
 			},
 			borderRadius: {
 				lg: "var(--radius)",

@@ -20,27 +20,28 @@ const Footer = () => {
 		};
 		fetchPackages();
 	}, []);
+	// from-[#090909] via-[#181818] to-[#090909]
 	return (
-		<footer className="bg-gradient-to-br from-[#090909] via-[#181818] to-[#090909]">
+		<footer className="bg-gradient-to-b from-kmtt-primary to-[#e93400] shadow-inner brightness-110">
 			<div className="mx-auto max-w-screen-2xl px-4 pb-6 pt-16 lg:pt-24">
 				<div className="grid grid-cols-1 gap-20 lg:grid-cols-3">
 					<div>
-						<div className="flex justify-center text-teal-600 sm:justify-start -my-6">
+						<div className="flex justify-center text-teal-200 sm:justify-start -my-6">
 							<img src="/KMTT.png" alt="Logo" width={200} height={100} />
 						</div>
 
-						<p className="max-w-md text-center leading-relaxed text-gray-200 sm:max-w-xs sm:text-left">
+						<p className="max-w-md text-center leading-relaxed text-gray-100 sm:max-w-xs sm:text-left">
 							&quot;Bersama Anda Menyempurnakan{" "}
-							<span className="text-orange-600">Umrah</span>&quot;
+							<span className="text-kmtt-contrast">Umrah</span>&quot;
 						</p>
 
-						<ul className="mt-8 flex justify-center gap-6 sm:justify-start md:gap-8">
+						<ul className="mt-8 flex justify-center gap-2 sm:justify-start md:gap-4">
 							<li>
 								<a
 									href="https://www.facebook.com/kembaramuslimtravel?locale=ms_MY"
 									rel="noreferrer"
 									target="_blank"
-									className="text-teal-200 transition hover:text-orange-600/75"
+									className="text-teal-200 transition hover:text-kmtt-contrast/75"
 								>
 									<span className="sr-only">Facebook</span>
 									<svg
@@ -63,7 +64,7 @@ const Footer = () => {
 									href="https://www.instagram.com/kembaramuslim.travel/"
 									rel="noreferrer"
 									target="_blank"
-									className="text-teal-200 transition hover:text-orange-600/75"
+									className="text-teal-200 transition hover:text-kmtt-contrast/75"
 								>
 									<span className="sr-only">Instagram</span>
 									<svg
@@ -86,7 +87,7 @@ const Footer = () => {
 									href="https://www.tiktok.com/@kembaramuslim"
 									rel="noreferrer"
 									target="_blank"
-									className="text-teal-200 transition hover:text-orange-600/75"
+									className="text-teal-200 transition hover:text-kmtt-contrast/75"
 								>
 									<span className="sr-only">Tiktok</span>
 									<svg
@@ -104,12 +105,12 @@ const Footer = () => {
 
 					<div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 lg:col-span-2">
 						<div className="text-center sm:text-left">
-							<p className="text-lg font-medium text-gray-200">Syarikat</p>
+							<p className="text-lg font-medium text-kmtt-contrast">Syarikat</p>
 
 							<ul className="mt-4 space-y-4 text-sm">
 								<li>
 									<a
-										className="text-gray-400 transition hover:text-orange-500"
+										className="text-kmtt-text transition hover:text-kmtt-accent drop-shadow"
 										href="/Tentang"
 									>
 										Tentang Kami
@@ -118,7 +119,7 @@ const Footer = () => {
 
 								<li>
 									<a
-										className="text-gray-400 transition hover:text-orange-500"
+										className="text-kmtt-text transition hover:text-kmtt-accent drop-shadow"
 										href="/TermaNSyarat"
 									>
 										Terma & Syarat
@@ -128,13 +129,15 @@ const Footer = () => {
 						</div>
 
 						<div className="text-center sm:text-left">
-							<p className="text-lg font-medium text-gray-200">Pakej Umrah</p>
+							<p className="text-lg font-medium text-kmtt-contrast">
+								Pakej Umrah
+							</p>
 
 							<ul className="mt-4 space-y-4 text-sm">
 								{packages.map((item, index) => (
 									<li key={index}>
 										<a
-											className="text-gray-400 transition hover:text-orange-500"
+											className="text-kmtt-text transition hover:text-kmtt-accent drop-shadow"
 											href={`/Pakej/Pakej-Umrah?kategori=${item.PakejName}`}
 										>
 											Pakej Umrah {item.PakejName}
@@ -145,12 +148,14 @@ const Footer = () => {
 						</div>
 
 						<div className="text-center sm:text-left">
-							<p className="text-lg font-medium text-gray-200">Hubungi Kami</p>
+							<p className="text-lg font-medium text-kmtt-contrast">
+								Hubungi Kami
+							</p>
 
 							<ul className="mt-4 space-y-4 text-sm">
 								<li>
 									<a
-										className="text-gray-400 transition hover:text-orange-500"
+										className="text-kmtt-text transition hover:text-kmtt-accent drop-shadow"
 										href="#"
 									>
 										{" "}
@@ -160,7 +165,7 @@ const Footer = () => {
 
 								<li>
 									<a
-										className="text-gray-400 transition hover:text-orange-500"
+										className="text-kmtt-text transition hover:text-kmtt-accent drop-shadow"
 										href="#"
 									>
 										Testimoni
@@ -172,13 +177,13 @@ const Footer = () => {
 										className="group flex justify-center gap-1.5 sm:justify-start "
 										href="#"
 									>
-										<span className="text-gray-400 transition group-hover:text-orange-500">
+										<span className="text-kmtt-text transition group-hover:text-kmtt-accent">
 											Live Chat
 										</span>
 
 										<span className="relative flex size-2">
-											<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal-400 opacity-75"></span>
-											<span className="relative inline-flex size-2 rounded-full bg-teal-500"></span>
+											<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-200 opacity-75"></span>
+											<span className="relative inline-flex size-2 rounded-full bg-kmtt-accent"></span>
 										</span>
 									</a>
 								</li>
@@ -186,7 +191,9 @@ const Footer = () => {
 						</div>
 
 						<div className="text-center sm:text-left">
-							<p className="text-lg font-medium text-gray-200">Lokasi Kami</p>
+							<p className="text-lg font-medium text-kmtt-contrast">
+								Lokasi Kami
+							</p>
 
 							<ul className="mt-4 space-y-4 text-sm">
 								<li>
@@ -211,7 +218,7 @@ const Footer = () => {
 
 				<div className="mt-12 border-t border-gray-100 pt-6">
 					<div className="text-center sm:flex sm:justify-between sm:text-left">
-						<p className="text-sm text-gray-200">
+						<p className="text-sm text-gray-100">
 							<span className="block sm:inline mx-2">
 								Hak Cipta Terpelihara.
 							</span>
@@ -233,7 +240,7 @@ const Footer = () => {
 							</a> */}
 						</p>
 
-						<p className="mt-4 text-sm text-gray-200 sm:order-first sm:mt-0">
+						<p className="mt-4 text-sm text-gray-100 sm:order-first sm:mt-0">
 							Kembara Muslim Travels & Tours 2024 &copy; AniqKhaizi
 						</p>
 					</div>

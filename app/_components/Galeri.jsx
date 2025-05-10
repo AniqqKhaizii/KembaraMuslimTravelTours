@@ -60,12 +60,16 @@ const Galeri = () => {
 	);
 
 	useEffect(() => {
+		const isDesktop = window.innerWidth >= 768;
+
+		if (!isDesktop) return;
+
 		galleryRefs.current.forEach((row, index) => {
 			if (!row) return;
 
 			const tl = gsap.timeline({
 				scrollTrigger: {
-					trigger: row,
+					trigger: galleryRefs.current[index],
 					start: "top bottom",
 					end: "bottom top",
 					scrub: true,
@@ -73,10 +77,10 @@ const Galeri = () => {
 			});
 
 			const distance = row.scrollWidth - row.clientWidth;
-
 			const direction = index % 2 === 0 ? -distance : distance || -300;
+
 			tl.to(row, {
-				x: direction,
+				x: -direction,
 				ease: "none",
 			});
 		});
@@ -84,25 +88,28 @@ const Galeri = () => {
 
 	return (
 		<>
-			<section className="relative bg-[url('/Hero/PakejBg1.jpg')] bg-cover bg-fixed px-2 py-8 sm:pb-40 text-slate-900">
-				<div className="absolute inset-0 h-full bg-gradient-to-b from-[#E8F1FE] via-blue-100/90 to-blue-100/80"></div>
+			<section className="relative bg-kmtt-text px-2 py-8 sm:pb-40 text-slate-900">
+				{/* <div className="absolute inset-0 h-full bg-gradient-to-b from-[#E8F1FE] via-blue-100/90 to-blue-100/80"></div> */}
 				<div className="relative mx-auto max-w-screen-2xl px-2 overflow-clip">
 					<div className="flex lg:flex-row flex-col lg:gap-0 gap-4 lg:justify-between justify-center items-center lg:items-end py-2 w-full">
 						<div className="flex flex-col lg:justify-between lg:items-start items-center">
 							<p className="text-gray-700 font-reenie text-2xl font-semibold">
 								Where Adventure Meets Faith
 							</p>
-							<h2 className="text-3xl max-w-7xl font-medium tracking-tighter sm:text-5xl text-orange-600">
+							<h2 className="text-3xl max-w-7xl font-bold tracking-tighter sm:text-5xl text-orange-600">
 								Galeri Kembara Muslim
 							</h2>
 						</div>
 
 						<button className="group border border-orange-500 rounded-lg lg:px-4 lg:py-3 px-3 py-1 lg:w-auto w-32 text-orange-600 group">
-							<a href="/Galeri" className="flex items-center gap-2">
-								<span className="shrink-0 text-xs group-hover:translate-x-1 transition-all duration-200">
+							<a
+								href="/Galeri"
+								className="flex items-center gap-2 font-semibold"
+							>
+								<span className="shrink-0 text-sm group-hover:translate-x-1 transition-all duration-200">
 									Lihat semua
 								</span>
-								<FaPaperPlane className="text-xs group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-200" />
+								<FaPaperPlane className="text-sm group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-200" />
 							</a>
 						</button>
 					</div>
@@ -112,7 +119,7 @@ const Galeri = () => {
 							<div
 								key={rowIndex}
 								ref={(el) => (galleryRefs.current[rowIndex] = el)}
-								className="flex space-x-4 whitespace-nowrap"
+								className="flex lg:flex-row flex-col gap-4 whitespace-nowrap"
 							>
 								{rowImages.map((item, i) => (
 									<motion.div

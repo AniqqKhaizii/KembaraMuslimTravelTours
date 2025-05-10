@@ -105,15 +105,15 @@ function Header() {
 			viewport={{ once: true }}
 			className={`${
 				isPakejPage ? "relative" : "fixed"
-			} top-0 z-[999] transition-all duration-200 ease-minor-spring text-[14px] tracking-wide w-full text-white ${
+			} top-0 z-[999] transition-all duration-200 ease-minor-spring text-[14px] font-medium tracking-wide w-full text-white ${
 				(sticky || isMultiDirectory) && isLargeScreen
-					? "bg-gradient-to-r from-amber-600 to-orange-400 shadow-xl lg:px-64 px-4"
+					? "bg-gradient-to-r from-amber-600 to-orange-400 shadow-xl lg:px-64 px-4 py-2"
 					: isHomePage && isLargeScreen
 					? "mx-auto rounded-2xl py-2 px-64 top-10"
 					: !isLargeScreen && !sticky
-					? "bg-gradient-to-r from-amber-600 to-orange-400 shadow-xl lg:px-64 px-4 top-10"
+					? "bg-gradient-to-r from-amber-600 to-orange-400 shadow-xl lg:px-64 px-4 py-2 top-10"
 					: !isLargeScreen && sticky
-					? "bg-gradient-to-r from-amber-600 to-orange-400 shadow-xl lg:px-64 px-4 top-0"
+					? "bg-gradient-to-r from-amber-600 to-orange-400 shadow-xl lg:px-64 px-4 py-2 top-0"
 					: "mx-auto rounded-2xl mt-2 px-64 top-10"
 			}`}
 		>
@@ -126,7 +126,7 @@ function Header() {
 								alt="KMTT Logo"
 								className={`object-center object-fill ${
 									sticky || isMultiDirectory || !isLargeScreen
-										? "w-36 h-12 mb-1 "
+										? "w-32 h-14 mb-1 "
 										: "w-48 h-20"
 								} mt-2`}
 							/>

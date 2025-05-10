@@ -41,7 +41,7 @@ export default function ClientWrapper({ children, className }) {
 			</div>
 			{!isAdminPage && !isSubPage ? (
 				<>
-					<Tentang />
+					{/* <Tentang /> */}
 					<Footer />
 				</>
 			) : !isAdminPage && isSubPage ? (

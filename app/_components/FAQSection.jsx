@@ -53,9 +53,10 @@ export default function FAQSection() {
 
 	return (
 		<section className="max-w-screen-2xl mx-auto px-4 py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-			{/* LEFT: FAQ Section */}
 			<div ref={faqContainerRef}>
-				<h2 className="text-4xl font-bold mb-8 text-gray-800">Soalan Lazim</h2>
+				<h2 className="text-4xl lg:text-left text-center font-bold mb-8 text-gray-800">
+					Soalan Lazim
+				</h2>
 				<div className="space-y-5">
 					{faqs.map((faq, index) => (
 						<div
@@ -64,7 +65,7 @@ export default function FAQSection() {
 						>
 							<button
 								onClick={() => setOpenIndex(openIndex === index ? null : index)}
-								className="flex justify-between items-center w-full text-left text-lg font-medium text-gray-800"
+								className="flex justify-between items-center w-full text-left lg:text-lg text-md font-medium text-gray-800"
 							>
 								<span>{faq.question}</span>
 								{openIndex === index ? (
@@ -74,7 +75,7 @@ export default function FAQSection() {
 								)}
 							</button>
 							<div
-								className={`grid transition-all duration-300 text-gray-600 text-sm overflow-hidden ${
+								className={`grid transition-all duration-300 text-gray-600 lg:text-sm text-xs overflow-hidden ${
 									openIndex === index
 										? "grid-rows-[1fr] mt-4"
 										: "grid-rows-[0fr]"
@@ -87,8 +88,7 @@ export default function FAQSection() {
 				</div>
 			</div>
 
-			{/* RIGHT: Graphic or Animation */}
-			<div className="flex items-center justify-center">
+			<div className="lg:flex hidden items-center justify-center">
 				<div className="relative w-full max-w-md aspect-square">
 					<img
 						src="/images/masjid-illustration.png"

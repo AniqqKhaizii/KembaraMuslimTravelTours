@@ -44,12 +44,12 @@ const Testimonial = () => {
 
 	const maxLength = 150;
 	return (
-		<section className="bg-white overflow-x-hidden px-2">
+		<section className="bg-kmtt-text overflow-x-hidden px-2">
 			<div className="mx-auto max-w-screen-2xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
 				<p className="text-center text-gray-700 font-reenie text-2xl font-semibold">
 					Truly enriching journey!
 				</p>
-				<h2 className="text-center text-5xl font-bold  text-orange-600 sm:text-5xl mb-4">
+				<h2 className="text-center text-5xl font-bold tracking-tighter text-orange-600 sm:text-5xl mb-4">
 					Testimoni Jemaah Kami
 				</h2>
 				{/* <p className="mt-4 text-center text-gray-500">

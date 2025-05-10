@@ -6,15 +6,15 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const PackageCard = ({ href, imageSrc, title, price, items }) => (
-	<div className="max-w-screen-xl rounded-lg overflow-hidden shadow-2xl bg-gradient-to-br from-white to-gray-50">
+	<div className="max-w-screen-xl rounded-xl overflow-hidden shadow-2xl bg-gradient-to-br from-white to-gray-50">
 		<div className="relative group">
 			<img
-				className="w-full h-[60vh] object-cover rounded-t-lg brightness-[0.40] group-hover:scale-105 transition duration-200 ease-in"
+				className="w-full h-[55vh] object-cover rounded-t-lg brightness-[0.40] group-hover:scale-105 transition duration-200 ease-in"
 				src={imageSrc}
 				alt={title}
 			/>
 
-			<div className="absolute bottom-0 px-4 py-5 space-y-4 w-full">
+			<div className="absolute bottom-0 px-8 py-5 space-y-4 w-full">
 				<h2 className="text-4xl font-semibold text-gray-100">{title}</h2>
 				<div className="border-t border-gray-200 pt-4">
 					<ul className="grid grid-cols-2 gap-x-8 gap-y-4 text-md text-gray-100">
@@ -80,52 +80,52 @@ const Pakej = () => {
 	const [packages, setPackages] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
-	useLayoutEffect(() => {
-		if (!headerRef.current) return;
-		if (typeof window !== "undefined") {
-			const ctx = gsap.context(() => {
-				gsap.to(backgroundImage.current, {
-					y: 50,
-					ease: "power2.out",
-					scrollTrigger: {
-						trigger: backgroundImage.current,
-						start: "top bottom",
-						end: "bottom top",
-						scrub: true,
-					},
-				});
+	// useLayoutEffect(() => {
+	// 	if (!headerRef.current) return;
+	// 	if (typeof window !== "undefined") {
+	// 		const ctx = gsap.context(() => {
+	// 			gsap.to(backgroundImage.current, {
+	// 				y: 0,
+	// 				ease: "power2.out",
+	// 				scrollTrigger: {
+	// 					trigger: backgroundImage.current,
+	// 					start: "top bottom",
+	// 					end: "bottom top",
+	// 					scrub: true,
+	// 				},
+	// 			});
 
-				gsap.from(headerRef.current.children, {
-					y: 40,
-					opacity: 0,
-					stagger: 0.2,
-					duration: 1,
-					ease: "power3.out",
-					scrollTrigger: {
-						trigger: headerRef.current,
-						start: "top 80%",
-					},
-				});
+	// 			gsap.from(headerRef.current.children, {
+	// 				y: 0,
+	// 				opacity: 0,
+	// 				stagger: 0.2,
+	// 				duration: 1,
+	// 				ease: "power3.out",
+	// 				scrollTrigger: {
+	// 					trigger: headerRef.current,
+	// 					start: "top 80%",
+	// 				},
+	// 			});
 
-				cardsRef.current.forEach((card, i) => {
-					gsap.from(card, {
-						opacity: 0,
-						y: 50,
-						scale: 0.95,
-						duration: 0.8,
-						delay: i * 0.2,
-						ease: "back.out(1.7)",
-						scrollTrigger: {
-							trigger: card,
-							start: "top 90%",
-							toggleActions: "play none none reverse", // play on enter, reverse on leave
-						},
-					});
-				});
-			}, backgroundImage);
-			return () => ctx.revert();
-		}
-	}, [isLoading]);
+	// 			cardsRef.current.forEach((card, i) => {
+	// 				gsap.from(card, {
+	// 					opacity: 0,
+	// 					y: 50,
+	// 					scale: 0.95,
+	// 					duration: 0.8,
+	// 					delay: i * 0.2,
+	// 					ease: "back.out(1.7)",
+	// 					scrollTrigger: {
+	// 						trigger: card,
+	// 						start: "top 90%",
+	// 						toggleActions: "play none none reverse", // play on enter, reverse on leave
+	// 					},
+	// 				});
+	// 			});
+	// 		}, backgroundImage);
+	// 		return () => ctx.revert();
+	// 	}
+	// }, [isLoading]);
 
 	const addToRefs = (el) => {
 		if (el && !cardsRef.current.includes(el)) {
@@ -154,12 +154,7 @@ const Pakej = () => {
 	}, []);
 
 	return (
-		<section className="relative overflow-hidden bg-[url('/BgMainPakej.png')] lg:-mt-20 -mt-2">
-			<div
-				data-scroll
-				data-scroll-speed="0.3"
-				className="absolute inset-0 h-full bg-[url('/BgMainPakej.png')]"
-			></div>
+		<section className="relative overflow-hidden bg-gradient-to-b from-white to-kmtt-text lg:-mt-10 -mt-2 py-12">
 			<div
 				ref={backgroundImage}
 				className="relative mx-auto lg:px-6 px-2 sm:pb-24 text-slate-900"
@@ -168,13 +163,13 @@ const Pakej = () => {
 					<p className="text-gray-700 font-reenie text-2xl font-semibold">
 						- Experience the World, Embrace Your Faith -
 					</p>
-					<h2 className="mx-auto text-3xl max-w-4xl font-semibold sm:text-5xl text-orange-600 tracking-tighter">
+					<h2 className="mx-auto text-3xl max-w-4xl  sm:text-5xl font-bold text-orange-600 tracking-tighter">
 						Pakej Umrah 2025
 					</h2>
 				</header>
 
 				<div className="mx-auto max-w-screen-2xl sm:px-2 py-12">
-					<ul className="grid gap-2 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3">
+					<ul className="grid gap-3 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3">
 						{isLoading
 							? [...Array(4)].map((_, index) => (
 									<Skeleton key={index} className="min-h-[50vh]" />
