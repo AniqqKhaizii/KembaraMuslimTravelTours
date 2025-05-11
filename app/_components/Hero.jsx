@@ -4,15 +4,20 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import SplitText from "@/components/animata/text/split-text";
 
 const settings = {
 	dots: false,
 	infinite: true,
 	speed: 500,
+	easing: "linear",
 	slidesToShow: 3,
 	autoplay: true,
-	autoplaySpeed: 5000,
+	autoplaySpeed: 3000,
 	arrows: false,
+	lazyLoad: "ondemand",
+	cssEase: "linear",
+	pauseOnHover: true,
 };
 
 const slides = [
@@ -43,7 +48,7 @@ const tags = [
 	"Dipercayai Ribuan Jemaah",
 	"Perkhidmatan Lengkap",
 	"Sokongan Berterusan",
-	// "Pakej Fleksibel",
+	"Pakej Fleksibel",
 ];
 
 const TestimonialCarousel = () => {
@@ -79,7 +84,7 @@ const TestimonialCarousel = () => {
 	}, []);
 
 	return (
-		<section className="hidden lg:block lg:absolute bottom-56 left-44 w-full max-w-[40rem] px-12">
+		<section className="hidden lg:block lg:absolute bottom-40 left-44 w-full max-w-[40rem] py-12 mx-12 border-t-2 border-kmtt-text">
 			<Slider {...settings}>
 				{testimonials.map((t, idx) => (
 					<div key={idx} className="p-2">
@@ -113,34 +118,43 @@ const TestimonialCarousel = () => {
 const HeroCarousel = ({ currentSlide }) => {
 	return (
 		<>
-			<p className="text-sm lg:text-base text-kmtt-accent uppercase tracking-wide font-semibold">
+			{/* <p className="text-sm lg:text-base text-kmtt-contrast uppercase tracking-wide font-semibold">
 				🌟 Lebih 5,000 jemaah telah memilih kami
-			</p>
-			<h1
-				key={currentSlide}
-				className="flex flex-col lg:items-start items-center text-center max-w-3xl lg:text-left w-full font-semibold drop-shadow-lg tracking-wide text-kmtt-text text-3xl lg:text-5xl"
-			>
-				{slides[currentSlide].title}
-				{/* <span className="text-lg lg:text-2xl font-light text-kmtt-text">
-					{slides[currentSlide].subtitle}
-				</span> */}
-			</h1>
+			</p> */}
 
 			{/* Tags */}
-			<div className="lg:mx-0 mx-auto max-w-2xl flex flex-wrap lg:flex-row flex-col lg:items-start items-center gap-2 text-xs uppercase tracking-wide font-semibold text-white/80 mt-2">
+			<div className="lg:mx-0 mx-auto max-w-3xl flex flex-wrap lg:flex-row flex-col lg:items-start items-center gap-2 text-xs uppercase tracking-wide font-semibold text-kmtt-contrast mt-2">
 				{tags.map((tag, index) => (
 					<span
 						key={index}
-						className="px-3 py-1 rounded-full border border-white/40 bg-white/10 backdrop-blur-sm"
+						className="px-3 py-1 rounded-full border border-white/40 bg-white/40 backdrop-blur-sm"
 					>
 						{tag}
 					</span>
 				))}
 			</div>
 
+			<h1
+				key={currentSlide}
+				className="flex flex-col lg:items-start items-center text-center max-w-2xl lg:text-left w-full font-semibold drop-shadow-lg tracking-wide text-kmtt-text text-3xl lg:text-5xl"
+			>
+				<SplitText
+					text={slides[currentSlide].title}
+					className="font-semibold"
+					delay={50}
+					animationFrom={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
+					animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
+					easing="easeOutCubic"
+					threshold={0.8}
+				/>
+				{/* <span className="text-lg lg:text-2xl font-light text-kmtt-text">
+					{slides[currentSlide].subtitle}
+				</span> */}
+			</h1>
+
 			<p
 				key={"p-" + currentSlide}
-				className="flex justify-start self-start max-w-xl text-gray-200 sm:text-sm lg:text-lg lg:text-left text-center drop-shadow-2xl font-primary mt-4"
+				className="flex justify-start self-start max-w-lg text-kmtt-text sm:text-sm lg:text-lg lg:text-justify text-center drop-shadow-2xl font-primary mt-2"
 			>
 				{slides[currentSlide].paragraph}
 			</p>
@@ -159,7 +173,7 @@ const HeroSection = () => {
 	}, []);
 
 	return (
-		<section className="lg:h-[100vh] h-[110vh] relative overflow-hidden">
+		<section className="lg:h-[100vh] h-[110vh] relative overflow-x-hidden">
 			{/* Background */}
 			<div
 				data-scroll
@@ -188,7 +202,7 @@ const HeroSection = () => {
 						</a>
 						<a
 							href="/Pakej"
-							className="lg:w-auto text-sm shadow-md w-full group px-6 py-2 gap-2 items-center rounded-2xl bg-black/90 hover:scale-105 transition-transform text-white backdrop-blur duration-300 ease-in-out flex justify-center"
+							className="lg:w-auto text-sm shadow-md w-full group px-6 py-2 gap-2 items-center rounded-2xl bg-kmtt-contrast hover:scale-105 transition-transform text-white backdrop-blur duration-300 ease-in-out flex justify-center"
 						>
 							Pilih Pakej Anda <FaArrowRightLong />
 						</a>

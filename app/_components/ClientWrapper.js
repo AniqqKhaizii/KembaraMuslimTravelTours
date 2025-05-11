@@ -14,8 +14,14 @@ export default function ClientWrapper({ children, className }) {
 	const pathname = usePathname();
 	const isAdminPage = pathname.includes("/Admin");
 	const isSubPage = pathname.includes("/KembaraDuaTanahSuci");
-
 	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		(async () => {
+			const LocomotiveScroll = (await import("locomotive-scroll")).default;
+			const locomotiveScroll = new LocomotiveScroll();
+		})();
+	}, []);
 
 	useEffect(() => {
 		AOS.init({
@@ -25,11 +31,11 @@ export default function ClientWrapper({ children, className }) {
 		setIsMounted(true);
 	}, []);
 
-	if (!isMounted) return null; // Prevent hydration issues
+	if (!isMounted) return null;
 
 	return (
 		<>
-			{!isAdminPage && (
+			{!isAdminPage && !isSubPage && (
 				<>
 					<Banner />
 					<Header />
@@ -41,11 +47,9 @@ export default function ClientWrapper({ children, className }) {
 			</div>
 			{!isAdminPage && !isSubPage ? (
 				<>
-					{/* <Tentang /> */}
+					<Tentang />
 					<Footer />
 				</>
-			) : !isAdminPage && isSubPage ? (
-				<Footer />
 			) : null}
 		</>
 	);

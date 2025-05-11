@@ -2,15 +2,18 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import * as motion from "framer-motion/client";
+import {
+	FaPlaneDeparture,
+	FaUsers,
+	FaCalendarAlt,
+	FaMapMarkedAlt,
+} from "react-icons/fa";
+import { motion } from "framer-motion";
 import CountUp from "react-countup";
-import { FaPaperPlane } from "react-icons/fa";
 
 const targetDate = new Date("2025-06-05T00:00:00");
 
 export default function AgencyInfoShowcase() {
-	const [initialX, setInitialX] = useState(50);
-
 	const [timeLeft, setTimeLeft] = useState({});
 
 	useEffect(() => {
@@ -21,149 +24,119 @@ export default function AgencyInfoShowcase() {
 			const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
 			const minutes = Math.floor((difference / 1000 / 60) % 60);
 			const seconds = Math.floor((difference / 1000) % 60);
-
 			setTimeLeft({ days, hours, minutes, seconds });
 		}, 1000);
-
 		return () => clearInterval(interval);
 	}, []);
 
-	useEffect(() => {
-		const handleResize = () => {
-			setInitialX(window.innerWidth < 768 ? 50 : 500);
-		};
-
-		window.addEventListener("resize", handleResize);
-		handleResize();
-
-		return () => window.removeEventListener("resize", handleResize);
-	}, [initialX]);
-
 	return (
-		<section className="w-full bg-gray-50 text-gray-800 overflow-hidden relative shadow-inner">
-			<div className="relative grid lg:grid-cols-2 grid-cols-1">
-				<div className="absolute top-0 left-0 w-full h-full bg-[url('/Hero/KembaraDuaTanahSuci.jpg')] bg-fixed bg-cover bg-right-top"></div>
-				<video
-					className="absolute top-0 left-0 w-full h-full object-cover opacity-60"
-					autoPlay
-					loop
-					muted
-					style={{
-						maskImage: "linear-gradient(to right, transparent, black 100%)",
-						WebkitMaskImage:
-							"linear-gradient(to right, transparent, black 100%)",
-					}}
-				>
-					<source src="/Videos/KembaraDuaTanahSuci.mp4" type="video/mp4" />
-				</video>
-				<div className="relative lg:h-[40vh] h-[30vh] col-span-2 bg-black/60 flex flex-col items-center justify-center text-white px-4 ">
-					<div className="absolute flex flex-col items-center justify-center w-full h-full px-4 py-8 text-center">
-						<h2 className="text-2xl md:text-3xl font-extrabold text-yellow-400 mb-2">
-							Bersedia untuk Berlepas: 5 Jun 2025
-						</h2>
-						<p className="text-lg md:text-xl font-medium tracking-wide">
-							Masa berbaki:{" "}
-							<span className="text-orange-400">
-								{timeLeft.days}h {timeLeft.hours}j {timeLeft.minutes}m{" "}
-								{timeLeft.seconds}s
-							</span>
-						</p>
-					</div>
-				</div>
-				{/* Left Media Section */}
-				<div className="lg:h-[40vh] h-[30vh] overflow-hidden shadow-2xl">
-					<div className="relative z-10 flex flex-col items-center justify-center w-full h-full bg-black/60 px-4 py-8 text-center">
-						<motion.h1
-							initial={{ x: -initialX }}
-							whileInView={{ x: 0 }}
-							transition={{ duration: 1 }}
-							viewport={{ once: true }}
-							className="text-2xl md:text-5xl font-bold text-white"
-						>
-							Kembara Dua Tanah Suci
-						</motion.h1>
-						<motion.p
-							initial={{ x: initialX }}
-							whileInView={{ x: 0 }}
-							transition={{ duration: 1 }}
-							viewport={{ once: true }}
-							className="mt-2 text-orange-400 italic text-lg md:text-2xl"
-						>
-							Perjalanan suci yang mendekatkan hati dan jiwa
-						</motion.p>
-						<motion.div
-							initial={{ y: 50, opacity: 0 }}
-							whileInView={{ y: 0, opacity: 1 }}
-							transition={{ duration: 1 }}
-							viewport={{ once: true }}
-							className="mt-4"
-						>
-							<Link href="/KembaraDuaTanahSuci">
-								<button className="flex items-center gap-2 px-6 py-2 text-white text-sm md:text-lg rounded-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-red-500 hover:to-orange-500 shadow-lg hover:shadow-orange-700">
-									Lihat Lanjut <FaPaperPlane />
-								</button>
-							</Link>
-						</motion.div>
-					</div>
-				</div>
+		<section className="relative bg-[url('https://images.unsplash.com/photo-1639574326077-6cc1d8749395?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-no-repeat bg-fixed bg-top sm:h-[60vh] h-[150vh] px-6 flex items-center text-slate-100 overflow-x-hidden">
+			<div className="h-full absolute inset-0 bg-gradient-to-b from-gray-950/70 to-gray-950/80 "></div>
+			<div className="absolute inset-0 max-w-7xl mx-auto grid md:grid-cols-2 gap-24 items-center">
+				<div>
+					<h2 className="text-3xl md:text-4xl font-bold text-kmtt-text mb-4">
+						Kembara Muslim{" "}
+						<span className="text-kmtt-primary">Travel & Tours</span>
+					</h2>
+					<p className="text-kmtt-text text-base mb-6">
+						Agensi pelancongan berlesen berpusat di Ayer Hitam, Kedah.
+						Menyediakan pakej Umrah dan percutian mesra Muslim dengan harga
+						berpatutan.
+					</p>
 
-				{/* Right Agency Info Section */}
-				<div className="py-8 pl-48 pr-24 flex flex-col justify-center rounded-tl-[2rem] -ml-10 z-30 bg-gray-50 shadow-inner">
-					<motion.div
-						initial={{ opacity: 0, y: 30 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						transition={{ duration: 1 }}
-						viewport={{ once: true }}
-					>
-						<div className="mb-2">
-							<span className="inline-block bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
-								Rakan Umrah Terbaik Anda
-							</span>
-						</div>
-						<h2 className="text-xl md:text-4xl font-bold leading-tight mb-2">
-							Kembara Muslim{" "}
-							<span className="text-orange-600">Travel & Tours</span>
-						</h2>
-						<p className="text-gray-600 text-xs md:text-sm mb-4 max-w-2xl">
-							Kembara Muslim Travel & Tours Sdn Bhd ialah agensi pelancongan
-							berlesen yang berpusat di Ayer Hitam, Kedah. Kami menguruskan
-							pakej Umrah dan percutian mesra Muslim dengan harga berpatutan dan
-							servis yang berkualiti.
-						</p>
-
-						<div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-							{[
-								{ label: "Pelanggan", value: 10000 },
-								{ label: "Penerbangan", value: 2000 },
-								{ label: "Tahun", value: 10 },
-								{ label: "Pakej", value: 50 },
-							].map((item, index) => (
-								<div key={index} className="sm:text-center lg:text-left">
-									<h3 className="text-xl md:text-2xl font-bold text-orange-600">
+					<div className="grid grid-cols-2 sm:grid-cols-4 gap-5 divide-x divide-kmtt-text mb-4 border-t border-kmtt-text/40 pt-2">
+						{[
+							{ icon: <FaUsers />, value: 5000, label: "Pelanggan" },
+							{ icon: <FaPlaneDeparture />, value: 1000, label: "Penerbangan" },
+							{ icon: <FaCalendarAlt />, value: 10, label: "Tahun" },
+							{ icon: <FaMapMarkedAlt />, value: 25, label: "Pakej" },
+						].map((item, i) => (
+							<div
+								key={i}
+								className="flex lg:flex-row flex-col gap-4 items-center lg:justify-center justify-start lg:text-center text-left"
+							>
+								<div className="text-2xl text-orange-500 h-full flex items-center ml-2">
+									{item.icon}
+								</div>
+								<div className="flex flex-col lg:items-start items-center justify-center ">
+									<h3 className="text-xl font-semibold text-kmtt-text">
 										<CountUp end={item.value} duration={2} separator="," />+
 									</h3>
-									<p className="text-xs text-gray-500 mt-1">{item.label}</p>
+									<p className="text-sm text-kmtt-accent">{item.label}</p>
 								</div>
-							))}
-						</div>
-					</motion.div>
+							</div>
+						))}
+					</div>
 
-					{/* Coming Soon Feature */}
-					<motion.div
-						initial={{ opacity: 0, y: 30 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						transition={{ duration: 1, delay: 0.5 }}
-						viewport={{ once: true }}
-						className="mt-4 border-t pt-6"
-					>
-						<ul className="list-disc list-inside text-sm text-gray-600">
-							<li>Platform tempahan Umrah digital yang mudah dan pantas</li>
-							<li>Pemberitahuan pintar untuk proses pendaftaran & dokumen</li>
-							<li>
-								Kalendar interaktif untuk memilih tarikh penerbangan yang sesuai
-							</li>
-						</ul>
-					</motion.div>
+					<Link href="/KembaraDuaTanahSuci">
+						<button className="mt-4 px-6 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm md:text-base shadow-lg">
+							Kembara Dua Tanah Suci
+						</button>
+					</Link>
+				</div>
+
+				{/* Countdown & Image */}
+				<div className="relative">
+					<div className="relative overflow-hidden rounded-xl  shadow-lg">
+						<form className="mt-4 w-full max-w-xl shadow-md space-y-4">
+							<div className="space-y-12 bg-white p-4 rounded-xl">
+								<div>
+									<label
+										htmlFor="name"
+										className="block text-sm font-medium text-gray-700"
+									>
+										Nama Penuh
+									</label>
+									<input
+										type="text"
+										id="name"
+										name="name"
+										required
+										className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-0 focus:border-none sm:text-sm"
+									/>
+								</div>
+
+								<div>
+									<label
+										htmlFor="email"
+										className="block text-sm font-medium text-gray-700"
+									>
+										Emel
+									</label>
+									<input
+										type="email"
+										id="email"
+										name="email"
+										required
+										className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+									/>
+								</div>
+
+								<div>
+									<label
+										htmlFor="phone"
+										className="block text-sm font-medium text-gray-700"
+									>
+										No Telefon
+									</label>
+									<input
+										type="tel"
+										id="phone"
+										name="phone"
+										required
+										className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+									/>
+								</div>
+							</div>
+
+							<button
+								type="submit"
+								className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg text-sm font-semibold"
+							>
+								Hantar Maklumat
+							</button>
+						</form>
+					</div>
 				</div>
 			</div>
 		</section>

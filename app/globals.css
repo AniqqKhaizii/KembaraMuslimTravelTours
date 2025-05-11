@@ -327,20 +327,14 @@
 
 
 
-/*Gallery*/
-.gallery {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-	padding: 0 6px;
-	gap: 6px;
-}
-.gallery .gallery-item {
+
+.gallery-item {
 	-webkit-transition: all 0.35s ease;
 	transition: all 0.35s ease;
 	cursor: pointer;
 }
 
-.gallery .gallery-item:hover {
+.gallery-item:hover {
 	filter: brightness(70%);
 }
 

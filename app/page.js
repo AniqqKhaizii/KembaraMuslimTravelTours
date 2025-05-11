@@ -10,25 +10,19 @@ import Testimonial from "./_components/Testimonial";
 import PosterModal from "../components/poster-modal";
 import FAQSection from "./_components/FAQSection";
 import UpcomingDeparture from "./_components/UpcomingDeparture";
+import ZoomParallax from "./_components/ZoomParallax";
 
 export default function Home() {
-	useEffect(() => {
-		(async () => {
-			const LocomotiveScroll = (await import("locomotive-scroll")).default;
-			const locomotiveScroll = new LocomotiveScroll();
-		})();
-	}, []);
 	return (
-		<main className="flex flex-col gap-5">
-			<div className="overflow-hidden">
-				<PosterModal />
-				<Hero />
-				<Pakej />
-				<Galeri />
-				{/* <Kemudahan /> */}
-				<Testimonial />
-				<FAQSection />
-			</div>
+		<main className="flex flex-col">
+			<PosterModal />
+			<Hero />
+			<ZoomParallax />
+			<Pakej />
+			<Galeri />
+			{/* <Kemudahan /> */}
+			<Testimonial />
+			<FAQSection />
 		</main>
 	);
 }

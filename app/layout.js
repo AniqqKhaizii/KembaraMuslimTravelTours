@@ -45,7 +45,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<body className={instrument_sans.className}>
+			<body
+				className={instrument_sans.className}
+				suppressHydrationWarning={true}
+			>
 				<ClientWrapper>{children}</ClientWrapper>
 			</body>
 		</html>

@@ -52,16 +52,20 @@ export default function FAQSection() {
 	}, []);
 
 	return (
-		<section className="max-w-screen-2xl mx-auto px-4 py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+		<section
+			id="FAQ"
+			className="max-w-screen-2xl mx-auto px-4 h-[70vh] grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
+		>
+			{/* FAQ Accordion */}
 			<div ref={faqContainerRef}>
 				<h2 className="text-4xl lg:text-left text-center font-bold mb-8 text-gray-800">
 					Soalan Lazim
 				</h2>
-				<div className="space-y-5">
+				<div className="space-y-2">
 					{faqs.map((faq, index) => (
 						<div
 							key={index}
-							className="faq-item border border-gray-200 rounded-xl p-6 bg-white shadow-sm transition-all duration-300"
+							className="border-b border-gray-200 py-3 px-6 bg-white shadow-sm transition-all duration-300"
 						>
 							<button
 								onClick={() => setOpenIndex(openIndex === index ? null : index)}
@@ -88,14 +92,21 @@ export default function FAQSection() {
 				</div>
 			</div>
 
-			<div className="lg:flex hidden items-center justify-center">
-				<div className="relative w-full max-w-md aspect-square">
+			{/* Images on Right */}
+			<div className="hidden lg:flex items-center justify-center relative py-24">
+				<div className="relative w-[300px] h-[300px]">
 					<img
-						src="/images/masjid-illustration.png"
-						alt="Islamic Illustration"
-						className="w-full h-full object-contain animate-float"
+						src="/Facebook/1.jpg"
+						alt="Islamic Illustration 1"
+						className="absolute left-24 top-12 w-full h-full object-cover animate-float shadow-xl z-10 rounded-lg"
 					/>
-					<div className="absolute inset-0 rounded-full bg-yellow-100 opacity-30 blur-3xl"></div>
+				</div>
+				<div className="relative w-[300px] h-[300px]">
+					<img
+						src="/Facebook/2.jpg"
+						alt="Islamic Illustration 2"
+						className="absolute -top-12 -left-1 w-full h-full object-cover animate-float shadow-xl rounded-lg"
+					/>
 				</div>
 			</div>
 		</section>

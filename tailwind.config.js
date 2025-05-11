@@ -70,9 +70,9 @@ module.exports = {
 				},
 				kmtt: {
 					primary: "#F97316",
-					accent: "#F5CB70",
+					accent: "#e4dbbe",
 					neutral: "#FFFFF0",
-					contrast: "#AC4B1C",
+					contrast: "#7b4e22",
 					text: "#F4F4F4",
 				},
 			},

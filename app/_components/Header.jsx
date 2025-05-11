@@ -144,9 +144,9 @@ function Header() {
 								{Menu.map((item, index) => (
 									<li
 										key={index}
-										className={`relative group cursor-pointer py-2 px-4 border-b-4 border-transparent ${
+										className={`relative group cursor-pointer py-2 my-0 px-4 border-b-2 border-transparent hover:shadow-inner ${
 											pathname === item.path && sticky
-												? "border-white"
+												? "border-white shadow-inner"
 												: pathname === item.path && !sticky
 												? "border-white hover:border-white"
 												: pathname !== item.path && sticky
@@ -161,7 +161,7 @@ function Header() {
 											)}
 										</Link>
 										{item.submenu && (
-											<ul className="absolute left-0 w-[12vw] top-8 opacity-0 scale-95 bg-orange-500 rounded-b-sm group-hover:opacity-100 divide-y group-hover:scale-100 transition-all duration-300 shadow-2xl mt-6 grid grid-cols-1">
+											<ul className="absolute left-0 w-[12vw] top-8 opacity-0 scale-95 bg-orange-500 rounded-b-sm group-hover:opacity-100 divide-y divide-kmtt-contrast/30 group-hover:scale-100 transition-all duration-300 shadow-2xl mt-6 grid grid-cols-1">
 												{item.submenu.map((subItem) => (
 													<li
 														key={subItem.id}

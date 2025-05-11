@@ -2,7 +2,7 @@ import React from "react";
 import { FaWhatsapp, FaInstagram, FaTiktok } from "react-icons/fa";
 const Banner = () => {
 	return (
-		<div className="bg-gradient-to-r from-amber-600 to-orange-400 py-2 text-white flex items-center lg:justify-between justify-end px-2 lg:px-64 font-primary text-sm">
+		<div className="bg-gradient-to-r from-amber-600 to-orange-400 py-2 text-white flex items-center lg:justify-between justify-end px-2 lg:px-64 font-primary text-sm overflow-x-hidden">
 			<div className="items-center gap-2 hidden lg:flex">
 				<span className="opacity-90">Email:</span>
 				<a

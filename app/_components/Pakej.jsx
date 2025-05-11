@@ -80,52 +80,52 @@ const Pakej = () => {
 	const [packages, setPackages] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
-	// useLayoutEffect(() => {
-	// 	if (!headerRef.current) return;
-	// 	if (typeof window !== "undefined") {
-	// 		const ctx = gsap.context(() => {
-	// 			gsap.to(backgroundImage.current, {
-	// 				y: 0,
-	// 				ease: "power2.out",
-	// 				scrollTrigger: {
-	// 					trigger: backgroundImage.current,
-	// 					start: "top bottom",
-	// 					end: "bottom top",
-	// 					scrub: true,
-	// 				},
-	// 			});
+	useLayoutEffect(() => {
+		if (!headerRef.current) return;
+		if (typeof window !== "undefined") {
+			const ctx = gsap.context(() => {
+				gsap.to(backgroundImage.current, {
+					y: 0,
+					ease: "power2.out",
+					scrollTrigger: {
+						trigger: backgroundImage.current,
+						start: "top bottom",
+						end: "bottom top",
+						scrub: true,
+					},
+				});
 
-	// 			gsap.from(headerRef.current.children, {
-	// 				y: 0,
-	// 				opacity: 0,
-	// 				stagger: 0.2,
-	// 				duration: 1,
-	// 				ease: "power3.out",
-	// 				scrollTrigger: {
-	// 					trigger: headerRef.current,
-	// 					start: "top 80%",
-	// 				},
-	// 			});
+				gsap.from(headerRef.current.children, {
+					y: 0,
+					opacity: 0,
+					stagger: 0.2,
+					duration: 1,
+					ease: "power3.out",
+					scrollTrigger: {
+						trigger: headerRef.current,
+						start: "top 80%",
+					},
+				});
 
-	// 			cardsRef.current.forEach((card, i) => {
-	// 				gsap.from(card, {
-	// 					opacity: 0,
-	// 					y: 50,
-	// 					scale: 0.95,
-	// 					duration: 0.8,
-	// 					delay: i * 0.2,
-	// 					ease: "back.out(1.7)",
-	// 					scrollTrigger: {
-	// 						trigger: card,
-	// 						start: "top 90%",
-	// 						toggleActions: "play none none reverse", // play on enter, reverse on leave
-	// 					},
-	// 				});
-	// 			});
-	// 		}, backgroundImage);
-	// 		return () => ctx.revert();
-	// 	}
-	// }, [isLoading]);
+				cardsRef.current.forEach((card, i) => {
+					gsap.from(card, {
+						opacity: 0,
+						y: 50,
+						scale: 0.95,
+						duration: 0.8,
+						delay: i * 0.2,
+						ease: "back.out(1.7)",
+						scrollTrigger: {
+							trigger: card,
+							start: "top 90%",
+							toggleActions: "play none none reverse", // play on enter, reverse on leave
+						},
+					});
+				});
+			}, backgroundImage);
+			return () => ctx.revert();
+		}
+	}, [isLoading]);
 
 	const addToRefs = (el) => {
 		if (el && !cardsRef.current.includes(el)) {
@@ -154,7 +154,7 @@ const Pakej = () => {
 	}, []);
 
 	return (
-		<section className="relative overflow-hidden bg-gradient-to-b from-white to-kmtt-text lg:-mt-10 -mt-2 py-12">
+		<section className="relative overflow-x-hidden bg-gradient-to-b from-white to-kmtt-text pt-24 pb-12">
 			<div
 				ref={backgroundImage}
 				className="relative mx-auto lg:px-6 px-2 sm:pb-24 text-slate-900"
