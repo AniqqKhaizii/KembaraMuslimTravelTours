@@ -32,12 +32,12 @@ const Footer = () => {
 	// from-[#090909] via-[#181818] to-[#090909]
 	// from-kmtt-primary to-[#e93400]
 	return (
-		<footer className="bg-kmtt-primary border-t-4 border-kmtt-contrast shadow-inner brightness-110">
-			<div className="mx-auto max-w-screen-2xl px-4 pb-6 pt-8 lg:pt-12">
-				<div className="grid grid-cols-1 gap-20 lg:grid-cols-3">
+		<footer className="bg-gradient-to-b from-kmtt-primary to-orange-400 border-t-4 border-kmtt-contrast shadow-inner brightness-110 overflow-x-hidden">
+			<div className="lg:mx-auto mx-12 lg:max-w-screen-2xl max-w-screen-lg lg:px-4 pb-6 pt-8 lg:pt-12">
+				<div className="grid grid-cols-1 lg:gap-20 gap-10 lg:grid-cols-3 md:grid-cols-3">
 					<div>
-						<div className="flex justify-center text-teal-200 sm:justify-start -my-6">
-							<img src="/KMTT.png" alt="Logo" width={200} height={100} />
+						<div className="flex justify-center text-teal-200 sm:justify-start">
+							<img src="/LOGOKMTT.png" alt="Logo" width={300} height={250} />
 						</div>
 
 						<p className="max-w-md text-center font-medium leading-relaxed text-kmtt-text sm:max-w-xs sm:text-left">
@@ -114,7 +114,7 @@ const Footer = () => {
 						</ul>
 					</div>
 
-					<div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 lg:col-span-2">
+					<div className="grid grid-cols-1 lg:gap-8 gap-2 lg:grid-cols-3 md:grid-cols-3 lg:col-span-2 md:col-span-2">
 						<div className="text-center sm:text-left">
 							<p className="text-lg font-semibold text-kmtt-contrast">
 								Syarikat
@@ -201,7 +201,7 @@ const Footer = () => {
 							</ul>
 						</div>
 
-						<div className="text-center sm:text-left">
+						{/* <div className="text-center sm:text-left">
 							<p className="text-lg font-semibold text-kmtt-contrast">
 								Lokasi Kami
 							</p>
@@ -219,7 +219,7 @@ const Footer = () => {
 									></iframe>
 								</li>
 							</ul>
-						</div>
+						</div> */}
 					</div>
 				</div>
 

@@ -151,8 +151,8 @@ const Section1 = ({ scrollYProgress }) => {
 				</div>
 			</header>
 
-			<div className="relative h-full grid grid-cols-2 text-left">
-				<div className="space-y-2 m-32">
+			<div className="relative h-full grid lg:grid-cols-2 lg:text-left md:text-left text-center">
+				<div className="space-y-2 mt-32 mx-10">
 					<BoxReveal boxColor="#f97316" duration={0.6}>
 						<h2 className="text-white text-5xl md:text-7xl font-semibold leading-tight tracking-tight">
 							Kembara Dua <span className="text-kmtt-primary">Tanah Suci</span>
@@ -160,7 +160,7 @@ const Section1 = ({ scrollYProgress }) => {
 					</BoxReveal>
 
 					<BoxReveal boxColor="#f97316" duration={0.7}>
-						<p className="text-white text-lg md:text-2xl font-extralight">
+						<p className="text-white text-lg md:text-2xl lg:text-left md:text-left text-center">
 							Menyingkap keindahan iman di{" "}
 							<span className="bg-orange-600 px-4 rounded-md text-white">
 								Tanah Suci
@@ -176,7 +176,7 @@ const Section1 = ({ scrollYProgress }) => {
 						</p>
 					</BoxReveal>
 				</div>
-				<div className="h-1/2 self-end">
+				<div className="lg:h-1/2 lg:self-end">
 					<LayoutGrid cards={cards} />
 				</div>
 			</div>
@@ -190,7 +190,7 @@ const Section2 = ({ scrollYProgress }) => {
 	return (
 		<motion.div
 			style={{ scale, rotate }}
-			className="relative bg-red-600 h-screen z-10"
+			className="relative bg-blue-50 h-screen z-10 overflow-x-hidden"
 		>
 			<WorldMap
 				dots={[
@@ -226,9 +226,9 @@ const Section2 = ({ scrollYProgress }) => {
 					},
 				]}
 			/>
-			<div className="absolute bottom-8 left-20 min-w-[36rem] p-6 blur-3xl rounded-full h-48 bg-kmtt-text"></div>
-			<div className="absolute bottom-10 left-20 max-w-xl p-6">
-				<h1 className="text-kmtt-contrast text-3xl md:text-5xl font-semibold">
+			<div className="absolute lg:bottom-8 bottom-1/2 lg:left-20 left-10 lg:text-left text-center min-w-[36rem] p-6 blur-3xl rounded-full h-48 bg-blue-50"></div>
+			<div className="absolute lg:bottom-10 bottom-1/2 lg:left-20 left-10 lg:text-left md:text-left text-center max-w-xl p-6">
+				<h1 className="text-kmtt-contrast text-3xl md:text-7xl lg:max-w-lg font-light">
 					Mengahayati Keajaiban di Seluruh Dunia
 				</h1>
 			</div>
@@ -236,23 +236,23 @@ const Section2 = ({ scrollYProgress }) => {
 	);
 };
 
-const partners = [
-	{ name: "Al-Haram Travel", logo: "/Partners/kmtt.png" },
-	{ name: "UmrahGo", logo: "/Partners/kmtt.png" },
-	{ name: "Safa Marwah Tours", logo: "/Partners/kmtt.png" },
-	{ name: "Makkah Express", logo: "/Partners/kmtt.png" },
-	{ name: "Raudhah Travel", logo: "/Partners/kmtt.png" },
-	{ name: "Zamzam Voyages", logo: "/Partners/kmtt.png" },
-];
-
 const Section3 = () => {
+	const partners = [
+		{ name: "Al-Haram Travel", logo: "/Partners/kmtt.png" },
+		{ name: "UmrahGo", logo: "/Partners/kmtt.png" },
+		{ name: "Safa Marwah Tours", logo: "/Partners/kmtt.png" },
+		{ name: "Makkah Express", logo: "/Partners/kmtt.png" },
+		{ name: "Raudhah Travel", logo: "/Partners/kmtt.png" },
+		{ name: "Zamzam Voyages", logo: "/Partners/kmtt.png" },
+	];
+
 	return (
-		<section className="relative h-screen bg-[url('/Facebook/6.jpg')] bg-cover bg-no-repeat text-white flex flex-col items-center justify-center px-6">
+		<section className="lg:mt-0 md:-mt-64 -mt-96 relative h-screen bg-[url('/Facebook/6.jpg')] bg-cover bg-no-repeat text-white flex flex-col items-center justify-center px-6 z-30">
 			<div className="absolute inset-0 bg-gradient-to-b from-blue-50 via-blue-50/50 to-transparent from-0% via-35% to-50% backdrop-brightness-50"></div>
-			<h2 className="absolute top-1/2 left-10 text-3xl md:text-5xl font-semibold mb-8 text-kmtt-text text-center">
+			<h2 className="absolute lg:top-1/2 md:top-72 top-40 lg:left-10 text-3xl md:text-5xl font-semibold mb-8 text-kmtt-text text-center drop-shadow-xl">
 				RAKAN PELANCONGAN KAMI
 			</h2>
-			<div className="absolute right-20 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
+			<div className="absolute lg:right-20 grid grid-cols-2 xl:grid-cols-2 lg:grid-cols-3 md:grid-cols-3 xs:grid-cols-2 xs:top-1/3 gap-8 px-4">
 				{partners.map((partner, index) => (
 					<div
 						key={index}

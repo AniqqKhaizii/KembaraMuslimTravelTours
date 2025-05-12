@@ -28,7 +28,7 @@ const staffs = [
 ];
 const AboutUs = () => {
 	return (
-		<div className="bg-white mb-12">
+		<div className="bg-kmtt-text">
 			{/* Banner Section */}
 			<div className="h-[60vh] relative overflow-hidden z-0 w-full">
 				<video
@@ -40,7 +40,7 @@ const AboutUs = () => {
 					<source src="/Videos/Hero1.mp4" type="video/mp4" />
 					Your browser does not support the video tag.
 				</video>
-				<div className="absolute inset-0 h-full bg-gradient-to-t from-white via-black/60 to-black/90 from-0% via-40% to-100%"></div>
+				<div className="absolute inset-0 h-full bg-gradient-to-t from-kmtt-text via-black/60 to-black/90 from-0% via-40% to-100%"></div>
 				{/* <div className="absolute inset-0 h-full bg-black/70"></div> */}
 
 				<div
@@ -153,7 +153,7 @@ const AboutUs = () => {
 			<div className="bg-[url('/Tentang/Background.png')] bg-cover bg-fixed px-16 grid lg:grid-cols-5 grid-cols-1 gap-12 items-start py-24">
 				<div
 					data-aos="fade-up"
-					className="lg:col-span-2 lg:sticky top-20 flex lg:flex-row flex-col items-center justify-center lg:border-r border-gray-200 lg:px-12 px-0"
+					className="max-w-screen-2xl mx-auto lg:col-span-2 lg:sticky top-20 flex lg:flex-row flex-col items-center justify-center lg:border-r border-gray-200 lg:px-12 px-0"
 				>
 					<img
 						src="/Tentang/Founder1.png"

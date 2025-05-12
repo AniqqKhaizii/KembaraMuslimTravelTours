@@ -1,167 +1,129 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Main = () => {
+	const containerRef = useRef(null);
+
 	useEffect(() => {
-		// GSAP Scroll Trigger
-		gsap.to(".section", {
-			opacity: 100,
-			x: -100,
-			duration: 1.5,
-			ease: "power4.out",
-			stagger: 0.2,
-			scrollTrigger: {
-				trigger: ".section", // trigger each section to animate when scrolled into view
-				start: "top 80%", // start animation when top of the section reaches 80% of the viewport
-			},
-		});
+		const ctx = gsap.context(() => {
+			gsap.utils.toArray(".section").forEach((section, i) => {
+				gsap.fromTo(
+					section,
+					{ opacity: 0, y: 100, x: i % 2 === 0 ? -100 : 100 },
+					{
+						opacity: 1,
+						y: 0,
+						x: 0,
+						duration: 1.2,
+						ease: "power3.out",
+						scrollTrigger: {
+							trigger: section,
+							start: "top 80%",
+							toggleActions: "play none none reverse",
+						},
+					}
+				);
+			});
+		}, containerRef);
+
+		return () => ctx.revert();
 	}, []);
 
 	return (
-		<div className="max-w-screen-lg mx-auto min-h-screen py-24 px-4 text-sm space-y-6">
-			<div className="section">
-				<h2 className="text-xl font-medium px-4 py-2 bg-orange-500 text-white rounded-full transform transition-all duration-500">
-					DOKUMEN YANG PERLU DI SERAHKAN:
-				</h2>
-				<div className="px-8 mt-4">
-					<ol className="list-decimal pl-6 space-y-1 font-primary">
-						<li>
-							Pasport Antarabangsa yang masih belum &amp; boleh di guna dari
-							tarikh berangkat sehingga 6 bulan/sekatan kosong
-						</li>
-						<li>
-							4 keping Gambar Visa Umrah (berlatarbelakang putih - saiz 4cm x
-							6cm dan tidak memakai spek mata)
-						</li>
+		<div ref={containerRef} className="bg-white py-24 px-4">
+			<div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
+				<div className="section space-y-6 border border-gray-200 rounded-xl shadow-xl">
+					<h2 className="text-2xl font-semibold text-kmtt-text p-8 rounded-t-xl bg-kmtt-primary">
+						DOKUMEN YANG PERLU DI SERAHKAN
+					</h2>
+					<ol className="list-decimal space-y-2 text-gray-700 py-4 px-12">
+						<li>Pasport Antarabangsa yang sah lebih dari 6 bulan</li>
+						<li>4 keping Gambar Visa Umrah berlatar putih</li>
 						<li>Salinan kad pengenalan</li>
 						<li>
-							Dokumen tambahan mengikut status/ciri-ciri jemaah seperti berikut:
-							<ul className="list-disc pl-4">
+							Dokumen tambahan mengikut status:
+							<ul className="list-disc pl-5">
 								<li>
-									<strong>Untuk Lelaki yang berumur 18 tahun ke bawah:</strong>{" "}
-									- SALINAN SURAT BERANAK - Jika tidak ditemani oleh bapa
-									kandung, WAJIB ada surat kebenaran dari bapa kandung berserta
-									surat nikah ibu &amp; sijil masuk Islam
+									<strong>Lelaki &lt;18:</strong> Surat beranak & kebenaran bapa
 								</li>
 								<li>
-									<strong>Untuk Lelaki berumur 40 tahun ke bawah:</strong> -
-									Tidak memerlukan mahram
+									<strong>Lelaki ≤40:</strong> Tidak perlu mahram
 								</li>
 								<li>
-									<strong>Untuk Wanita berumur bawah 45 tahun:</strong> - WAJIB
-									BERSAMA MAHRAM - Salinan surat nikah diakui sah oleh Jabatan
-									Agama Islam
+									<strong>Wanita &lt;45:</strong> Wajib bersama mahram
 								</li>
 								<li>
-									<strong>Untuk Wanita berumur 45 tahun ke atas:</strong> -
-									Boleh berangkat tanpa mahram
+									<strong>Wanita ≥45:</strong> Boleh tanpa mahram
 								</li>
 								<li>
-									<strong>Untuk Muallaf:</strong> - Salinan kad pengenalan,
-									salinan kad pengislaman, &amp; pengesahan keislaman oleh JPN
+									<strong>Muallaf:</strong> Kad pengenalan & pengesahan JPN
 								</li>
 								<li>
-									<strong>Untuk Anak Angkat:</strong> - Surat akuan sumpah
-									penjagaan sah dari Mahkamah &amp; surat pengangkatan JPN
+									<strong>Anak Angkat:</strong> Dokumen mahkamah & JPN
 								</li>
 							</ul>
 						</li>
 					</ol>
 				</div>
-			</div>
 
-			<div className="section">
-				<h2 className="text-xl font-medium px-4 py-2 bg-orange-500 text-white rounded-full">
-					MAKLUMAT PAKEJ
-				</h2>
-				<div className="px-8 flex flex-col gap-4 font-primary">
-					<p>Pakej Umrah yang di tawarkan adalah termasuk:</p>
-					<ol className="list-decimal pl-6 space-y-1">
-						<li>
-							Tiket penerbangan pergi balik dari Kuala Lumpur ke Madinah atau
-							Jeddah mengikut jadual penerbangan yang di pilih
-						</li>
-						<li>Visa Umrah</li>
-						<li>Kursus Umrah Percuma</li>
-						<li>
-							Penginapan pergi balik ke hotel dari Airport dan Ziarah 1x
-							Madinah, 2x Mekah
-						</li>
-						<li>Ziarah Dalam - Raudhah dan Haji &amp; Melontar</li>
-						<li>Makan 3x sehari</li>
-						<li>Mutawwif berpengalaman</li>
-						<li>Air Zam-Zam 5 liter</li>
-						<li>
-							Tag Diri, 1 tag Gelang, 1 stangbag, 1 non-woven bag, 1 Buku Nota
-							Kursus Umrah, 1 Buku Doa &amp; Panduan Umrah
-						</li>
-						<li>Tipping dan Tag Bag</li>
-					</ol>
-					<p>
-						<strong>Pakej Umrah tidak termasuk (tidak termasuk):</strong>
-					</p>
-					<ol className="list-decimal pl-6 space-y-1">
-						<li>Insurans</li>
-						<li>Perbelanjaan Peribadi</li>
-						<li>Tambahan Personal down kos lebihan bagasi</li>
-						<li>Kos Tambahan ubah urusan semasa umrah</li>
-					</ol>
+				<div className="section space-y-6 border border-gray-200 rounded-xl shadow-xl">
+					<h2 className="text-2xl font-semibold text-kmtt-text p-8 rounded-t-xl bg-kmtt-primary">
+						MAKLUMAT PAKEJ
+					</h2>
+					<div className="grid lg:grid-cols-2 grid-cols-1  px-4 pb-4">
+						<div>
+							<p className="text-gray-700 px-8">Termasuk:</p>
+							<ol className="list-decimal py-4 px-12 space-y-2 text-gray-700">
+								<li>Tiket penerbangan pergi balik</li>
+								<li>Visa Umrah</li>
+								<li>Kursus Umrah</li>
+								<li>Penginapan & ziarah</li>
+								<li>Ziarah Dalam (Raudhah, Haji, Melontar)</li>
+								<li>Makan 3x sehari</li>
+								<li>Mutawwif berpengalaman</li>
+								<li>Air Zam-Zam 5L</li>
+								<li>Tag, Buku Nota, Buku Doa, Bag</li>
+								<li>Tipping</li>
+							</ol>
+						</div>
+						<div>
+							<p className="text-gray-700 px-8">Tidak Termasuk:</p>
+							<ol className="list-decimal py-4 px-12 space-y-2 text-gray-700">
+								<li>Insurans</li>
+								<li>Perbelanjaan peribadi</li>
+								<li>Lebihan bagasi</li>
+								<li>Ubah urusan semasa Umrah</li>
+							</ol>
+						</div>
+					</div>
 				</div>
-			</div>
 
-			<div className="section">
-				<h2 className="text-xl font-medium px-4 py-2 bg-orange-500 text-white rounded-full">
-					SYARAT-SYARAT BAYARAN
-				</h2>
-				<div className="px-8 flex flex-col gap-4 font-primary">
-					<h3 className="font-medium">1) BAYARAN DEPOSIT</h3>
-					<p>Jumlah Bayaran Deposit adalah RM 1,000.00 seorang</p>
-					<p>
-						Bayaran Deposit boleh di buat dengan Bank in ke dalam Bank seperti
-						di bawah:
-					</p>
-					<p>
-						<strong>Nama Akaun:</strong> KEMBARA MUSLIM TRAVEL &amp; TOURS SDN
-						BHD
-					</p>
-					<p>
+				<div className="section space-y-6 border border-gray-200 rounded-xl shadow-xl">
+					<h2 className="text-2xl font-semibold text-kmtt-text p-8 rounded-t-xl bg-kmtt-primary">
+						SYARAT-SYARAT BAYARAN
+					</h2>
+					<p className="text-gray-700 px-8">Deposit: RM1,000 seorang</p>
+					<p className="text-gray-700 px-8">Bank in ke:</p>
+					<div className="flex flex-col justify-center items-center p-4 rounded-xl text-center">
+						<strong>KEMBARA MUSLIM TRAVEL & TOURS SDN BHD</strong>
 						<strong>AMBANK:</strong> 099-202-21014095
-					</p>
-					<p>
 						<strong>MAYBANK:</strong> 552065106169
-					</p>
+					</div>
 				</div>
-			</div>
 
-			<div className="section">
-				<h2 className="text-xl font-medium px-4 py-2 bg-orange-500 text-white rounded-full">
-					PEMBATALAN PAKEJ
-				</h2>
-				<div className="px-8 flex flex-col gap-4 font-primary">
-					<ol className="list-decimal pl-6 space-y-1">
-						<li>
-							Jemaah boleh membatalkan Pakej setelah di buat tempahan. Caj
-							pembatalan adalah seperti berikut:
-							<ul className="list-disc pl-4">
-								<li>
-									Jika pembatalan di buat selepas pembayaran deposit: Deposit
-									TIDAK DIKEMBALIKAN
-								</li>
-								<li>
-									Jika pembatalan dibuat selepas bayaran penuh: TIADA PEMULANGAN
-									WANG, TETAPI boleh cari pengganti yang sesuai dan layak sahaja
-								</li>
-								<li>
-									Jika pembatalan disebabkan kematian pasangan/ibu bapa/anak:
-									WAJIB bawa sijil asal, laporan doktor &amp; surat dari bapa
-								</li>
-							</ul>
-						</li>
-						<li>
-							Pemulangan bayaran oleh pihak KMTT adalah selama tempoh 30 hari
-							bekerja.
-						</li>
+				<div className="section space-y-6 border border-gray-200 rounded-xl shadow-xl">
+					<h2 className="text-2xl font-semibold text-kmtt-text p-8 rounded-t-xl bg-kmtt-primary">
+						PEMBATALAN PAKEJ
+					</h2>
+					<ol className="list-decimal px-12 space-y-2 text-gray-700">
+						<li>Deposit tidak dikembalikan selepas tempahan</li>
+						<li>Bayaran penuh tidak dipulangkan (boleh cari pengganti)</li>
+						<li>Pembatalan kerana kematian perlu dokumen rasmi</li>
+						<li>Pemulangan bayaran dalam 30 hari bekerja</li>
 					</ol>
 				</div>
 			</div>

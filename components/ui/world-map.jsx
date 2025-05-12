@@ -27,13 +27,11 @@ export function WorldMap({ dots = [], lineColor = "#0ea5e9" }) {
 	};
 
 	return (
-		<div className="w-full aspect-[2/1] dark:bg-black bg-white rounded-lg  relative font-sans">
+		<div className="w-full lg:aspect-[2/1] aspect-auto dark:bg-black bg-white rounded-lg  relative font-sans">
 			<img
 				src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
 				className="h-full w-full [mask-image:linear-gradient(to_bottom,white_0%,white_100%)] pointer-events-none select-none"
 				alt="world map"
-				height="495"
-				width="1056"
 				draggable={false}
 			/>
 			<svg

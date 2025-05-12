@@ -46,11 +46,11 @@ export default function ZoomParallax() {
 	];
 
 	return (
-		<div ref={container} className="h-[300vh] relative ">
+		<div ref={container} className="lg:h-[300vh] lg:block hidden relative">
 			<div className="sticky top-0 h-screen overflow-hidden bg-gradient-to-b from-transparent to-kmtt-primary">
 				{Images.map((image, index) => {
 					const baseClasses =
-						"w-screen h-full absolute inset-0 flex items-center justify-center";
+						"w-screen lg:h-full h-1 absolute inset-0 flex items-center justify-center";
 					const imageBase = "absolute";
 
 					let customPosition = "";

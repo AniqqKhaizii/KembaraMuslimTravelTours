@@ -107,13 +107,13 @@ function Header() {
 				isPakejPage ? "relative" : "fixed"
 			} top-0 z-[999] transition-all duration-200 ease-minor-spring text-[14px] font-medium tracking-wide w-full text-white ${
 				(sticky || isMultiDirectory) && isLargeScreen
-					? "bg-gradient-to-r from-amber-600 to-orange-400 shadow-xl lg:px-64 px-4 py-2"
+					? "bg-gradient-to-r from-kmtt-primary to-orange-400 shadow-xl lg:px-64 px-4 py-2"
 					: isHomePage && isLargeScreen
 					? "mx-auto rounded-2xl py-2 px-64 top-10"
 					: !isLargeScreen && !sticky
-					? "bg-gradient-to-r from-amber-600 to-orange-400 shadow-xl lg:px-64 px-4 py-2 top-10"
+					? "bg-gradient-to-r from-kmtt-primary to-orange-400 shadow-xl lg:px-64 px-4 py-2 top-10"
 					: !isLargeScreen && sticky
-					? "bg-gradient-to-r from-amber-600 to-orange-400 shadow-xl lg:px-64 px-4 py-2 top-0"
+					? "bg-gradient-to-r from-kmtt-primary to-orange-400 shadow-xl lg:px-64 px-4 py-2 top-0"
 					: "mx-auto rounded-2xl mt-2 px-64 top-10"
 			}`}
 		>
@@ -144,9 +144,9 @@ function Header() {
 								{Menu.map((item, index) => (
 									<li
 										key={index}
-										className={`relative group cursor-pointer py-2 my-0 px-4 border-b-2 border-transparent hover:shadow-inner ${
+										className={`relative group cursor-pointer py-2 my-0 px-4 border-b-2 border-transparent ${
 											pathname === item.path && sticky
-												? "border-white shadow-inner"
+												? "border-white"
 												: pathname === item.path && !sticky
 												? "border-white hover:border-white"
 												: pathname !== item.path && sticky

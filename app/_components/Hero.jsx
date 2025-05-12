@@ -84,7 +84,7 @@ const TestimonialCarousel = () => {
 	}, []);
 
 	return (
-		<section className="hidden lg:block lg:absolute bottom-40 left-44 w-full max-w-[40rem] py-12 mx-12 border-t-2 border-kmtt-text">
+		<section className="hidden lg:block overflow-hidden absolute bottom-40 lg:left-44 left-32 w-full max-w-[40rem] py-12 lg:mx-12 mx-auto border-t-2 border-kmtt-text">
 			<Slider {...settings}>
 				{testimonials.map((t, idx) => (
 					<div key={idx} className="p-2">
@@ -118,12 +118,8 @@ const TestimonialCarousel = () => {
 const HeroCarousel = ({ currentSlide }) => {
 	return (
 		<>
-			{/* <p className="text-sm lg:text-base text-kmtt-contrast uppercase tracking-wide font-semibold">
-				🌟 Lebih 5,000 jemaah telah memilih kami
-			</p> */}
-
 			{/* Tags */}
-			<div className="lg:mx-0 mx-auto max-w-3xl flex flex-wrap lg:flex-row flex-col lg:items-start items-center gap-2 text-xs uppercase tracking-wide font-semibold text-kmtt-contrast mt-2">
+			<div className="lg:mx-0 mx-auto max-w-3xl flex flex-wrap lg:flex-row flex-col lg:items-start items-center gap-2 text-xs uppercase tracking-wide font-semibold text-kmtt-contrast mt-2 overflow-hidden">
 				{tags.map((tag, index) => (
 					<span
 						key={index}
@@ -136,7 +132,7 @@ const HeroCarousel = ({ currentSlide }) => {
 
 			<h1
 				key={currentSlide}
-				className="flex flex-col lg:items-start items-center text-center max-w-2xl lg:text-left w-full font-semibold drop-shadow-lg tracking-wide text-kmtt-text text-3xl lg:text-5xl"
+				className="lg:mx-0 mx-auto flex flex-col lg:items-start items-center text-center max-w-2xl lg:text-left w-full font-semibold drop-shadow-lg tracking-wide text-kmtt-text text-3xl lg:text-5xl overflow-hidden"
 			>
 				<SplitText
 					text={slides[currentSlide].title}
@@ -154,7 +150,7 @@ const HeroCarousel = ({ currentSlide }) => {
 
 			<p
 				key={"p-" + currentSlide}
-				className="flex justify-start self-start max-w-lg text-kmtt-text sm:text-sm lg:text-lg lg:text-justify text-center drop-shadow-2xl font-primary mt-2"
+				className="lg:mx-0 mx-auto flex justify-start self-start max-w-lg text-kmtt-text sm:text-sm lg:text-lg lg:text-justify text-center drop-shadow-2xl font-primary mt-2 overflow-hidden"
 			>
 				{slides[currentSlide].paragraph}
 			</p>
@@ -173,7 +169,7 @@ const HeroSection = () => {
 	}, []);
 
 	return (
-		<section className="lg:h-[100vh] h-[110vh] relative overflow-x-hidden">
+		<section className="lg:h-[100vh] h-[110vh] relative">
 			{/* Background */}
 			<div
 				data-scroll
@@ -188,7 +184,7 @@ const HeroSection = () => {
 			<div className="lg:hidden absolute inset-0 h-full bg-gradient-to-b from-transparent via-black/50 to-transparent from-0% via-55% to-120%"></div>
 
 			{/* Content */}
-			<div className="w-full lg:h-[80vh] h-[100vh] px-6 lg:px-12 grid grid-cols-1 items-center gap-5 relative z-20">
+			<div className="w-full h-[80vh] px-6 lg:px-12 grid grid-cols-1 items-center gap-5 relative z-20">
 				<div className="flex flex-col gap-4 items-start justify-start text-center mx-auto max-w-screen-xl w-full">
 					<HeroCarousel currentSlide={currentSlide} />
 

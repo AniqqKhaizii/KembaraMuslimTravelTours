@@ -120,7 +120,7 @@ const ContactPage = () => {
 			</div>
 
 			{/* Google Maps Section */}
-			<section className="w-full h-96 my-12">
+			<section className="w-full h-96 mt-12">
 				<iframe
 					src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.051536147219!2d100.22771557581599!3d6.25694162620184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304b60f10b27c343%3A0xd346043d49cf31d0!2sKembara%20Muslim%20Travel%20%26%20Tours%20Sdn%20Bhd!5e0!3m2!1sen!2smy!4v1730721866139!5m2!1sen!2smy"
 					className="w-full h-full shadow-lg"

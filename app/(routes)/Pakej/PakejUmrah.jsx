@@ -4,15 +4,15 @@ import Axios from "axios";
 import * as motion from "framer-motion/client";
 
 const PackageCard = ({ href, imageSrc, title, price, items }) => (
-	<div className="max-w-screen-xl rounded-2xl overflow-hidden shadow-md bg-gradient-to-br from-white to-gray-50">
+	<div className="max-w-screen-xl rounded-xl overflow-hidden shadow-2xl bg-gradient-to-br from-white to-gray-50">
 		<div className="relative group">
 			<img
-				className="w-full h-[60vh] object-cover rounded-t-lg brightness-[0.40] group-hover:scale-105 transition duration-200 ease-in"
+				className="w-full h-[55vh] object-cover rounded-t-lg brightness-[0.40] group-hover:scale-105 transition duration-200 ease-in"
 				src={imageSrc}
 				alt={title}
 			/>
 
-			<div className="absolute bottom-0 px-4 py-5 space-y-4 w-full">
+			<div className="absolute bottom-0 px-8 py-5 space-y-4 w-full">
 				<h2 className="text-4xl font-semibold text-gray-100">{title}</h2>
 				<div className="border-t border-gray-200 pt-4">
 					<ul className="grid grid-cols-2 gap-x-8 gap-y-4 text-md text-gray-100">
@@ -101,7 +101,7 @@ const PakejUmrah = () => {
 				</div>
 			</div>
 			<div className="mx-auto max-w-screen-2xl sm:px-2 py-6 z-0">
-				<ul className="grid gap-6 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4">
+				<ul className="grid gap-6 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3">
 					{packages.map((pkg, index) => (
 						<motion.li
 							key={pkg.PakejID} // Ensure each list item has a unique key

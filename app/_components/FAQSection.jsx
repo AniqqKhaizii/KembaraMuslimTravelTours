@@ -54,7 +54,7 @@ export default function FAQSection() {
 	return (
 		<section
 			id="FAQ"
-			className="max-w-screen-2xl mx-auto px-4 h-[70vh] grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
+			className="max-w-screen-2xl mx-auto px-4 h-[70vh] grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-12 items-center"
 		>
 			{/* FAQ Accordion */}
 			<div ref={faqContainerRef}>

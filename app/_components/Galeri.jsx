@@ -115,7 +115,7 @@ const Galeri = () => {
 
 	return (
 		<section className="relative bg-kmtt-text px-2 py-8 sm:pb-40 text-slate-900  overflow-x-hidden">
-			<div className="mx-auto max-w-screen-2xl flex lg:flex-row flex-col lg:gap-0 gap-4 lg:justify-between justify-center items-center lg:items-end py-2 w-full">
+			<div className="mx-auto max-w-screen-2xl flex lg:flex-row  flex-col lg:gap-0 gap-4 lg:justify-between justify-center items-center lg:items-end py-2 w-full">
 				<div className="px-2 flex flex-col lg:justify-between lg:items-start items-center">
 					<p className="text-gray-700 font-reenie text-2xl font-semibold">
 						Where Adventure Meets Faith
@@ -127,7 +127,7 @@ const Galeri = () => {
 
 				<button className="group border border-orange-500 rounded-lg lg:px-4 lg:py-3 px-3 py-1 lg:w-auto w-32 text-orange-600 group">
 					<a href="/Galeri" className="flex items-center gap-2 font-semibold">
-						<span className="shrink-0 text-sm group-hover:translate-x-1 transition-all duration-200">
+						<span className="shrink-0 text-base group-hover:translate-x-1 transition-all duration-200 font-primary">
 							Lihat semua
 						</span>
 						<FaPaperPlane className="text-sm group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-200" />
@@ -140,8 +140,10 @@ const Galeri = () => {
 					<div
 						key={rowIndex}
 						ref={(el) => (galleryRefs.current[rowIndex] = el)}
-						className={`flex lg:flex-row flex-col gap-4 whitespace-nowrap ${
-							rowIndex % 2 !== 0 ? "lg:-translate-x-1/2" : ""
+						className={`flex lg:flex-row sm:flex-row flex-col gap-4 whitespace-nowrap ${
+							rowIndex % 2 !== 0
+								? "lg:-translate-x-1/2 md:-translate-x-1/2"
+								: ""
 						}`}
 					>
 						{rowImages.map((item, i) => (
