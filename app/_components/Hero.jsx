@@ -132,7 +132,7 @@ const HeroCarousel = ({ currentSlide }) => {
 
 			<h1
 				key={currentSlide}
-				className="lg:mx-0 mx-auto flex flex-col lg:items-start items-center text-center max-w-2xl lg:text-left w-full font-semibold drop-shadow-lg tracking-wide text-kmtt-text text-3xl lg:text-5xl overflow-hidden"
+				className="lg:mx-0 mx-auto flex flex-col lg:items-start items-center text-center max-w-2xl lg:text-left w-full font-semibold drop-shadow-lg tracking-wide text-kmtt-text text-3xl lg:text-5xl"
 			>
 				<SplitText
 					text={slides[currentSlide].title}
@@ -150,7 +150,7 @@ const HeroCarousel = ({ currentSlide }) => {
 
 			<p
 				key={"p-" + currentSlide}
-				className="lg:mx-0 mx-auto flex justify-start self-start max-w-lg text-kmtt-text sm:text-sm lg:text-lg lg:text-justify text-center drop-shadow-2xl font-primary mt-2 overflow-hidden"
+				className="lg:mx-0 mx-auto flex font-light justify-start self-start max-w-lg text-kmtt-text sm:text-sm lg:text-lg lg:text-justify text-center drop-shadow-2xl font-primary mt-2 overflow-hidden"
 			>
 				{slides[currentSlide].paragraph}
 			</p>

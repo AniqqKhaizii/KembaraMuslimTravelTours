@@ -2,8 +2,20 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import Axios from "axios";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
+
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+import Link from "next/link";
 
 const PackageCard = ({ href, imageSrc, title, price, items }) => (
 	<div className="max-w-screen-xl rounded-xl overflow-hidden shadow-2xl bg-gradient-to-br from-white to-gray-50">
@@ -76,7 +88,7 @@ const Pakej = () => {
 	const headerRef = useRef(null);
 	const cardsRef = useRef([]);
 	cardsRef.current = [];
-
+	const [trips, setTrips] = useState([]);
 	const [packages, setPackages] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -132,6 +144,7 @@ const Pakej = () => {
 			cardsRef.current.push(el);
 		}
 	};
+
 	useEffect(() => {
 		const fetchPackages = async () => {
 			setIsLoading(true);
@@ -143,6 +156,11 @@ const Pakej = () => {
 					},
 				});
 				const packagesData = response.data;
+				const filteredPackages = packagesData.map(
+					({ PakejPoster, ...rest }) => rest
+				);
+
+				console.log("filteredPackages", filteredPackages);
 				setPackages(packagesData);
 			} catch (error) {
 				console.error("Error fetching packages:", error);
@@ -151,7 +169,30 @@ const Pakej = () => {
 			}
 		};
 		fetchPackages();
+
+		const fetchTrips = async () => {
+			try {
+				const response = await Axios.get("/api/Tetapan/ManageTrip", {
+					params: {
+						Operation: "SEARCH",
+					},
+				});
+				setTrips(response.data);
+			} catch (error) {
+				console.error("Error fetching trips:", error);
+			}
+		};
+
+		fetchTrips();
 	}, []);
+
+	const getPackagesForTrip = (tripID, packages) => {
+		return packages.filter((pkg) =>
+			pkg.TripID.split(",")
+				.map((id) => id.trim())
+				.includes(tripID.toString())
+		);
+	};
 
 	return (
 		<section className="relative overflow-x-hidden bg-gradient-to-b from-white to-kmtt-text pt-24 pb-12">
@@ -168,7 +209,7 @@ const Pakej = () => {
 					</h2>
 				</header>
 
-				<div className="mx-auto max-w-screen-2xl sm:px-2 py-12">
+				<div className="mx-auto max-w-screen-2xl sm:px-2 py-12 flex flex-col gap-24">
 					<ul className="grid gap-3 md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-3">
 						{isLoading
 							? [...Array(4)].map((_, index) => (
@@ -192,6 +233,96 @@ const Pakej = () => {
 									</li>
 							  ))}
 					</ul>
+
+					<Table className="border border-slate-300">
+						<TableHeader>
+							<TableRow className="h-12 bg-gradient-to-b from-kmtt-primary to-orange-600 rounded-xl">
+								<TableHead className="font-semibold text-kmtt-text border border-slate-300">
+									Trip Name
+								</TableHead>
+								<TableHead className="font-semibold text-kmtt-text border border-slate-300 text-center">
+									Travel Date
+								</TableHead>
+								<TableHead className="font-semibold text-kmtt-text border border-slate-300 text-center">
+									Seat Available
+								</TableHead>
+								<TableHead className="font-semibold text-kmtt-text border border-slate-300 text-center">
+									Status
+								</TableHead>
+								<TableHead className="font-semibold text-kmtt-text border border-slate-300 text-center">
+									Packages Available
+								</TableHead>
+							</TableRow>
+						</TableHeader>
+						<TableBody>
+							{trips.map((trip) => {
+								const relatedPackages = getPackagesForTrip(
+									trip.TripID,
+									packages
+								);
+								const formattedStartDate = new Intl.DateTimeFormat("en-GB", {
+									day: "2-digit",
+									month: "short",
+									year: "numeric",
+								}).format(new Date(trip.StartTravelDate));
+
+								const formattedEndDate = new Intl.DateTimeFormat("en-GB", {
+									day: "2-digit",
+									month: "short",
+									year: "numeric",
+								}).format(new Date(trip.EndTravelDate));
+
+								const travelDate = `${formattedStartDate} - ${formattedEndDate}`;
+								return (
+									<TableRow
+										key={trip.TripID}
+										className="border border-slate-300"
+									>
+										<TableCell className="border border-slate-300">
+											{trip.TripName}
+										</TableCell>
+										<TableCell className="border border-slate-300 text-center">
+											{formattedStartDate} – {formattedEndDate}
+										</TableCell>
+										<TableCell className="border border-slate-300 text-center">
+											{trip.SeatBalance}
+										</TableCell>
+										<TableCell className="border border-slate-300 text-center">
+											{trip.Status}
+										</TableCell>
+										<TableCell className="border border-slate-300 space-x-2 text-center">
+											{relatedPackages.map((pkg) => {
+												const isFull = trip.Status.toLowerCase() === "full";
+												return (
+													<Link
+														key={pkg.PakejID}
+														href={`/Pakej/Pakej-Umrah/TempahPakej?kategori=${encodeURIComponent(
+															pkg.PakejName
+														)}&tarikh=${encodeURIComponent(
+															travelDate
+														)}&trip=${encodeURIComponent(trip.TripID)}`}
+														className={isFull ? "pointer-events-none" : ""}
+													>
+														<Button
+															variant={isFull ? "secondary" : "outline"}
+															disabled={isFull}
+															className={`text-sm px-4 py-1 rounded-xl ${
+																isFull
+																	? "bg-gray-300 text-gray-600 cursor-not-allowed border-none"
+																	: "hover:bg-orange-100"
+															}`}
+														>
+															{pkg.PakejName}
+														</Button>
+													</Link>
+												);
+											})}
+										</TableCell>
+									</TableRow>
+								);
+							})}
+						</TableBody>
+					</Table>
 				</div>
 			</div>
 		</section>
