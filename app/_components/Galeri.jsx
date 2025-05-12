@@ -125,14 +125,15 @@ const Galeri = () => {
 					</h2>
 				</div>
 
-				<button className="group border border-orange-500 rounded-lg lg:px-4 lg:py-3 px-3 py-1 lg:w-auto w-32 text-orange-600 group">
-					<a href="/Galeri" className="flex items-center gap-2 font-semibold">
-						<span className="shrink-0 text-base group-hover:translate-x-1 transition-all duration-200 font-primary">
-							Lihat semua
-						</span>
-						<FaPaperPlane className="text-sm group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-200" />
-					</a>
-				</button>
+				<a
+					href="/Galeri"
+					className="group border bg-kmtt-primary rounded-2xl lg:px-4 lg:py-1.5 px-3 py-1 lg:w-auto w-32 text-kmtt-text group flex items-center gap-2 font-medium"
+				>
+					<span className="shrink-0 text-base group-hover:translate-x-1 transition-all duration-200 font-primary">
+						Lihat semua
+					</span>
+					<FaPaperPlane className="text-sm group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-200" />
+				</a>
 			</div>
 			<hr className="mx-auto max-w-screen-2xl w-full h-[2px] bg-gradient-to-r from-orange-600 to-transparent mb-4" />
 			<div className="space-y-4">

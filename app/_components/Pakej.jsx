@@ -67,7 +67,7 @@ const PackageCard = ({ href, imageSrc, title, price, items }) => (
 				<div className="flex items-center justify-between mt-4">
 					<a
 						href={href}
-						className="px-5 py-2 bg-orange-500 text-white text-sm font-medium rounded-2xl shadow hover:bg-orange-600 transition duration-300"
+						className="px-5 py-1.5 bg-orange-500 text-white text-sm font-medium rounded-xl shadow hover:bg-orange-600 transition duration-300"
 					>
 						Tempah
 					</a>

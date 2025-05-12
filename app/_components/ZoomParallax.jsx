@@ -16,19 +16,19 @@ export default function ZoomParallax() {
 
 	const Images = [
 		{
-			src: "/Parallax/7.jpg",
+			src: "/Parallax/9.jpg",
 			scale: scale4,
 		},
 		{
-			src: "/Parallax/2.jpg",
+			src: "/Parallax/11.jpg",
 			scale: scale5,
 		},
 		{
-			src: "/Parallax/3.webp",
+			src: "/Parallax/10.jpg",
 			scale: scale6,
 		},
 		{
-			src: "/Parallax/4.jpg",
+			src: "/Parallax/12.jpg",
 			scale: scale5,
 		},
 		{
@@ -36,18 +36,18 @@ export default function ZoomParallax() {
 			scale: scale6,
 		},
 		{
-			src: "/Parallax/6.jpg",
+			src: "/Parallax/8.jpg",
 			scale: scale8,
 		},
 		{
-			src: "/Parallax/1.jpg",
+			src: "/Parallax/13.jpg",
 			scale: scale9,
 		},
 	];
 
 	return (
 		<div ref={container} className="lg:h-[300vh] lg:block hidden relative">
-			<div className="sticky top-0 h-screen overflow-hidden bg-gradient-to-b from-transparent to-kmtt-primary">
+			<div className="sticky top-0 h-screen overflow-hidden bg-gradient-to-b from-white via-kmtt-primary/50 to-kmtt-primary">
 				{Images.map((image, index) => {
 					const baseClasses =
 						"w-screen lg:h-full h-1 absolute inset-0 flex items-center justify-center";
@@ -56,13 +56,13 @@ export default function ZoomParallax() {
 					let customPosition = "";
 					switch (index) {
 						case 1:
-							customPosition = "top-[-30vh] left-[5vw] w-[15vw] h-[15vh]";
+							customPosition = "top-[-35vh] left-[5vw] w-[15vw] h-[15vh]";
 							break;
 						case 2:
-							customPosition = "top-[-10vh] left-[-25vw] w-[20vw] h-[45vh]";
+							customPosition = "top-[-20vh] left-[-25vw] w-[20vw] h-[45vh]";
 							break;
 						case 3:
-							customPosition = "top-[-5vh] left-[27.5vw] w-[25vw] h-[25vh]";
+							customPosition = "top-[-10vh] left-[27.5vw] w-[25vw] h-[25vh]";
 							break;
 						case 4:
 							customPosition = "top-[37.5vh] left-[5vw] w-[20vw] h-[25vh]";
@@ -74,7 +74,7 @@ export default function ZoomParallax() {
 							customPosition = "top-[27.5vh] left-[25vw] w-[15vw] h-[15vh]";
 							break;
 						default:
-							customPosition = "w-[25vw] h-[25vh]";
+							customPosition = "w-[25vw] h-[35vh]";
 					}
 
 					return (

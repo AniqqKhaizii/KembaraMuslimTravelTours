@@ -33,7 +33,7 @@ export default function AgencyInfoShowcase() {
 		<section className="relative bg-[url('https://images.unsplash.com/photo-1639574326077-6cc1d8749395?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-no-repeat bg-fixed bg-top lg:h-[60vh] h-[100vh] px-6 flex items-center text-slate-100 overflow-hidden">
 			<div className="h-full absolute inset-0 bg-gradient-to-b from-gray-950/70 to-gray-950/80 "></div>
 			<div className="absolute inset-0 lg:max-w-7xl lg:m-auto md:m-24 sm:m-12 xs:m-12 grid lg:grid-cols-2 grid-cols-1 gap-24 items-center">
-				<div>
+				<div className="flex flex-col lg:items-start items-center">
 					<h2 className="lg:text-left text-center text-3xl md:text-4xl font-bold text-kmtt-text mb-4">
 						Kembara Muslim{" "}
 						<span className="text-kmtt-primary">Travel & Tours</span>
@@ -68,8 +68,8 @@ export default function AgencyInfoShowcase() {
 						))}
 					</div>
 
-					<Link href="/KembaraDuaTanahSuci" className="justify-self-center">
-						<button className="mt-4 px-6 py-1.5 lg:self-start self-center bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm md:text-base shadow-lg">
+					<Link href="/KembaraDuaTanahSuci" className="lg:mx-0 mx-auto">
+						<button className="mt-4 px-6 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm md:text-base shadow-lg">
 							Kembara Dua Tanah Suci
 						</button>
 					</Link>
@@ -137,7 +137,7 @@ export default function AgencyInfoShowcase() {
 						<div>
 							<button
 								type="submit"
-								className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg text-sm font-semibold transition duration-300"
+								className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-xl text-sm font-semibold transition duration-300"
 							>
 								Hantar Maklumat
 							</button>
