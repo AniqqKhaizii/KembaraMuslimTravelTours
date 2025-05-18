@@ -6,7 +6,10 @@ import AdminLayout from "../../../../../../layout/AdminLayout";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { Button, Input } from "antd";
 import SpinnerCircleDemo from "@/components/spinner-02";
+import { ArrowLeftIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 const HotelDetails = () => {
+	const router = useRouter();
 	const searchParams = useSearchParams();
 	const HotelID = searchParams.get("HotelID");
 
@@ -72,13 +75,12 @@ const HotelDetails = () => {
 		};
 
 		fetchHotelDetails();
-	}, [HotelID]); // Dependency on HotelID so it triggers the effect when it changes
+	}, [HotelID]);
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
 		setUpdatedHotel((prev) => ({ ...prev, [name]: value }));
 	};
-
 	const handleImageUpload = (e, imageKey) => {
 		setEditMode(true);
 		const file = e.target.files[0];
@@ -137,16 +139,20 @@ const HotelDetails = () => {
 	return (
 		<AdminLayout>
 			<div className="p-6">
-				<h1 className="text-3xl mb-4 dark:text-white text-zinc-950">
-					Hotel Details
-				</h1>
+				<div className="flex items-center gap-2 w-full justify-start">
+					<Button type="link" onClick={() => router.back()}>
+						<ArrowLeftIcon className="text-2xl dark:text-white text-zinc-950" />
+					</Button>
+					<h1 className="text-3xl dark:text-white text-zinc-950">
+						Hotel Details
+					</h1>
+				</div>
 				{loading ? (
 					<div className="flex items-center justify-center h-[80vh] dark:text-white text-zinc-950">
 						<SpinnerCircleDemo />
 					</div>
 				) : (
 					<div className="grid grid-cols-3 rounded-lg p-6 gap-12">
-						{/* Hotel Details Section */}
 						<div className="bg-white/20 border py-4 px-8 rounded-lg shadow-xl">
 							<h2 className="text-xl font-semibold dark:text-white text-zinc-950 mb-4 text-center">
 								{hotel?.HotelName}
@@ -166,22 +172,22 @@ const HotelDetails = () => {
 											return (
 												<tr
 													key={key}
-													className="border-y border-gray-400 dark:border-gray-100"
+													className="border-y border-gray-400/30 dark:border-gray-100/30"
 												>
 													<td
-														className="py-5 pr-2 text-zinc-950 dark:text-white font-medium w-1/4"
+														className="py-5 px-2 text-zinc-950 dark:text-white font-medium w-1/4"
 														valign="top"
 													>
 														{key}
 													</td>
 													<td
-														className="py-5 pr-2 text-zinc-950 dark:text-white w-4"
+														className="py-5 px-2 text-zinc-950 dark:text-white w-4"
 														valign="top"
 													>
 														:
 													</td>
 													<td
-														className="py-5 text-zinc-950 dark:text-gray-200 text-right w-2/3"
+														className="py-5 px-2 text-zinc-950 dark:text-gray-200 text-right w-2/3"
 														valign="top"
 													>
 														{editMode ? (

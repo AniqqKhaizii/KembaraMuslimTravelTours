@@ -44,7 +44,7 @@ const CreateBookingPage = () => {
 	const [userData, setUserData] = useState(null);
 	const [adminData, setAdminData] = useState(null);
 
-	const [sah, setSah] = useState(false);
+	const [sah, setSah] = useState(true);
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
@@ -275,10 +275,8 @@ const CreateBookingPage = () => {
 	}, [pkgId, tripId]);
 
 	const formatICNumber = (value) => {
-		// Remove any non-numeric characters
 		const digits = value.replace(/\D/g, "");
 
-		// Auto-insert dashes at correct positions
 		if (digits.length <= 6) {
 			return digits;
 		} else if (digits.length <= 8) {
@@ -291,26 +289,28 @@ const CreateBookingPage = () => {
 		}
 	};
 	const isValidMalaysianIC = (icNumber) => {
-		const icRegex = /^\d{6}-\d{2}-\d{4}$/; // Basic format check
+		const icRegex = /^\d{6}-\d{2}-\d{4}$/;
 		if (!icRegex.test(icNumber)) return false;
 
 		const [dob, stateCode, serial] = icNumber.split("-");
 
-		// Extract Year, Month, and Day
 		const year = parseInt(dob.substring(0, 2), 10);
 		const month = parseInt(dob.substring(2, 4), 10);
 		const day = parseInt(dob.substring(4, 6), 10);
 
-		// Determine full birth year (Assuming range 1900-2099)
-		const fullYear = year >= 50 ? 1900 + year : 2000 + year;
+		const fullYear = year >= 25 ? 1900 + year : 2000 + year;
 
-		// Validate Date
-		const isValidDate = !isNaN(
-			new Date(`${fullYear}-${month}-${day}`).getTime()
-		);
-		if (!isValidDate) return false;
+		const isRealDate = (y, m, d) => {
+			const date = new Date(y, m - 1, d);
+			return (
+				date.getFullYear() === y &&
+				date.getMonth() === m - 1 &&
+				date.getDate() === d
+			);
+		};
 
-		// Validate Malaysian State Code
+		if (!isRealDate(fullYear, month, day)) return false;
+
 		const validStateCodes = [
 			"01",
 			"02",
@@ -338,6 +338,7 @@ const CreateBookingPage = () => {
 			"28",
 			"29",
 		];
+
 		if (!validStateCodes.includes(stateCode)) return false;
 
 		return true;
@@ -415,9 +416,8 @@ const CreateBookingPage = () => {
 			p_TransactionID: null,
 			p_AddOnCustDetails: AddOnCustDetails,
 			p_ReferralCode: null,
-			p_SalesID: adminData[0]?.AdmUname,
+			p_SalesID: adminData[0]?.AdmId,
 		};
-
 		try {
 			const response = await axios.post("/api/Booking", bookingData, {
 				headers: {
@@ -448,9 +448,9 @@ const CreateBookingPage = () => {
 
 	const handleCheckbox = (e) => {
 		if (e.target.checked) {
-			setSah(true);
-		} else {
 			setSah(false);
+		} else {
+			setSah(true);
 		}
 	};
 	return (
@@ -761,19 +761,19 @@ const CreateBookingPage = () => {
 																	}));
 																	setIcNumber(formattedValue);
 																}}
-																onBlur={(e) => {
-																	const value = e.target.value;
-																	if (value && !isValidMalaysianIC(value)) {
-																		alert(
-																			"Invalid Malaysian IC format or details!"
-																		);
-																		setMaklumatJemaah((prev) => ({
-																			...prev,
-																			[`ICJemaah${i + 1} - Bilik ${index + 1}`]:
-																				"",
-																		}));
-																	}
-																}}
+																// onBlur={(e) => {
+																// 	const value = e.target.value;
+																// 	if (value && !isValidMalaysianIC(value)) {
+																// 		alert(
+																// 			"Invalid Malaysian IC format or details!"
+																// 		);
+																// 		setMaklumatJemaah((prev) => ({
+																// 			...prev,
+																// 			[`ICJemaah${i + 1} - Bilik ${index + 1}`]:
+																// 				"",
+																// 		}));
+																// 	}
+																// }}
 																className="w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 p-2"
 																required
 															/>
@@ -968,10 +968,10 @@ const CreateBookingPage = () => {
 							<li>
 								<p className="ml-4 mb-4">
 									The company tries to open and block dates based on the best
-									possible weather 6-12 months before the departure date. In the
-									event of unexpected weather, we might have to change the
-									itineraries based on the best available options advised by the
-									local outbound tour operation.
+									possible flight pairing 6-12 months before the departure date.
+									We might have to change the itineraries based on the best
+									available options advised by the local outbound tour
+									operation.
 								</p>
 							</li>
 

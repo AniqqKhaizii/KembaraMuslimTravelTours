@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
 
 	return (
 		<div className="overflow-clip bg-[url('/AdminMainBg.jpg')] dark:bg-[url('/AdminMainBg3.jpg')] bg-cover bg-fixed transition-all duration-300">
-			<div className="flex min-h-screen overflow-y-clip dark:backdrop-blur-md backdrop-blur-xl backdrop-brightness-110 dark:backdrop-brightness-[0.25]">
+			<div className="flex min-h-screen overflow-y-clip dark:backdrop-blur-md backdrop-blur-xl backdrop-brightness-[1.25] dark:backdrop-brightness-[0.15]">
 				<Sidebar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
 
 				<div className="flex flex-col w-full min-h-screen transition-all duration-300 overflow-clip">

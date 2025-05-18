@@ -37,6 +37,7 @@ const AdminPage = () => {
 			}
 		}
 	}, []);
+
 	useEffect(() => {
 		if (userData) {
 			const fetchUserInfo = async () => {
@@ -146,22 +147,24 @@ const AdminPage = () => {
 		},
 	];
 
-	const handleAddUser = async () => {
+	const handleAddUser = async (values) => {
 		try {
-			// Prepare formData to send in the API request
+			console.log("Form submitted values:", values);
+
 			const formDataToSend = {
 				AddNew: "Y",
-				AdmName: formData.name,
-				AdmEmail: formData.email,
-				AdmUname: formData.username,
-				AdmPassword: formData.password,
-				AdmLevel: formData.userlevel,
-				AdmRole: formData.role,
+				AdmName: values.name,
+				AdmEmail: values.email,
+				AdmUname: values.username,
+				AdmPassword: values.password,
+				AdmLevel: values.userlevel,
+				AdmRole: values.role,
 				AdmImage: formData.image,
 				CreateBy: userData.AdmUname,
 				ModifyBy: null,
 			};
 
+			console.log("formDataToSend", formDataToSend);
 			// Make the API call using Axios
 			const response = await Axios.post(
 				`/api/Admin/AdminSimpan`,
@@ -190,7 +193,6 @@ const AdminPage = () => {
 			}
 		} catch (error) {
 			console.error("Error adding user:", error);
-			// Handle error appropriately (e.g., show an error message to the user)
 		}
 	};
 
@@ -214,7 +216,7 @@ const AdminPage = () => {
 		try {
 			// Prepare formData to send in the API request
 			const formDataToSend = {
-				AddNew: "N", // Assuming you're editing an existing user, so AddNew is set to "N"
+				AddNew: "N",
 				AdmName: formData.name,
 				AdmEmail: formData.email,
 				AdmUname: formData.username,
@@ -225,6 +227,8 @@ const AdminPage = () => {
 				CreateBy: null,
 				ModifyBy: userData.AdmUname,
 			};
+
+			console.log("formDataToSend", formDataToSend);
 
 			const response = await Axios.post(
 				`/api/Admin/AdminSimpan`,
@@ -262,27 +266,22 @@ const AdminPage = () => {
 
 	const handleDeleteUser = async () => {
 		try {
-			// Make the API call using Axios to call the SP_Admin_Hapus stored procedure
-			const response = await Axios.get(`/api/Admin/AdminHapus`, {
+			const response = await Axios.delete(`/api/Admin/AdminHapus`, {
 				params: {
 					AdmUname: editingUser.AdmUname,
 				},
 			});
 
-			// Check if the response is successful
 			if (response.status === 200) {
 				console.log("User deleted successfully:", response.data);
 
-				// Update the users list after deletion
 				const updatedUsers = users.filter(
 					(user) => user.email !== editingUser.email
 				);
 				setUsers(updatedUsers);
 
-				// Close the modal and reset the editing user state
 				setIsModalDeleteOpen(false);
 				setEditingUser(null);
-				// Optionally, fetch updated user list again
 				Axios.get(`/api/Admin/AdminCarian`).then((res) => {
 					setUsers(res.data);
 				});
@@ -291,7 +290,6 @@ const AdminPage = () => {
 			}
 		} catch (error) {
 			console.error("Error deleting user:", error);
-			// Handle error appropriately (e.g., show an error message to the user)
 		}
 	};
 
@@ -342,20 +340,8 @@ const AdminPage = () => {
 			<Modal
 				title="Add New User"
 				open={isModalAddOpen}
-				onCancel={() => {
-					setIsModalAddOpen(false);
-					setFormData({
-						name: "",
-						email: "",
-						username: "",
-						password: "",
-						role: "Admin",
-						userlevel: "Level 1",
-						image: null,
-					});
-				}}
-				onOk={handleAddUser}
 				className="glass-modal"
+				footer={null}
 			>
 				{/* Image Upload Section */}
 				<div className="flex flex-col items-center mb-4">
@@ -395,7 +381,7 @@ const AdminPage = () => {
 						>
 							<Input
 								placeholder="Name"
-								className="glass-input dark:text-white text-zinc-950"
+								className="glass-input dark:text-white text-zinc-950 bg-transparent"
 							/>
 						</Form.Item>
 
@@ -411,7 +397,7 @@ const AdminPage = () => {
 						>
 							<Input
 								placeholder="Email"
-								className="glass-input dark:text-white text-zinc-950"
+								className="bg-white/10 text-zinc-950 "
 							/>
 						</Form.Item>
 
@@ -425,7 +411,7 @@ const AdminPage = () => {
 						>
 							<Input
 								placeholder="Username"
-								className="glass-input dark:text-white text-zinc-950"
+								className="glass-input dark:text-white text-zinc-950 bg-transparent"
 							/>
 						</Form.Item>
 
@@ -442,7 +428,7 @@ const AdminPage = () => {
 
 						<Form.Item
 							label={
-								<span className="dark:text-white text-zinc-950">
+								<span className="dark:text-white text-zinc-950 bg-transparent">
 									Confirm Password
 								</span>
 							}
@@ -467,7 +453,7 @@ const AdminPage = () => {
 						>
 							<Input.Password
 								placeholder="Re-enter Password"
-								className="glass-input"
+								className="glass-input text-zinc-950 bg-transparent"
 							/>
 						</Form.Item>
 
@@ -506,16 +492,35 @@ const AdminPage = () => {
 								<Option value="3">Level 3</Option>
 							</Select>
 						</Form.Item>
-					</div>
 
-					<Form.Item className="mt-8">
-						<Button
-							type="submit"
-							className="w-full bg-blue-500 dark:text-white text-zinc-950 hover:bg-blue-700"
-						>
-							Submit
-						</Button>
-					</Form.Item>
+						<div className="col-span-2 flex gap-2 w-full mt-4 justify-end">
+							<Form.Item>
+								<Button type="primary" htmlType="submit" className="w-full">
+									Add User
+								</Button>
+							</Form.Item>
+							<Form.Item>
+								<Button
+									type="default"
+									className="w-full"
+									onClick={() => {
+										setIsModalAddOpen(false);
+										setFormData({
+											name: "",
+											email: "",
+											username: "",
+											password: "",
+											role: "Admin",
+											userlevel: "1",
+											image: null,
+										});
+									}}
+								>
+									Cancel
+								</Button>
+							</Form.Item>
+						</div>
+					</div>
 				</Form>
 			</Modal>
 

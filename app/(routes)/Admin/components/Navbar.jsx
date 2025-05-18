@@ -7,7 +7,7 @@ import AppearanceToggleTab from "@/components/ui/appearance-tabs";
 const Navbar = ({ toggleSidebar, isCollapsed }) => {
 	const handleLogout = async () => {
 		try {
-			await Axios.post(`/api/Logout`);
+			await Axios.post(`/api/auth/Logout`);
 			window.location.href = "/Admin";
 		} catch (error) {
 			console.error("Logout failed:", error);

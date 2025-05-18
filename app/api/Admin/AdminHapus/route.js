@@ -8,8 +8,8 @@ export async function DELETE(req) {
 		const { searchParams } = new URL(req.nextUrl);
 		const AdmUname = searchParams.get("AdmUname");
 		const [rows] = await pool.query(`CALL SP_Admin_Hapus(?)`, [AdmUname]);
-
-		return NextResponse.json(rows[0]); // ✅ MySQL returns data in rows[0]
+		console.log("rows", rows);
+		return NextResponse.json(rows[0]);
 	} catch (err) {
 		console.error("ERROR:", err);
 		return NextResponse.json(

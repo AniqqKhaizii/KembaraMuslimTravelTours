@@ -55,7 +55,7 @@ const ManageTripDetails = () => {
 		fetchTrips();
 	}, [currentTrip]);
 
-	const showModal = (trip = null) => {
+	const showModal = (trip) => {
 		setCurrentTrip(trip);
 		if (trip) {
 			form.setFieldsValue({
@@ -89,43 +89,29 @@ const ManageTripDetails = () => {
 			EndTravelDate: values.EndTravelDate.format("YYYYMMDD"),
 		};
 
+		const isEdit = !!currentTrip;
+		console.log("currentTrip", currentTrip);
 		try {
-			const response = currentTrip
-				? await Axios.get("/api/Tetapan/ManageTrip", {
-						params: {
-							Operation: "UPDATE",
-							TripID: currentTrip.TripID,
-							TripName: formattedValues.TripName,
-							StartTravelDate: formattedValues.StartTravelDate,
-							EndTravelDate: formattedValues.EndTravelDate,
-							Duration: formattedValues.Duration,
-							Airline: formattedValues.Airline,
-							FlightDetails: formattedValues.FlightDetails,
-							SeatAvailable: formattedValues.SeatAvailable,
-							SeatSold: formattedValues.SeatSold,
-							Deadline: formattedValues.Deadline,
-						},
-				  })
-				: await Axios.get("/api/Tetapan/ManageTrip", {
-						params: {
-							Operation: "ADD_NEW",
-							TripID: null,
-							TripName: formattedValues.TripName,
-							StartTravelDate: formattedValues.StartTravelDate,
-							EndTravelDate: formattedValues.EndTravelDate,
-							Duration: formattedValues.Duration,
-							Airline: formattedValues.Airline,
-							FlightDetails: formattedValues.FlightDetails,
-							SeatAvailable: formattedValues.SeatAvailable,
-							SeatSold: formattedValues.SeatSold,
-							Deadline: formattedValues.Deadline,
-						},
-				  });
+			const response = await Axios.get("/api/Tetapan/ManageTrip", {
+				params: {
+					Operation: isEdit ? "UPDATE" : "ADD_NEW",
+					TripID: isEdit ? currentTrip.TripID : null,
+					TripName: formattedValues.TripName,
+					StartTravelDate: formattedValues.StartTravelDate,
+					EndTravelDate: formattedValues.EndTravelDate,
+					Duration: formattedValues.Duration,
+					Airline: formattedValues.Airline,
+					FlightDetails: formattedValues.FlightDetails,
+					SeatAvailable: formattedValues.SeatAvailable,
+					SeatSold: formattedValues.SeatSold,
+					Deadline: formattedValues.Deadline,
+				},
+			});
 
 			if (response.data.message) {
 				message.error(response.data.message);
 			} else {
-				if (currentTrip) {
+				if (isEdit) {
 					setTrips((prev) =>
 						prev.map((trip) =>
 							trip.TripID === currentTrip.TripID
@@ -135,12 +121,18 @@ const ManageTripDetails = () => {
 					);
 					message.success("Trip updated successfully");
 				} else {
-					setTrips((prev) => [...prev, formattedValues]);
+					// Get new TripID from response if available
+					const newTrip = {
+						...formattedValues,
+						TripID: response.data.TripID || Date.now(), // fallback if no ID returned
+					};
+					setTrips((prev) => [...prev, newTrip]);
 					message.success("Trip added successfully");
 				}
-			}
 
-			handleCancel();
+				setCurrentTrip(null); // Only clear after success
+				handleCancel();
+			}
 		} catch (error) {
 			console.error("Error saving trip:", error);
 			message.error("Failed to save trip");
@@ -350,8 +342,12 @@ const ManageTripDetails = () => {
 								>
 									<Form.Item
 										name="TripName"
-										label={<span className="text-white">Trip Name</span>}
-										className="col-span-2 text-white"
+										label={
+											<span className="text-black dark:text-white">
+												Trip Name
+											</span>
+										}
+										className="col-span-2 text-black dark:text-white"
 										rules={[
 											{
 												required: true,
@@ -360,14 +356,16 @@ const ManageTripDetails = () => {
 										]}
 									>
 										<Input
-											className="glass-input text-white"
+											className="glass-input text-black dark:text-white"
 											rootClassName="glass-input-wrapper"
 										/>
 									</Form.Item>
 									<Form.Item
 										name="StartTravelDate"
 										label={
-											<span className="text-white">Start Travel Date</span>
+											<span className="text-black dark:text-white">
+												Start Travel Date
+											</span>
 										}
 										rules={[
 											{
@@ -383,7 +381,11 @@ const ManageTripDetails = () => {
 									</Form.Item>
 									<Form.Item
 										name="EndTravelDate"
-										label={<span className="text-white">End Travel Date</span>}
+										label={
+											<span className="text-black dark:text-white">
+												End Travel Date
+											</span>
+										}
 										rules={[
 											{
 												required: true,
@@ -398,7 +400,11 @@ const ManageTripDetails = () => {
 									</Form.Item>
 									<Form.Item
 										name="Duration"
-										label={<span className="text-white">Duration (Days)</span>}
+										label={
+											<span className="text-black dark:text-white">
+												Duration (Days)
+											</span>
+										}
 										rules={[
 											{ required: true, message: "Please input the duration!" },
 										]}
@@ -411,7 +417,11 @@ const ManageTripDetails = () => {
 									</Form.Item>
 									<Form.Item
 										name="Airline"
-										label={<span className="text-white">Airline</span>}
+										label={
+											<span className="text-black dark:text-white">
+												Airline
+											</span>
+										}
 									>
 										<Input
 											className="glass-input text-white"
@@ -420,7 +430,11 @@ const ManageTripDetails = () => {
 									</Form.Item>
 									<Form.Item
 										name="FlightDetails"
-										label={<span className="text-white">Flight Details</span>}
+										label={
+											<span className="text-black dark:text-white">
+												Flight Details
+											</span>
+										}
 									>
 										<Input
 											className="glass-input text-white"
@@ -429,7 +443,11 @@ const ManageTripDetails = () => {
 									</Form.Item>
 									<Form.Item
 										name="SeatAvailable"
-										label={<span className="text-white">Seat Available</span>}
+										label={
+											<span className="text-black dark:text-white">
+												Seat Available
+											</span>
+										}
 									>
 										<Input
 											type="number"
@@ -439,7 +457,11 @@ const ManageTripDetails = () => {
 									</Form.Item>
 									<Form.Item
 										name="SeatSold"
-										label={<span className="text-white">Seat Sold</span>}
+										label={
+											<span className="text-black dark:text-white">
+												Seat Sold
+											</span>
+										}
 									>
 										<Input
 											type="number"
@@ -449,7 +471,11 @@ const ManageTripDetails = () => {
 									</Form.Item>
 									<Form.Item
 										name="Deadline"
-										label={<span className="text-white">Deadline</span>}
+										label={
+											<span className="text-black dark:text-white">
+												Deadline
+											</span>
+										}
 									>
 										<DatePicker
 											format="DD/MM/YYYY"
@@ -459,7 +485,7 @@ const ManageTripDetails = () => {
 									<Button
 										type="primary"
 										htmlType="submit"
-										className="w-full mt-2 py-4 col-span-2 border border-white rounded-full bg-transparent text-white backdrop-blur"
+										className="w-full mt-2 py-4 col-span-2 border border-white rounded-lg bg-white/20 text-black dark:text-white backdrop-blur"
 									>
 										Save
 									</Button>

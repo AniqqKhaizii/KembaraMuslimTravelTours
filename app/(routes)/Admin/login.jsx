@@ -1,8 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Axios from "axios";
-import { useRouter } from "next/navigation"; // Updated import
-
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/hooks/use-toast";
 const Index = () => {
 	const router = useRouter(); // Updated to useRouter
 	const [Username, setUsername] = useState("");
@@ -12,6 +13,7 @@ const Index = () => {
 	const [showModal, setShowModal] = useState(false);
 	const [forgotEmail, setForgotEmail] = useState("");
 	const [loginLoading, setLoginLoading] = useState(false);
+	const { toast } = useToast();
 
 	const handleForgotPassword = async () => {
 		try {
@@ -33,42 +35,50 @@ const Index = () => {
 
 	const checkUser = () => {
 		setLoginLoading(true);
-		Axios.post("/api/Login", {
+
+		if (Username === "" || Password === "") {
+			setLoginStatus("Username and password are required.");
+			setLoginLoading(false);
+			return;
+		}
+
+		Axios.post("/api/auth/Login", {
 			Username,
 			Password,
 		})
 			.then((response) => {
-				const data = response.data;
+				const { message, user } = response.data;
 
-				if (Username === "" || Password === "") {
-					setLoginStatus("Username and password are required.");
+				if (!user || !user.AdmUname) {
+					toast({
+						title: "Login failed",
+						description: "Invalid user credentials.",
+						variant: "destructive",
+					});
 					setLoginLoading(false);
 					return;
 				}
 
-				if (Array.isArray(data) && data.length > 0) {
-					const userData = data[0];
+				// Optional: Clean user data (remove sensitive fields)
+				const { AdmPassword, AdmSalt, SessionID, ...safeUserData } = user;
 
-					if (userData.Code && userData.Code < 0) {
-						alert("Invalid username or password.");
-						setLoginLoading(false);
-						return;
-					}
+				toast({
+					title: "Login successful.",
+					description: "Welcome, " + safeUserData.AdmUname,
+					variant: "default",
+				});
 
-					const rememberMe = localStorage.getItem("rememberMe") === "true";
-					if (rememberMe) {
-						localStorage.setItem("UserData", JSON.stringify(userData));
-					} else {
-						localStorage.removeItem("UserData");
-					}
+				const rememberMe = localStorage.getItem("rememberMe") === "true";
 
-					sessionStorage.setItem("UserData", JSON.stringify(userData));
-					setLoginLoading(false);
-					router.push("/Admin/Dashboard");
+				if (rememberMe) {
+					localStorage.setItem("UserData", JSON.stringify(safeUserData));
 				} else {
-					alert("Invalid login response or user not found.");
-					setLoginLoading(false);
+					localStorage.removeItem("UserData");
 				}
+
+				sessionStorage.setItem("UserData", JSON.stringify(safeUserData));
+				setLoginLoading(false);
+				router.push("/Admin/Dashboard");
 			})
 			.catch((error) => {
 				console.error("Login error:", error);
@@ -101,6 +111,7 @@ const Index = () => {
 
 	return (
 		<section className="relative flex flex-wrap lg:h-screen lg:items-center bg-gradient-to-bl from-orange-300 to-orange-800">
+			<Toaster />
 			<div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
 				<div className="mx-auto max-w-lg text-center">
 					<h1 className="text-3xl font-bold sm:text-5xl font-reenie">

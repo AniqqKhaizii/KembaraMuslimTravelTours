@@ -107,11 +107,11 @@
 
 
 .glass-modal .ant-modal-content {
-	background: rgba(255, 255, 255, 0.15);
-	backdrop-filter: blur(10px);
-	border-radius: 1rem;
+	background: var(--bg-glass-modal);
+	backdrop-filter: blur(20px);
+	border-radius: 0.5rem;
 	border: 1px solid rgba(255, 255, 255, 0.3);
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 	color: var(--glass-text-color);
 }
 
@@ -136,7 +136,7 @@
 }
 
 .glass-input {
-	background: rgba(255, 255, 255, 0.15);
+	background: rgba(255, 255, 255, 0.3);
 	backdrop-filter: blur(8px);
 	border: 1px solid rgba(255, 255, 255, 0.3);
 	border-radius: 0.5rem;
@@ -169,14 +169,13 @@
 	}
 }
 
-/* Scrollbar for WebKit-based browsers (Chrome, Edge, Safari) */
 ::-webkit-scrollbar {
-	width: 12px;
+	width: 6px;
 	height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-	background: transparent; /* Soft orange gradient */
+	background: transparent; 
 }
 
 ::-webkit-scrollbar-thumb {
@@ -184,9 +183,8 @@
 		to bottom,
 		#e55c00,
 		#f78e1e
-	); /* Vibrant orange gradient */
-	border-radius: 10px; /* Smooth curves for a clean look */
-	border: 3px solid #fff5e6; /* Adds a decorative border effect */
+	); 
+	border-radius: 10px; 
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -194,10 +192,9 @@
 		to bottom,
 		#f78e1e,
 		#e55c00
-	); /* Darker on hover */
+	); 
 }
 
-/* Fallback for Non-WebKit Browsers */
 .scrollbar {
 	scrollbar-color: #e55c00 #fff5e6; /* Thumb color | Track color */
 	scrollbar-width: thin; /* Narrow scrollbar */
@@ -266,6 +263,7 @@
 		--sidebar-border: 220 13% 91%;
 		--sidebar-ring: 217.2 91.2% 59.8%;
 		--glass-text-color: #18181b;
+		--bg-glass-modal:rgba(255, 255, 255, 0.5);
 		--peach-puff: #fef1e1;
 	}
 	.dark {
@@ -302,7 +300,8 @@
 		--sidebar-border: 240 3.7% 15.9%;
 		--sidebar-ring: 217.2 91.2% 59.8%;
 		--glass-text-color: #ffffff;
-	}
+		--bg-glass-modal: rgba(0, 0, 0, 0.7);
+		}
 }
 
 .page-break {
@@ -324,8 +323,6 @@
 		@apply bg-background text-foreground;
 	}
 }
-
-
 
 
 .gallery-item {

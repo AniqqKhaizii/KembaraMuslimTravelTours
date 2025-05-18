@@ -78,7 +78,8 @@ const TetapanPakej = () => {
 						},
 					}),
 				]);
-
+				console.log("makkahRes", makkahRes.data);
+				console.log("madinahRes", madinahRes.data);
 				setHotelMakkah(makkahRes.data);
 				setHotelMadinah(madinahRes.data);
 				setTrips(tripsRes.data);

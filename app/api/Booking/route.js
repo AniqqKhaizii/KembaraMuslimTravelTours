@@ -187,7 +187,7 @@ export async function POST(req) {
 
 		if (!o_BookID) {
 			return NextResponse.json(
-				{ message: "Error storing booking data sadsadasda" },
+				{ message: "Error storing booking data" },
 				{ status: 400 }
 			);
 		}

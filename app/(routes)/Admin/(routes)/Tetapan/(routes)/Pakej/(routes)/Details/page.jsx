@@ -160,18 +160,22 @@ const Details = () => {
 			render: (_, record) => {
 				const handleBookingClick = () => {
 					const bookingUrl = `/Admin/Booking/create-booking?pkgId=${id}&tripId=${record.TripID}`;
-					window.open(bookingUrl, "_blank"); // This will open the URL in a new tab
+					window.open(bookingUrl, "_blank");
 				};
 
-				return (
-					<Button
-						icon={<PlusOutlined />}
-						onClick={handleBookingClick}
-						className="px-3 py-1 bg-blue-200/20 rounded-3xl text-white text-sm"
-					>
-						Add Booking
-					</Button>
-				);
+				{
+					return (
+						record.Status === "Open" && (
+							<Button
+								icon={<PlusOutlined />}
+								onClick={handleBookingClick}
+								className="px-3 py-1 dark:bg-blue-200/20 rounded-3xl dark:text-white text-black text-sm"
+							>
+								Add Booking
+							</Button>
+						)
+					);
+				}
 			},
 		},
 	];
@@ -223,8 +227,8 @@ const Details = () => {
 	return (
 		<AdminLayout>
 			{packageData && (
-				<div className="m-4 border-2 border-gray-100/30 rounded-lg backdrop-blur-md p-8 text-white">
-					<h1 className="text-2xl font-semibold pb-4 border-b border-gray-200/30">
+				<div className="m-4 border-2 border-gray-100/30 rounded-lg backdrop-blur-md p-8 dark:text-white text-zinc-900">
+					<h1 className="text-2xl font-semibold pb-4 border-b dark:border-gray-200/30 border-black/30">
 						Package Details
 					</h1>
 
@@ -232,33 +236,41 @@ const Details = () => {
 						<div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-6 col-span-2">
 							{/* Package Name */}
 							<div className="flex flex-col gap-2 col-span-2">
-								<label className="text-sm text-white">Package Name</label>
-								<span className="p-2 border-b border-gray-100/30 rounded-md text-gray-100">
+								<label className="text-sm dark:text-white text-zinc-900">
+									Package Name
+								</label>
+								<span className="p-2 border-b dark:border-white/50 border-black/30 rounded-md dark:text-gray-100 text-zinc-800">
 									Pakej {packageData[0].PakejName}
 								</span>
 							</div>
 
 							{/* Makkah Hotel Name */}
 							<div className="flex flex-col gap-2">
-								<label className="text-sm text-white">Makkah Hotel</label>
-								<span className="p-2 border-b border-gray-100/30 rounded-md text-gray-100">
+								<label className="text-sm dark:text-white text-zinc-900">
+									Makkah Hotel
+								</label>
+								<span className="p-2 border-b dark:border-white/50 border-black/30 rounded-md dark:text-gray-100 text-zinc-800">
 									{packageData[0].MakkahHotelName}
 								</span>
 							</div>
 
 							{/* Madinah Hotel Name */}
 							<div className="flex flex-col gap-2">
-								<label className="text-sm text-gray-200">Madinah Hotel</label>
-								<span className="p-2 border-b border-gray-100/30 rounded-md text-gray-100">
+								<label className="text-sm dark:text-white text-zinc-900">
+									Madinah Hotel
+								</label>
+								<span className="p-2 border-b dark:border-white/50 border-black/30 rounded-md dark:text-gray-100 text-zinc-800">
 									{packageData[0].MadinahHotelName}
 								</span>
 							</div>
 
 							{/* Package Pricing */}
 							<div className="flex flex-col gap-4 lg:col-span-2">
-								<label className="text-sm text-white">Pricing Details</label>
-								<div className="bg-gray-100/10 p-4 rounded-md">
-									<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+								<label className="text-sm dark:text-white text-zinc-900">
+									Pricing Details
+								</label>
+								<div className="bg-white/40 p-4 rounded-md">
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 dark:text-white text-zinc-900">
 										<div className="flex justify-between text-sm">
 											<span>Adult Double</span>
 											<span>RM {packageData[0].Adult_Double}</span>
@@ -289,7 +301,9 @@ const Details = () => {
 
 							{/* Trip Details Table */}
 							<div className="flex flex-col gap-4 col-span-2">
-								<label className="text-sm text-gray-200">Trip Details</label>
+								<label className="text-sm dark:text-white text-zinc-900">
+									Trip Details
+								</label>
 								<Table
 									columns={tripColumns}
 									dataSource={tripDetails}
@@ -303,7 +317,9 @@ const Details = () => {
 
 						{/* Poster Slot */}
 						<div className="flex flex-col gap-2 row-span-2">
-							<label className="text-sm text-gray-200">Package Poster</label>
+							<label className="text-sm dark:text-white text-zinc-900">
+								Package Poster
+							</label>
 							{updatedPoster ? (
 								<img
 									src={updatedPoster}
