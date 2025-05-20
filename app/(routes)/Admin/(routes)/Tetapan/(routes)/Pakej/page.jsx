@@ -88,8 +88,6 @@ const TetapanPakej = () => {
 						},
 					}),
 				]);
-				console.log("makkahRes", makkahRes.data);
-				console.log("madinahRes", madinahRes.data);
 				setHotelMakkah(makkahRes.data);
 				setHotelMadinah(madinahRes.data);
 				setTrips(tripsRes.data);
@@ -170,10 +168,10 @@ const TetapanPakej = () => {
 			Infant_Quad: parseFloat(values.Infant_Quad),
 			TripIDs: values.TripIDs.join(", "),
 			Commission: parseFloat(values.Commission),
-			Bagasi: parseFloat(values.Bagasi),
-			SpeedTrain: parseFloat(values.SpeedTrain),
-			MakkahFoodOption: parseFloat(values.MakkahFoodOption),
-			MadinahFoodOption: parseFloat(values.MadinahFoodOption),
+			Bagasi: values.Bagasi,
+			SpeedTrain: values.SpeedTrain,
+			MakkahFoodOption: values.MakkahFoodOption,
+			MadinahFoodOption: values.MadinahFoodOption,
 		};
 		if (editingPackage) {
 			const response = await Axios.get("/api/Tetapan/ManagePackage", {
@@ -629,6 +627,7 @@ const TetapanPakej = () => {
 			</Form.Item>
 		);
 	};
+
 	return (
 		<AdminLayout>
 			<div className="mx-3">
@@ -780,19 +779,18 @@ const TetapanPakej = () => {
 											}
 											className="mb-4"
 										>
-											<div className="flex items-center">
-												<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-md dark:text-white text-zinc-950 font-primary">
-													RM
-												</p>
-												<Input
-													name="Commission"
-													type="number"
-													min={0}
-													className="glass-input dark:text-white text-zinc-950 font-primary"
-													rootClassName="glass-input-wrapper"
-													placeholder="Enter commission"
-												/>
-											</div>
+											<Input
+												type="number"
+												min={0}
+												addonBefore={
+													<span className="text-zinc-950 dark:text-white">
+														RM
+													</span>
+												}
+												className="glass-input dark:text-white text-zinc-950 font-primary"
+												rootClassName="glass-input-wrapper"
+												placeholder="Enter commission"
+											/>
 										</Form.Item>
 										<Form.Item
 											name="Bagasi"
@@ -841,6 +839,7 @@ const TetapanPakej = () => {
 											</Select>
 										</Form.Item>
 									</div>
+
 									<TripSelection trips={trips} form={form} />
 
 									<table className="table-auto w-full border-collapse border dark:border-gray-300 border-gray-400 mb-4  dark:text-white text-zinc-950">
