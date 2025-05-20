@@ -118,11 +118,12 @@ const Sidebar = ({ isCollapsed, toggleSidebar }) => {
 
 	const toggleUsersSubmenu = () => setShowUsersSubmenu(!showUsersSubmenu);
 	const toggleTetapanSubmenu = () => setShowTetapanSubmenu(!showTetapanSubmenu);
+
 	return (
 		<div
 			className={`${
-				isCollapsed ? "w-16" : "w-48"
-			} flex-col  bg-white/20 dark:bg-white/10 transition-all duration-300 hidden sm:flex z-50 sticky top-6 h-[95vh] py-6 ml-4 shadow-xl rounded-3xl`}
+				isCollapsed ? "w-16" : "w-52"
+			} flex-col  bg-white/20 dark:bg-white/10 transition-all duration-300 hidden sm:flex z-50 sticky top-2 h-[98vh] py-6 rounded-xl shadow-xl`}
 		>
 			<div className="flex items-start justify-center pt-2 bg-transparent">
 				<Image

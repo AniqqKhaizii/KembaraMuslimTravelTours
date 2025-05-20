@@ -1,4 +1,3 @@
-import { Inter } from "next/font/google";
 import { Poppins } from "next/font/google";
 import { Instrument_Sans } from "next/font/google";
 import { Montserrat } from "next/font/google";
@@ -44,11 +43,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 	return (
-		<html lang="en">
-			<body
-				className={instrument_sans.className}
-				suppressHydrationWarning={true}
-			>
+		<html lang="en" className={instrument_sans.className}>
+			<body suppressHydrationWarning={true}>
 				<ClientWrapper>{children}</ClientWrapper>
 			</body>
 		</html>

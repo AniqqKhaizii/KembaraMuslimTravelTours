@@ -219,11 +219,11 @@
 		@apply ring-2 ring-white/30 bg-transparent text-black;
 	}
 	.glass-select .ant-select-selector {
-		@apply bg-white/20 backdrop-blur-md border border-white/30 rounded-md text-glass-text-color !important;
+		@apply bg-white/30 backdrop-blur-md border border-white/30 rounded-md text-glass-text-color !important;
 	}
 
 	.glass-select-dropdown {
-		@apply bg-white/20 backdrop-blur-md border border-white/20 rounded-md text-glass-text-color;
+		@apply backdrop-blur-md border border-white/20 text-white !important;
 	}
 }
 

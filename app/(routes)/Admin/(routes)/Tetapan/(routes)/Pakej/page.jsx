@@ -1,6 +1,16 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
-import { Form, Input, Button, Table, Modal, Space, Spin, message } from "antd";
+import {
+	Form,
+	Input,
+	Button,
+	Table,
+	Modal,
+	Space,
+	Spin,
+	Select,
+	message,
+} from "antd";
 import { PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import AdminLayout from "../../../../layout/AdminLayout";
 import { useRouter } from "next/navigation";
@@ -160,6 +170,10 @@ const TetapanPakej = () => {
 			Infant_Quad: parseFloat(values.Infant_Quad),
 			TripIDs: values.TripIDs.join(", "),
 			Commission: parseFloat(values.Commission),
+			Bagasi: parseFloat(values.Bagasi),
+			SpeedTrain: parseFloat(values.SpeedTrain),
+			MakkahFoodOption: parseFloat(values.MakkahFoodOption),
+			MadinahFoodOption: parseFloat(values.MadinahFoodOption),
 		};
 		if (editingPackage) {
 			const response = await Axios.get("/api/Tetapan/ManagePackage", {
@@ -185,6 +199,10 @@ const TetapanPakej = () => {
 					TripUnique: formattedValues.TripUnique,
 					PakejPoster: formattedValues.PakejPoster,
 					Commission: formattedValues.Commission,
+					Bagasi: formattedValues.Bagasi,
+					SpeedTrain: formattedValues.SpeedTrain,
+					MakkahFoodOption: formattedValues.MakkahFoodOption,
+					MadinahFoodOption: formattedValues.MadinahFoodOption,
 				},
 			});
 			if (response.data.message) {
@@ -223,6 +241,10 @@ const TetapanPakej = () => {
 					HotelMadinahID: formattedValues.HotelMadinahID,
 					TripIDs: formattedValues.TripIDs,
 					Commission: formattedValues.Commission,
+					Bagasi: formattedValues.Bagasi,
+					SpeedTrain: formattedValues.SpeedTrain,
+					MakkahFoodOption: formattedValues.MakkahFoodOption,
+					MadinahFoodOption: formattedValues.MadinahFoodOption,
 				},
 			});
 			if (response.data.message) {
@@ -318,7 +340,7 @@ const TetapanPakej = () => {
 			dataIndex: "hargaBilik",
 			key: "hargaBilik",
 			className: "font-primary",
-			width: 400,
+			width: 350,
 			onCell: () => ({
 				style: { verticalAlign: "top" },
 				className: "uppercase font-primary",
@@ -413,11 +435,16 @@ const TetapanPakej = () => {
 			title: "Hotel",
 			key: "Hotel",
 			className: "font-primary",
-			width: 300,
+			width: 350,
 			render: (text, record) => (
-				<span className="uppercase font-primary">
-					{record.MakkahHotelName} / {record.MadinahHotelName}
-				</span>
+				<ul className="list-disc mx-4 uppercase font-primary">
+					<li>
+						{record.MakkahHotelName} - {record.MakkahFoodOption}
+					</li>
+					<li>
+						{record.MadinahHotelName} - {record.MadinahFoodOption}
+					</li>
+				</ul>
 			),
 			onCell: () => ({
 				style: { verticalAlign: "top" },
@@ -506,131 +533,102 @@ const TetapanPakej = () => {
 		}
 	}
 	const HotelSelectionMakkah = ({ hotels, form }) => {
-		const [selectedHotel, setSelectedHotel] = useState(
-			editingPackage ? editingPackage.HotelMakkahID : null
-		);
+		const selectedHotel = editingPackage?.HotelMakkahID || null;
 
 		useEffect(() => {
 			if (editingPackage) {
-				form.setFieldsValue({ HotelMakkahID: editingPackage.HotelMakkahID });
+				form.setFieldsValue({ HotelMakkahID: selectedHotel });
 			}
 		}, [selectedHotel]);
-
-		const handleSelectHotel = (hotelId) => {
-			setSelectedHotel(hotelId);
-			form.setFieldsValue({ HotelMakkahID: hotelId });
-		};
 
 		return (
 			<Form.Item
 				name="HotelMakkahID"
 				label={
-					<span className="dark:text-white text-zinc-950">Makkah Hotel</span>
+					<span className="dark:text-white text-zinc-950 font-primary">
+						Makkah Hotel
+					</span>
 				}
 				rules={[{ required: true, message: "Please select a hotel" }]}
 			>
-				<div className="flex flex-wrap gap-2">
-					{" "}
-					{hotels.map((hotel) => (
-						<Button
-							key={hotel.HotelID}
-							type={selectedHotel === hotel.HotelID ? "primary" : "default"}
-							onClick={() => handleSelectHotel(hotel.HotelID)}
-						>
-							{hotel.HotelName}
-						</Button>
-					))}
-				</div>
+				<Select
+					className="glass-select w-full font-primary"
+					popupClassName="glass-select-dropdown"
+					placeholder="Select a Makkah hotel"
+					options={hotels.map((hotel) => ({
+						label: hotel.HotelName,
+						value: hotel.HotelID,
+					}))}
+				/>
 			</Form.Item>
 		);
 	};
 
 	const HotelSelectionMadinah = ({ hotels, form }) => {
-		const [selectedHotel, setSelectedHotel] = useState(
-			editingPackage ? editingPackage.HotelMadinahID : null
-		);
+		const selectedHotel = editingPackage?.HotelMadinahID || null;
 
 		useEffect(() => {
 			if (editingPackage) {
-				form.setFieldsValue({ HotelMadinahID: editingPackage.HotelMadinahID });
+				form.setFieldsValue({ HotelMadinahID: selectedHotel });
 			}
 		}, [selectedHotel]);
-
-		const handleSelectHotel = (hotelId) => {
-			setSelectedHotel(hotelId);
-			form.setFieldsValue({ HotelMadinahID: hotelId }); // Update form value
-		};
 
 		return (
 			<Form.Item
 				name="HotelMadinahID"
 				label={
-					<span className="dark:text-white text-zinc-950">Madinah Hotel</span>
+					<span className="dark:text-white text-zinc-950 font-primary">
+						Madinah Hotel
+					</span>
 				}
 				rules={[{ required: true, message: "Please select a hotel" }]}
 			>
-				<div className="flex flex-wrap gap-2">
-					{" "}
-					{hotels.map((hotel) => (
-						<Button
-							key={hotel.HotelID}
-							type={selectedHotel === hotel.HotelID ? "primary" : "default"}
-							onClick={() => handleSelectHotel(hotel.HotelID)}
-						>
-							{hotel.HotelName}
-						</Button>
-					))}
-				</div>
+				<Select
+					className="glass-select w-full font-primary"
+					popupClassName="glass-select-dropdown"
+					placeholder="Select a Madinah hotel"
+					options={hotels.map((hotel) => ({
+						label: hotel.HotelName,
+						value: hotel.HotelID,
+					}))}
+				/>
 			</Form.Item>
 		);
 	};
 
 	const TripSelection = ({ trips, form }) => {
-		const [strSelectedTrips, setStrSelectedTrips] = useState(
-			editingPackage ? editingPackage.TripID : null
-		);
-		const [selectedTrips, setSelectedTrips] = useState(
-			strSelectedTrips ? strSelectedTrips.split(",").map(Number) : []
-		);
+		const selectedTrips = editingPackage?.TripID
+			? editingPackage.TripID.split(",").map(Number)
+			: [];
 
 		useEffect(() => {
-			if (selectedTrips) {
-				form.setFieldsValue({ TripIDs: selectedTrips });
-			}
+			form.setFieldsValue({ TripIDs: selectedTrips });
 		}, [selectedTrips]);
-
-		const handleSelectTrip = (tripId) => {
-			let updatedTrips;
-			if (selectedTrips.includes(tripId)) {
-				updatedTrips = selectedTrips.filter((id) => id !== tripId);
-			} else {
-				updatedTrips = [...selectedTrips, tripId];
-			}
-			setSelectedTrips(updatedTrips);
-			form.setFieldsValue({ TripIDs: updatedTrips });
-		};
 
 		return (
 			<Form.Item
 				name="TripIDs"
-				label={<span className="dark:text-white text-zinc-950">Trips</span>}
+				label={
+					<span className="dark:text-white text-zinc-950 font-primary">
+						Trips
+					</span>
+				}
 				rules={[{ required: true, message: "Please select at least one trip" }]}
+				className="lg:col-span-2"
 			>
-				<div className="flex flex-wrap gap-2">
-					{trips.map((trip) => (
-						<Button
-							key={trip.TripID}
-							type={selectedTrips.includes(trip.TripID) ? "primary" : "default"}
-							onClick={() => handleSelectTrip(trip.TripID)}
-						>
-							{trip.TripName}
-						</Button>
-					))}
-				</div>
+				<Select
+					className="glass-select w-full font-primary"
+					popupClassName="glass-select-dropdown"
+					mode="multiple"
+					placeholder="Select trips"
+					options={trips.map((trip) => ({
+						label: trip.TripName,
+						value: trip.TripID,
+					}))}
+				/>
 			</Form.Item>
 		);
 	};
-
 	return (
 		<AdminLayout>
 			<div className="mx-3">
@@ -682,6 +680,7 @@ const TetapanPakej = () => {
 							>
 								<Form
 									form={form}
+									className="font-primary"
 									layout="vertical"
 									onFinish={handleAddPackage}
 									initialValues={editingPackage || {}}
@@ -689,7 +688,7 @@ const TetapanPakej = () => {
 									<Form.Item
 										name="PakejName"
 										label={
-											<span className="dark:text-white text-zinc-950">
+											<span className="dark:text-white text-zinc-950 font-primary">
 												Package Name
 											</span>
 										}
@@ -702,38 +701,148 @@ const TetapanPakej = () => {
 									>
 										<Input
 											placeholder="Enter package name"
-											className="glass-input dark:text-white text-zinc-950"
+											className="glass-input dark:text-white text-zinc-950 font-primary"
 											rootClassName="glass-input-wrapper"
 										/>
 									</Form.Item>
+									<div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4 w-full">
+										<HotelSelectionMakkah hotels={hotelMakkah} form={form} />
+										<Form.Item
+											name="MakkahFoodOption"
+											label={
+												<span className="dark:text-white text-zinc-950 font-primary">
+													Makkah Food Option
+												</span>
+											}
+											rules={[
+												{
+													required: true,
+													message: "Please select a food option",
+												},
+											]}
+										>
+											<Select
+												className="glass-select w-full font-primary"
+												popupClassName="glass-select-dropdown"
+												placeholder="Select Food Option"
+											>
+												<Select.Option value="Fullboard">
+													Fullboard
+												</Select.Option>
+												<Select.Option value="Breakfast">
+													Breakfast
+												</Select.Option>
+												<Select.Option value="Lunch">Lunch</Select.Option>
+												<Select.Option value="Dinner">Dinner</Select.Option>
+												<Select.Option value="None">None</Select.Option>
+											</Select>
+										</Form.Item>
+										<HotelSelectionMadinah hotels={hotelMadinah} form={form} />
+										<Form.Item
+											name="MadinahFoodOption"
+											label={
+												<span className="dark:text-white text-zinc-950 font-primary">
+													Madinah Food Option
+												</span>
+											}
+											rules={[
+												{
+													required: true,
+													message: "Please select a food option",
+												},
+											]}
+										>
+											<Select
+												className="glass-select w-full font-primary"
+												popupClassName="glass-select-dropdown"
+												placeholder="Select Food Option"
+											>
+												<Select.Option value="Fullboard">
+													Fullboard
+												</Select.Option>
+												<Select.Option value="Breakfast">
+													Breakfast
+												</Select.Option>
+												<Select.Option value="Lunch">Lunch</Select.Option>
+												<Select.Option value="Dinner">Dinner</Select.Option>
+												<Select.Option value="None">None</Select.Option>
+											</Select>
+										</Form.Item>
+									</div>
 
-									<HotelSelectionMakkah hotels={hotelMakkah} form={form} />
-									<HotelSelectionMadinah hotels={hotelMadinah} form={form} />
+									<div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 w-full">
+										<Form.Item
+											name="Commission"
+											label={
+												<span className="dark:text-white text-zinc-950 font-primary">
+													Commission (RM)
+												</span>
+											}
+											className="mb-4"
+										>
+											<div className="flex items-center">
+												<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-md dark:text-white text-zinc-950 font-primary">
+													RM
+												</p>
+												<Input
+													name="Commission"
+													type="number"
+													min={0}
+													className="glass-input dark:text-white text-zinc-950 font-primary"
+													rootClassName="glass-input-wrapper"
+													placeholder="Enter commission"
+												/>
+											</div>
+										</Form.Item>
+										<Form.Item
+											name="Bagasi"
+											label={
+												<span className="dark:text-white text-zinc-950 font-primary">
+													Bagasi
+												</span>
+											}
+											rules={[
+												{
+													required: true,
+													message: "Please select Bagasi option",
+												},
+											]}
+										>
+											<Select
+												className="glass-select w-full font-primary"
+												popupClassName="glass-select-dropdown"
+												placeholder="Select Bagasi"
+											>
+												<Select.Option value="Y">Yes</Select.Option>
+												<Select.Option value="N">No</Select.Option>
+											</Select>
+										</Form.Item>
+										<Form.Item
+											name="SpeedTrain"
+											label={
+												<span className="dark:text-white text-zinc-950 font-primary">
+													Speed Train
+												</span>
+											}
+											rules={[
+												{
+													required: true,
+													message: "Please select Speed Train option",
+												},
+											]}
+										>
+											<Select
+												className="glass-select w-full font-primary"
+												popupClassName="glass-select-dropdown"
+												placeholder="Select Speed Train"
+											>
+												<Select.Option value="Y">Yes</Select.Option>
+												<Select.Option value="N">No</Select.Option>
+											</Select>
+										</Form.Item>
+									</div>
 									<TripSelection trips={trips} form={form} />
-									{/* Commission Field in RM */}
-									<Form.Item
-										name="Commission"
-										label={
-											<span className="dark:text-white text-zinc-950">
-												Commission (RM)
-											</span>
-										}
-										className="mb-4"
-									>
-										<div className="flex items-center">
-											<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-md dark:text-white text-zinc-950">
-												RM
-											</p>
-											<Input
-												name="Commission"
-												type="number"
-												min={0}
-												className="glass-input dark:text-white text-zinc-950"
-												rootClassName="glass-input-wrapper"
-												placeholder="Enter commission"
-											/>
-										</div>
-									</Form.Item>
+
 									<table className="table-auto w-full border-collapse border dark:border-gray-300 border-gray-400 mb-4  dark:text-white text-zinc-950">
 										<thead>
 											<tr className="bg-gray-200/20">
@@ -775,12 +884,12 @@ const TetapanPakej = () => {
 																			message: "Please enter the price",
 																		},
 																	]}
-																	className="flex items-center"
+																	className="flex items-center font-primary"
 																>
 																	<Input
 																		type="number"
 																		min={0}
-																		className="rounded-s-none"
+																		className="rounded-s-none font-primary"
 																		placeholder="Enter price"
 																	/>
 																</Form.Item>
@@ -816,12 +925,12 @@ const TetapanPakej = () => {
 																		message: "Please enter the price",
 																	},
 																]}
-																className="flex items-center"
+																className="flex items-center font-primary"
 															>
 																<Input
 																	type="number"
 																	min={0}
-																	className="rounded-s-none"
+																	className="rounded-s-none font-primary"
 																	placeholder="Enter price"
 																/>
 															</Form.Item>
@@ -856,12 +965,12 @@ const TetapanPakej = () => {
 																		message: "Please enter the price",
 																	},
 																]}
-																className="flex items-center"
+																className="flex items-center font-primary"
 															>
 																<Input
 																	type="number"
 																	min={0}
-																	className="rounded-s-none"
+																	className="rounded-s-none font-primary"
 																	placeholder="Enter price"
 																/>
 															</Form.Item>
@@ -893,12 +1002,12 @@ const TetapanPakej = () => {
 																			message: "Please enter the price",
 																		},
 																	]}
-																	className="flex items-center"
+																	className="flex items-center font-primary"
 																>
 																	<Input
 																		type="number"
 																		min={0}
-																		className="rounded-s-none"
+																		className="rounded-s-none font-primary"
 																		placeholder="Enter price"
 																	/>
 																</Form.Item>
@@ -911,7 +1020,12 @@ const TetapanPakej = () => {
 									</table>
 
 									<Form.Item>
-										<Button type="primary" htmlType="submit" block>
+										<Button
+											type="primary"
+											htmlType="submit"
+											block
+											className="font-primary"
+										>
 											{editingPackage ? "Update Package" : "Add Package"}
 										</Button>
 									</Form.Item>

@@ -87,7 +87,7 @@ export default function ZoomParallax() {
 								<img
 									src={image.src}
 									alt={`Image ${index}`}
-									className="object-cover shadow-2xl"
+									className="object-cover shadow-2xl rounded-xl"
 								/>
 							</div>
 						</motion.div>

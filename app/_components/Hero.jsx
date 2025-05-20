@@ -184,7 +184,7 @@ const HeroSection = () => {
 			<div className="lg:hidden absolute inset-0 h-full bg-gradient-to-b from-transparent via-black/50 to-transparent from-0% via-55% to-120%"></div>
 
 			{/* Content */}
-			<div className="w-full h-[80vh] px-6 lg:px-12 grid grid-cols-1 items-center gap-5 relative z-20">
+			<div className="w-full lg:h-[80vh] h-[100vh] px-6 lg:px-12 grid grid-cols-1 items-center gap-5 relative z-20">
 				<div className="flex flex-col gap-4 items-start justify-start text-center mx-auto max-w-screen-xl w-full">
 					<HeroCarousel currentSlide={currentSlide} />
 

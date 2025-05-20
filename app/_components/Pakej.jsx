@@ -195,7 +195,7 @@ const Pakej = () => {
 	};
 
 	return (
-		<section className="relative overflow-x-hidden bg-gradient-to-b from-white to-kmtt-text pt-24 pb-12">
+		<section className="relative overflow-x-hidden bg-gradient-to-b from-white to-kmtt-text lg:pt-24 lg:mt-0 -mt-2 pb-12">
 			<div
 				ref={backgroundImage}
 				className="relative mx-auto lg:px-6 px-2 sm:pb-24 text-slate-900"
@@ -233,96 +233,99 @@ const Pakej = () => {
 									</li>
 							  ))}
 					</ul>
+					<div className="w-full overflow-x-auto">
+						<Table className="min-w-[700px] border border-slate-300">
+							<TableHeader>
+								<TableRow className="h-12 bg-gradient-to-b from-kmtt-primary to-orange-600 rounded-xl">
+									<TableHead className="font-semibold text-kmtt-text border border-slate-300">
+										Trip Name
+									</TableHead>
+									<TableHead className="font-semibold text-kmtt-text border border-slate-300 text-center">
+										Travel Date
+									</TableHead>
+									<TableHead className="font-semibold text-kmtt-text border border-slate-300 text-center">
+										Seat Available
+									</TableHead>
+									<TableHead className="font-semibold text-kmtt-text border border-slate-300 text-center">
+										Status
+									</TableHead>
+									<TableHead className="font-semibold text-kmtt-text border border-slate-300 text-center">
+										Packages Available
+									</TableHead>
+								</TableRow>
+							</TableHeader>
+							<TableBody>
+								{trips.map((trip) => {
+									const relatedPackages = getPackagesForTrip(
+										trip.TripID,
+										packages
+									);
+									const formattedStartDate = new Intl.DateTimeFormat("en-GB", {
+										day: "2-digit",
+										month: "short",
+										year: "numeric",
+									}).format(new Date(trip.StartTravelDate));
 
-					<Table className="border border-slate-300">
-						<TableHeader>
-							<TableRow className="h-12 bg-gradient-to-b from-kmtt-primary to-orange-600 rounded-xl">
-								<TableHead className="font-semibold text-kmtt-text border border-slate-300">
-									Trip Name
-								</TableHead>
-								<TableHead className="font-semibold text-kmtt-text border border-slate-300 text-center">
-									Travel Date
-								</TableHead>
-								<TableHead className="font-semibold text-kmtt-text border border-slate-300 text-center">
-									Seat Available
-								</TableHead>
-								<TableHead className="font-semibold text-kmtt-text border border-slate-300 text-center">
-									Status
-								</TableHead>
-								<TableHead className="font-semibold text-kmtt-text border border-slate-300 text-center">
-									Packages Available
-								</TableHead>
-							</TableRow>
-						</TableHeader>
-						<TableBody>
-							{trips.map((trip) => {
-								const relatedPackages = getPackagesForTrip(
-									trip.TripID,
-									packages
-								);
-								const formattedStartDate = new Intl.DateTimeFormat("en-GB", {
-									day: "2-digit",
-									month: "short",
-									year: "numeric",
-								}).format(new Date(trip.StartTravelDate));
+									const formattedEndDate = new Intl.DateTimeFormat("en-GB", {
+										day: "2-digit",
+										month: "short",
+										year: "numeric",
+									}).format(new Date(trip.EndTravelDate));
 
-								const formattedEndDate = new Intl.DateTimeFormat("en-GB", {
-									day: "2-digit",
-									month: "short",
-									year: "numeric",
-								}).format(new Date(trip.EndTravelDate));
-
-								const travelDate = `${formattedStartDate} - ${formattedEndDate}`;
-								return (
-									<TableRow
-										key={trip.TripID}
-										className="border border-slate-300"
-									>
-										<TableCell className="border border-slate-300">
-											{trip.TripName}
-										</TableCell>
-										<TableCell className="border border-slate-300 text-center">
-											{formattedStartDate} – {formattedEndDate}
-										</TableCell>
-										<TableCell className="border border-slate-300 text-center">
-											{trip.SeatBalance}
-										</TableCell>
-										<TableCell className="border border-slate-300 text-center">
-											{trip.Status}
-										</TableCell>
-										<TableCell className="border border-slate-300 space-x-2 text-center">
-											{relatedPackages.map((pkg) => {
-												const isFull = trip.Status.toLowerCase() === "full";
-												return (
-													<Link
-														key={pkg.PakejID}
-														href={`/Pakej/Pakej-Umrah/TempahPakej?kategori=${encodeURIComponent(
-															pkg.PakejName
-														)}&tarikh=${encodeURIComponent(
-															travelDate
-														)}&trip=${encodeURIComponent(trip.TripID)}`}
-														className={isFull ? "pointer-events-none" : ""}
-													>
-														<Button
-															variant={isFull ? "secondary" : "outline"}
-															disabled={isFull}
-															className={`text-sm px-4 py-1 rounded-xl ${
-																isFull
-																	? "bg-gray-300 text-gray-600 cursor-not-allowed border-none"
-																	: "hover:bg-orange-100"
-															}`}
-														>
-															{pkg.PakejName}
-														</Button>
-													</Link>
-												);
-											})}
-										</TableCell>
-									</TableRow>
-								);
-							})}
-						</TableBody>
-					</Table>
+									const travelDate = `${formattedStartDate} - ${formattedEndDate}`;
+									return (
+										<TableRow
+											key={trip.TripID}
+											className="border border-slate-300"
+										>
+											<TableCell className="border border-slate-300">
+												{trip.TripName}
+											</TableCell>
+											<TableCell className="border border-slate-300 text-center">
+												{formattedStartDate} – {formattedEndDate}
+											</TableCell>
+											<TableCell className="border border-slate-300 text-center">
+												{trip.SeatBalance}
+											</TableCell>
+											<TableCell className="border border-slate-300 text-center">
+												{trip.Status}
+											</TableCell>
+											<TableCell className="border border-slate-300 text-center">
+												<div className="flex flex-wrap gap-2">
+													{relatedPackages.map((pkg) => {
+														const isFull = trip.Status.toLowerCase() === "full";
+														return (
+															<Link
+																key={pkg.PakejID}
+																href={`/Pakej/Pakej-Umrah/TempahPakej?kategori=${encodeURIComponent(
+																	pkg.PakejName
+																)}&tarikh=${encodeURIComponent(
+																	travelDate
+																)}&trip=${encodeURIComponent(trip.TripID)}`}
+																className={isFull ? "pointer-events-none" : ""}
+															>
+																<Button
+																	variant={isFull ? "secondary" : "outline"}
+																	disabled={isFull}
+																	className={`text-sm px-4 py-1 rounded-xl ${
+																		isFull
+																			? "bg-gray-300 text-gray-600 cursor-not-allowed border-none"
+																			: "hover:bg-orange-100"
+																	}`}
+																>
+																	{pkg.PakejName}
+																</Button>
+															</Link>
+														);
+													})}
+												</div>
+											</TableCell>
+										</TableRow>
+									);
+								})}
+							</TableBody>
+						</Table>
+					</div>
 				</div>
 			</div>
 		</section>

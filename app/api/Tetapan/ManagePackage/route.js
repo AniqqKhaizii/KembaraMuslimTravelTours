@@ -49,8 +49,13 @@ export async function GET(req) {
 
 		const Commission = parseDecimal(searchParams.get("Commission"));
 
+		const Bagasi = searchParams.get("Bagasi");
+		const SpeedTrain = searchParams.get("SpeedTrain");
+		const MakkahFoodOption = searchParams.get("MakkahFoodOption");
+		const MadinahFoodOption = searchParams.get("MadinahFoodOption");
+
 		const [rows] = await pool.query(
-			`CALL SP_Manage_Package(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			`CALL SP_Manage_Package(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			[
 				Operation,
 				PakejID,
@@ -73,6 +78,10 @@ export async function GET(req) {
 				PakejPoster,
 				TripUnique,
 				Commission,
+				Bagasi,
+				SpeedTrain,
+				MakkahFoodOption,
+				MadinahFoodOption,
 			]
 		);
 
@@ -112,6 +121,10 @@ export async function POST(req) {
 			Infant_Triple,
 			Infant_Quad,
 			Commission,
+			Bagasi,
+			SpeedTrain,
+			MakkahFoodOption,
+			MadinahFoodOption,
 		} = body;
 
 		const binaryPakejPoster = PakejPoster
@@ -119,7 +132,7 @@ export async function POST(req) {
 			: null;
 
 		const [rows] = await pool.query(
-			`CALL SP_Manage_Package(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			`CALL SP_Manage_Package(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			[
 				Operation,
 				PakejID,
@@ -142,6 +155,10 @@ export async function POST(req) {
 				binaryPakejPoster,
 				TripUnique,
 				Commission,
+				Bagasi,
+				SpeedTrain,
+				MakkahFoodOption,
+				MadinahFoodOption,
 			]
 		);
 

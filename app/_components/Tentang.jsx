@@ -30,7 +30,7 @@ export default function AgencyInfoShowcase() {
 	}, []);
 
 	return (
-		<section className="relative bg-[url('https://images.unsplash.com/photo-1639574326077-6cc1d8749395?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-no-repeat bg-fixed bg-top lg:h-[60vh] h-[100vh] px-6 flex items-center text-slate-100 overflow-hidden">
+		<section className="relative bg-[url('https://images.unsplash.com/photo-1639574326077-6cc1d8749395?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-no-repeat bg-fixed bg-top lg:h-[60vh] h-[120vh] px-6 flex items-center text-slate-100 overflow-hidden">
 			<div className="h-full absolute inset-0 bg-gradient-to-b from-gray-950/70 to-gray-950/80 "></div>
 			<div className="absolute inset-0 lg:max-w-7xl lg:m-auto md:m-24 sm:m-12 xs:m-12 grid lg:grid-cols-2 grid-cols-1 gap-24 items-center">
 				<div className="flex flex-col lg:items-start items-center">
