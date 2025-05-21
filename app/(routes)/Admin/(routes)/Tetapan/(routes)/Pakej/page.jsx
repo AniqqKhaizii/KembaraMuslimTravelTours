@@ -553,7 +553,7 @@ const TetapanPakej = () => {
 					className="glass-select w-full font-primary"
 					popupClassName="glass-select-dropdown"
 					placeholder="Select a Makkah hotel"
-					options={hotels.map((hotel) => ({
+					options={hotels?.map((hotel) => ({
 						label: hotel.HotelName,
 						value: hotel.HotelID,
 					}))}
@@ -585,7 +585,7 @@ const TetapanPakej = () => {
 					className="glass-select w-full font-primary"
 					popupClassName="glass-select-dropdown"
 					placeholder="Select a Madinah hotel"
-					options={hotels.map((hotel) => ({
+					options={hotels?.map((hotel) => ({
 						label: hotel.HotelName,
 						value: hotel.HotelID,
 					}))}
@@ -619,7 +619,7 @@ const TetapanPakej = () => {
 					popupClassName="glass-select-dropdown"
 					mode="multiple"
 					placeholder="Select trips"
-					options={trips.map((trip) => ({
+					options={trips?.map((trip) => ({
 						label: trip.TripName,
 						value: trip.TripID,
 					}))}
