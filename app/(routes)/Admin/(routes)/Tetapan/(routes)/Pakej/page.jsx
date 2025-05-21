@@ -152,6 +152,7 @@ const TetapanPakej = () => {
 	}, [NewPackages]);
 
 	const handleAddPackage = async (values) => {
+		console.log("values", values);
 		const formattedValues = {
 			...values,
 			Adult_Double: parseFloat(values.Adult_Double),
@@ -172,6 +173,7 @@ const TetapanPakej = () => {
 			SpeedTrain: values.SpeedTrain,
 			MakkahFoodOption: values.MakkahFoodOption,
 			MadinahFoodOption: values.MadinahFoodOption,
+			Visa: values.Visa,
 		};
 		if (editingPackage) {
 			const response = await Axios.get("/api/Tetapan/ManagePackage", {
@@ -201,6 +203,7 @@ const TetapanPakej = () => {
 					SpeedTrain: formattedValues.SpeedTrain,
 					MakkahFoodOption: formattedValues.MakkahFoodOption,
 					MadinahFoodOption: formattedValues.MadinahFoodOption,
+					Visa: formattedValues.Visa,
 				},
 			});
 			if (response.data.message) {
@@ -243,6 +246,7 @@ const TetapanPakej = () => {
 					SpeedTrain: formattedValues.SpeedTrain,
 					MakkahFoodOption: formattedValues.MakkahFoodOption,
 					MadinahFoodOption: formattedValues.MadinahFoodOption,
+					Visa: formattedValues.Visa,
 				},
 			});
 			if (response.data.message) {
@@ -769,7 +773,7 @@ const TetapanPakej = () => {
 										</Form.Item>
 									</div>
 
-									<div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 w-full">
+									<div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4 w-full">
 										<Form.Item
 											name="Commission"
 											label={
@@ -838,6 +842,29 @@ const TetapanPakej = () => {
 												<Select.Option value="N">No</Select.Option>
 											</Select>
 										</Form.Item>
+										<Form.Item
+											name="Visa"
+											label={
+												<span className="dark:text-white text-zinc-950 font-primary">
+													Visa
+												</span>
+											}
+											rules={[
+												{
+													required: true,
+													message: "Please select Visa option",
+												},
+											]}
+										>
+											<Select
+												className="glass-select w-full font-primary"
+												popupClassName="glass-select-dropdown"
+												placeholder="Select Visa"
+											>
+												<Select.Option value="Umrah">Umrah</Select.Option>
+												<Select.Option value="Ziarah">Ziarah</Select.Option>
+											</Select>
+										</Form.Item>
 									</div>
 
 									<TripSelection trips={trips} form={form} />
@@ -872,9 +899,6 @@ const TetapanPakej = () => {
 															className="border dark:border-gray-300 border-gray-400 px-4 py-2"
 														>
 															<div className="flex items-start justify-center h-9">
-																<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
-																	RM
-																</p>
 																<Form.Item
 																	name={field}
 																	rules={[
@@ -888,7 +912,13 @@ const TetapanPakej = () => {
 																	<Input
 																		type="number"
 																		min={0}
-																		className="rounded-s-none font-primary"
+																		addonBefore={
+																			<span className="text-zinc-950 dark:text-white">
+																				RM
+																			</span>
+																		}
+																		className="glass-input dark:text-white text-zinc-950 font-primary"
+																		rootClassName="glass-input-wrapper"
 																		placeholder="Enter price"
 																	/>
 																</Form.Item>
@@ -913,9 +943,6 @@ const TetapanPakej = () => {
 														className="border dark:border-gray-300 border-gray-400 px-4 py-2"
 													>
 														<div className="flex items-start justify-center h-9">
-															<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
-																RM
-															</p>
 															<Form.Item
 																name={field}
 																rules={[
@@ -929,7 +956,13 @@ const TetapanPakej = () => {
 																<Input
 																	type="number"
 																	min={0}
-																	className="rounded-s-none font-primary"
+																	addonBefore={
+																		<span className="text-zinc-950 dark:text-white">
+																			RM
+																		</span>
+																	}
+																	className="glass-input dark:text-white text-zinc-950 font-primary"
+																	rootClassName="glass-input-wrapper"
 																	placeholder="Enter price"
 																/>
 															</Form.Item>
@@ -953,9 +986,6 @@ const TetapanPakej = () => {
 														className="border dark:border-gray-300 border-gray-400 px-4 py-2"
 													>
 														<div className="flex items-start justify-center h-9">
-															<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
-																RM
-															</p>
 															<Form.Item
 																name={field}
 																rules={[
@@ -969,7 +999,13 @@ const TetapanPakej = () => {
 																<Input
 																	type="number"
 																	min={0}
-																	className="rounded-s-none font-primary"
+																	addonBefore={
+																		<span className="text-zinc-950 dark:text-white">
+																			RM
+																		</span>
+																	}
+																	className="glass-input dark:text-white text-zinc-950 font-primary"
+																	rootClassName="glass-input-wrapper"
 																	placeholder="Enter price"
 																/>
 															</Form.Item>
@@ -990,9 +1026,6 @@ const TetapanPakej = () => {
 															className="border dark:border-gray-300 border-gray-400 px-4 py-2"
 														>
 															<div className="flex items-start justify-center h-9">
-																<p className="px-2 py-1 border-l border-t border-b border-gray-200 rounded-s-md">
-																	RM
-																</p>
 																<Form.Item
 																	name={field}
 																	rules={[
@@ -1006,7 +1039,13 @@ const TetapanPakej = () => {
 																	<Input
 																		type="number"
 																		min={0}
-																		className="rounded-s-none font-primary"
+																		addonBefore={
+																			<span className="text-zinc-950 dark:text-white">
+																				RM
+																			</span>
+																		}
+																		className="glass-input dark:text-white text-zinc-950 font-primary"
+																		rootClassName="glass-input-wrapper"
 																		placeholder="Enter price"
 																	/>
 																</Form.Item>

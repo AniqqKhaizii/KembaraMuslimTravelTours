@@ -8,6 +8,7 @@ import relativeTime from "dayjs/plugin/relativeTime"; // Optional for relative t
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import axios from "axios";
 import { RoomDetail } from "../../../../../../../lib/constants";
+import { ArrowLeftCircleIcon } from "lucide-react";
 
 dayjs.extend(relativeTime);
 dayjs.extend(advancedFormat);
@@ -106,17 +107,27 @@ const Details = () => {
 											.open(`/Admin/Booking/Invoice?BookID=${id}`, "_blank")
 											.focus()
 									}
-									className="px-6 py-2 dark:bg-gray-500 bg-white/10 dark:text-white text-zinc-950 rounded-3xl"
+									className="px-6 py-2 dark:bg-gray-500 bg-black/10 dark:text-white text-zinc-950 rounded-3xl"
 								>
 									Generate Invoice
 								</Button>
 								{bookData[0].Status !== "Paid" && (
-									<Button
-										onClick={null}
-										className="px-6 py-2 dark:bg-gray-500 bg-white/10 dark:text-white text-zinc-950 rounded-3xl"
-									>
-										Pay
-									</Button>
+									<>
+										{/* <Button
+											onClick={() =>
+												router.push(`/Admin/Booking/Payment?BookID=${id}`)
+											}
+											className="px-6 py-2 dark:bg-gray-500 bg-black/10 dark:text-white text-zinc-950 rounded-3xl"
+										>
+											Edit
+										</Button> */}
+										<Button
+											onClick={null}
+											className="px-6 py-2 dark:bg-gray-500 bg-black/10 dark:text-white text-zinc-950 rounded-3xl"
+										>
+											Pay
+										</Button>
+									</>
 								)}
 							</div>
 						</div>
@@ -141,8 +152,9 @@ const Details = () => {
 
 									<button
 										onClick={() => router.push("/Admin/Booking")}
-										className="px-2 bg-transparent border-0 hover:border-b hover:border-gray-500 dark:text-white text-zinc-950"
+										className="flex items-center gap-2 px-2 bg-transparent hover:scale-105 transition-all duration-300 dark:text-white text-zinc-950"
 									>
+										<ArrowLeftCircleIcon />
 										Back to List
 									</button>
 								</div>

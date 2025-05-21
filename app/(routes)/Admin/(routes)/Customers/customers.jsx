@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import AdminLayout from "../../layout/AdminLayout";
-import { Button, Table, Space } from "antd";
+import { Button, Table, Space, message } from "antd";
 import {
 	DeleteOutlined,
 	EditOutlined,
@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 
 import Axios from "axios";
+import { CopyIcon } from "lucide-react";
 
 const Customers = () => {
 	const [loading, setLoading] = useState(true);
@@ -112,6 +113,19 @@ const Customers = () => {
 			onCell: () => ({
 				className: "font-primary",
 			}),
+			render: (_, record) => (
+				<Space className="flex justify-center">
+					{record.ReferralCode}
+					<Button
+						icon={<CopyIcon className="w-4 h-4" />}
+						className="bg-transparent hover:bg-transparent border-0 text-white"
+						onClick={() => {
+							navigator.clipboard.writeText(record.ReferralCode);
+							message.success("Copied to clipboard");
+						}}
+					/>
+				</Space>
+			),
 		},
 		{
 			title: "Contact",

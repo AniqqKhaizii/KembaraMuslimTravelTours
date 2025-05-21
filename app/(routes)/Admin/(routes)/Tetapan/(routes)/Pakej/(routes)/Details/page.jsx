@@ -211,6 +211,11 @@ const Details = () => {
 				Infant_Quad: packageData[0].Infant_Quad,
 				PakejPoster: base64Poster,
 				Commission: packageData[0].Commission,
+				Bagasi: packageData[0].Bagasi,
+				SpeedTrain: packageData[0].SpeedTrain,
+				MakkahFoodOption: packageData[0].MakkahFoodOption,
+				MadinahFoodOption: packageData[0].MadinahFoodOption,
+				Visa: packageData[0].Visa,
 			});
 
 			if (response.status === 200) {
@@ -233,9 +238,9 @@ const Details = () => {
 					</h1>
 
 					<div className="grid lg:grid-cols-3 sm:grid-cols-1 gap-6 mt-4">
-						<div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-6 col-span-2">
+						<div className="grid lg:grid-cols-4 sm:grid-cols-1 gap-6 col-span-2">
 							{/* Package Name */}
-							<div className="flex flex-col gap-2 col-span-2">
+							<div className="flex flex-col gap-2 col-span-4">
 								<label className="text-sm dark:text-white text-zinc-900">
 									Package Name
 								</label>
@@ -245,54 +250,103 @@ const Details = () => {
 							</div>
 
 							{/* Makkah Hotel Name */}
-							<div className="flex flex-col gap-2">
+							<div className="flex flex-col gap-2 bg-white/10 p-4 rounded-lg">
 								<label className="text-sm dark:text-white text-zinc-900">
 									Makkah Hotel
 								</label>
 								<span className="p-2 border-b dark:border-white/50 border-black/30 rounded-md dark:text-gray-100 text-zinc-800">
 									{packageData[0].MakkahHotelName}
 								</span>
+								<label className="text-sm dark:text-white text-zinc-900">
+									Meal
+								</label>
+								<span className="p-2 border-b dark:border-white/50 border-black/30 rounded-md dark:text-gray-100 text-zinc-800">
+									{packageData[0].MakkahFoodOption}
+								</span>
 							</div>
-
 							{/* Madinah Hotel Name */}
-							<div className="flex flex-col gap-2">
+							<div className="flex flex-col gap-2 bg-white/10 p-4 rounded-lg">
 								<label className="text-sm dark:text-white text-zinc-900">
 									Madinah Hotel
 								</label>
 								<span className="p-2 border-b dark:border-white/50 border-black/30 rounded-md dark:text-gray-100 text-zinc-800">
 									{packageData[0].MadinahHotelName}
 								</span>
+								<label className="text-sm dark:text-white text-zinc-900">
+									Meal
+								</label>
+								<span className="p-2 border-b dark:border-white/50 border-black/30 rounded-md dark:text-gray-100 text-zinc-800">
+									{packageData[0].MadinahFoodOption}
+								</span>
+							</div>
+
+							{/* Speed Train */}
+							<div className="flex flex-col gap-2">
+								<label className="text-sm dark:text-white text-zinc-900">
+									Speed Train
+								</label>
+								<span className="p-2 border-b dark:border-white/50 border-black/30 rounded-md dark:text-gray-100 text-zinc-800">
+									{packageData[0].SpeedTrain === "Y"
+										? "Included"
+										: "Not Included"}
+								</span>
+							</div>
+
+							{/*  Visa Umrah */}
+							<div className="flex flex-col gap-2">
+								<label className="text-sm dark:text-white text-zinc-900">
+									Jenis Visa
+								</label>
+								<span className="p-2 border-b dark:border-white/50 border-black/30 rounded-md dark:text-gray-100 text-zinc-800">
+									{packageData[0].Visa}
+								</span>
 							</div>
 
 							{/* Package Pricing */}
-							<div className="flex flex-col gap-4 lg:col-span-2">
+							<div className="flex flex-col gap-4 lg:col-span-4">
 								<label className="text-sm dark:text-white text-zinc-900">
 									Pricing Details
 								</label>
-								<div className="bg-white/40 p-4 rounded-md">
-									<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 dark:text-white text-zinc-900">
-										<div className="flex justify-between text-sm">
+								<div className="bg-white/10 p-4 rounded-md">
+									<div className="grid grid-cols-1 sm:grid-cols-3 gap-6 dark:text-white text-zinc-900 divide-x divide-gray-100">
+										<div className="flex justify-between text-sm px-2">
 											<span>Adult Double</span>
 											<span>RM {packageData[0].Adult_Double}</span>
 										</div>
-										<div className="flex justify-between text-sm">
+										<div className="flex justify-between text-sm px-2">
 											<span>Adult Triple</span>
 											<span>RM {packageData[0].Adult_Triple}</span>
 										</div>
-										<div className="flex justify-between text-sm">
+										<div className="flex justify-between text-sm px-2">
 											<span>Adult Quad</span>
 											<span>RM {packageData[0].Adult_Quad}</span>
 										</div>
-										<div className="flex justify-between text-sm">
+										<div className="flex justify-between text-sm px-2">
 											<span>Child With Bed (Double)</span>
 											<span>RM {packageData[0].ChildWBed_Double}</span>
 										</div>
-										<div className="flex justify-between text-sm">
+										<div className="flex justify-between text-sm px-2">
+											<span>Child With Bed (Triple)</span>
+											<span>RM {packageData[0].ChildWBed_Triple}</span>
+										</div>
+										<div className="flex justify-between text-sm px-2">
+											<span>Child With Bed (Quad)</span>
+											<span>RM {packageData[0].ChildWBed_Quad}</span>
+										</div>
+										<div className="flex justify-between text-sm px-2">
 											<span>Child No Bed (Double)</span>
 											<span>RM {packageData[0].ChildNoBed_Double}</span>
 										</div>
-										<div className="flex justify-between text-sm">
-											<span>Infant (Double)</span>
+										<div className="flex justify-between text-sm px-2">
+											<span>Child No Bed (Triple)</span>
+											<span>RM {packageData[0].ChildNoBed_Triple}</span>
+										</div>
+										<div className="flex justify-between text-sm px-2">
+											<span>Child No Bed (Quad)</span>
+											<span>RM {packageData[0].ChildNoBed_Quad}</span>
+										</div>
+										<div className="flex justify-between text-sm px-2">
+											<span>Infant</span>
 											<span>RM {packageData[0].Infant_Double}</span>
 										</div>
 									</div>
@@ -300,7 +354,7 @@ const Details = () => {
 							</div>
 
 							{/* Trip Details Table */}
-							<div className="flex flex-col gap-4 col-span-2">
+							<div className="flex flex-col gap-4 col-span-4">
 								<label className="text-sm dark:text-white text-zinc-900">
 									Trip Details
 								</label>
