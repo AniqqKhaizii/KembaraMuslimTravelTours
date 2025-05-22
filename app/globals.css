@@ -136,10 +136,10 @@
 }
 
 .glass-input {
-	background: rgba(255, 255, 255, 0.3);
+	background: var(--bg-glass-input);
 	backdrop-filter: blur(8px);
 	border: 1px solid rgba(255, 255, 255, 0.3);
-	border-radius: 0.5rem;
+	border-radius: 0.25rem;
 	color: var(--glass-text-color);
 	transition: all 0.3s ease;
 }
@@ -207,8 +207,16 @@
 	.text-glass-text-color {
 		color:var(--glass-text-color);
 	}
+
+	.bg-select-glass {
+		background-color: var(--bg-glass-input);
+		backdrop-filter: blur(20px);
+		border-radius: 0.5rem;
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+	}
 	.glass-input-wrapper {
-		@apply border border-white/10 rounded-md;
+		@apply border border-white/10 rounded-sm;
 	}
 
 	.glass-input input {
@@ -219,7 +227,7 @@
 		@apply ring-2 ring-white/30 bg-transparent text-black;
 	}
 	.glass-select .ant-select-selector {
-		@apply bg-white/30 backdrop-blur-md border border-white/30 rounded-md text-glass-text-color !important;
+		@apply bg-select-glass backdrop-blur-md border border-white/30 rounded-md text-glass-text-color !important;
 	}
 
 	.glass-select-dropdown {

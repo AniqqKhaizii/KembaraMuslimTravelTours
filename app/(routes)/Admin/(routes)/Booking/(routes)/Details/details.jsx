@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Button, message, Table } from "antd";
+import { Button, Input, message, Select, Table } from "antd";
 import AdminLayout from "../../../../layout/AdminLayout";
 import dayjs from "dayjs"; // to format dates
 import relativeTime from "dayjs/plugin/relativeTime"; // Optional for relative time
@@ -13,49 +13,159 @@ import { ArrowLeftCircleIcon } from "lucide-react";
 dayjs.extend(relativeTime);
 dayjs.extend(advancedFormat);
 
-const BookingDetails = ({ CombinedAddOnCustDetails }) => {
+const BookingDetails = ({
+	CombinedAddOnCustDetails,
+	editMode,
+	setBookData,
+}) => {
 	const getRoomDetails = (roomID) => {
 		const room = RoomDetail.find((room) => room.RoomID === roomID);
 		return room ? room.RoomDesc : "Unknown Room";
 	};
 
-	return (
-		<table className="table-auto w-full border dark:border-white/40 border-gray-400/50 rounded-lg">
-			<thead>
-				<tr className="uppercase text-sm leading-normal border-b dark:border-white/40 border-gray-400/50">
-					<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
-						Name
-					</th>
-					<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
-						IC Number
-					</th>
-					<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
-						Room Type
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				{/* Loop through the CombinedAddOnCustDetails */}
-				{CombinedAddOnCustDetails.map((customer, index) => {
-					const [name, ic, roomID] = customer.AddOnCustDetails?.split(",");
-					const roomDesc = getRoomDetails(Number(roomID)); // Get RoomDesc based on RoomID
+	const updateField = (field, value, index) => {
+		const [name, ic, roomID] =
+			CombinedAddOnCustDetails[index].AddOnCustDetails.split(",");
+		const updatedDetails = [...CombinedAddOnCustDetails];
 
-					return (
-						<tr key={index} className="odd:bg-white/10">
-							<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
-								{name}
-							</td>
-							<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
-								{ic}
-							</td>
-							<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
-								{roomDesc}
-							</td>
-						</tr>
-					);
-				})}
-			</tbody>
-		</table>
+		if (field === "name")
+			updatedDetails[index].AddOnCustDetails = `${value},${ic},${roomID}`;
+		else if (field === "ic")
+			updatedDetails[index].AddOnCustDetails = `${name},${value},${roomID}`;
+		else if (field === "roomID")
+			updatedDetails[index].AddOnCustDetails = `${name},${ic},${value}`;
+
+		setBookData((prev) => ({
+			...prev,
+			AddOnCustDetails: updatedDetails,
+		}));
+	};
+
+	const addNewJemaah = () => {
+		const updatedDetails = [...CombinedAddOnCustDetails, { BookID: "" }];
+		/* TODO : Add new jemaah details here */
+		console.log("updatedDetails", updatedDetails);
+		setBookData((prev) => ({
+			...prev,
+			AddOnCustDetails: updatedDetails,
+		}));
+	};
+
+	const deleteJemaah = (index) => {
+		const updatedDetails = CombinedAddOnCustDetails.filter(
+			(_, i) => i !== index
+		);
+		setBookData((prev) => ({
+			...prev,
+			AddOnCustDetails: updatedDetails,
+		}));
+	};
+
+	return (
+		<>
+			<table className="table-auto w-full border dark:border-white/40 border-gray-400/50 rounded-lg">
+				<thead>
+					<tr className="uppercase text-sm leading-normal border-b dark:border-white/40 border-gray-400/50">
+						<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
+							Name
+						</th>
+						<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
+							IC Number
+						</th>
+						<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
+							Room Type
+						</th>
+						{editMode && (
+							<th className="text-sm font-semibold px-4 py-2 text-left border-r dark:border-white/40 border-gray-400/50">
+								Action
+							</th>
+						)}
+					</tr>
+				</thead>
+				<tbody>
+					{/* Loop through the CombinedAddOnCustDetails */}
+					{CombinedAddOnCustDetails.map((customer, index) => {
+						const [name, ic, roomID] = customer.AddOnCustDetails?.split(",");
+						const roomDesc = getRoomDetails(Number(roomID));
+
+						return (
+							<tr key={index} className="odd:bg-white/10">
+								<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
+									{editMode ? (
+										<Input
+											type="text"
+											name="name"
+											className="glass-input"
+											onChange={(e) =>
+												updateField("name", e.target.value, index)
+											}
+											defaultValue={name}
+										/>
+									) : (
+										name
+									)}
+								</td>
+								<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
+									{editMode ? (
+										<Input
+											type="text"
+											name="ic"
+											className="glass-input"
+											onChange={(e) => updateField("ic", e.target.value, index)}
+											defaultValue={ic}
+										/>
+									) : (
+										ic
+									)}
+								</td>
+								<td className="text-sm font-normal px-4 py-2 border-r dark:border-white/40 border-gray-400/50">
+									{editMode ? (
+										<Select
+											name="roomID"
+											className="glass-select w-full"
+											popupClassName="glass-select-dropdown"
+											value={getRoomDetails(Number(roomID))}
+											defaultValue={getRoomDetails(Number(roomID))}
+											onChange={(e) =>
+												updateField("roomID", e.target.value, index)
+											}
+										>
+											{RoomDetail.map((room) => (
+												<Option key={room.RoomID} value={room.RoomID}>
+													{room.RoomDesc}
+												</Option>
+											))}
+										</Select>
+									) : (
+										roomDesc
+									)}
+								</td>
+								{editMode && (
+									<td className="px-4 py-2 text-center" width={"5%"}>
+										<button
+											onClick={() => deleteJemaah(index)}
+											className="text-zinc-950 dark:text-white bg-red-500 px-4 py-1 rounded-md text-sm"
+										>
+											Delete
+										</button>
+									</td>
+								)}
+							</tr>
+						);
+					})}
+				</tbody>
+			</table>
+			{editMode && (
+				<div className="mt-4">
+					<button
+						onClick={addNewJemaah}
+						className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+					>
+						+ Add Jemaah
+					</button>
+				</div>
+			)}
+		</>
 	);
 };
 
@@ -65,6 +175,7 @@ const Details = () => {
 	const id = searchParams.get("BookID");
 	const [loading, setLoading] = useState(false);
 	const [bookData, setBookData] = useState(null);
+	const [editMode, setEditMode] = useState(false);
 
 	useEffect(() => {
 		const fetchPackageDetails = async () => {
@@ -113,14 +224,12 @@ const Details = () => {
 								</Button>
 								{bookData[0].Status !== "Paid" && (
 									<>
-										{/* <Button
-											onClick={() =>
-												router.push(`/Admin/Booking/Payment?BookID=${id}`)
-											}
+										<Button
+											onClick={() => setEditMode(!editMode)}
 											className="px-6 py-2 dark:bg-gray-500 bg-black/10 dark:text-white text-zinc-950 rounded-3xl"
 										>
 											Edit
-										</Button> */}
+										</Button>
 										<Button
 											onClick={null}
 											className="px-6 py-2 dark:bg-gray-500 bg-black/10 dark:text-white text-zinc-950 rounded-3xl"
@@ -171,7 +280,6 @@ const Details = () => {
 													)}
 												</td>
 											</tr>
-
 											<tr>
 												<td className="text-sm font-normal px-4 py-2">
 													<span className="font-semibold">Total Price:</span>
@@ -187,7 +295,6 @@ const Details = () => {
 													)}
 												</td>
 											</tr>
-
 											{/* Deposit Amount */}
 											<tr>
 												<td className="text-sm font-normal px-4 py-2">
@@ -204,7 +311,6 @@ const Details = () => {
 													)}
 												</td>
 											</tr>
-
 											{/* Balance Amount - conditional rendering */}
 											{bookData[0].BalancePayment > 0 && (
 												<tr>
@@ -224,7 +330,7 @@ const Details = () => {
 													</td>
 												</tr>
 											)}
-
+											{/* ------------------------------------- */}
 											{/* Customer Details */}
 											<tr>
 												<td
@@ -236,59 +342,103 @@ const Details = () => {
 													</p>
 												</td>
 											</tr>
-
 											{/* Customer Name */}
 											<tr>
 												<td className="text-sm font-normal px-4 py-2">
 													<span className="font-semibold">Name:</span>
 												</td>
 												<td className="text-sm font-normal px-4 py-2">
-													{bookData[0].CustName}
+													{editMode ? (
+														<Input
+															className="glass-input"
+															type="text"
+															value={bookData[0].CustName}
+															onChange={(e) =>
+																setBookData([
+																	{
+																		...bookData[0],
+																		CustName: e.target.value,
+																	},
+																])
+															}
+														/>
+													) : (
+														<>{bookData[0].CustName}</>
+													)}
 												</td>
 											</tr>
-
 											{/* Customer Email */}
 											<tr>
 												<td className="text-sm font-normal px-4 py-2">
 													<span className="font-semibold">Email:</span>
 												</td>
 												<td className="text-sm font-normal px-4 py-2">
-													{bookData[0].CustEmail}
+													{editMode ? (
+														<Input
+															className="glass-input"
+															type="email"
+															value={bookData[0].CustEmail}
+															onChange={(e) =>
+																setBookData([
+																	{
+																		...bookData[0],
+																		CustEmail: e.target.value,
+																	},
+																])
+															}
+														/>
+													) : (
+														<>{bookData[0].CustEmail}</>
+													)}
 												</td>
 											</tr>
-
 											{/* Customer Phone */}
 											<tr>
 												<td className="text-sm font-normal px-4 py-2">
 													<span className="font-semibold">Phone:</span>
 												</td>
 												<td className="text-sm font-normal px-4 py-2">
-													{bookData[0].CustPhone}
+													{editMode ? (
+														<Input
+															className="glass-input"
+															type="text"
+															value={bookData[0].CustPhone}
+															onChange={(e) =>
+																setBookData([
+																	{
+																		...bookData[0],
+																		CustPhone: e.target.value,
+																	},
+																])
+															}
+														/>
+													) : (
+														<>{bookData[0].CustPhone}</>
+													)}
 												</td>
 											</tr>
-
 											{/* Customer IC */}
 											<tr>
 												<td className="text-sm font-normal px-4 py-2">
 													<span className="font-semibold">IC:</span>
 												</td>
 												<td className="text-sm font-normal px-4 py-2">
-													{bookData[0].CustID}
-												</td>
-											</tr>
-
-											{/* Travel Date */}
-											<tr>
-												<td className="text-sm font-normal px-4 py-2">
-													<span className="font-semibold">Travel Date:</span>
-												</td>
-												<td className="text-sm font-normal px-4 py-2">
-													{dayjs(bookData[0].StartTravelDate).format(
-														"DD MMM YYYY"
-													)}{" "}
-													-{" "}
-													{dayjs(bookData[0].EndTravelDate).format(
-														"DD MMM YYYY"
+													{editMode ? (
+														<Input
+															className="glass-input"
+															type="text"
+															value={bookData[0].CustID}
+															onChange={(e) =>
+																setBookData([
+																	{
+																		...bookData[0],
+																		CustID: e.target.value,
+																	},
+																])
+															}
+														/>
+													) : (
+														<>{bookData[0].CustID}</>
 													)}
 												</td>
 											</tr>
@@ -311,6 +461,50 @@ const Details = () => {
 													<span className="font-semibold">Travel Date:</span>
 												</td>
 												<td className="text-sm font-normal px-4 py-2">
+													{/* {editMode ? (
+														<div className="flex items-center gap-2">
+															<Input
+																className="glass-input"
+																type="date"
+																value={dayjs(
+																	bookData[0].StartTravelDate
+																).format("YYYY-MM-DD")}
+																onChange={(e) =>
+																	setBookData([
+																		{
+																			...bookData[0],
+																			StartTravelDate: e.target.value,
+																		},
+																	])
+																}
+															/>
+															<Input
+																className="glass-input"
+																type="date"
+																value={dayjs(bookData[0].EndTravelDate).format(
+																	"YYYY-MM-DD"
+																)}
+																onChange={(e) =>
+																	setBookData([
+																		{
+																			...bookData[0],
+																			EndTravelDate: e.target.value,
+																		},
+																	])
+																}
+															/>
+														</div>
+													) : (
+														<>
+															{dayjs(bookData[0].StartTravelDate).format(
+																"DD MMM YYYY"
+															)}{" "}
+															-{" "}
+															{dayjs(bookData[0].EndTravelDate).format(
+																"DD MMM YYYY"
+															)}
+														</>
+													)} */}
 													{dayjs(bookData[0].StartTravelDate).format(
 														"DD MMM YYYY"
 													)}{" "}
@@ -379,7 +573,11 @@ const Details = () => {
 									</h1>
 								</div>
 								<div className="overflow-x-auto">
-									<BookingDetails CombinedAddOnCustDetails={bookData} />
+									<BookingDetails
+										CombinedAddOnCustDetails={bookData}
+										editMode={editMode}
+										setBookData={setBookData}
+									/>
 								</div>
 							</div>
 							<div className="col-span-2 flex flex-col gap-2 bg-white/10 rounded-lg p-4">
